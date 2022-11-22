@@ -1,0 +1,28 @@
+﻿<Window x:Class="WPF_Visualize.ExerciseSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Visualize"
+        mc:Ignorable="d"
+        Title="ExerciseSelect" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="118*"/>
+            <RowDefinition Height="99*"/>
+        </Grid.RowDefinitions>
+        <Button Name="LetterExercises" Margin="50,118,550,100" Grid.RowSpan="2" Height="200">
+            <Image Source="\Images\"></Image>
+        </Button>
+        <Button x:Name="WordExercises" Margin="300,118,300,100" Grid.RowSpan="2" Width="200" Height="200">
+            <Image Source="\Images\"/>
+        </Button>
+        <Button x:Name="SentenceExercises" Margin="550,118,50,100" Grid.RowSpan="2" Click="Leaderboard_Click" Width="200" Height="200">
+            <Image Source="\images\"/>
+        </Button>
+        <Button x:Name="Back" Content="Terug" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LetterOefeningen" Content="Letter Oefeningen" Margin="79,96,0,0" Width="142" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
+        <Label x:Name="WoordOefeningen" Content="Woord Oefeningen" Margin="0,96,0,0" Width="142" HorizontalAlignment="Center" FontSize="16" Height="38" VerticalAlignment="Top"/>
+        <Label x:Name="ZinOefeningen" Content="Zin Oefeningen" Margin="590,96,0,0" Width="120" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
