@@ -8,21 +8,32 @@
         Title="StudentMain" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="118*"/>
-            <RowDefinition Height="99*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Name="Exercises" Margin="50,118,550,100" Grid.RowSpan="2" Height="200">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="Exercises" Grid.Row="2"  Grid.Column="1">
             <Image Source="\Images\Exercise.jpg"></Image>
         </Button>
-        <Button x:Name="Statistics" Margin="300,118,300,100" Grid.RowSpan="2" Width="200" Height="200">
+        <Button x:Name="Statistics" Grid.Row="2" Grid.Column="3">
             <Image Source="\Images\Statistics.png"/>
         </Button>
-        <Button x:Name="Leaderboard" Margin="550,118,50,100" Grid.RowSpan="2" Click="Leaderboard_Click" Width="200" Height="200">
+        <Button x:Name="Leaderboard" Grid.Row="2" Grid.Column="5">
             <Image Source="\images\Leaderboard.jpg"/>
         </Button>
-        <Button x:Name="Log_out" Content="Log uit" HorizontalAlignment="Left" Margin="749,10,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Oefeningen" Content="Oefeningen" Margin="105,96,0,0" Width="96" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
-        <Label x:Name="Mijn_Statistieken" Content="Mijn Statistieken" Margin="0,96,0,0" Width="134" HorizontalAlignment="Center" FontSize="16" Height="38" VerticalAlignment="Top"/>
-        <Label x:Name="Ranglijst" Content="Ranglijst" Margin="614,96,0,0" Width="72" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
+        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
+        <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center" Height="20" Width="50"/>
     </Grid>
 </Window>

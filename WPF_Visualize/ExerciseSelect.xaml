@@ -8,21 +8,32 @@
         Title="ExerciseSelect" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="118*"/>
-            <RowDefinition Height="99*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Button Name="LetterExercises" Margin="50,118,550,100" Grid.RowSpan="2" Height="200">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1">
             <Image Source="\Images\Exercise.jpg"></Image>
         </Button>
-        <Button x:Name="WordExercises" Margin="300,118,300,100" Grid.RowSpan="2" Width="200" Height="200">
+        <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3">
             <Image Source="\Images\Exercise.jpg"/>
         </Button>
-        <Button x:Name="SentenceExercises" Margin="550,118,50,100" Grid.RowSpan="2" Width="200" Height="200">
+        <Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5">
             <Image Source="\Images\Exercise.jpg"/>
         </Button>
-        <Button x:Name="Back" Content="Terug" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LetterOefeningen" Content="Letter Oefeningen" Margin="79,96,0,0" Width="142" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
-        <Label x:Name="WoordOefeningen" Content="Woord Oefeningen" Margin="0,96,0,0" Width="142" HorizontalAlignment="Center" FontSize="16" Height="38" VerticalAlignment="Top"/>
-        <Label x:Name="ZinOefeningen" Content="Zin Oefeningen" Margin="590,96,0,0" Width="120" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
+        <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
+        <Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="20" Width="50"/>
     </Grid>
 </Window>
