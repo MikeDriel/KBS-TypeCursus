@@ -21,12 +21,13 @@ namespace WPF_Visualize
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public StudentMain studentMain;
-		public MainWindow()
+        StudentMain studentMain;
+        public MainWindow()
 		{
+            InitializeComponent();
             studentMain = new StudentMain();
-            //InitializeComponent();
-			//this.Hide();
+            studentMain.Show();
+            this.Close();
         }
 	}
 }

@@ -12,13 +12,13 @@
             <RowDefinition Height="99*"/>
         </Grid.RowDefinitions>
         <Button Name="LetterExercises" Margin="50,118,550,100" Grid.RowSpan="2" Height="200">
-            <Image Source="\Images\"></Image>
+            <Image Source="\Images\Exercise.jpg"></Image>
         </Button>
         <Button x:Name="WordExercises" Margin="300,118,300,100" Grid.RowSpan="2" Width="200" Height="200">
-            <Image Source="\Images\"/>
+            <Image Source="\Images\Exercise.jpg"/>
         </Button>
-        <Button x:Name="SentenceExercises" Margin="550,118,50,100" Grid.RowSpan="2" Click="Leaderboard_Click" Width="200" Height="200">
-            <Image Source="\images\"/>
+        <Button x:Name="SentenceExercises" Margin="550,118,50,100" Grid.RowSpan="2" Width="200" Height="200">
+            <Image Source="\Images\Exercise.jpg"/>
         </Button>
         <Button x:Name="Back" Content="Terug" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="LetterOefeningen" Content="Letter Oefeningen" Margin="79,96,0,0" Width="142" HorizontalAlignment="Left" FontSize="16" Height="38" VerticalAlignment="Top"/>
