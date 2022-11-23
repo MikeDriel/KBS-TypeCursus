@@ -21,13 +21,17 @@ namespace WPF_Visualize
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-        StudentMain studentMain;
         public MainWindow()
 		{
             InitializeComponent();
-            studentMain = new StudentMain();
-            studentMain.Show();
-            this.Close();
+            this.contentControl.Content = new StudentMain();
         }
-	}
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.contentControl.Content = new ExerciseSelect();
+        }
+        
+        
+    }
 }

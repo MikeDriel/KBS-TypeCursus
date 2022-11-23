@@ -17,7 +17,7 @@ namespace WPF_Visualize
     /// <summary>
     /// Interaction logic for ExerciseSelect.xaml
     /// </summary>
-    public partial class ExerciseSelect : Window
+    public partial class ExerciseSelect : UserControl
     {
         public ExerciseSelect()
         {

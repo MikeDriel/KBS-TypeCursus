@@ -17,16 +17,12 @@ namespace WPF_Visualize
     /// <summary>
     /// Interaction logic for StudentMain.xaml
     /// </summary>
-    public partial class StudentMain : Window
+    public partial class StudentMain : UserControl
     {
         public StudentMain()
         {
             InitializeComponent();
         }
 
-        private void Leaderboard_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
