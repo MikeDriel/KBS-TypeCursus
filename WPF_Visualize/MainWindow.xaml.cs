@@ -24,14 +24,23 @@ namespace WPF_Visualize
         public MainWindow()
 		{
             InitializeComponent();
-            this.contentControl.Content = new StudentMain();
+            this.contentControl.Content = UserControlEvent.Content;
+            UserControlEvent.OnWindowChange += MainWindow_OnWindowChange;
+        }
+        
+        private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
+        {
+            this.contentControl.Content = UserControlEvent.Content;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+    }
+
+    public class OnWindowChangeEventArgs : EventArgs
+    {
+        public UserControl Content { get; set; }
+        public OnWindowChangeEventArgs(UserControl content)
         {
-            this.contentControl.Content = new ExerciseSelect();
+            this.Content = content;
         }
-        
-        
     }
 }

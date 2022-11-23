@@ -33,6 +33,6 @@
         <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
         <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
         <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="20" Width="50"/>
+        <Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="20" Width="50" Click="OnBack"/>
     </Grid>
 </UserControl>

@@ -23,5 +23,10 @@ namespace WPF_Visualize
         {
             InitializeComponent();
         }
+
+        private void OnBack(object sender, RoutedEventArgs e)
+        {
+            UserControlEvent.InvokeEvent(this, new StudentMain());
+        }
     }
 }

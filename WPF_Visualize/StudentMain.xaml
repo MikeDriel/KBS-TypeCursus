@@ -21,7 +21,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Name="Exercises" Grid.Row="2"  Grid.Column="1">
+        <Button Name="Exercises" Grid.Row="2"  Grid.Column="1" Click="OnExerciseSelect">
             <Image Source="\Images\Exercise.jpg"></Image>
         </Button>
         <Button x:Name="Statistics" Grid.Row="2" Grid.Column="3">
