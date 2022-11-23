@@ -24,7 +24,7 @@ namespace WPF_Visualize
         public MainWindow()
 		{
             InitializeComponent();
-            this.contentControl.Content = new StudentMain();
+            this.contentControl.Content = new LetterExercise();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
