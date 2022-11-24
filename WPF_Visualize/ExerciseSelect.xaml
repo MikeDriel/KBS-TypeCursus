@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Visualize"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        Background="AntiqueWhite"
+        Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -22,7 +24,11 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1">
-            <Image Source="\Images\Exercise.jpg"></Image>
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="\Images\abc-block.png"></Image>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
         <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3">
             <Image Source="\Images\Exercise.jpg"/>
@@ -30,9 +36,9 @@
         <Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5">
             <Image Source="\Images\Exercise.jpg"/>
         </Button>
-        <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="20" Width="50" Click="OnBack"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="30" Width="70" Click="OnBack"/>
     </Grid>
 </UserControl>

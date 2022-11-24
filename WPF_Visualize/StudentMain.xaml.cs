@@ -28,7 +28,5 @@ namespace WPF_Visualize
         {
             UserControlEvent.InvokeEvent(this, new ExerciseSelect());
         }
-        
-        
     }
 }

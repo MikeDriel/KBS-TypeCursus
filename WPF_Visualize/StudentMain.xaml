@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Visualize"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        Background="AntiqueWhite"
+        Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -22,17 +24,31 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Name="Exercises" Grid.Row="2"  Grid.Column="1" Click="OnExerciseSelect">
-            <Image Source="\Images\Exercise.jpg"></Image>
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="\Images\keyboard.png"></Image>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
         <Button x:Name="Statistics" Grid.Row="2" Grid.Column="3">
-            <Image Source="\Images\Statistics.png"/>
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="\Images\bar-chart.png"/>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
         <Button x:Name="Leaderboard" Grid.Row="2" Grid.Column="5">
-            <Image Source="\images\Leaderboard.jpg"/>
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="\images\ranking.png"/>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
-        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"/>
-        <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center" Height="20" Width="50"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+        <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center" Height="30" Width="70"/>
+
     </Grid>
 </UserControl>
