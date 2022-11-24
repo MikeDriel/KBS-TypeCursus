@@ -33,10 +33,9 @@ namespace WPF_Visualize
             this.contentControl.Content = new ExerciseSelect();
         }
 
-        private void Keydown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.Key);
-            Trace.WriteLine(e.Key);
+
         }
     }
 }

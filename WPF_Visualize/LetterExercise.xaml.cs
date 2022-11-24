@@ -23,7 +23,7 @@ namespace WPF_Visualize
     /// </summary>
     public partial class LetterExercise : UserControl
     {
-        public LetterExerciseDC dataContext = new LetterExerciseDC();
+        public LetterExerciseDataContext dataContext = new LetterExerciseDataContext();
 
         public Queue<Letter> LettersToType = new Queue<Letter>();
         public Queue<Letter> LettersTyped = new Queue<Letter>();
@@ -48,6 +48,21 @@ namespace WPF_Visualize
             Keyboard.Focus(textbox);
             currentlabel.Content += textbox.Text;
         }
+
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
+        }
+
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            //Do work
+            Debug.WriteLine(e.Key);
+        }
+
+
 
         /*
         private void Keydown(object sender, KeyEventArgs e)

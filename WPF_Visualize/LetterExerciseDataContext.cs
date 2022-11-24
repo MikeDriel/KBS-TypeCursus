@@ -11,7 +11,7 @@ using System.Windows.Markup;
 
 namespace WPF_Visualize
 {
-    public class LetterExerciseDC
+    public class LetterExerciseDataContext
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -21,7 +21,7 @@ namespace WPF_Visualize
         
 
 
-        public LetterExerciseDC()
+        public LetterExerciseDataContext()
         {
 
         }
