@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,8 +33,6 @@ namespace WPF_Visualize
 
 
 
-
-
         public LetterExercise()
         {
             //LetterExerciseDC.LettersToType.Enqueue(new Letter('w', System.Drawing.Color.Black));
@@ -44,31 +43,22 @@ namespace WPF_Visualize
             Keyboard.Focus(UserControl);
         }
 
-        //private void KeyDown(object sender, KeyEventArgs e)
-        //{ 
-        //    if (e.Key.ToString().Equals("a"))
-        //    {
-        //        string a = e.Key.ToString();
-        //    }
-        //}
-
-        //private void TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    TextBox tb = sender as TextBox;
-        //    currentlabel.Content = tb.Text;
-        //}
-
         private void Textbox_textchanged(object sender, TextChangedEventArgs e)
         {
             Keyboard.Focus(textbox);
             currentlabel.Content += textbox.Text;
         }
 
+        /*
         private void Keydown(object sender, KeyEventArgs e)
         {
             Keyboard.Focus(UserControl);
             currentlabel.Content = e.Key.ToString();
+
+            Console.WriteLine(e.Key);
+            Trace.WriteLine(e.Key);
         }
+        */
 
     }
 }

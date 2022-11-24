@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -31,7 +32,11 @@ namespace WPF_Visualize
         {
             this.contentControl.Content = new ExerciseSelect();
         }
-        
-        
+
+        private void Keydown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine(e.Key);
+            Trace.WriteLine(e.Key);
+        }
     }
 }
