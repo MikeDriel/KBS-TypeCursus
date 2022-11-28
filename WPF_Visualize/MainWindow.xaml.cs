@@ -22,26 +22,35 @@ namespace WPF_Visualize
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-        public MainWindow()
+		public MainWindow()
 		{
-            InitializeComponent();
-            this.contentControl.Content = UserControlEvent.Content;
-            UserControlEvent.OnWindowChange += MainWindow_OnWindowChange;
-        }
-        
-        private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
-        {
-            this.contentControl.Content = UserControlEvent.Content;
-        }
+			InitializeComponent();
+			this.contentControl.Content = UserControlEvent.Content;
+			UserControlEvent.OnWindowChange += MainWindow_OnWindowChange;
+		}
 
-    }
+		private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
+		{
+			this.contentControl.Content = UserControlEvent.Content;
+		}
 
-    public class OnWindowChangeEventArgs : EventArgs
-    {
-        public UserControl Content { get; set; }
-        public OnWindowChangeEventArgs(UserControl content)
-        {
-            this.Content = content;
-        }
-    }
+		private void OnExercise_Select(object sender, RoutedEventArgs e)
+		{
+			this.contentControl.Content = new ExerciseSelect();
+		}
+
+		private void Window_KeyDown(object sender, KeyEventArgs e)
+		{
+
+		}
+	}
+
+	public class OnWindowChangeEventArgs : EventArgs
+	{
+		public UserControl Content { get; set; }
+		public OnWindowChangeEventArgs(UserControl content)
+		{
+			this.Content = content;
+		}
+	}
 }

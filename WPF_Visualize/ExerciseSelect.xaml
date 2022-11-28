@@ -23,7 +23,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1">
+        <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1" Click="OnLetterExcersice_Select">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="\Images\abc-block.png"></Image>

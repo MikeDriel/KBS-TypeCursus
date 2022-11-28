@@ -29,5 +29,10 @@ namespace WPF_Visualize
         {
             UserControlEvent.InvokeEvent(this, new StudentMain());
         }
+
+        private void OnLetterExcersice_Select(object sender, RoutedEventArgs e)
+        {
+			UserControlEvent.InvokeEvent(this, new LetterExercise());
+		}
     }
 }
