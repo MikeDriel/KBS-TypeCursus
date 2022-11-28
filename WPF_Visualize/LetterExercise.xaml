@@ -29,16 +29,9 @@
             <ColumnDefinition Width="1*"/>
 
         </Grid.ColumnDefinitions>
-        
+
         <Label x:Name="LetterToTypeLabel" Grid.Column="6" Grid.Row="1" FontSize="48" BorderBrush="Black" BorderThickness="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label x:Name="LettersTodoLabel" Grid.Column="7" Grid.Row="1" FontSize="48" Grid.ColumnSpan="6" VerticalContentAlignment="Center"/>
-        
-        <RichTextBox x:Name="TypedLettersRTB" IsReadOnly="True" AcceptsReturn="False" Grid.ColumnSpan="6" Grid.Row="1" VerticalContentAlignment="Center" BorderBrush="White" Focusable="False" AllowDrop="False" IsHitTestVisible="False" IsTabStop="False" SelectionBrush="White">
-            <FlowDocument >
-                <Paragraph x:Name="TypedLettersParagraph" FontSize="48" TextAlignment="Right"> 
-
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+        <Label x:Name="LettersTypedLabel" Grid.Row="1" Grid.ColumnSpan="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="48" />
     </Grid>
 </UserControl>

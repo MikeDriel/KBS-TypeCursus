@@ -12,7 +12,6 @@ namespace Controller
 	{
 		public List<char> AlphabetList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> AlphabetQueue { get; set; } //queue which holds all the letters of the alphabet
-		public List<char> TypedLetters { get; set; } //list which holds all the letters that have been typed
 
 		public Random random = new Random();
 
@@ -20,9 +19,8 @@ namespace Controller
 		{
 			AlphabetList = new List<char>();
 			AlphabetQueue = new Queue<char>();
-			TypedLetters = new List<char>();
 
-			//RandomizeAlphabet();
+			
 			GenerateLetterData();
 		}
 
@@ -33,6 +31,7 @@ namespace Controller
 			{
 				AlphabetList.Add((char)(i + 97));
 			}
+			RandomizeAlphabet();
 
 			foreach (char letter in AlphabetList)
 			{

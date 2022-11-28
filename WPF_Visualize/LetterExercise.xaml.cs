@@ -50,10 +50,8 @@ namespace WPF_Visualize
 
 				char dequeuedLetter = Letter.AlphabetQueue.Dequeue();
 
-				Letter.TypedLetters.Add(dequeuedLetter);
+				LettersTypedLabel.Content += dequeuedLetter + " ";
 
-				TypedLettersParagraph.Inlines.Add();
-				
 				//and change the text on the screen
 				ChangeTextOnScreen();
 			}
