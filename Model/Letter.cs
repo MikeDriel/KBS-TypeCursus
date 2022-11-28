@@ -9,8 +9,8 @@ namespace Model
 {
     public class Letter
     {
-        char Character;
-        Color Color;
+        public char Character;
+        public Color Color;
 
         public Letter(char character, Color color)
         {

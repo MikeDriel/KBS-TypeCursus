@@ -25,9 +25,11 @@ namespace WPF_Visualize
     {
         public LetterExerciseDataContext dataContext = new LetterExerciseDataContext();
 
-        public Queue<Letter> LettersToType = new Queue<Letter>();
-        public Queue<Letter> LettersTyped = new Queue<Letter>();
-
+        //public Queue<Letter> LettersToType = new Queue<Letter>();
+        private List<Letter> LettersToType = new List<Letter>();
+        private string LettersToTypeString;
+        private List<Letter> LettersDone = new List<Letter>();
+        private string LettersDoneString;
 
 
 
@@ -36,20 +38,22 @@ namespace WPF_Visualize
         public LetterExercise()
         {
             //LetterExerciseDC.LettersToType.Enqueue(new Letter('w', System.Drawing.Color.Black));
-            LettersToType.Enqueue(new Letter('f', System.Drawing.Color.Black));
-            LettersToType.Enqueue(new Letter('j', System.Drawing.Color.Black));
-            LettersToType.Enqueue(new Letter('h', System.Drawing.Color.Black));
+            Letter letter1 = new Letter('f', System.Drawing.Color.Black);
+            Letter letter2 = new Letter('u', System.Drawing.Color.Black);
+            Letter letter3 = new Letter('c', System.Drawing.Color.Black);
+            LettersToType.Add(letter1);
+            LettersToType.Add(letter2);
+            LettersToType.Add(letter3);
+            //LettersToType.Add(letter1.Character.ToString());
+            //LettersToType.Add(letter2.Character.ToString());
+
+            //LettersToType.Enqueue(new Letter('j', System.Drawing.Color.Black));
+            //LettersToType.Enqueue(new Letter('h', System.Drawing.Color.Black));
             InitializeComponent();
-            Keyboard.Focus(UserControl);
+            ConvertListToStrings();
+            ChangeTextOnScreen();
         }
-
-        private void Textbox_textchanged(object sender, TextChangedEventArgs e)
-        {
-            Keyboard.Focus(textbox);
-            currentlabel.Content += textbox.Text;
-        }
-
-
+        
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow(this);
@@ -60,7 +64,53 @@ namespace WPF_Visualize
         {
             //Do work
             Debug.WriteLine(e.Key);
+            CheckIfCorrectLetterIsTyped(e.Key.ToString().ToLower()[0]);
+            ChangeTextOnScreen();
         }
+
+        private void ChangeTextOnScreen()
+        {
+            LetterTypedLabel.Content = LettersToType[0].Character.ToString();
+            LettersTodoLabel.Content = LettersToTypeString;
+
+            foreach (Letter letter in LettersDone)
+            {
+                
+                LettersDoneLabel1.Content += letter.Character.ToString();
+                LettersDoneLabel1.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            }
+        }
+
+        private void ConvertListToStrings()
+        {
+            LettersToTypeString = string.Join(" ", LettersToType.Select(x => x.Character.ToString()));
+            LettersToTypeString = LettersToTypeString.Remove(0, 1);
+            LettersDoneString = string.Join(" ", LettersDone.Select(x => x.Character.ToString()));
+        }
+
+        public void CheckIfCorrectLetterIsTyped(char LetterTyped)
+        {
+            if (LetterTyped == LettersToType[0].Character)
+            {
+                LettersDone.Add(LettersToType[0]);
+                LettersToType.RemoveAt(0);
+                if (LettersToType.Count == 0)
+                {
+                    LetterTypedLabel.Content = "You did it!";
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Wrong letter");
+            }
+            ConvertListToStrings();
+        }
+
+        private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
 
 
 
