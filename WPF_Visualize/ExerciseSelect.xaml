@@ -30,10 +30,10 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3">
+        <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3" Click="OnWordExercise">
             <Image Source="\Images\Exercise.jpg"/>
         </Button>
-        <Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5">
+        <Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5" Click="OnStoryExercise">
             <Image Source="\Images\Exercise.jpg"/>
         </Button>
         <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>

@@ -19,7 +19,7 @@ namespace WPF_Visualize
             OnWindowChange = new EventHandler<OnWindowChangeEventArgs>((sender, args) => { Content = args.Content; });
         }
 
-        public static void InvokeEvent(UserControl Sender, UserControl content)
+        public static void MainWindowChange(UserControl Sender, UserControl content)
         {
             OnWindowChange?.Invoke(Sender, new OnWindowChangeEventArgs(content));
         }
