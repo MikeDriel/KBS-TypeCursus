@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Model;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace WPF_Visualize
 {
@@ -25,14 +27,16 @@ namespace WPF_Visualize
 	{
 		Controller.LetterExerciseController Letter = new Controller.LetterExerciseController();
 		private char CurrentLetter;
+        Rectangle rectangle = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
 		public LetterExercise()
 		{
 			InitializeComponent();
 			ChangeTextOnScreen();
-		}
+            KeyboardCanvas.Children.Add(rectangle); //adds rectangle on screen
+        }
 
-		//Connects events to the button
+		//Connects events to the button 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			var window = Window.GetWindow(this);
@@ -56,18 +60,8 @@ namespace WPF_Visualize
 					//adds the letter that you typed to the left label
 					LettersTypedLabel.Content += dequeuedLetter + " ";
 
-					//and change the text on the screen
-					ChangeTextOnScreen();
-				}
-
-				if (Letter.AlphabetList.Count == 0)
-				{
-					//adds a empty space if the list is empty
-					LetterToTypeLabel.Content = " ";
-
-					//show a message box
-					MessageBox.Show("You have finished the exercise!");
-				}
+				//and change the text on the screen
+				ChangeTextOnScreen();
 			}
 			else
 			{
@@ -81,6 +75,7 @@ namespace WPF_Visualize
 		{
 			CurrentLetter = e.Key.ToString().ToLower()[0];
 			CheckIfLetterIsCorrect();
+			MoveBoxOnCanvas();
 		}
 
 		private void ChangeTextOnScreen()
@@ -92,5 +87,18 @@ namespace WPF_Visualize
 				LettersTodoLabel.Content = string.Join(' ', Letter.AlphabetList).Remove(0, 1);
 			}
 		}
-	}
+
+        private void MoveBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
+		{
+			int PosX = Letter.Coordinates[CurrentLetter][0]; //sets posx
+            int PosY = Letter.Coordinates[CurrentLetter][1]; //sets posy
+            Canvas.SetTop(rectangle, PosY);
+			Canvas.SetLeft(rectangle, PosX);
+		}
+
+        private void OnBack(object sender, RoutedEventArgs e)
+        {
+            UserControlController.InvokeEvent(this, new ExerciseSelect());
+        }
+    }
 }

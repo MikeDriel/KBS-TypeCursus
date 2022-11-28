@@ -12,6 +12,7 @@
     <None Remove="Images\bar-chart.png" />
     <None Remove="Images\Exercise.jpg" />
     <None Remove="Images\Keyboard.png" />
+    <None Remove="Images\KeyboardExercise.png" />
     <None Remove="Images\Leaderboard.jpg" />
     <None Remove="Images\logout.png" />
     <None Remove="Images\planning.png" />
@@ -30,6 +31,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\keyboard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\KeyboardExercise.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Leaderboard.jpg">

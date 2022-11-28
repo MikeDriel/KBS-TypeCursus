@@ -6,32 +6,34 @@
              xmlns:local="clr-namespace:WPF_Visualize"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded"
-             Background="White">
+             Background="AntiqueWhite">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="1.5*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="*"/>
 
         </Grid.ColumnDefinitions>
+        <Label x:Name="LetterToTypeLabel" Grid.Column="2" Grid.Row="1" FontSize="48" BorderBrush="Black" BorderThickness="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="LettersTodoLabel" Grid.Column="3" Grid.Row="1" FontSize="48" VerticalContentAlignment="Center"/>
+        <Label x:Name="LettersTypedLabel" Grid.Row="1" FontSize="48" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FlowDirection="RightToLeft" Grid.ColumnSpan="2"/>
+        <Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" Height="30" Width="70" Click="OnBack" />
+        <Viewbox Grid.Row="2" Margin="141,29,141,30" Grid.ColumnSpan="3" Grid.Column="1" >
+            <Canvas x:Name="KeyboardCanvas" Height="202" Width="605">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Images/KeyboardExercise.png"/>
 
-        <Label x:Name="LetterToTypeLabel" Grid.Column="6" Grid.Row="1" FontSize="48" BorderBrush="Black" BorderThickness="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="LettersTodoLabel" Grid.Column="7" Grid.Row="1" FontSize="48" Grid.ColumnSpan="6" VerticalContentAlignment="Center"/>
-        <Label x:Name="LettersTypedLabel" Grid.Row="1" FontSize="48" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FlowDirection="RightToLeft" Grid.ColumnSpan="6"/>
+                </Canvas.Background>
+                <Rectangle Height="33" Canvas.Left="429" Stroke="Black" Canvas.Top="43" Width="33" Fill="#FFE21717" Opacity="0.45"/>
+            </Canvas>
+        </Viewbox>
+
     </Grid>
 </UserControl>
