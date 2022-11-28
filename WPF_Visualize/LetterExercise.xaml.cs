@@ -23,7 +23,7 @@ namespace WPF_Visualize
 	/// </summary>
 	public partial class LetterExercise : UserControl
 	{
-		Controller.LetterExersiseController Letter = new Controller.LetterExersiseController();
+		Controller.LetterExerciseController Letter = new Controller.LetterExerciseController();
 		private char CurrentLetter;
 
 		public LetterExercise()
