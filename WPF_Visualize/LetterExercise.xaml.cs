@@ -45,15 +45,29 @@ namespace WPF_Visualize
 			//checks if the last keypress is equal to the first letter in the queue
 			if (Letter.AlphabetList[0] == CurrentLetter)
 			{
-				//if it is, remove the letter from the queue
-				Letter.AlphabetList.RemoveAt(0);
+				//checks if list isnt empty
+				if (Letter.AlphabetList.Count >= 1)
+				{
+					//if it is, remove the letter from the queue
+					Letter.AlphabetList.RemoveAt(0);
 
-				char dequeuedLetter = Letter.AlphabetQueue.Dequeue();
+					char dequeuedLetter = Letter.AlphabetQueue.Dequeue();
 
-				LettersTypedLabel.Content += dequeuedLetter + " ";
+					//adds the letter that you typed to the left label
+					LettersTypedLabel.Content += dequeuedLetter + " ";
 
-				//and change the text on the screen
-				ChangeTextOnScreen();
+					//and change the text on the screen
+					ChangeTextOnScreen();
+				}
+
+				if (Letter.AlphabetList.Count == 0)
+				{
+					//adds a empty space if the list is empty
+					LetterToTypeLabel.Content = " ";
+
+					//show a message box
+					MessageBox.Show("You have finished the exercise!");
+				}
 			}
 			else
 			{
@@ -62,24 +76,18 @@ namespace WPF_Visualize
 			}
 		}
 
+		//Handles the keypresses from the userinput
 		private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
-			//Do work
 			CurrentLetter = e.Key.ToString().ToLower()[0];
 			CheckIfLetterIsCorrect();
 		}
 
 		private void ChangeTextOnScreen()
 		{
-			//checks if the queue is empty
-			if (Letter.AlphabetList.Count == 0)
+			if (Letter.AlphabetList.Count >= 1)
 			{
-				//if it is, show a message box
-				MessageBox.Show("You have finished the exercise!");
-			}
-			else
-			{
-				// Create a paragraph and add the Run and Bold to it.
+				//Displays the content to the application
 				LetterToTypeLabel.Content = string.Join(' ', Letter.AlphabetList[0]);
 				LettersTodoLabel.Content = string.Join(' ', Letter.AlphabetList).Remove(0, 1);
 			}
