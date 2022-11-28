@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Controller
 {
-	public class LetterExersiseController
+	public class LetterExerciseController
 	{
 		public List<char> AlphabetList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> AlphabetQueue { get; set; } //queue which holds all the letters of the alphabet
 
 		public Random random = new Random();
 
-		public LetterExersiseController()
+		public LetterExerciseController()
 		{
 			AlphabetList = new List<char>();
 			AlphabetQueue = new Queue<char>();
