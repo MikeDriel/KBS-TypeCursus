@@ -34,7 +34,7 @@ namespace Controller
 				AlphabetList.Add((char)(i + 97));
 			}
 
-			foreach (char letter in AlphabetList.ToString())
+			foreach (char letter in AlphabetList)
 			{
 				AlphabetQueue.Enqueue(letter);
 			}

@@ -47,8 +47,12 @@ namespace WPF_Visualize
 			{
 				//if it is, remove the letter from the queue
 				Letter.AlphabetList.RemoveAt(0);
+
 				char dequeuedLetter = Letter.AlphabetQueue.Dequeue();
+
 				Letter.TypedLetters.Add(dequeuedLetter);
+
+				TypedLettersParagraph.Inlines.Add();
 				
 				//and change the text on the screen
 				ChangeTextOnScreen();
@@ -63,7 +67,6 @@ namespace WPF_Visualize
 		private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
 			//Do work
-			Debug.WriteLine(e.Key);
 			CurrentLetter = e.Key.ToString().ToLower()[0];
 			CheckIfLetterIsCorrect();
 		}
@@ -78,7 +81,7 @@ namespace WPF_Visualize
 			}
 			else
 			{
-				Letter
+				// Create a paragraph and add the Run and Bold to it.
 				LetterToTypeLabel.Content = string.Join(' ', Letter.AlphabetList[0]);
 				LettersTodoLabel.Content = string.Join(' ', Letter.AlphabetList).Remove(0, 1);
 			}
