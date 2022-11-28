@@ -30,6 +30,13 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+        <DockPanel LastChildFill="False" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Terug" Click="OnBack"/>
+            </Menu>
+        </DockPanel>
+
         <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3">
             <Image Source="\Images\Exercise.jpg"/>
         </Button>
@@ -39,6 +46,5 @@
         <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-        <Button x:Name="Back" Content="Terug" Click="OnBack"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>
