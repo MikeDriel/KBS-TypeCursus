@@ -25,13 +25,13 @@ namespace WPF_Visualize
 		public MainWindow()
 		{
 			InitializeComponent();
-			this.contentControl.Content = UserControlEvent.Content;
-			UserControlEvent.OnWindowChange += MainWindow_OnWindowChange;
+			this.contentControl.Content = UserControlController.Content;
+			UserControlController.OnWindowChange += MainWindow_OnWindowChange;
 		}
 
 		private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
 		{
-			this.contentControl.Content = UserControlEvent.Content;
+			this.contentControl.Content = UserControlController.Content;
 		}
 
 		private void OnExercise_Select(object sender, RoutedEventArgs e)

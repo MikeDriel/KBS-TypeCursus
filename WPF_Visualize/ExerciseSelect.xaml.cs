@@ -27,12 +27,12 @@ namespace WPF_Visualize
 
         private void OnBack(object sender, RoutedEventArgs e)
         {
-            UserControlEvent.InvokeEvent(this, new StudentMain());
+            UserControlController.InvokeEvent(this, new StudentMain());
         }
 
         private void OnLetterExcersice_Select(object sender, RoutedEventArgs e)
         {
-			UserControlEvent.InvokeEvent(this, new LetterExercise());
+			UserControlController.InvokeEvent(this, new LetterExercise());
 		}
     }
 }

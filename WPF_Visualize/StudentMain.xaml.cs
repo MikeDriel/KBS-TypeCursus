@@ -26,7 +26,7 @@ namespace WPF_Visualize
         
         private void OnExerciseSelect(object sender, RoutedEventArgs e)
         {
-            UserControlEvent.InvokeEvent(this, new ExerciseSelect());
+            UserControlController.InvokeEvent(this, new ExerciseSelect());
         }
     }
 }

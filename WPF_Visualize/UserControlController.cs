@@ -8,12 +8,12 @@ using System.Windows.Controls;
 
 namespace WPF_Visualize
 {
-    public static class UserControlEvent
+    public static class UserControlController
     {
         public static event EventHandler<OnWindowChangeEventArgs> OnWindowChange;
         public static UserControl Content;
 
-        static UserControlEvent()
+        static UserControlController()
         {
             Content = new StudentMain();
             OnWindowChange = new EventHandler<OnWindowChangeEventArgs>((sender, args) => { Content = args.Content; });
