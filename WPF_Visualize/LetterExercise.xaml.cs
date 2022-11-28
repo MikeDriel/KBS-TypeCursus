@@ -25,16 +25,19 @@ namespace WPF_Visualize
 	/// </summary>
 	public partial class LetterExercise : UserControl
 	{
-		Controller.LetterExerciseController Letter = new Controller.LetterExerciseController();
+		Controller.LetterExerciseController Letter;
+
 		private char CurrentLetter;
-        Rectangle rectangle = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		Rectangle rectangle = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
 		public LetterExercise()
 		{
 			InitializeComponent();
+			Letter = new Controller.LetterExerciseController();
+			MoveBoxOnCanvas();
 			ChangeTextOnScreen();
-            KeyboardCanvas.Children.Add(rectangle); //adds rectangle on screen
-        }
+			KeyboardCanvas.Children.Add(rectangle); //adds rectangle on screen
+		}
 
 		//Connects events to the button 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -60,8 +63,18 @@ namespace WPF_Visualize
 					//adds the letter that you typed to the left label
 					LettersTypedLabel.Content += dequeuedLetter + " ";
 
-				//and change the text on the screen
-				ChangeTextOnScreen();
+					//and change the text on the screen
+					ChangeTextOnScreen();
+				}
+
+				if (Letter.AlphabetList.Count == 0)
+				{
+					//adds a empty space if the list is empty
+					LetterToTypeLabel.Content = " ";
+
+					//show a message box
+					MessageBox.Show("You have finished the exercise!");
+				}
 			}
 			else
 			{
@@ -78,6 +91,7 @@ namespace WPF_Visualize
 			MoveBoxOnCanvas();
 		}
 
+		//updates values on view
 		private void ChangeTextOnScreen()
 		{
 			if (Letter.AlphabetList.Count >= 1)
@@ -88,17 +102,29 @@ namespace WPF_Visualize
 			}
 		}
 
-        private void MoveBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
+		//moves the highlighted box
+		private void MoveBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
-			int PosX = Letter.Coordinates[CurrentLetter][0]; //sets posx
-            int PosY = Letter.Coordinates[CurrentLetter][1]; //sets posy
-            Canvas.SetTop(rectangle, PosY);
+			int PosX = Letter.Coordinates[Letter.AlphabetList[0]][0]; //sets posx
+			int PosY = Letter.Coordinates[Letter.AlphabetList[0]][1]; //sets posy
+			Canvas.SetTop(rectangle, PosY);
 			Canvas.SetLeft(rectangle, PosX);
 		}
 
-        private void OnBack(object sender, RoutedEventArgs e)
-        {
-            UserControlController.InvokeEvent(this, new ExerciseSelect());
-        }
-    }
+		//The back button top left
+		private void OnBack(object sender, RoutedEventArgs e)
+		{
+			Cleanup();
+			UserControlController.InvokeEvent(this, new ExerciseSelect());
+		}
+
+		//cleanup to prevent bugs
+		private void Cleanup()
+		{
+			var window = Window.GetWindow(this);
+			window.KeyDown -= HandleKeyPress;
+			Letter = null;
+			CurrentLetter = ' ';
+		}
+	}
 }
