@@ -32,6 +32,6 @@
 
         <Label x:Name="LetterToTypeLabel" Grid.Column="6" Grid.Row="1" FontSize="48" BorderBrush="Black" BorderThickness="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label x:Name="LettersTodoLabel" Grid.Column="7" Grid.Row="1" FontSize="48" Grid.ColumnSpan="6" VerticalContentAlignment="Center"/>
-        <Label x:Name="LettersTypedLabel" Grid.Row="1" Grid.ColumnSpan="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="48" />
+        <Label x:Name="LettersTypedLabel" Grid.Row="1" FontSize="48" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FlowDirection="RightToLeft" Grid.ColumnSpan="6"/>
     </Grid>
 </UserControl>
