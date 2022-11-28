@@ -24,4 +24,13 @@ namespace WPF_Visualize
             OnWindowChange?.Invoke(Sender, new OnWindowChangeEventArgs(content));
         }
     }
+
+    public class OnWindowChangeEventArgs : EventArgs
+    {
+        public UserControl Content { get; set; }
+        public OnWindowChangeEventArgs(UserControl content)
+        {
+            this.Content = content;
+        }
+    }
 }
