@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Model;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
@@ -30,14 +33,19 @@ namespace WPF_Visualize
 		private char _currentLetter;
 		private int _numberOfMistakes;
         private int _numberCorrect;
-        private string _liveStatistics;
+		private DispatcherTimer _timer;
+		private DateTime _currentTime;
+		private int _timeLeft;
+		public int MaxTimePerKey = 5;
 		Rectangle rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
         Rectangle rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
 		public LetterExercise()
 		{
 			InitializeComponent();
+			_currentTime = new DateTime();
 			Letter = new Controller.LetterExerciseController();
+			_timer = new DispatcherTimer();
 			_numberOfMistakes = 0;
 			_numberCorrect = 0;
 			_setStatisticsContent();
@@ -61,7 +69,7 @@ namespace WPF_Visualize
 				PercentGood = ((double)_numberCorrect / (double)(_numberCorrect + _numberOfMistakes)) * 100;
 				PercentGood = Math.Round(PercentGood, 1);
             }
-            this.Statistics.Content = $"{_numberOfMistakes} fout \r\n{PercentGood}% goed \r\n10 s";
+            this.Statistics.Content = $"{_numberOfMistakes} fout \r\n{PercentGood}% goed \r\n{_currentTime.ToString("mm:ss")}";
         }
 
         //Connects events to the button 
@@ -115,12 +123,31 @@ namespace WPF_Visualize
             }
 		}
 
-		//Handles the keypresses from the userinput
-		private void HandleKeyPress(object sender, KeyEventArgs e)
+        private void onTimer(object sender, EventArgs e)
+        {
+            if (_timeLeft == 0)
+            {
+				_numberOfMistakes++;
+				_timeLeft = MaxTimePerKey;
+            }
+            this.TimeLeftLabel.Content = _timeLeft;
+            _currentTime = _currentTime.AddSeconds(1);
+            _timeLeft--;
+			_setStatisticsContent();
+        }
+
+        //Handles the keypresses from the userinput
+        private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
 			_currentLetter = e.Key.ToString().ToLower()[0];
 			CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
+			_timeLeft = MaxTimePerKey;
+            if (!_timer.IsEnabled)
+			{
+				_timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Background,
+				onTimer, Dispatcher.CurrentDispatcher);
+			}
 		}
 
 		//updates values on view
@@ -131,7 +158,6 @@ namespace WPF_Visualize
 				//Displays the content to the application
 				LetterToTypeLabel.Content = string.Join(' ', Letter.AlphabetList[0]);
 				LettersTodoLabel.Content = string.Join(' ', Letter.AlphabetList).Remove(0, 1);
-				_setStatisticsContent();
 			}
             
 		}
