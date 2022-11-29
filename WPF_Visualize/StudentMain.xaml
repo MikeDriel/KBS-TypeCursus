@@ -48,8 +48,8 @@
         <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-
-        <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center" Height="30" Width="70" Click="OnLog_Out"/>
+        
+        <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center" Height="30" Width="70" Click="OnLog_Out" Visibility="Hidden"/> <!--Hidden because not yet implemented-->
 
     </Grid>
 </UserControl>
