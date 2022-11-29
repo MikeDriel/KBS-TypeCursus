@@ -115,7 +115,7 @@ namespace WPF_Visualize
 		private void OnBack(object sender, RoutedEventArgs e)
 		{
 			Cleanup();
-			UserControlController.InvokeEvent(this, new ExerciseSelect());
+			UserControlController.MainWindowChange(this, new ExerciseSelect());
 		}
 
 		//cleanup to prevent bugs
