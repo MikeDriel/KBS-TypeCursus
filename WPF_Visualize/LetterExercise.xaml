@@ -10,13 +10,13 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="0.5*" MinHeight="50"/>
-			<RowDefinition Height="1.5*" MaxHeight="150" MinHeight="100"/>
+			<RowDefinition Height="1.5*" MinHeight="100" MaxHeight="150"/>
 			<RowDefinition Height="4*"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="2*" MinWidth="90"/>
 			<ColumnDefinition Width="6*"/>
-			<ColumnDefinition Width="1.2*"/>
+			<ColumnDefinition Width="1.2*" MinWidth="56" MaxWidth="56"/>
 			<ColumnDefinition Width="6*"/>
 			<ColumnDefinition Width="2*"/>
 
