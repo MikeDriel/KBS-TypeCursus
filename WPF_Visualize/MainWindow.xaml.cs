@@ -44,13 +44,4 @@ namespace WPF_Visualize
 
 		}
 	}
-
-	public class OnWindowChangeEventArgs : EventArgs
-	{
-		public UserControl Content { get; set; }
-		public OnWindowChangeEventArgs(UserControl content)
-		{
-			this.Content = content;
-		}
-	}
 }

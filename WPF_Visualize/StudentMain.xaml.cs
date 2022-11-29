@@ -26,7 +26,22 @@ namespace WPF_Visualize
         
         private void OnExerciseSelect(object sender, RoutedEventArgs e)
         {
-            UserControlController.InvokeEvent(this, new ExerciseSelect());
+            UserControlController.MainWindowChange(this, new ExerciseSelect());
+        }
+
+        private void OnStatistics(object sender, RoutedEventArgs e)
+        {
+            UserControlController.MainWindowChange(this, new Statistics());
+        }
+
+        private void OnLeaderBoard(object sender, RoutedEventArgs e)
+        {
+            UserControlController.MainWindowChange(this, new LeaderBoard());
+        }
+
+        private void OnLog_Out(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Hidden;
         }
     }
 }
