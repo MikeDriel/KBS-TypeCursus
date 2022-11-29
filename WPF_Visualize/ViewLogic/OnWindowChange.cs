@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace WPF_Visualize
+namespace WPF_Visualize.ViewLogic
 {
     internal class OnWindowChange : EventArgs
     {

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Model;
+using WPF_Visualize.ViewLogic;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace WPF_Visualize
@@ -74,6 +75,7 @@ namespace WPF_Visualize
 
 					//show a message box
 					MessageBox.Show("You have finished the exercise!");
+					UserControlController.MainWindowChange(this, new ResultatenOefening());
 				}
 			}
 			else
@@ -105,10 +107,13 @@ namespace WPF_Visualize
 		//moves the highlighted box
 		private void MoveBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
-			int PosX = Letter.Coordinates[Letter.AlphabetList[0]][0]; //sets posx
-			int PosY = Letter.Coordinates[Letter.AlphabetList[0]][1]; //sets posy
-			Canvas.SetTop(rectangle, PosY);
-			Canvas.SetLeft(rectangle, PosX);
+			if (Letter.AlphabetList.Count >= 1)
+			{
+				int PosX = Letter.Coordinates[Letter.AlphabetList[0]][0]; //sets posx
+				int PosY = Letter.Coordinates[Letter.AlphabetList[0]][1]; //sets posy
+				Canvas.SetTop(rectangle, PosY);
+				Canvas.SetLeft(rectangle, PosX);
+			}
 		}
 
 		//The back button top left
@@ -123,7 +128,6 @@ namespace WPF_Visualize
 		{
 			var window = Window.GetWindow(this);
 			window.KeyDown -= HandleKeyPress;
-			Letter = null;
 			CurrentLetter = ' ';
 		}
 	}

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace WPF_Visualize
+namespace WPF_Visualize.ViewLogic
 {
     // Because MainWindow and the usercontrols are not really accesible from other files we 
     // are using this class UserControlController as a sort of "bridge" between the classes
@@ -38,7 +38,7 @@ namespace WPF_Visualize
         public UserControl Content { get; set; }
         public OnWindowChangeEventArgs(UserControl content)
         {
-            this.Content = content;
+            Content = content;
         }
     }
 }
