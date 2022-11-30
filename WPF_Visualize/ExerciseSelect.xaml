@@ -8,39 +8,42 @@
         d:DesignHeight="450" d:DesignWidth="800"
         Background = "#455a64">
     <Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="0.5*"/>
-			<RowDefinition Height="1*"/>
-			<RowDefinition Height="2*"/>
-			<RowDefinition Height="1*"/>
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="2*"/>
-			<ColumnDefinition Width="0.5*"/>
-			<ColumnDefinition Width="2*"/>
-			<ColumnDefinition Width="0.5*"/>
-			<ColumnDefinition Width="2*"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		<Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1" Click="OnLetterExcersice_Select">
-			<Button.Template>
-				<ControlTemplate>
-					<Image Source="\Images\abc-block.png"></Image>
-				</ControlTemplate>
-			</Button.Template>
-		</Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-		<Button x:Name="Back" Content="Terug" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Click="OnBack" Margin="10,10,0,0"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
+        <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1" Click="OnLetterExcersice_Select" Style="{StaticResource IconButtons}">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="\Images\abc-block.png"></Image>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
-		<Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3" Click="OnWordExercise">
-			<Image Source="\Images\Exercise.jpg"/>
-		</Button>
-		<Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5" Click="OnStoryExercise">
-			<Image Source="\Images\Exercise.jpg"/>
-		</Button>
-		<Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-		<Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-		<Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-	</Grid>
+        <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
+        <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3" Click="OnWordExercise" Style="{StaticResource IconButtons}">
+            <Image Source="\Images\Exercise.jpg"/>
+        </Button>
+
+        <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
+        <Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5" Click="OnStoryExercise" Style="{StaticResource IconButtons}">
+            <Image Source="\Images\Exercise.jpg"/>
+        </Button>
+
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}"/>
+
+    </Grid>
 </UserControl>

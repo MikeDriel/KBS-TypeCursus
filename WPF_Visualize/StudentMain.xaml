@@ -24,8 +24,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
-        <Button x:Name="Exercice" Grid.Row="2" Grid.Column="1" Click="OnExerciseSelect">
+        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" Style="{StaticResource LabelsSelecterScreens}"/>
+        <Button x:Name="Exercice" Grid.Row="2" Grid.Column="1" Click="OnExerciseSelect" Style="{StaticResource IconButtons}">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="\Images\keyboard.png"/>
@@ -33,7 +33,7 @@
             </Button.Template>
         </Button>
 
-        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" Style="{StaticResource LabelsSelecterScreens}"/>
         <Button x:Name="Statistics" Grid.Row="2" Grid.Column="3" Click="OnStatistics">
             <Button.Template>
                 <ControlTemplate>
@@ -42,7 +42,7 @@
             </Button.Template>
         </Button>
 
-        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" Style="{StaticResource LabelsSelecterScreens}"/>
         <Button x:Name="Leaderboard" Grid.Row="2" Grid.Column="5" Click="OnLeaderBoard">
             <Button.Template>
                 <ControlTemplate>
