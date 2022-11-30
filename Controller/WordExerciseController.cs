@@ -94,7 +94,7 @@ namespace Controller
 
 		public void CheckIfLetterIsCorrect()
 		{
-			if (WordArray.Length >= 1)
+			if (WordsToChars.Count >= 1)
 			{
 				if (WordsToChars[0] == CurrentLetter || WordsToChars[0] == SpaceButton)
 				{
@@ -102,12 +102,11 @@ namespace Controller
 
 					DequeuedLetter = CharQueue.Dequeue();
 
-					if (WordArray.Length == 0) ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
+					if (WordsToChars.Count == 0) ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
 					else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
 				}
 				else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
 			}
-
 		}
 	}
 }
