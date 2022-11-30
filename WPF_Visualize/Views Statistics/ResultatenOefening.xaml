@@ -6,13 +6,12 @@
              xmlns:local="clr-namespace:WPF_Visualize"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="AntiqueWhite">
+             Style="{StaticResource UserControlBackground}">
     <Grid>
 
-		<Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="130" Margin="10,10,0,0"/>
+        <Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" Width="130" Click="OnBack" Style="{StaticResource BackButton}"/>
 
-
-		<Label Content="Woorden per seconde:&#xD;&#xA;" HorizontalAlignment="Left" Margin="48,149,0,0" VerticalAlignment="Top"/>
+        <Label Content="Woorden per seconde:&#xD;&#xA;" HorizontalAlignment="Left" Margin="48,149,0,0" VerticalAlignment="Top"/>
         <Label Content="Meest voorkomen fouten:&#xD;&#xA;" HorizontalAlignment="Left" Margin="335,255,0,0" VerticalAlignment="Top"/>
         <Label Content="Resultaat opdracht" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Label Content="Aantal fouten:" HorizontalAlignment="Left" Margin="48,255,0,0" VerticalAlignment="Top"/>
