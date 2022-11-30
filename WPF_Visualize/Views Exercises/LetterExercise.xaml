@@ -9,13 +9,13 @@
              Background="AntiqueWhite">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="0.5*" MinHeight="50"/>
+            <RowDefinition Height="1.5*" MinHeight="100" MaxHeight="150"/> 
             <RowDefinition Height="2*"/>
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*" MinWidth="90"/>
             <ColumnDefinition Width="6*"/>
             <ColumnDefinition Width="1.2*"/>
             <ColumnDefinition Width="6*"/>
@@ -26,13 +26,9 @@
         <Label x:Name="LettersTodoLabel" Grid.Column="3" Grid.Row="2" FontSize="48" VerticalContentAlignment="Center"/>
         <Label x:Name="LettersTypedLabel" Grid.Row="2" FontSize="48" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FlowDirection="RightToLeft" Grid.ColumnSpan="2" Foreground="Green"/>
 
-        <DockPanel LastChildFill="False" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="Terug" Click="OnBack"/>
-            </Menu>
-        </DockPanel>
+		<Button x:Name="Back" Content="Terug" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Click="OnBack" Margin="10,10,0,0"/>
 
-        <Viewbox Grid.Row="3" Margin="141,29,141,30" Grid.ColumnSpan="3" Grid.Column="1" >
+		<Viewbox Grid.Row="3" Margin="141,29,141,30" Grid.ColumnSpan="3" Grid.Column="1" >
             <Canvas x:Name="KeyboardCanvas" Height="202" Width="605">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Images/KeyboardExercise.png"/>
