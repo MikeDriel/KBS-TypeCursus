@@ -64,12 +64,7 @@ namespace Controller
                 NumberOfMistakes++;
                 TimeLeft = _maxTimePerKey;
             }
-
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-                LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());
-            //});
-            
+            LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());            
             TimeLeft--;
             CurrentTime = CurrentTime.AddSeconds(1);
         }
