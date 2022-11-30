@@ -39,14 +39,20 @@ namespace WPF_Visualize
 			KeyboardCanvas.Children.Add(rectangle); //adds rectangle on screen
 		}
 
-		//Connects events to the button 
+		/// <summary>
+		/// Connects events to the button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			var window = Window.GetWindow(this);
 			window.KeyDown += HandleKeyPress;
 		}
 
-		//logica to check if letter is right or wrong
+		/// <summary>
+		/// Logica to check if letter is right or wrong
+		/// </summary>
 		public void CheckIfLetterIsCorrect()
 		{
 			//checks if the last keypress is equal to the first letter in the queue
@@ -83,7 +89,11 @@ namespace WPF_Visualize
 			}
 		}
 
-		//Handles the keypresses from the userinput
+		/// <summary>
+		/// Handles the keypresses from the userinput
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
 			CurrentLetter = e.Key.ToString().ToLower()[0];
@@ -91,7 +101,9 @@ namespace WPF_Visualize
 			MoveBoxOnCanvas();
 		}
 
-		//updates values on view
+		/// <summary>
+		/// Updates values on view
+		/// </summary>
 		private void ChangeTextOnScreen()
 		{
 			if (Letter.AlphabetList.Count >= 1)
@@ -102,7 +114,9 @@ namespace WPF_Visualize
 			}
 		}
 
-		//moves the highlighted box
+		/// <summary>
+		/// Moves the highlighted box
+		/// </summary>
 		private void MoveBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
 			int PosX = Letter.Coordinates[Letter.AlphabetList[0]][0]; //sets posx
@@ -111,14 +125,20 @@ namespace WPF_Visualize
 			Canvas.SetLeft(rectangle, PosX);
 		}
 
-		//The back button top left
+		/// <summary>
+		/// The back button that sits top-left of the application.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnBack(object sender, RoutedEventArgs e)
 		{
 			Cleanup();
 			UserControlController.MainWindowChange(this, new ExerciseSelect());
 		}
 
-		//cleanup to prevent bugs
+		/// <summary>
+		/// Cleanup to prevent bugs
+		/// </summary>
 		private void Cleanup()
 		{
 			var window = Window.GetWindow(this);

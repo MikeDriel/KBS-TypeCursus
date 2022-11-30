@@ -50,12 +50,12 @@ namespace Controller
                 {'y', new int[] { 265, 43 } },
                 {'z', new int[] { 93, 127 } },
             };
-
-
             GenerateLetterData();
 		}
 
-		//generates the alphabet data for the list. Also copies data to the queue for logic use
+		/// <summary>
+		/// Generates the alphabet data for the list. Also copies data to the queue for logic use
+		/// </summary>
 		public void GenerateLetterData()
 		{
 			for (int i = 0; i < 26; i++)
@@ -70,9 +70,11 @@ namespace Controller
 			}
 		}
 
+		/// <summary>
+		/// Randomizes the letters in the alphabet.
+		/// </summary>
 		public void RandomizeAlphabet()
 		{
-			//randomize the alphabet
 			AlphabetList = AlphabetList.OrderBy(x => random.Next()).ToList();
 		}
 	}
