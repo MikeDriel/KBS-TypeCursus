@@ -6,10 +6,7 @@
         xmlns:local="clr-namespace:WPF_Visualize"
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800"
-        Background = "#455a64
-
-"
-        >
+        Background = "#455a64">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -26,13 +23,17 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Name="Exercises" Grid.Row="2"  Grid.Column="1" Click="OnExerciseSelect">
+
+        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+        <Button x:Name="Exercice" Grid.Row="2" Grid.Column="1" Click="OnExerciseSelect">
             <Button.Template>
                 <ControlTemplate>
-                    <Image Source="\Images\Keyboard.png"/>
+                    <Image Source="\Images\keyboard.png"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
         <Button x:Name="Statistics" Grid.Row="2" Grid.Column="3" Click="OnStatistics">
             <Button.Template>
                 <ControlTemplate>
@@ -40,6 +41,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
         <Button x:Name="Leaderboard" Grid.Row="2" Grid.Column="5" Click="OnLeaderBoard">
             <Button.Template>
                 <ControlTemplate>
@@ -47,10 +50,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Label Grid.Column="1" Grid.Row="1" Content="Oefeningen" Margin="0,61,0,0" Width="" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
-        <Label Grid.Column="3" Grid.Row="1" Content="Mijn statistieken" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-        <Label Grid.Column="5" Grid.Row="1" Content="Ranglijst" Margin="0,61,0,0" Width="178" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-
+       
         <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" HorizontalAlignment="Center" Height="30" Width="70" Click="OnLog_Out" Visibility="Hidden"/>
         <!--Hidden because not yet implemented-->
 
