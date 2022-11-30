@@ -2,25 +2,35 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Controller
 {
-	public class LetterExerciseController
+	public class ExerciseController
 	{
+
+
+		// events
+		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
+		
 		public List<char> AlphabetList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> AlphabetQueue { get; set; } //queue which holds all the letters of the alphabet
+		public Dictionary<char, int[]> Coordinates { get; set; }
+		
+		public Random random = new Random();
+		public char CurrentLetter {get; set;} //the current letter that is being typed
 
-        public Dictionary<char, int[]> Coordinates { get; set; }
+		public char DequeuedLetter { get; set; }
 
-        public Random random = new Random();
-
-		public LetterExerciseController()
+		public ExerciseController()
 		{
 			AlphabetList = new List<char>();
 			AlphabetQueue = new Queue<char>();
+			
+			//Coordinates
 			Coordinates = new Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
 			{
                 {'a', new int[] { 73, 85 } },
@@ -51,7 +61,6 @@ namespace Controller
                 {'z', new int[] { 93, 127 } },
             };
 
-
             GenerateLetterData();
 		}
 
@@ -74,6 +83,50 @@ namespace Controller
 		{
 			//randomize the alphabet
 			AlphabetList = AlphabetList.OrderBy(x => random.Next()).ToList();
+		}
+
+		//logica to check if letter is right or wrong
+		public void CheckIfLetterIsCorrect()
+		{
+			//checks if the last keypress is equal to the first letter in the queue
+			if (AlphabetList[0] == CurrentLetter)
+			{
+			
+
+				//checks if list isnt empty
+				if (AlphabetList.Count >= 1)
+				{
+					//if it is, remove the letter from the queue
+					AlphabetList.RemoveAt(0);
+					
+					DequeuedLetter = AlphabetQueue.Dequeue();
+
+					ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
+				}
+				if (AlphabetList.Count == 0)
+				{
+					ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
+				}
+			}
+			else
+			{
+				ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+			}
+		}		
+	}
+
+
+
+	//EVENT FOR EXCERCISE
+	public class ExerciseEventArgs : EventArgs
+	{
+		public bool IsCorrect;
+		public bool IsFinished;
+
+		public ExerciseEventArgs(bool isCorrect, bool isFinished)
+		{
+			IsCorrect = isCorrect;
+			IsFinished = isFinished;
 		}
 	}
 }
