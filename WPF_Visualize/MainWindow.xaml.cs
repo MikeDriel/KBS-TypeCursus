@@ -45,4 +45,13 @@ namespace WPF_Visualize
 
 		}
 	}
+
+	internal class OnWindowChange : EventArgs
+	{
+		public UserControl Content { get; set; }
+		public OnWindowChange(UserControl content)
+		{
+			Content = content;
+		}
+	}
 }
