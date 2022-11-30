@@ -3,49 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Controller
 {
 	public class StatisticsController
 	{
-		private int _numberOfMistakes;
-		private int _numberCorrect;
-		private DateTime _currentTime;
+        public int NumberOfMistakes { get; set; }
+        public int NumberCorrect{ get; set; }
+    public DateTime CurrentTime { get; set; }
+        public int TimeLeft { get; set; }
+        private int _maxTimePerKey = 5;
+        private System.Timers.Timer _timer = new System.Timers.Timer(1000);
+        public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
 
-		public StatisticsController()
+        public StatisticsController()
 		{
-			_currentTime = new DateTime();
-			_numberOfMistakes = 0;
-			_numberCorrect = 0;
-		}
+			CurrentTime = new DateTime();
+			NumberOfMistakes = 0;
+			NumberCorrect = 0;
+            _timer.Elapsed += OnTimedEvent;
+        }
 
-		public void AddMistake()
+        public void StartTimer()
+        {
+			if (!_timer.Enabled)
+			{
+                _timer.Start();
+            }
+        }
+
+		public void ResetTimeLeft()
 		{
-			_numberOfMistakes++;
-		}
+            TimeLeft = _maxTimePerKey;
+        }
 
-		public void AddCorrect()
-		{
-			_numberCorrect++;
-		}
-
-		public string GetStatistics()
+        public string GetStatistics()
 		{
 			double PercentGood;
-			if (_numberCorrect == 0)
+			if (NumberCorrect == 0)
 			{
 				PercentGood = 0;
 			}
-			else if (_numberOfMistakes == 0)
+			else if (NumberOfMistakes == 0)
 			{
 				PercentGood = 100;
 			}
 			else
 			{
-				PercentGood = ((double)_numberCorrect / ((double)_numberCorrect + (double)_numberOfMistakes)) * 100;
+				PercentGood = ((double)NumberCorrect / ((double)NumberCorrect + (double)NumberOfMistakes)) * 100;
 				PercentGood = Math.Round(PercentGood, 1);
 			}
-			return $"{_numberOfMistakes} fout \r\n {PercentGood}% goed \r\n {_currentTime.ToString("mm:ss")}";
+			return $"{NumberOfMistakes} fout \r\n {PercentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
 		}
-	}
+
+        private void OnTimedEvent(object sender, EventArgs e)
+        {
+            if (TimeLeft == 0)
+            {
+                NumberOfMistakes++;
+                TimeLeft = _maxTimePerKey;
+            }
+
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+                LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());
+            //});
+            
+            TimeLeft--;
+            CurrentTime = CurrentTime.AddSeconds(1);
+        }
+    }
+
+    //EVENT FOR LIVE STATISCTICS UPDATE
+    public class LiveStatisticsEventArgs : EventArgs
+    {
+
+        public LiveStatisticsEventArgs()
+        {
+        }
+    }
 }
