@@ -39,11 +39,6 @@ namespace WPF_Visualize
 		{
 			this.contentControl.Content = new ExerciseSelect();
 		}
-
-		private void Window_KeyDown(object sender, KeyEventArgs e)
-		{
-
-		}
 	}
 
 	internal class OnWindowChange : EventArgs
