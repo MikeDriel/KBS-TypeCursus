@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows;
@@ -15,8 +17,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Model;
 using Rectangle = System.Windows.Shapes.Rectangle;
+
 
 namespace WPF_Visualize
 {
@@ -25,7 +29,16 @@ namespace WPF_Visualize
 	/// </summary>
 	public partial class LetterExercise : UserControl
 	{
-		Controller.LetterExerciseController Letter;
+		private DispatcherTimer timer = new DispatcherTimer();
+        
+		private DateTime currenttime = new DateTime();
+		private int TimeLeft;
+		public int MaxTimePerKey = 5;
+	
+
+
+
+        Controller.LetterExerciseController Letter;
 
 		private char CurrentLetter;
 		Rectangle rectangle = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
@@ -37,6 +50,14 @@ namespace WPF_Visualize
 			MoveBoxOnCanvas();
 			ChangeTextOnScreen();
 			KeyboardCanvas.Children.Add(rectangle); //adds rectangle on screen
+			_initializeProgressBar();
+           
+        }
+
+        private void _initializeProgressBar()
+		{
+			ProgressBar.Minimum = 0;
+			ProgressBar.Maximum = Letter.AlphabetList.Count();
 		}
 
 		//Connects events to the button 
@@ -52,8 +73,9 @@ namespace WPF_Visualize
 			//checks if the last keypress is equal to the first letter in the queue
 			if (Letter.AlphabetList[0] == CurrentLetter)
 			{
-				//checks if list isnt empty
-				if (Letter.AlphabetList.Count >= 1)
+                ProgressBar.Value++;
+                //checks if list isnt empty
+                if (Letter.AlphabetList.Count >= 1)
 				{
 					//if it is, remove the letter from the queue
 					Letter.AlphabetList.RemoveAt(0);
@@ -89,7 +111,17 @@ namespace WPF_Visualize
 			CurrentLetter = e.Key.ToString().ToLower()[0];
 			CheckIfLetterIsCorrect();
 			MoveBoxOnCanvas();
-		}
+			TimeLeft = MaxTimePerKey;
+			if (!timer.IsEnabled) 
+			{
+                timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Background,
+               onTimer, Dispatcher.CurrentDispatcher);
+            }
+            TimeLeftLabel.Content = TimeLeft;
+
+
+
+        }
 
 		//updates values on view
 		private void ChangeTextOnScreen()
@@ -117,6 +149,24 @@ namespace WPF_Visualize
 			Cleanup();
 			UserControlController.MainWindowChange(this, new ExerciseSelect());
 		}
+
+		private void onTimer(object sender, EventArgs e)
+		{
+			TimeLeft--;
+			if (TimeLeft >= 0)
+			{
+                TimeLeftLabel.Content = TimeLeft;
+            }
+            currenttime = currenttime.AddSeconds(1);
+            if (TimeLeft == 0)
+            {
+                MessageBox.Show("Didn't press the key in time!");
+            }
+            //TimeLeft--;
+            TimerLabel.Content = currenttime.ToString("H:mm:ss");
+            
+        }
+
 
 		//cleanup to prevent bugs
 		private void Cleanup()
