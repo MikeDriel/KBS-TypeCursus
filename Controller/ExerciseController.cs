@@ -20,12 +20,8 @@ namespace Controller
 		public char CurrentLetter { get; set; } //the current letter that is being typed
 		public char DequeuedLetter { get; set; }
 
-		//words
-		public List<string> WordList { get; set; }
-		public List<char> WordToChar { get; set; }
-
 		public Dictionary<char, int[]> Coordinates { get; set; }
-		public Random random = new Random();
+		public Random random = new();
 
 		public ExerciseController()
 		{

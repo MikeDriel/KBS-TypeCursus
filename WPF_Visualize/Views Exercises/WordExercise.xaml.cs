@@ -18,12 +18,12 @@ using WPF_Visualize.ViewLogic;
 
 namespace WPF_Visualize
 {
-    /// <summary>
-    /// Interaction logic for WordExercise.xaml
-    /// </summary>
-    public partial class WordExercise : UserControl
-    {
-		Controller.ExerciseController Word = new Controller.ExerciseController();
+	/// <summary>
+	/// Interaction logic for WordExercise.xaml
+	/// </summary>
+	public partial class WordExercise : UserControl
+	{
+		Controller.WordExerciseController Word = new();
 
 
 		private int _numberOfMistakes = 0;
@@ -32,8 +32,8 @@ namespace WPF_Visualize
 		private DateTime _currentTime = new DateTime();
 		private int _timeLeft;
 		public int MaxTimePerKey = 5;
-		Rectangle rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
-		Rectangle rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		private Rectangle _rectangleLetterTyped = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		private Rectangle _rectangleLetterToType = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
 		public WordExercise()
 		{
@@ -44,8 +44,8 @@ namespace WPF_Visualize
 
 			MoveLetterToTypeBoxOnCanvas();
 			ChangeTextOnScreen();
-			KeyboardCanvas.Children.Add(rectangleLetterToType); //adds rectangle on screen
-			KeyboardCanvas.Children.Add(rectangleLetterTyped);
+			KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
+			KeyboardCanvas.Children.Add(_rectangleLetterTyped);
 		}
 
 		private void _setStatisticsContent()
@@ -90,7 +90,16 @@ namespace WPF_Visualize
 		//Handles the keypresses from the userinput
 		private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
-			Word.CurrentLetter = e.Key.ToString().ToLower()[0];
+			if (e.Key == Key.Space)
+			{
+				Word.CurrentLetter = ' ';
+				Word.SpaceButton = ' ';
+			}
+			else
+			{
+				Word.CurrentLetter = e.Key.ToString().ToLower()[0];
+			}
+
 			Word.CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
 			_timeLeft = MaxTimePerKey;
@@ -104,11 +113,11 @@ namespace WPF_Visualize
 		//updates values on view
 		private void ChangeTextOnScreen()
 		{
-			if (Word.AlphabetList.Count >= 1)
+			if (Word.WordsToChars.Count >= 1)
 			{
 				//Displays the content to the application
-				LetterToTypeLabel.Content = string.Join(' ', Word.AlphabetList[0]);
-				LettersTodoLabel.Content = string.Join(' ', Word.AlphabetList).Remove(0, 1);
+				LetterToTypeLabel.Content = string.Join(' ', Word.WordsToChars[0]);
+				LettersTodoLabel.Content = string.Join(' ', Word.WordsToChars).Remove(0, 1);
 			}
 			_setStatisticsContent();
 		}
@@ -116,29 +125,46 @@ namespace WPF_Visualize
 		//moves the highlighted box
 		private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
-			if (Word.AlphabetList.Count >= 1)
-			{
-				int PosX = Word.Coordinates[Word.AlphabetList[0]][0]; //sets posx
-				int PosY = Word.Coordinates[Word.AlphabetList[0]][1]; //sets posy
-				Canvas.SetTop(rectangleLetterToType, PosY);
-				Canvas.SetLeft(rectangleLetterToType, PosX);
-			}
-		}
+			if (Word.WordsToChars.Count < 1) return;
+			int PosX = Word.Coordinates[Word.WordsToChars[0]][0]; //sets posx
+			int PosY = Word.Coordinates[Word.WordsToChars[0]][1]; //sets posy
 
-		private void MoveLetterTypedBoxOnCanvas(bool IsGood, char charTyped) //Moves box on canvas that displays which letter has to be typed
-		{
-			int PosX = Word.Coordinates[charTyped][0]; //sets posx
-			int PosY = Word.Coordinates[charTyped][1]; //sets posy
-			if (IsGood)
+			if (Word.WordsToChars[0] == ' ')
 			{
-				rectangleLetterTyped.Fill = Brushes.Green;
+				_rectangleLetterToType.Width = 359;
 			}
 			else
 			{
-				rectangleLetterTyped.Fill = Brushes.Red;
+				_rectangleLetterToType.Width = 33;
 			}
-			Canvas.SetTop(rectangleLetterTyped, PosY);
-			Canvas.SetLeft(rectangleLetterTyped, PosX);
+			Canvas.SetTop(_rectangleLetterToType, PosY);
+			Canvas.SetLeft(_rectangleLetterToType, PosX);
+		}
+
+		private void MoveLetterTypedBoxOnCanvas(bool isCorrect, char charTyped) //Moves box on canvas that displays which letter has to be typed
+		{
+			int PosX = Word.Coordinates[charTyped][0]; //sets posx
+			int PosY = Word.Coordinates[charTyped][1]; //sets posy
+
+			if (charTyped == ' ')
+			{
+				_rectangleLetterTyped.Width = 359;
+			}
+			else
+			{
+				_rectangleLetterTyped.Width = 33;
+			}
+
+			if (isCorrect)
+			{
+				_rectangleLetterTyped.Fill = Brushes.Green;
+			}
+			else
+			{
+				_rectangleLetterTyped.Fill = Brushes.Red;
+			}
+			Canvas.SetTop(_rectangleLetterTyped, PosY);
+			Canvas.SetLeft(_rectangleLetterTyped, PosX);
 		}
 
 		//The back button top left
@@ -188,22 +214,16 @@ namespace WPF_Visualize
 			LettersTypedLabel.Content += Word.DequeuedLetter + " ";
 		}
 
-		//EVENTS
+		/// <summary>
+		/// Events
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ExerciseEvent(object sender, ExerciseEventArgs e)
 		{
-			if (e.IsCorrect)
-			{
-				CorrectAnswer();
-			}
-			else
-			{
-				MistakeMade();
-			}
-			if (e.IsFinished)
-			{
-				ExerciseFinished();
-			}
-
+			if (e.IsCorrect) CorrectAnswer();
+			else MistakeMade();
+			if (e.IsFinished) ExerciseFinished();
 			ChangeTextOnScreen();
 		}
 	}

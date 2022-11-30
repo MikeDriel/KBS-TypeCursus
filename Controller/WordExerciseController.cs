@@ -12,21 +12,24 @@ namespace Controller
 	{
 		// events
 		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
-		
+
 		//letter
 		public char CurrentLetter { get; set; } //the current letter that is being typed
+		public char SpaceButton { get; set; }
 		public char DequeuedLetter { get; set; }
 
 		//words
-		public List<string> WordList { get; set; }
-		public List<char> WordToChar { get; set; }
+		//public List<string> WordList { get; set; }
+		public string Words { get; set; }
+		public List<char> WordsToChars { get; set; }
+		public string[] WordArray { get; set; }
+		public Queue<char> CharQueue { get; set; }
 
 		public Dictionary<char, int[]> Coordinates { get; set; }
-		public Random random = new Random();
+		public Random Random = new();
 
 		public WordExerciseController()
 		{
-				
 			//Coordinates
 			Coordinates = new Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
 			{
@@ -56,38 +59,54 @@ namespace Controller
 				{'x', new int[] { 134, 127 } },
 				{'y', new int[] { 265, 43 } },
 				{'z', new int[] { 93, 127 } },
+				{' ', new int[] { 123, 169 } },
 			};
+			WordsToChars = new();
+			CharQueue = new();
+
+			Words = "bruh kaas aardappel pieter"; //temp
+			PrepareWordArray();
+			StringToChar();
 		}
 
-		public void GetWordsFromDB()
+		private void PrepareWordArray()
 		{
-			WordList.Add("banaan");
-			WordList.Add("kaas");
-			WordList.Add("aardappel");
-			WordList.Add("pieter");
-
-			//randomize wordlist
-			WordList = WordList.OrderBy(x => random.Next()).ToList();
+			WordArray = Words.Split(' ');
+			WordArray = WordArray.OrderBy(x => Random.Next().ToString()).ToArray();
 		}
 
-		public void CheckIfWordIsCorrect()
+		private void StringToChar()
 		{
-			if (WordList.Count >= 1)
+			foreach (string word in WordArray)
 			{
-				if (WordToChar[0] == CurrentLetter)
+				foreach (char letter in word)
 				{
-					WordToChar.RemoveAt(0);
-					WordList.RemoveAt(0); //uhh
-
-					if (WordList.Count == 0)
-						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
-					else
-					{
-						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
-					}
+					WordsToChars.Add(letter);
+					if (letter == word.Last()) WordsToChars.Add(' ');
 				}
 			}
-			else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+
+			foreach (char letter in WordsToChars)
+			{
+				CharQueue.Enqueue(letter);
+			}
+		}
+
+		public void CheckIfLetterIsCorrect()
+		{
+			if (WordArray.Length >= 1)
+			{
+				if (WordsToChars[0] == CurrentLetter || WordsToChars[0] == SpaceButton)
+				{
+					WordsToChars.RemoveAt(0); //remove current letter
+
+					DequeuedLetter = CharQueue.Dequeue();
+
+					if (WordArray.Length == 0) ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
+					else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
+				}
+				else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+			}
 
 		}
 	}
