@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Visualize.ViewLogic;
 
 namespace WPF_Visualize
 {
@@ -24,5 +25,11 @@ namespace WPF_Visualize
 		{
 			InitializeComponent();
 		}
-	}
+
+        private void OnBack(object sender, RoutedEventArgs e)
+        {
+            //_cleanup();
+            UserControlController.MainWindowChange(this, new ExerciseSelect());
+        }
+    }
 }
