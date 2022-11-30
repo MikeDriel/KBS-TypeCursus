@@ -47,10 +47,10 @@ namespace WPF_Visualize
 			InitializeComponent();
 
 			//subscribe events
-			Letter.ExerciseEvent += _exerciseEvent;
+			Letter.ExerciseEvent += ExerciseEvent;
 
-			_moveLetterToTypeBoxOnCanvas();
-			_changeTextOnScreen();
+			MoveLetterToTypeBoxOnCanvas();
+			ChangeTextOnScreen();
 			KeyboardCanvas.Children.Add(rectangleLetterToType); //adds rectangle on screen
             KeyboardCanvas.Children.Add(rectangleLetterTyped);
         }
@@ -97,7 +97,7 @@ namespace WPF_Visualize
 		{
 			Letter.CurrentLetter = e.Key.ToString().ToLower()[0];
 			Letter.CheckIfLetterIsCorrect();
-			_moveLetterToTypeBoxOnCanvas();
+			MoveLetterToTypeBoxOnCanvas();
 			_timeLeft = MaxTimePerKey;
             if (!_timer.IsEnabled)
 			{
@@ -107,7 +107,7 @@ namespace WPF_Visualize
 		}
 
 		//updates values on view
-		private void _changeTextOnScreen()
+		private void ChangeTextOnScreen()
 		{
 			if (Letter.AlphabetList.Count >= 1)
 			{
@@ -119,7 +119,7 @@ namespace WPF_Visualize
 		}
 
 		//moves the highlighted box
-		private void _moveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
+		private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
 			if (Letter.AlphabetList.Count >= 1)
 			{
@@ -130,7 +130,7 @@ namespace WPF_Visualize
 			}
 		}
 
-        private void _moveLetterTypedBoxOnCanvas(bool IsGood, char charTyped) //Moves box on canvas that displays which letter has to be typed
+        private void MoveLetterTypedBoxOnCanvas(bool IsGood, char charTyped) //Moves box on canvas that displays which letter has to be typed
         {
             int PosX = Letter.Coordinates[charTyped][0]; //sets posx
             int PosY = Letter.Coordinates[charTyped][1]; //sets posy
@@ -148,12 +148,12 @@ namespace WPF_Visualize
         //The back button top left
         private void OnBack(object sender, RoutedEventArgs e)
 		{
-			_cleanup();
+			Cleanup();
 			UserControlController.MainWindowChange(this, new ExerciseSelect());
 		}
 
 		//cleanup to prevent bugs
-		private void _cleanup()
+		private void Cleanup()
 		{
 			var window = Window.GetWindow(this);
 			window.KeyDown -= HandleKeyPress;
@@ -162,15 +162,15 @@ namespace WPF_Visualize
 
 
 		//Methods for events to fire
-		private void _mistakeMade()
+		private void MistakeMade()
 		{
 			//if the letter is wrong, add a mistake and update the screen
 			_numberOfMistakes++;
-			_moveLetterTypedBoxOnCanvas(false, Letter.CurrentLetter);
+			MoveLetterTypedBoxOnCanvas(false, Letter.CurrentLetter);
 			this.LetterToTypeLabel.Foreground = Brushes.Red;
 		}
 
-		private void _exerciseFinished()
+		private void ExerciseFinished()
 		{
 			//adds a empty space if the list is empty
 			LetterToTypeLabel.Content = " ";
@@ -180,9 +180,9 @@ namespace WPF_Visualize
 			UserControlController.MainWindowChange(this, new ResultatenOefening());
 		}
 
-		private void _correctAnswer()
+		private void CorrectAnswer()
 		{
-			_moveLetterTypedBoxOnCanvas(true, Letter.CurrentLetter);
+			MoveLetterTypedBoxOnCanvas(true, Letter.CurrentLetter);
 
 			_numberCorrect++;
 
@@ -193,22 +193,22 @@ namespace WPF_Visualize
 		}
 
 		//EVENTS
-		private void _exerciseEvent(object sender, ExerciseEventArgs e)
+		private void ExerciseEvent(object sender, ExerciseEventArgs e)
 		{
 			if (e.IsCorrect)
 			{
-				_correctAnswer();
+				CorrectAnswer();
 			}
 			else
 			{
-				_mistakeMade();
+				MistakeMade();
 			}
 			if (e.IsFinished)
 			{
-				_exerciseFinished();
+				ExerciseFinished();
 			}
 			
-			_changeTextOnScreen();
+			ChangeTextOnScreen();
 		}
 	}
 }

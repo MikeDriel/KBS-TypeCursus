@@ -11,19 +11,21 @@ namespace Controller
 {
 	public class ExerciseController
 	{
-
-
 		// events
 		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
+		//letter
 		public List<char> AlphabetList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> AlphabetQueue { get; set; } //queue which holds all the letters of the alphabet
-		public Dictionary<char, int[]> Coordinates { get; set; }
-
-		public Random random = new Random();
 		public char CurrentLetter { get; set; } //the current letter that is being typed
-
 		public char DequeuedLetter { get; set; }
+
+		//words
+		public List<string> WordList { get; set; }
+		public List<char> WordToChar { get; set; }
+
+		public Dictionary<char, int[]> Coordinates { get; set; }
+		public Random random = new Random();
 
 		public ExerciseController()
 		{
@@ -64,7 +66,9 @@ namespace Controller
 			GenerateLetterData();
 		}
 
-		//generates the alphabet data for the list. Also copies data to the queue for logic use
+		/// <summary>
+		/// Generates the alphabet data for the list. Also copies data to the queue for logic use.
+		/// </summary>
 		public void GenerateLetterData()
 		{
 			for (int i = 0; i < 26; i++)
@@ -85,7 +89,9 @@ namespace Controller
 			AlphabetList = AlphabetList.OrderBy(x => random.Next()).ToList();
 		}
 
-		//logica to check if letter is right or wrong
+		/// <summary>
+		/// Logic to check if letter is correct or incorrect.
+		/// </summary>
 		public void CheckIfLetterIsCorrect()
 		{//checks if list isnt empty
 			if (AlphabetList.Count >= 1)
@@ -99,26 +105,18 @@ namespace Controller
 
 					DequeuedLetter = AlphabetQueue.Dequeue();
 
-					if (AlphabetList.Count == 0)
-					{
-						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
-					}
-					else
-					{
-						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
-					}
+					if (AlphabetList.Count == 0) ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
+					else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
+
 				}
-				else
-				{
-					ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
-				}
+				else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
 			}
 		}
 	}
 
-
-
-	//EVENT FOR EXCERCISE
+	/// <summary>
+	/// Event for exercise
+	/// </summary>
 	public class ExerciseEventArgs : EventArgs
 	{
 		public bool IsCorrect;
