@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using WPF_Visualize.ViewLogin;
 
 namespace WPF_Visualize.ViewLogic
 {
@@ -18,7 +19,7 @@ namespace WPF_Visualize.ViewLogic
 
         static UserControlController()
         {
-            Content = new StudentMain();
+            Content = new LoginChoose();
             // Here we make it so that when the event gets new content it sets the content of this file
             // to that kind of content
             OnWindowChange = new EventHandler<OnWindowChangeEventArgs>((sender, args) => { Content = args.Content; });

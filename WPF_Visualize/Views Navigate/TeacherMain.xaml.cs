@@ -10,35 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
 
-namespace WPF_Visualize
+namespace WPF_Visualize.Views_Navigate
 {
     /// <summary>
-    /// Interaction logic for StudentMain.xaml
+    /// Interaction logic for TeacherMain.xaml
     /// </summary>
-    public partial class StudentMain : UserControl
+    public partial class TeacherMain : UserControl
     {
-        public StudentMain()
+        public TeacherMain()
         {
             InitializeComponent();
-        }
-        
-        private void OnExerciseSelect(object sender, RoutedEventArgs e)
-        {
-            UserControlController.MainWindowChange(this, new ExerciseSelect());
-        }
-
-        private void OnStatistics(object sender, RoutedEventArgs e)
-        {
-            UserControlController.MainWindowChange(this, new Statistics());
-        }
-
-        private void OnLeaderBoard(object sender, RoutedEventArgs e)
-        {
-            UserControlController.MainWindowChange(this, new LeaderBoard());
         }
 
         private void OnLogOut(object sender, RoutedEventArgs e)
