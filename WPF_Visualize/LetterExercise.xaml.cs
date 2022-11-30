@@ -87,7 +87,7 @@ namespace WPF_Visualize
 			{
                 MoveLetterTypedBoxOnCanvas(true, _currentLetter);
                 _numberCorrect++;
-                this.LetterToTypeLabel.Background = this.LettersTodoLabel.Background;
+                this.LetterToTypeLabel.Foreground = Brushes.Black;
                 //checks if list isnt empty
                 if (Letter.AlphabetList.Count >= 1)
 				{
@@ -118,7 +118,7 @@ namespace WPF_Visualize
                 _numberOfMistakes++;
                 MoveLetterTypedBoxOnCanvas(false, _currentLetter);
                 _setStatisticsContent();
-                this.LetterToTypeLabel.Background = Brushes.Red;
+                this.LetterToTypeLabel.Foreground = Brushes.Red;
 
             }
 		}
