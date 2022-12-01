@@ -70,9 +70,7 @@ namespace Controller
 			if (choice == 2) // StoryExercise
 			{
 				
-			}
-
-				
+			}	
 		}
 
 		/// <summary>

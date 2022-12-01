@@ -33,12 +33,12 @@ namespace WPF_Visualize
 
         private void OnLetterExcersice_Select(object sender, RoutedEventArgs e)
         {
-			UserControlController.MainWindowChange(this, new LetterExercise());
+			UserControlController.MainWindowChange(this, new Exercise(0));
 		}
 
         private void OnWordExercise(object sender, RoutedEventArgs e)
         {
-            UserControlController.MainWindowChange(this, new WordExercise());
+            UserControlController.MainWindowChange(this, new Exercise(1));
         }
 
         private void OnStoryExercise(object sender, RoutedEventArgs e)

@@ -30,29 +30,29 @@ namespace WPF_Visualize
 	/// </summary>
 	/// 
 	
-    public partial class LetterExercise : UserControl
+    public partial class Excercise : UserControl
 	{
-        
 
-        Controller.ExerciseController Letter = new Controller.ExerciseController();
-        Controller.StatisticsController StatisticsController = new Controller.StatisticsController();
+		
+		Controller.ExerciseController Controller;
+        Controller.StatisticsController StatisticsController = new();
 
 
-		Rectangle rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
-        Rectangle rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		Rectangle RectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+        Rectangle RectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-		public LetterExercise(int choice)
+		public Excercise(int choice)
 		{
-            InitializeComponent();
-
+			InitializeComponent();
+			Controller = new (choice);
 			//subscribe events
-			Letter.ExerciseEvent += _exerciseEvent;
-            StatisticsController.LiveStatisticsEvent += _setLiveStatistics;
+			Controller.ExerciseEvent += ExerciseEvent;
+            StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
             MoveLetterToTypeBoxOnCanvas();
 			ChangeTextOnScreen();
-			KeyboardCanvas.Children.Add(rectangleLetterToType); //adds rectangle on screen
-            KeyboardCanvas.Children.Add(rectangleLetterTyped);
+			KeyboardCanvas.Children.Add(RectangleLetterToType); //adds rectangle on screen
+            KeyboardCanvas.Children.Add(RectangleLetterTyped);
         }
 
         //Connects events to the button 
@@ -65,8 +65,8 @@ namespace WPF_Visualize
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
-			Letter.CurrentLetter = e.Key.ToString().ToLower()[0];
-			Letter.CheckIfLetterIsCorrect();
+			Controller.CurrentChar = e.Key.ToString().ToLower()[0];
+			Controller.CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
             StatisticsController.ResetTimeLeft();
             StatisticsController.StartTimer();
@@ -96,14 +96,14 @@ namespace WPF_Visualize
         }
 
         //moves the highlighted box
-        private voidM() //Moves box on canvas that displays which letter has to be typed
+        private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
 			if (Controller.CharacterList.Count >= 1)
 			{
 				int PosX = Controller.Coordinates[Controller.CharacterList[0]][0]; //sets posx
 				int PosY = Controller.Coordinates[Controller.CharacterList[0]][1]; //sets posy
-				Canvas.SetTop(_rectangleLetterToType, PosY);
-				Canvas.SetLeft(_rectangleLetterToType, PosX);
+				Canvas.SetTop(RectangleLetterToType, PosY);
+				Canvas.SetLeft(RectangleLetterToType, PosX);
 			}
 		}
 
@@ -113,14 +113,14 @@ namespace WPF_Visualize
 			int PosY = Controller.Coordinates[charTyped][1]; //sets posy
 			if (IsGood)
 			{
-				_rectangleLetterTyped.Fill = Brushes.Green;
+				RectangleLetterTyped.Fill = Brushes.Green;
 			}
 			else
 			{
-				_rectangleLetterTyped.Fill = Brushes.Red;
+				RectangleLetterTyped.Fill = Brushes.Red;
 			}
-			Canvas.SetTop(_rectangleLetterTyped, PosY);
-			Canvas.SetLeft(_rectangleLetterTyped, PosX);
+			Canvas.SetTop(RectangleLetterTyped, PosY);
+			Canvas.SetLeft(RectangleLetterTyped, PosX);
 		}
 
 		//The back button top left
@@ -144,7 +144,7 @@ namespace WPF_Visualize
 		{
 			//if the letter is wrong, add a mistake and update the screen
 			StatisticsController.NumberOfMistakes++;
-			MoveLetterTypedBoxOnCanvas(false, Letter.CurrentLetter);
+			MoveLetterTypedBoxOnCanvas(false, Controller.CurrentChar);
 			this.LetterToTypeLabel.Foreground = Brushes.Red;
 		}
 
