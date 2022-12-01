@@ -97,25 +97,24 @@ namespace WPF_Visualize
 		//Handles the keypresses from the userinput
 		private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
-			Letter.CurrentLetter = e.Key.ToString().ToLower()[0];
+			Letter.CurrentChar = e.Key.ToString().ToLower()[0];
 			Letter.CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
 			_timeLeft = MaxTimePerKey;
 			if (!_timer.IsEnabled)
 			{
-				_timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Background,
-					OnTimer, Dispatcher.CurrentDispatcher);
+				_timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Background, OnTimer, Dispatcher.CurrentDispatcher);
 			}
 		}
 
 		//updates values on view
 		private void ChangeTextOnScreen()
 		{
-			if (Letter.AlphabetList.Count >= 1)
+			if (Letter.CharacterList.Count >= 1)
 			{
 				//Displays the content to the application
-				LetterToTypeLabel.Content = string.Join(' ', Letter.AlphabetList[0]);
-				LettersTodoLabel.Content = string.Join(' ', Letter.AlphabetList).Remove(0, 1);
+				LetterToTypeLabel.Content = string.Join(' ', Letter.CharacterList[0]);
+				LettersTodoLabel.Content = string.Join(' ', Letter.CharacterList).Remove(0, 1);
 			}
 			SetStatisticsContent();
 		}
@@ -123,10 +122,10 @@ namespace WPF_Visualize
 		//moves the highlighted box
 		private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
 		{
-			if (Letter.AlphabetList.Count >= 1)
+			if (Letter.CharacterList.Count >= 1)
 			{
-				int PosX = Letter.Coordinates[Letter.AlphabetList[0]][0]; //sets posx
-				int PosY = Letter.Coordinates[Letter.AlphabetList[0]][1]; //sets posy
+				int PosX = Letter.Coordinates[Letter.CharacterList[0]][0]; //sets posx
+				int PosY = Letter.Coordinates[Letter.CharacterList[0]][1]; //sets posy
 				Canvas.SetTop(_rectangleLetterToType, PosY);
 				Canvas.SetLeft(_rectangleLetterToType, PosX);
 			}
@@ -160,7 +159,7 @@ namespace WPF_Visualize
 		{
 			var window = Window.GetWindow(this);
 			window.KeyDown -= HandleKeyPress;
-			Letter.CurrentLetter = ' ';
+			Letter.CurrentChar = ' ';
 		}
 
 
@@ -169,7 +168,7 @@ namespace WPF_Visualize
 		{
 			//if the letter is wrong, add a mistake and update the screen
 			_numberOfMistakes++;
-			MoveLetterTypedBoxOnCanvas(false, Letter.CurrentLetter);
+			MoveLetterTypedBoxOnCanvas(false, Letter.CurrentChar);
 			this.LetterToTypeLabel.Foreground = Brushes.Red;
 		}
 
@@ -185,14 +184,14 @@ namespace WPF_Visualize
 
 		private void CorrectAnswer()
 		{
-			MoveLetterTypedBoxOnCanvas(true, Letter.CurrentLetter);
+			MoveLetterTypedBoxOnCanvas(true, Letter.CurrentChar);
 
 			_numberCorrect++;
 
 			this.LetterToTypeLabel.Foreground = Brushes.Black;
 
 			//adds the letter that you typed to the left label
-			LettersTypedLabel.Content += Letter.DequeuedLetter + " ";
+			LettersTypedLabel.Content += Letter.DequeuedChar + " ";
 		}
 
 		//EVENTS

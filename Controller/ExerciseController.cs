@@ -14,19 +14,18 @@ namespace Controller
 		// events
 		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
-		//letter
-		public List<char> AlphabetList { get; set; } //list which holds all the letters of the alphabet
-		public Queue<char> AlphabetQueue { get; set; } //queue which holds all the letters of the alphabet
-		public char CurrentLetter { get; set; } //the current letter that is being typed
-		public char DequeuedLetter { get; set; }
-
+		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
+		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
 		public Dictionary<char, int[]> Coordinates { get; set; }
-		public Random random = new();
+
+		public Random random = new Random();
+		public char CurrentChar { get; set; } //the current letter that is being typed
+		public char DequeuedChar { get; set; }
 
 		public ExerciseController()
 		{
-			AlphabetList = new List<char>();
-			AlphabetQueue = new Queue<char>();
+			CharacterList = new List<char>();
+			CharacterQueue = new Queue<char>();
 
 			//Coordinates
 			Coordinates = new Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
@@ -69,20 +68,20 @@ namespace Controller
 		{
 			for (int i = 0; i < 26; i++)
 			{
-				AlphabetList.Add((char)(i + 97));
+				CharacterList.Add((char)(i + 97));
 			}
 			RandomizeAlphabet();
 
-			foreach (char letter in AlphabetList)
+			foreach (char letter in CharacterList)
 			{
-				AlphabetQueue.Enqueue(letter);
+				CharacterQueue.Enqueue(letter);
 			}
 		}
 
 		public void RandomizeAlphabet()
 		{
 			//randomize the alphabet
-			AlphabetList = AlphabetList.OrderBy(x => random.Next()).ToList();
+			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
 		}
 
 		/// <summary>
@@ -90,22 +89,30 @@ namespace Controller
 		/// </summary>
 		public void CheckIfLetterIsCorrect()
 		{//checks if list isnt empty
-			if (AlphabetList.Count >= 1)
+			if (CharacterList.Count >= 1)
 			{
 				//checks if the last keypress is equal to the first letter in the queue
-				if (AlphabetList[0] == CurrentLetter)
+				if (CharacterList[0] == CurrentChar)
 				{
 
 					//if it is, remove the letter from the queue
-					AlphabetList.RemoveAt(0);
+					CharacterList.RemoveAt(0);
 
-					DequeuedLetter = AlphabetQueue.Dequeue();
+					DequeuedChar = CharacterQueue.Dequeue();
 
-					if (AlphabetList.Count == 0) ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
-					else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
-
+					if (CharacterList.Count == 0)
+					{
+						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
+					}
+					else
+					{
+						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
+					}
 				}
-				else ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+				else
+				{
+					ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+				}
 			}
 		}
 	}
