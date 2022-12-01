@@ -30,7 +30,7 @@ namespace WPF_Visualize
 	/// </summary>
 	/// 
 	
-    public partial class Excercise : UserControl
+    public partial class Exercise : UserControl
 	{
 
 		
@@ -41,7 +41,7 @@ namespace WPF_Visualize
 		Rectangle RectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
         Rectangle RectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-		public Excercise(int choice)
+		public Exercise(int choice)
 		{
 			InitializeComponent();
 			Controller = new (choice);
