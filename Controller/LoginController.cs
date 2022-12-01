@@ -26,12 +26,14 @@ namespace Controller
                 _loginInformation.Add("teacher@gmail.com", "teacher");
                 _loginInformation.Add("teacher2@gmail.com", "teacher2");
                 _loginInformation.Add("teacher3@gmail.com", "teacher3");
+                _loginInformation.Add("", "");
             }
             else
             {
                 _loginInformation.Add("student", "student");
                 _loginInformation.Add("student2", "student2");
                 _loginInformation.Add("student3", "student3");
+                _loginInformation.Add("", "");
             }
         }
 
