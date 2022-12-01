@@ -28,84 +28,49 @@ namespace WPF_Visualize
 	/// <summary>
 	/// Interaction logic for UserControl1.xaml
 	/// </summary>
-	public partial class LetterExercise : UserControl
+	/// 
+	
+    public partial class LetterExercise : UserControl
 	{
+        
 
-		Controller.ExerciseController Controller;
+        Controller.ExerciseController Letter = new Controller.ExerciseController();
+        Controller.StatisticsController StatisticsController = new Controller.StatisticsController();
 
-		private int _numberOfMistakes = 0;
-		private int _numberCorrect = 0;
-		private DispatcherTimer _timer = new();
-		private DateTime _currentTime;
-		private int _timeLeft;
-		public int MaxTimePerKey = 5;
-		Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
-		Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+
+		Rectangle rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+        Rectangle rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
 		public LetterExercise(int choice)
 		{
-			InitializeComponent();
-			Controller = new(0);
+            InitializeComponent();
+
 			//subscribe events
-			Controller.ExerciseEvent += ExerciseEvent;
+			Letter.ExerciseEvent += _exerciseEvent;
+            StatisticsController.LiveStatisticsEvent += _setLiveStatistics;
 
-			MoveLetterToTypeBoxOnCanvas();
+            MoveLetterToTypeBoxOnCanvas();
 			ChangeTextOnScreen();
-			KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
-			KeyboardCanvas.Children.Add(_rectangleLetterTyped);
-		}
+			KeyboardCanvas.Children.Add(rectangleLetterToType); //adds rectangle on screen
+            KeyboardCanvas.Children.Add(rectangleLetterTyped);
+        }
 
-		private void SetStatisticsContent()
-		{
-			double PercentGood;
-			if (_numberCorrect == 0)
-			{
-				PercentGood = 0;
-			}
-			else if (_numberOfMistakes == 0)
-			{
-				PercentGood = 100;
-			}
-			else
-			{
-				PercentGood = ((double)_numberCorrect / (double)(_numberCorrect + _numberOfMistakes)) * 100;
-				PercentGood = Math.Round(PercentGood, 1);
-			}
-			this.Statistics.Content = $"{_numberOfMistakes} fout \r\n{PercentGood}% goed \r\n{_currentTime.ToString("mm:ss")}";
-		}
-
-		//Connects events to the button 
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        //Connects events to the button 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			var window = Window.GetWindow(this);
-			if (window != null) window.KeyDown += HandleKeyPress;
+			window.KeyDown += HandleKeyPress;
 		}
-
-		private void OnTimer(object sender, EventArgs e)
+		
+        //Handles the keypresses from the userinput
+        private void HandleKeyPress(object sender, KeyEventArgs e)
 		{
-			if (_timeLeft == 0)
-			{
-				_numberOfMistakes++;
-				_timeLeft = MaxTimePerKey;
-			}
-			this.TimeLeftLabel.Content = _timeLeft;
-			_currentTime = _currentTime.AddSeconds(1);
-			_timeLeft--;
-			SetStatisticsContent();
-		}
-
-		//Handles the keypresses from the userinput
-		private void HandleKeyPress(object sender, KeyEventArgs e)
-		{
-			Controller.CurrentChar = e.Key.ToString().ToLower()[0];
-			Controller.CheckIfLetterIsCorrect();
+			Letter.CurrentLetter = e.Key.ToString().ToLower()[0];
+			Letter.CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
-			_timeLeft = MaxTimePerKey;
-			if (!_timer.IsEnabled)
-			{
-				_timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Background, OnTimer, Dispatcher.CurrentDispatcher);
-			}
-		}
+            StatisticsController.ResetTimeLeft();
+            StatisticsController.StartTimer();
+        }
 
 		//updates values on view
 		private void ChangeTextOnScreen()
@@ -116,11 +81,22 @@ namespace WPF_Visualize
 				LetterToTypeLabel.Content = string.Join(' ', Controller.CharacterList[0]);
 				LettersTodoLabel.Content = string.Join(' ', Controller.CharacterList).Remove(0, 1);
 			}
-			SetStatisticsContent();
+			SetLiveStatistics(this, null);
 		}
 
-		//moves the highlighted box
-		private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
+        //updates statistics on view
+        private void SetLiveStatistics(object sender, LiveStatisticsEventArgs e)
+		{
+            this.Dispatcher?.Invoke(() =>
+            {
+                string Statistics = StatisticsController.GetStatistics();
+                LiveStatisticsScreen.Content = Statistics;
+                TimeLeftLabel.Content = StatisticsController.TimeLeft;
+            });
+        }
+
+        //moves the highlighted box
+        private voidM() //Moves box on canvas that displays which letter has to be typed
 		{
 			if (Controller.CharacterList.Count >= 1)
 			{
@@ -167,8 +143,8 @@ namespace WPF_Visualize
 		private void MistakeMade()
 		{
 			//if the letter is wrong, add a mistake and update the screen
-			_numberOfMistakes++;
-			MoveLetterTypedBoxOnCanvas(false, Controller.CurrentChar);
+			StatisticsController.NumberOfMistakes++;
+			MoveLetterTypedBoxOnCanvas(false, Letter.CurrentLetter);
 			this.LetterToTypeLabel.Foreground = Brushes.Red;
 		}
 
@@ -186,7 +162,7 @@ namespace WPF_Visualize
 		{
 			MoveLetterTypedBoxOnCanvas(true, Controller.CurrentChar);
 
-			_numberCorrect++;
+			StatisticsController.NumberCorrect++;
 
 			this.LetterToTypeLabel.Foreground = Brushes.Black;
 
