@@ -32,11 +32,8 @@ namespace WPF_Visualize
 	
     public partial class Exercise : UserControl
 	{
-
-		
 		Controller.ExerciseController Controller;
         Controller.StatisticsController StatisticsController = new();
-
 
 		Rectangle RectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
         Rectangle RectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle

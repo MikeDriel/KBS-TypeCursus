@@ -14,6 +14,7 @@ namespace Controller
 		// events
 		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
+		public Database database = new Database();
 		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
 		public Dictionary<char, int[]> Coordinates { get; set; }
@@ -65,7 +66,7 @@ namespace Controller
 			}
 			if (choice == 1) // WordExercise
 			{
-				
+				GenerateWordData();
 			}
 			if (choice == 2) // StoryExercise
 			{
@@ -85,6 +86,19 @@ namespace Controller
 			
 			//randomize the alphabet
 			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
+
+			foreach (char letter in CharacterList)
+			{
+				CharacterQueue.Enqueue(letter);
+			}
+		}
+
+		public void GenerateWordData(){
+
+			CharacterList = database.GetWord();
+
+			//randomize the alphabet
+			//CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
 
 			foreach (char letter in CharacterList)
 			{
