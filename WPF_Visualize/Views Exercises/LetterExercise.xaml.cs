@@ -22,6 +22,8 @@ using Controller;
 using Model;
 using WPF_Visualize.ViewLogic;
 using Rectangle = System.Windows.Shapes.Rectangle;
+using Brushes = System.Windows.Media.Brushes;
+
 
 namespace WPF_Visualize
 {

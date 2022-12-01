@@ -12,17 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OxyPlot;
+using OxyPlot.Series;
+
 
 namespace WPF_Visualize
 {
-	/// <summary>
-	/// Interaction logic for ResultatenOefening.xaml
-	/// </summary>
-	public partial class ResultatenOefening : UserControl
-	{
-		public ResultatenOefening()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for ResultatenOefening.xaml
+    /// </summary>
+    public partial class ResultatenOefening : UserControl
+    {
+        
+        
+        public ResultatenOefening()
+        {
+            InitializeComponent();
+        }
+    }
 }
