@@ -86,10 +86,7 @@ namespace Controller
 				}
 			}
 
-			foreach (char letter in WordsToChars)
-			{
-				CharQueue.Enqueue(letter);
-			}
+			foreach (char letter in WordsToChars) CharQueue.Enqueue(letter);
 		}
 
 		public void CheckIfLetterIsCorrect()
