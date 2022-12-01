@@ -22,7 +22,7 @@ namespace Controller
 		public char CurrentChar { get; set; } //the current letter that is being typed
 		public char DequeuedChar { get; set; }
 
-		public ExerciseController()
+		public ExerciseController(int choice)
 		{
 			CharacterList = new List<char>();
 			CharacterQueue = new Queue<char>();
@@ -56,9 +56,23 @@ namespace Controller
 				{'x', new int[] { 134, 127 } },
 				{'y', new int[] { 265, 43 } },
 				{'z', new int[] { 93, 127 } },
+				{' ', new int[] { 123, 169 } },
 			};
 
-			GenerateLetterData();
+			if(choice == 0) // LetterExercise
+			{
+				GenerateLetterData();
+			}
+			if (choice == 1) // WordExercise
+			{
+				
+			}
+			if (choice == 2) // StoryExercise
+			{
+				
+			}
+
+				
 		}
 
 		/// <summary>
@@ -70,18 +84,14 @@ namespace Controller
 			{
 				CharacterList.Add((char)(i + 97));
 			}
-			RandomizeAlphabet();
+			
+			//randomize the alphabet
+			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
 
 			foreach (char letter in CharacterList)
 			{
 				CharacterQueue.Enqueue(letter);
 			}
-		}
-
-		public void RandomizeAlphabet()
-		{
-			//randomize the alphabet
-			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
 		}
 
 		/// <summary>
