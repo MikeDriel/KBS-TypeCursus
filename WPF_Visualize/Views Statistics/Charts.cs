@@ -13,11 +13,40 @@ namespace WPF_Visualize.Views_Statistics
     {
         public Charts()
         {
+            Data = new List<DataPoint>
+            {
+                new DataPoint(0, 4),
+                new DataPoint(1, 6),
+                new DataPoint(2, 2),
+                new DataPoint(3, 0),
+                new DataPoint(4, 7)
+            };
+
+
             this.Stats = new PlotModel { Title = "Statistics" };
-            this.Stats.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1 ,"cos(x)"));
+            this.Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
+
+        }
+
+        public IList<DataPoint> Data { get; private set; }
+        public PlotModel Stats { get; private set; }
+    
+
+
+   
+
+        /*
+        public Charts()
+        {
+            
+            this.Stats = new PlotModel { Title = "Statistics" };
+            this.Stats.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            
         }
 
         public PlotModel Stats { get; private set; }
+        
 
+    */
     }
 }

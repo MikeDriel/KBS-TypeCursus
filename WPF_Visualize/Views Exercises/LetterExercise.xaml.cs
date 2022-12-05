@@ -35,6 +35,7 @@ namespace WPF_Visualize
 		Controller.ExerciseController Letter = new Controller.ExerciseController();
 
 		
+        
 		private int _numberOfMistakes = 0;
         private int _numberCorrect = 0;
 		private DispatcherTimer _timer = new DispatcherTimer();
