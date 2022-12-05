@@ -54,7 +54,7 @@ namespace Controller
 				PercentGood = ((double)NumberCorrect / ((double)NumberCorrect + (double)NumberOfMistakes)) * 100;
 				PercentGood = Math.Round(PercentGood, 1);
 			}
-			return $"{NumberOfMistakes} fout \r\n {PercentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
+			return $" {NumberOfMistakes} fout \r\n {PercentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
 		}
 
         private void OnTimedEvent(object sender, EventArgs e)
@@ -73,7 +73,6 @@ namespace Controller
     //EVENT FOR LIVE STATISCTICS UPDATE
     public class LiveStatisticsEventArgs : EventArgs
     {
-
         public LiveStatisticsEventArgs()
         {
         }

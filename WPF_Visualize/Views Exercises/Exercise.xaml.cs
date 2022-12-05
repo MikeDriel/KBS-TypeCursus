@@ -133,7 +133,7 @@ namespace WPF_Visualize
 			}
 			if (isGood)
 			{
-				_rectangleLetterTyped.Fill = Brushes.Green;
+				_rectangleLetterTyped.Fill = Brushes.LawnGreen;
 			}
 			else
 			{
@@ -173,8 +173,6 @@ namespace WPF_Visualize
 			//adds a empty space if the list is empty
 			LetterToTypeLabel.Content = "";
 
-			//show a message box
-			//MessageBox.Show("You have finished the exercise!");
 			UserControlController.MainWindowChange(this, new ResultatenOefening());
 		}
 
