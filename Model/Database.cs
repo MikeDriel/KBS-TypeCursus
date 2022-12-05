@@ -53,12 +53,16 @@ namespace Model
                         {
                             wordList.Add(character);
                         }
-                        wordList.Add(' ');
+
+                        if (wordList.Last() != ' ')
+                        {
+                            wordList.Add(' ');
+                        }
+                        
                     }
                 }
                 connection.Close();
             }
-
             return wordList;
         }
     }
