@@ -109,6 +109,16 @@ namespace Controller
 			}
 		}
 
+		public void GenerateStoryData()
+		{
+			string LittleStory = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
+            
+            foreach (char letter in LittleStory)
+            {
+                CharacterQueue.Enqueue(letter);
+            }
+        }
+
 		/// <summary>
 		/// Logic to check if letter is correct or incorrect.
 		/// </summary>
