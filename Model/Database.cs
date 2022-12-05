@@ -42,7 +42,7 @@ namespace Model
             using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT * FROM Words", connection);
+                SqlCommand command = new SqlCommand("SELECT TOP 5 Words FROM Words ORDER BY NEWID()", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -54,15 +54,15 @@ namespace Model
                             wordList.Add(character);
                         }
 
-                        if (wordList.Last() != ' ')
-                        {
-                            wordList.Add(' ');
-                        }
-                        
+                        //Adds space between words 
+                        wordList.Add(' ');
                     }
                 }
+
                 connection.Close();
             }
+
+            wordList.RemoveAt(wordList.Count - 1);
             return wordList;
         }
     }
