@@ -82,9 +82,9 @@ namespace Controller
 		/// </summary>
 		public void GenerateLetterData()
 		{
-			for (int i = 0; i < 26; i++)
+			for (int i = 0; i < 35; i++)
 			{
-				CharacterList.Add((char)(i + 97));
+				CharacterList.Add((char)random.Next(97, 123));
 			}
 			
 			//randomize the alphabet
