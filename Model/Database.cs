@@ -21,7 +21,7 @@ namespace Model
                 builder.UserID = "SA";
                 builder.Password = "KaasKnabbel123!";
                 builder.InitialCatalog = "TestDB";
-
+                builder.ConnectTimeout = 5;
                 return builder.ConnectionString;
             }
 
@@ -61,5 +61,21 @@ namespace Model
 
             return wordList;
         }
+
+        public bool IsServerConnected()
+        {
+            using var connection = new SqlConnection(DatabaseConnectionString());
+            
+            try
+            {
+                connection.Open();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+        }
+        
     }
 }
