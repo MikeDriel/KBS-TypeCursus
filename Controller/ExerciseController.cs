@@ -11,24 +11,25 @@ namespace Controller
 {
 	public class ExerciseController
 	{
-
-
 		// events
 		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
-		public List<char> AlphabetList { get; set; } //list which holds all the letters of the alphabet
-		public Queue<char> AlphabetQueue { get; set; } //queue which holds all the letters of the alphabet
+		public Database database = new Database();
+		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
+		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
 		public Dictionary<char, int[]> Coordinates { get; set; }
 
 		public Random random = new Random();
-		public char CurrentLetter { get; set; } //the current letter that is being typed
+		public char CurrentChar { get; set; } //the current letter that is being typed
+		public char DequeuedChar { get; set; }
+		
+		public List<char> TypedChars { get; set; }
 
-		public char DequeuedLetter { get; set; }
-
-		public ExerciseController()
+		public ExerciseController(int choice)
 		{
-			AlphabetList = new List<char>();
-			AlphabetQueue = new Queue<char>();
+			CharacterList = new List<char>();
+			CharacterQueue = new Queue<char>();
+			TypedChars = new List<char>();
 
 			//Coordinates
 			Coordinates = new Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
@@ -59,47 +60,73 @@ namespace Controller
 				{'x', new int[] { 134, 127 } },
 				{'y', new int[] { 265, 43 } },
 				{'z', new int[] { 93, 127 } },
+				{' ', new int[] { 123, 169 } },
 			};
 
-			GenerateLetterData();
+			if(choice == 0) // LetterExercise
+			{
+				GenerateLetterData();
+			}
+			if (choice == 1) // WordExercise
+			{
+				GenerateWordData();
+			}
+			if (choice == 2) // StoryExercise
+			{
+				
+			}	
 		}
 
-		//generates the alphabet data for the list. Also copies data to the queue for logic use
+		/// <summary>
+		/// Generates the alphabet data for the list. Also copies data to the queue for logic use.
+		/// </summary>
 		public void GenerateLetterData()
 		{
 			for (int i = 0; i < 26; i++)
 			{
-				AlphabetList.Add((char)(i + 97));
+				CharacterList.Add((char)(i + 97));
 			}
-			RandomizeAlphabet();
-
-			foreach (char letter in AlphabetList)
-			{
-				AlphabetQueue.Enqueue(letter);
-			}
-		}
-
-		public void RandomizeAlphabet()
-		{
+			
 			//randomize the alphabet
-			AlphabetList = AlphabetList.OrderBy(x => random.Next()).ToList();
+			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
+
+			foreach (char letter in CharacterList)
+			{
+				CharacterQueue.Enqueue(letter);
+			}
 		}
 
-		//logica to check if letter is right or wrong
+		public void GenerateWordData(){
+
+			CharacterList = database.GetWord();
+
+			//randomize the alphabet
+			//CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
+
+			foreach (char letter in CharacterList)
+			{
+				CharacterQueue.Enqueue(letter);
+			}
+		}
+
+		/// <summary>
+		/// Logic to check if letter is correct or incorrect.
+		/// </summary>
 		public void CheckIfLetterIsCorrect()
 		{//checks if list isnt empty
-			if (AlphabetList.Count >= 1)
+			if (CharacterList.Count >= 1)
 			{
 				//checks if the last keypress is equal to the first letter in the queue
-				if (AlphabetList[0] == CurrentLetter)
+				if (CharacterList[0] == CurrentChar)
 				{
 
 					//if it is, remove the letter from the queue
-					AlphabetList.RemoveAt(0);
+					CharacterList.RemoveAt(0);
 
-					DequeuedLetter = AlphabetQueue.Dequeue();
+					DequeuedChar = CharacterQueue.Dequeue();
+					TypedChars.Add(DequeuedChar);
 
-					if (AlphabetList.Count == 0)
+					if (CharacterList.Count == 0)
 					{
 						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
 					}
@@ -116,9 +143,9 @@ namespace Controller
 		}
 	}
 
-
-
-	//EVENT FOR EXCERCISE
+	/// <summary>
+	/// Event for exercise
+	/// </summary>
 	public class ExerciseEventArgs : EventArgs
 	{
 		public bool IsCorrect;
