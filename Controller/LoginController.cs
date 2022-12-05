@@ -9,40 +9,27 @@ namespace Controller
     public class LoginController
     {
         public bool IsTeacher { get; set; }
-        private Dictionary<string, string> _loginInformation = new Dictionary<string, string>();
         public event EventHandler<LoginEventArgs> LoginEvent;
 
         public LoginController(bool IsTeacher)
         {
             this.IsTeacher = IsTeacher;
-            SetLoginInformation();
         }
 
 
-        private void SetLoginInformation()
+        private string GetPassword(string LoginKey)
         {
-            if (IsTeacher)
-            {
-                _loginInformation.Add("teacher@gmail.com", "teacher");
-                _loginInformation.Add("teacher2@gmail.com", "teacher2");
-                _loginInformation.Add("teacher3@gmail.com", "teacher3");
-                _loginInformation.Add("", "");
-            }
-            else
-            {
-                _loginInformation.Add("student", "student");
-                _loginInformation.Add("student2", "student2");
-                _loginInformation.Add("student3", "student3");
-                _loginInformation.Add("", "");
-            }
+            string password = null;
+            return password;
         }
 
         public void CheckLogin(string LoginKey, string password)
         {
+            string CorrectPassword = GetPassword(LoginKey);
             
-            if (_loginInformation.ContainsKey(LoginKey))
+            if (CorrectPassword != null)
             {
-                if (_loginInformation[LoginKey] == password)
+                if (CorrectPassword == password)
                 {
                     LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
                     return;
