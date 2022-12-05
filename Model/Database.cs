@@ -12,7 +12,7 @@ namespace Model
 	{
 
 
-		private static string connectionString = "Data Source=DESKTOP-2QJQJ3G\\SQLEXPRESS;Initial Catalog=Test;Integrated Security=True";
+		//private static string connectionString = "Data Source=DESKTOP-2QJQJ3G\\SQLEXPRESS;Initial Catalog=Test;Integrated Security=True";
 
 		public string DatabaseConnectionString()
 		{
@@ -61,6 +61,41 @@ namespace Model
 				connection.Close();
 			}
 			return wordList;
+		}
+
+		public string? GetPassword(bool? isTeacher, string? loginKey)
+		{
+			// get password from the database
+			using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
+			{
+				if (isTeacher == null || loginKey == null)
+				{
+					return null;
+				}
+				connection.Open();
+				SqlCommand command;
+				if (isTeacher == true)
+				{
+					command = new SqlCommand("SELECT Password FROM Teacher WHERE Email = (@loginKey)", connection);
+				}
+				else
+				{
+					command = new SqlCommand("SELECT Password FROM Pupil WHERE Username = (@loginKey)", connection);
+				}
+				command.Parameters.AddWithValue("@LoginKey", loginKey);
+				SqlDataReader reader = command.ExecuteReader();
+				//Debug.WriteLine(reader[0].ToString());
+				
+				string password = "";
+				while (reader.Read())
+				{
+					password = reader[0].ToString();
+					Debug.WriteLine(password);
+				}
+				connection.Close();
+
+				return password;
+			}
 		}
 	}
 }

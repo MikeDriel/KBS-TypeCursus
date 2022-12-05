@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Model;
 
 namespace Controller
 {
@@ -10,30 +7,27 @@ namespace Controller
     {
         public bool IsTeacher { get; set; }
         public event EventHandler<LoginEventArgs> LoginEvent;
+        private Database _db = new Database();
 
-        public LoginController(bool IsTeacher)
+        public LoginController(bool isTeacher)
         {
-            this.IsTeacher = IsTeacher;
+            this.IsTeacher = isTeacher;
         }
 
 
-        private string GetPassword(string LoginKey)
+        private string? GetPassword(string loginKey)
         {
-            string password = null;
-            return password;
+            return _db.GetPassword(IsTeacher, loginKey);
         }
 
-        public void CheckLogin(string LoginKey, string password)
+        public void CheckLogin(string? loginKey, string password)
         {
-            string CorrectPassword = GetPassword(LoginKey);
+            string? correctPassword = GetPassword(loginKey);
             
-            if (CorrectPassword != null)
+            if (correctPassword != null && loginKey != null && correctPassword == password)
             {
-                if (CorrectPassword == password)
-                {
-                    LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
-                    return;
-                }
+                LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
+                return;
             }
             LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
         }

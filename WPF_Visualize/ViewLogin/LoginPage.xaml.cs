@@ -48,7 +48,16 @@ namespace WPF_Visualize.ViewLogin
 
         private void OnLogIn(object sender, RoutedEventArgs e)
         {
-            loginController.CheckLogin(LoginKeyTextBox.Text, PasswordPasswordBox.Password);
+            //UserControlController.MainWindowChange(this, new StudentMain());
+            // try
+            // {
+                loginController.CheckLogin(LoginKeyTextBox.Text, PasswordPasswordBox.Password);
+            // }
+            // catch (Exception exception)
+            // {
+            //     Console.WriteLine(exception);
+            //     throw new Exception();
+            // }
         }
 
         private void LoginEvent(object sender, LoginEventArgs e)
