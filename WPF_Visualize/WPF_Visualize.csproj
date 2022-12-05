@@ -5,25 +5,23 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <StartupObject>WPF_Visualize.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\abc-block.png" />
     <None Remove="Images\bar-chart.png" />
     <None Remove="Images\Exercise.jpg" />
     <None Remove="Images\Keyboard.png" />
     <None Remove="Images\KeyboardExercise.png" />
     <None Remove="Images\Leaderboard.jpg" />
-    <None Remove="Images\LetterExercise.png" />
     <None Remove="Images\logout.png" />
     <None Remove="Images\planning.png" />
     <None Remove="Images\ranking.png" />
     <None Remove="Images\Statistics.png" />
-    <None Remove="Images\WordExercise.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\LetterExercise.png">
+    <Content Include="Images\abc-block.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\bar-chart.png">
@@ -51,9 +49,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Statistics.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\WordExercise.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

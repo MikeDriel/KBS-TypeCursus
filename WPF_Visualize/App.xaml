@@ -19,6 +19,7 @@
 
         <Style TargetType="UserControl" x:Key="UserControlBackground">
             <Setter Property="Background" Value="#455a64"/>
+            <Setter Property="DesignHeight" Value="450"/>
         </Style>
 
         <Style TargetType="Button" x:Key="BackButton">

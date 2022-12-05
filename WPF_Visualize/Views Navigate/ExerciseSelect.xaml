@@ -31,19 +31,15 @@
         <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1" Click="OnLetterExcersice_Select" Style="{StaticResource IconButtons}">
             <Button.Template>
                 <ControlTemplate>
-                    <Image Source="\Images\LetterExercise.png"></Image>
+                    <Image Source="\Images\abc-block.png"></Image>
                 </ControlTemplate>
             </Button.Template>
         </Button>
 
         <Label Grid.Column="3" Grid.Row="1" Content="Woord Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
         <Button x:Name="WordExercise" Grid.Row="2" Grid.Column="3" Click="OnWordExercise" Style="{StaticResource IconButtons}">
-			<Button.Template>
-				<ControlTemplate>
-					<Image Source="\Images\WordExercise.png"></Image>
-				</ControlTemplate>
-			</Button.Template>
-		</Button>
+            <Image Source="\Images\Exercise.jpg"/>
+        </Button>
 
         <Label Grid.Column="5" Grid.Row="1" Content="Verhaal Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
         <Button x:Name="StoryExercise" Grid.Row="2" Grid.Column="5" Click="OnStoryExercise" Style="{StaticResource IconButtons}">
