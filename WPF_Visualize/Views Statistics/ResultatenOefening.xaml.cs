@@ -12,22 +12,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Visualize.ViewLogic;
 using OxyPlot;
 using OxyPlot.Series;
 
-
 namespace WPF_Visualize
 {
-    /// <summary>
-    /// Interaction logic for ResultatenOefening.xaml
-    /// </summary>
-    public partial class ResultatenOefening : UserControl
-    {
-        
-        
-        public ResultatenOefening()
+	/// <summary>
+	/// Interaction logic for ResultatenOefening.xaml
+	/// </summary>
+	public partial class ResultatenOefening : UserControl
+	{
+		public ResultatenOefening()
+		{
+			InitializeComponent();
+		}
+
+        private void OnBack(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+            //_cleanup();
+            UserControlController.MainWindowChange(this, new ExerciseSelect());
         }
     }
 }
