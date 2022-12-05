@@ -22,7 +22,7 @@ namespace Controller
 		public Random random = new Random();
 		public char CurrentChar { get; set; } //the current letter that is being typed
 		public char DequeuedChar { get; set; }
-		
+		public int Progress { get; set; } = 1;
 		public List<char> TypedChars { get; set; }
 
 		public ExerciseController(int choice)
@@ -119,6 +119,7 @@ namespace Controller
 				//checks if the last keypress is equal to the first letter in the queue
 				if (CharacterList[0] == CurrentChar)
 				{
+					Progress++;
 
 					//if it is, remove the letter from the queue
 					CharacterList.RemoveAt(0);
