@@ -1,25 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Transactions;
+﻿using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 using Controller;
-using Model;
 using WPF_Visualize.ViewLogic;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
@@ -36,9 +20,9 @@ namespace WPF_Visualize
         Controller.StatisticsController _statisticsController = new();
 
 		Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
-        Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-        public StringBuilder sb = new StringBuilder();
+        public StringBuilder _sb = new StringBuilder();
 		public Exercise(int choice)
 		{
 			InitializeComponent();
@@ -51,7 +35,8 @@ namespace WPF_Visualize
 			ChangeTextOnScreen();
 			KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
             KeyboardCanvas.Children.Add(_rectangleLetterTyped);
-        }
+            _rectangleLetterTyped.Visibility = Visibility.Hidden;
+		}
 
         //Connects events to the button 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -128,6 +113,7 @@ namespace WPF_Visualize
 		{
 			int posX = _controller.Coordinates[charTyped][0]; //sets posx
 			int posY = _controller.Coordinates[charTyped][1]; //sets posy
+			_rectangleLetterTyped.Visibility = Visibility.Visible;
 			if (charTyped == ' ')
 			{
 				_rectangleLetterTyped.Width = 359;
@@ -189,13 +175,8 @@ namespace WPF_Visualize
 
 			_statisticsController.NumberCorrect++;
 
+			//Makes the letter black again
 			this.LetterToTypeLabel.Foreground = Brushes.Black;
-
-			//adds the letter that you typed to the left label
-			//LettersTypedLabel.Content += _controller.DequeuedChar + " ";
-			
-			//sb.Append(_controller.DequeuedChar);
-			//LettersTypedLabel.Content = sb.ToString();
 		}
 
 		//EVENTS
