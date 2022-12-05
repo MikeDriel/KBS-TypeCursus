@@ -9,8 +9,9 @@ namespace Controller
 {
 	public class StatisticsController
 	{
-        public int NumberOfMistakes { get; set; }
-        public int NumberCorrect{ get; set; }
+        public int NumberOfMistakes { get; private set; }
+        public int NumberCorrect{ get; private set; }
+        private bool _hasBeenWrong;
     public DateTime CurrentTime { get; set; }
         public int TimeLeft { get; set; }
         private int _maxTimePerKey = 5;
@@ -20,9 +21,10 @@ namespace Controller
         public StatisticsController()
 		{
 			CurrentTime = new DateTime();
-			NumberOfMistakes = 0;
+			NumberOfMistakes = 0; 
 			NumberCorrect = 0;
             _timer.Elapsed += OnTimedEvent;
+            _hasBeenWrong = false;
         }
 
         public void StartTimer()
@@ -61,13 +63,28 @@ namespace Controller
         {
             if (TimeLeft == 0)
             {
-                NumberOfMistakes++;
-                TimeLeft = _maxTimePerKey;
-            }
+	            WrongAnswer();
+	            TimeLeft = _maxTimePerKey;
+	            }
             LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());            
             TimeLeft--;
             CurrentTime = CurrentTime.AddSeconds(1);
         }
+
+        public void WrongAnswer()
+        {
+	        if (!_hasBeenWrong)
+	        {
+		        NumberOfMistakes++;
+		        _hasBeenWrong = true;
+	        }
+        }
+        
+        public void RightAnswer()
+		{
+			NumberCorrect++;
+			_hasBeenWrong = false;
+		}
     }
 
     //EVENT FOR LIVE STATISCTICS UPDATE
