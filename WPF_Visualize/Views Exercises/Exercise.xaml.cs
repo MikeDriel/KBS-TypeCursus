@@ -165,7 +165,7 @@ namespace WPF_Visualize
 			LetterToTypeLabel.Content = "";
 
 			//show a message box
-			MessageBox.Show("You have finished the exercise!");
+			//MessageBox.Show("You have finished the exercise!");
 			UserControlController.MainWindowChange(this, new ResultatenOefening());
 		}
 
