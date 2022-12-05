@@ -22,11 +22,14 @@ namespace Controller
 		public Random random = new Random();
 		public char CurrentChar { get; set; } //the current letter that is being typed
 		public char DequeuedChar { get; set; }
+		
+		public List<char> TypedChars { get; set; }
 
 		public ExerciseController(int choice)
 		{
 			CharacterList = new List<char>();
 			CharacterQueue = new Queue<char>();
+			TypedChars = new List<char>();
 
 			//Coordinates
 			Coordinates = new Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
@@ -121,6 +124,7 @@ namespace Controller
 					CharacterList.RemoveAt(0);
 
 					DequeuedChar = CharacterQueue.Dequeue();
+					TypedChars.Add(DequeuedChar);
 
 					if (CharacterList.Count == 0)
 					{
