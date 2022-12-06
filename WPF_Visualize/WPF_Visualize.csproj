@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <StartupObject>WPF_Visualize.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,6 +56,10 @@
     <Content Include="Images\WordExercise.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

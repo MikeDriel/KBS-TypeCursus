@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Visualize.ViewLogic;
+using OxyPlot;
+using OxyPlot.Series;
+using System.Windows.Media.Animation;
 
 namespace WPF_Visualize
 {
@@ -24,8 +27,21 @@ namespace WPF_Visualize
 		public ResultatenOefening()
 		{
 			InitializeComponent();
+            _InitializeLabels();
 		}
 
+        private void _InitializeLabels()
+        {
+            this.Fouten.Content = " ";
+            this.WPS.Content = " ";
+            this.MVF.Content = " ";
+        }
+
+
+
+
+        
+        
         private void OnBack(object sender, RoutedEventArgs e)
         {
             //_cleanup();

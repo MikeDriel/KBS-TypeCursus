@@ -26,9 +26,9 @@ namespace WPF_Visualize.ViewLogic
         }
 
         // this is the method we use to invoke the event to start the process of changing the content
-        public static void MainWindowChange(UserControl Sender, UserControl content)
+        public static void MainWindowChange(UserControl sender, UserControl content)
         {
-            OnWindowChange?.Invoke(Sender, new OnWindowChangeEventArgs(content));
+            OnWindowChange?.Invoke(sender, new OnWindowChangeEventArgs(content));
         }
     }
 
