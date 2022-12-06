@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -19,19 +20,24 @@ namespace WPF_Visualize
     {
         Controller.ExerciseController _controller;
         Controller.StatisticsController _statisticsController = new();
-
+        
         Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
         Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-        int typingIndex = 0;
-        char[] charArrToType;
-        char[] charArrTyping;
-        string Story;
+        int _typingIndex = 0;
+        List<char> _charListBackCorrect = new List<char>();
+        List<char> _charListBack = new List<char>();
+        List<char> _charListFront = new List<char>();
+        string Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
+        
 
 
 
 
-        public StringBuilder _sb = new StringBuilder();
+
+
+
+    public StringBuilder _sb = new StringBuilder();
         public StoryExercise(int choice)
         {
             InitializeComponent();
@@ -52,43 +58,47 @@ namespace WPF_Visualize
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
         }
-
+        
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-            charArrToType = Story.ToCharArray();    
-           
+            _charListBack = _charListBackCorrect;
+
+
             //if key is same
-            if (e.Key.ToString().ToLower()[0] == charArrToType[typingIndex])
+            if (e.Key.ToString()[0] == _charListBackCorrect[_typingIndex])
             {
+ 
                 //if key is space
                 if (e.Key.ToString().Equals("Space"))
                 {
-                    //charlist + e.key
-                    _controller.CurrentChar = ' ';
-                    typingIndex++;
+                    //_charListFront + space
+                    _charListFront.Add(' ');
+                    _typingIndex++;
                 }
                 //key is not space
                 else
                 {
-                    //print letter 
-                    charArrTyping.AppendText(charArrTyping);
-                    typingIndex++;
+                    //_charListFront + e.key
+                    char character = char.Parse(e.Key.ToString());
+                    _charListFront.Add(character);
+
+
+                    _typingIndex++;
                 }
             }
             //if key is not the same
             else
             {
-                //print wrong letter
+                //_charListFront + e.key
                 //remove letter on back text when key is wrong 
                 //do not print wrong letter after first wrong letter
-                
-                typingIndex++;
-                _controller.CurrentChar = e.Key.ToString().ToLower()[0];
+                _charListBack[_typingIndex] = ' ';
+                char character = char.Parse(e.Key.ToString());
+                _charListFront.Add(character);
+                _typingIndex++;
             }
 
-            _controller.CheckIfLetterIsCorrect();
             _statisticsController.ResetTimeLeft();
             _statisticsController.StartTimer();
         }
@@ -96,11 +106,30 @@ namespace WPF_Visualize
         //updates values on view
         private void ChangeTextOnScreen()
         {
-            Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
+            //Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
             //Displays the content to the application
-            StoryTextBoxBack.AppendText(Story);
-            StoryTextBoxFront.AppendText(""+charArrTyping+"");
 
+            foreach (char character in Story)
+            {
+                _charListBackCorrect.Add(character);
+            }
+
+            foreach (var item in _charListBack)
+            {
+                StoryTextBoxBack.AppendText(item.ToString());
+            }
+
+            StoryTextBoxBack.AppendText(Story);
+
+            foreach (var item in _charListFront)
+            {
+                StoryTextBoxFront.AppendText(item.ToString());
+            }
+
+    
+
+            //StoryTextBoxBack.AppendText(_charListBack.ToString());
+            //StoryTextBoxFront.AppendText(_charListFront.ToString());
             SetLiveStatistics(this, null);
         }
 
