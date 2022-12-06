@@ -12,7 +12,7 @@ namespace Controller
         public int NumberOfMistakes { get; private set; }
         public int NumberCorrect{ get; private set; }
         private bool _hasBeenWrong;
-    public DateTime CurrentTime { get; set; }
+        public DateTime CurrentTime { get; set; }
         public int TimeLeft { get; set; }
         private int _maxTimePerKey = 5;
         private System.Timers.Timer _timer = new System.Timers.Timer(1000);
