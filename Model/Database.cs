@@ -39,8 +39,9 @@ namespace Model
             using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
             {
                 connection.Open();
-                string sql = "SELECT TOP " + amountOfWords + " Words FROM Words ORDER BY NEWID()";
+                string sql = "SELECT TOP (@amountOfWords) Words FROM Words ORDER BY NEWID()";
                 SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@amountOfWords", amountOfWords);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
