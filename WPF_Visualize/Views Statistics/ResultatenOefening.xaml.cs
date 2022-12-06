@@ -32,16 +32,10 @@ namespace WPF_Visualize
 
         private void _InitializeLabels()
         {
-            this.Fouten.Content = " ";
-            this.WPS.Content = " ";
-            this.MVF.Content = " ";
+            WordsPerMinute.Content = "5";
+            AmountWrong.Content = "5";
+            //MVF.Content = " ";
         }
-
-
-
-
-        
-        
         private void OnBack(object sender, RoutedEventArgs e)
         {
             //_cleanup();
