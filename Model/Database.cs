@@ -110,27 +110,6 @@ namespace Model
 			return hash;
 		}
 		
-		public void HashAllPasswords()
-		{
-			string[] passwordsToHash = { "NOK","Mike","Beer", "Bassie", "Luccie"};
-			string[] Usernames = {"nok","Mike", "Raivo", "Bas", "Luc"};
-			int i = 0;
-			Database database = new Database();
-			foreach (string password in passwordsToHash)
-			{
-				using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
-				{
-					connection.Open();
-					SqlCommand command = new SqlCommand("UPDATE Pupil SET Password= (@password) WHERE Username=(@username)", connection);
-					command.Parameters.AddWithValue("@password", database.HashPassword(password));
-					command.Parameters.AddWithValue("@username", Usernames[i]);
-					//command.Prepare();
-					command.ExecuteReader();
-					connection.Close();
-				}
-
-				i++;
-			}
-		}
+	
 	}
 }

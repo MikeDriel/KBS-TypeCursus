@@ -61,13 +61,15 @@ namespace Controller
 
         private void OnTimedEvent(object sender, EventArgs e)
         {
-            if (TimeLeft == 0)
+	        if (TimeLeft == 0)
             {
 	            WrongAnswer();
-	            TimeLeft = _maxTimePerKey;
-	            }
-            LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());            
-            TimeLeft--;
+            }
+            LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());
+            if (!_hasBeenWrong)
+			{
+				TimeLeft--;
+			}
             CurrentTime = CurrentTime.AddSeconds(1);
         }
 
@@ -77,6 +79,7 @@ namespace Controller
 	        {
 		        NumberOfMistakes++;
 		        _hasBeenWrong = true;
+		        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs()); 
 	        }
         }
         
@@ -84,14 +87,15 @@ namespace Controller
 		{
 			NumberCorrect++;
 			_hasBeenWrong = false;
+			TimeLeft = _maxTimePerKey;
+			LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs()); 
 		}
     }
 
     //EVENT FOR LIVE STATISCTICS UPDATE
     public class LiveStatisticsEventArgs : EventArgs
     {
-
-        public LiveStatisticsEventArgs()
+	    public LiveStatisticsEventArgs()
         {
         }
     }
