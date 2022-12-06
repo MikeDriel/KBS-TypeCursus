@@ -68,7 +68,6 @@ namespace WPF_Visualize
             //if key is same
             if (e.Key.ToString()[0] == _charListBackCorrect[_typingIndex])
             {
- 
                 //if key is space
                 if (e.Key.ToString().Equals("Space"))
                 {
@@ -93,10 +92,25 @@ namespace WPF_Visualize
                 //_charListFront + e.key
                 //remove letter on back text when key is wrong 
                 //do not print wrong letter after first wrong letter
-                _charListBack[_typingIndex] = ' ';
-                char character = char.Parse(e.Key.ToString());
-                _charListFront.Add(character);
-                _typingIndex++;
+
+                //if key is space
+                if (e.Key.ToString().Equals("Space"))
+                {
+                    //_charListFront + space
+                    _charListFront.Add(' ');
+                    _typingIndex++;
+                }
+                else
+                {
+                    _charListBack[_typingIndex] = ' ';
+                    char character = char.Parse(e.Key.ToString());
+                    _charListFront.Add(character);
+                    _typingIndex++;
+                }
+
+                
+
+
             }
 
             _statisticsController.ResetTimeLeft();
