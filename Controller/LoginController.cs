@@ -1,5 +1,4 @@
-﻿
-using Model;
+﻿using Model;
 
 namespace Controller
 {
@@ -8,24 +7,26 @@ namespace Controller
         public bool IsTeacher { get; set; }
         public event EventHandler<LoginEventArgs> LoginEvent;
         private Database _db = new Database();
+        public static int UserId { get; private set; }
 
         public LoginController(bool isTeacher)
         {
             this.IsTeacher = isTeacher;
         }
+        
 
-
-        private string? GetPassword(string loginKey)
-        {
-            return _db.GetPassword(IsTeacher, loginKey);
-        }
-
+        //CHECK IF THE GIVEN LOGIN INFORMATION IS RIGHT AND SET THE UserId ACCORDINGLY
         public void CheckLogin(string? loginKey, string password)
         {
-            string? correctPassword = GetPassword(loginKey);
+            string? correctPasswordWithId = _db.GetPasswordWithId(IsTeacher, loginKey);
+            string[] array = correctPasswordWithId.Split(',');
+            string? correctPassword = array[0];
+            int userId = int.Parse(array[1]);
+            password = _db.HashPassword(password);
             
             if (correctPassword != null && loginKey != null && correctPassword == password)
             {
+                UserId = userId;
                 LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
                 return;
             }

@@ -57,46 +57,79 @@ namespace Model
                         wordList.Add(' ');
                     }
                 }
-
                 connection.Close();
             }
 			wordList.RemoveAt(wordList.Count - 1);
             return wordList;
         }
-    
 
-		public string? GetPassword(bool? isTeacher, string? loginKey)
+		
+		// get password from the database
+		public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
 		{
-			// get password from the database
 			using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
 			{
 				if (isTeacher == null || loginKey == null)
 				{
 					return null;
 				}
+				
 				connection.Open();
 				SqlCommand command;
 				if (isTeacher == true)
 				{
-					command = new SqlCommand("SELECT Password FROM Teacher WHERE Email = (@loginKey)", connection);
+					command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)", connection);
 				}
 				else
 				{
-					command = new SqlCommand("SELECT Password FROM Pupil WHERE Username = (@loginKey)", connection);
+					command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)", connection);
 				}
 				command.Parameters.AddWithValue("@LoginKey", loginKey);
 				SqlDataReader reader = command.ExecuteReader();
 				//Debug.WriteLine(reader[0].ToString());
 				
-				string password = "";
+				string passwordWithId = "";
 				while (reader.Read())
 				{
-					password = reader[0].ToString();
-					Debug.WriteLine(password);
+					passwordWithId = reader[0].ToString();
+					passwordWithId += "," + reader[1];
+					Debug.WriteLine(passwordWithId);
 				}
 				connection.Close();
 
-				return password;
+				return passwordWithId;
+			}
+		}
+		
+		// hash incoming string and return the hashed value
+		public string HashPassword(string password)
+		{
+			byte[] data = Encoding.ASCII.GetBytes(password);
+			data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+			string hash = Encoding.ASCII.GetString(data);
+			return hash;
+		}
+		
+		public void HashAllPasswords()
+		{
+			string[] passwordsToHash = { "NOK","Mike","Beer", "Bassie", "Luccie"};
+			string[] Usernames = {"nok","Mike", "Raivo", "Bas", "Luc"};
+			int i = 0;
+			Database database = new Database();
+			foreach (string password in passwordsToHash)
+			{
+				using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
+				{
+					connection.Open();
+					SqlCommand command = new SqlCommand("UPDATE Pupil SET Password= (@password) WHERE Username=(@username)", connection);
+					command.Parameters.AddWithValue("@password", database.HashPassword(password));
+					command.Parameters.AddWithValue("@username", Usernames[i]);
+					//command.Prepare();
+					command.ExecuteReader();
+					connection.Close();
+				}
+
+				i++;
 			}
 		}
 	}
