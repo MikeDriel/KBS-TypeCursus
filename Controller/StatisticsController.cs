@@ -11,19 +11,23 @@ namespace Controller
 	{
         public int NumberOfMistakes { get; set; }
         public int NumberCorrect{ get; set; }
-    public DateTime CurrentTime { get; set; }
+        private int _numberOfCorrectPerSecond;
+        public DateTime CurrentTime { get; set; }
         public int TimeLeft { get; set; }
         private int _maxTimePerKey = 5;
         private System.Timers.Timer _timer = new System.Timers.Timer(1000);
         public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
+        public Dictionary<int, int> CharactersPerSecond { get; set; }
 
         public StatisticsController()
 		{
 			CurrentTime = new DateTime();
 			NumberOfMistakes = 0;
 			NumberCorrect = 0;
+            _numberOfCorrectPerSecond = 0;
             _timer.Elapsed += OnTimedEvent;
-        }
+            CharactersPerSecond = new Dictionary<int, int>();
+            }
 
         public void StartTimer()
         {
@@ -57,6 +61,21 @@ namespace Controller
 			return $"{NumberOfMistakes} fout \r\n {PercentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
 		}
 
+        private void UpdateCharactersPerSecond()
+        {
+            
+            
+            if (!CharactersPerSecond.ContainsKey(CurrentTime.Second + (CurrentTime.Minute*60) + (CurrentTime.Hour*3600)))
+            {
+                CharactersPerSecond.Add((CurrentTime.Second + (CurrentTime.Minute * 60) + (CurrentTime.Hour * 3600)), NumberCorrect - _numberOfCorrectPerSecond);
+            }
+           
+            _numberOfCorrectPerSecond = NumberCorrect;
+        }
+
+
+        
+
         private void OnTimedEvent(object sender, EventArgs e)
         {
             if (TimeLeft == 0)
@@ -66,6 +85,7 @@ namespace Controller
             }
             LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());            
             TimeLeft--;
+            UpdateCharactersPerSecond();
             CurrentTime = CurrentTime.AddSeconds(1);
         }
     }

@@ -16,6 +16,7 @@ using WPF_Visualize.ViewLogic;
 using OxyPlot;
 using OxyPlot.Series;
 using System.Windows.Media.Animation;
+using Controller;
 
 namespace WPF_Visualize
 {
@@ -30,11 +31,14 @@ namespace WPF_Visualize
             _InitializeLabels();
 		}
 
+        
+        
         private void _InitializeLabels()
         {
-            this.Fouten.Content = " ";
-            this.WPS.Content = " ";
-            this.MVF.Content = " ";
+            this.MistakeCount.Content = Exercise._statisticsController.NumberOfMistakes;
+            double wps = Exercise._statisticsController.NumberCorrect / Exercise._statisticsController.CurrentTime.Second;
+            this.WPS.Content = wps;
+            //this.MVF.Content = " ";
         }
 
 

@@ -18,7 +18,7 @@ namespace WPF_Visualize
     public partial class Exercise : UserControl
 	{
 		Controller.ExerciseController _controller;
-        Controller.StatisticsController _statisticsController = new();
+		public static Controller.StatisticsController _statisticsController;
 
 		Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 		Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
@@ -28,8 +28,9 @@ namespace WPF_Visualize
 		{
 			InitializeComponent();
 			_controller = new (choice);
-			//subscribe events
-			_controller.ExerciseEvent += ExerciseEvent;
+			_statisticsController = new();
+            //subscribe events
+            _controller.ExerciseEvent += ExerciseEvent;
             _statisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
             MoveLetterToTypeBoxOnCanvas();
@@ -56,7 +57,6 @@ namespace WPF_Visualize
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-	        ProgressBar.Value = _controller.Progress;
 			if (e.Key.ToString().Equals("Space"))
 			{
 				_controller.CurrentChar = ' ';
@@ -69,7 +69,8 @@ namespace WPF_Visualize
 			_controller.CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
             _statisticsController.ResetTimeLeft();
-            _statisticsController.StartTimer();
+			_statisticsController.StartTimer(); 
+            ProgressBar.Value = _controller.Progress;
         }
 
 		//updates values on view
@@ -156,7 +157,7 @@ namespace WPF_Visualize
 			var window = Window.GetWindow(this);
 			window.KeyDown -= HandleKeyPress;
 			_controller.CurrentChar = '.';
-		}
+        }
 
 
 		//Methods for events to fire

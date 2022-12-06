@@ -22,7 +22,7 @@ namespace Controller
 		public Random random = new Random();
 		public char CurrentChar { get; set; } //the current letter that is being typed
 		public char DequeuedChar { get; set; }
-		public int Progress { get; set; } = 1;
+		public int Progress { get; set; } = 0;
 		public List<char> TypedChars { get; set; }
 
 		public ExerciseController(int choice)
