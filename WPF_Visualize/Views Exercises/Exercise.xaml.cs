@@ -154,8 +154,8 @@ namespace WPF_Visualize
 		private void MistakeMade()
 		{
 			//if the letter is wrong, add a mistake and update the screen
-			StatisticsController.WrongAnswer();
-			MoveLetterTypedBoxOnCanvas(false, Controller.CurrentChar);
+			_statisticsController.WrongAnswer();
+			MoveLetterTypedBoxOnCanvas(false, _controller.CurrentChar);
 			this.LetterToTypeLabel.Foreground = Brushes.Red;
 		}
 
@@ -173,7 +173,7 @@ namespace WPF_Visualize
 		{
 			MoveLetterTypedBoxOnCanvas(true, _controller.CurrentChar);
 
-			StatisticsController.RightAnswer();
+			_statisticsController.RightAnswer();
 
 			//Makes the letter black again
 			this.LetterToTypeLabel.Foreground = Brushes.Black;
