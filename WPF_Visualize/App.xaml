@@ -3,66 +3,102 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WPF_Visualize"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-        <Style TargetType="Button" x:Key="IconButtons">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+	<Application.Resources>
+		<Style TargetType="Button" x:Key="IconButtons">
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+					<Setter Property="RenderTransform">
+						<Setter.Value>
+							<ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+						</Setter.Value>
+					</Setter>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
 
-        <Style TargetType="UserControl" x:Key="UserControlBackground">
-            <Setter Property="Background" Value="#455a64"/>
-        </Style>
+		<Style TargetType="UserControl" x:Key="UserControlBackground">
+			<Setter Property="Background" Value="#455a64"/>
+		</Style>
 
-        <Style TargetType="Button" x:Key="BackButton">
-            <Setter Property="Foreground" Value="#ffffff"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="70"/>
-            <Setter Property="Margin" Value="10,10,0,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10"
+		<Style TargetType="Button" x:Key="BackButton">
+			<Setter Property="Foreground" Value="#ffffff"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="Height" Value="30"/>
+			<Setter Property="Width" Value="70"/>
+			<Setter Property="Margin" Value="10,10,0,0"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border CornerRadius="10"
                             Background="#1c313a"
                             BorderThickness="1">
-                            <ContentPresenter
+							<ContentPresenter
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Margin="{TemplateBinding Padding}" ></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+					<Setter Property="RenderTransform">
+						<Setter.Value>
+							<ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+						</Setter.Value>
+					</Setter>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
 
-        <Style TargetType="Label" x:Key="LabelsSelecterScreens">
-            <Setter Property="Foreground" Value="#ffffff" />
-            <Setter Property="Background" Value="#1c313a" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Width" Value="178"/>
-            <Setter Property="Margin" Value="0,61,0,0"/>
-        </Style>
-    </Application.Resources>
+		<Style TargetType="Label" x:Key="LabelsSelecterScreens">
+			<Setter Property="Foreground" Value="#ffffff" />
+			<Setter Property="Background" Value="#1c313a" />
+			<Setter Property="FontSize" Value="20" />
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="Width" Value="178"/>
+			<Setter Property="Margin" Value="0,61,0,0"/>
+		</Style>
+
+		<Style TargetType="ProgressBar" x:Key="ProgressBar">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ProgressBar">
+						<Border CornerRadius="10" Background="#1c313a" BorderThickness="0.2">
+							<Grid x:Name="PART_Track">
+								<Grid x:Name="PART_Indicator" HorizontalAlignment="Left">
+									<Rectangle x:Name="Indicator" Fill="#64dd17" RadiusX="10" RadiusY="10"/>
+								</Grid>
+							</Grid>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<Style  x:Key="LiveStatisticsScreen" TargetType="Label">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Label}">
+						<Border BorderBrush="Black" BorderThickness="0.2" 
+            Background="#1c313a" 
+            SnapsToDevicePixels="true" 
+            CornerRadius="10">
+							<ContentPresenter Margin="10,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Application.Resources>
 </Application>
