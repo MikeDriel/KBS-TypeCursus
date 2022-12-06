@@ -183,7 +183,7 @@ namespace WPF_Visualize
 			_statisticsController.NumberCorrect++;
 
 			//Makes the letter black again
-			this.LetterToTypeLabel.Foreground = Brushes.Black;
+			this.LetterToTypeLabel.Foreground = Brushes.White;
 		}
 
 		//EVENTS
