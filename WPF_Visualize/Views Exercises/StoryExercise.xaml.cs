@@ -23,6 +23,14 @@ namespace WPF_Visualize
         Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
         Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
+        int typingIndex = 0;
+        char[] charArrToType;
+        char[] charArrTyping;
+        string Story;
+
+
+
+
         public StringBuilder _sb = new StringBuilder();
         public StoryExercise(int choice)
         {
@@ -48,12 +56,34 @@ namespace WPF_Visualize
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if (e.Key.ToString().Equals("Space"))
+            Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
+            charArrToType = Story.ToCharArray();    
+           
+            //if key is same
+            if (e.Key.ToString().ToLower()[0] == charArrToType[typingIndex])
             {
-                _controller.CurrentChar = ' ';
+                //if key is space
+                if (e.Key.ToString().Equals("Space"))
+                {
+                    //charlist + e.key
+                    _controller.CurrentChar = ' ';
+                    typingIndex++;
+                }
+                //key is not space
+                else
+                {
+                    //print letter 
+                    typingIndex++;
+                }
             }
+            //if key is not the same
             else
             {
+                //print wrong letter
+                //remove letter on back text when key is wrong 
+                //do not print wrong letter after first wrong letter
+                
+                typingIndex++;
                 _controller.CurrentChar = e.Key.ToString().ToLower()[0];
             }
 
@@ -65,7 +95,7 @@ namespace WPF_Visualize
         //updates values on view
         private void ChangeTextOnScreen()
         {
-            string Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
+            Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
                 //Displays the content to the application
                 StoryTextBox.AppendText(Story);
            
@@ -141,6 +171,8 @@ namespace WPF_Visualize
 
             ChangeTextOnScreen();
         }
+
+     
 
      
     }
