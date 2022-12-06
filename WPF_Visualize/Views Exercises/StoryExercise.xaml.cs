@@ -73,6 +73,7 @@ namespace WPF_Visualize
                 else
                 {
                     //print letter 
+                    charArrTyping.AppendText(charArrTyping);
                     typingIndex++;
                 }
             }
@@ -96,9 +97,10 @@ namespace WPF_Visualize
         private void ChangeTextOnScreen()
         {
             Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-                //Displays the content to the application
-                StoryTextBox.AppendText(Story);
-           
+            //Displays the content to the application
+            StoryTextBoxBack.AppendText(Story);
+            StoryTextBoxFront.AppendText(""+charArrTyping+"");
+
             SetLiveStatistics(this, null);
         }
 

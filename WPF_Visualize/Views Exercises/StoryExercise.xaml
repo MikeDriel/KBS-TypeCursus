@@ -36,9 +36,9 @@
         </Viewbox>
         <Label x:Name="LiveStatisticsScreen" Grid.Column="3" HorizontalAlignment="Left" Margin="139,0,0,0" VerticalAlignment="Center" Grid.ColumnSpan="2" Height="84" Width="140" Grid.Row="1" FontSize="16"/>
         <Label x:Name="TimeLeftLabel" Grid.Column="2" Content="&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Width="56" HorizontalContentAlignment="Center" FontSize="32"/>
-        <RichTextBox Name="StoryTextBox" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="46,26,46,0" FontSize="36">
+        <RichTextBox Name="StoryTextBoxBack" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="46,26,46,0" FontSize="36">
         </RichTextBox>
-        <RichTextBox Name="StoryTextBox2" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="46,26,46,0" FontSize="36" Background="Transparent" Foreground="Green">
+        <RichTextBox Name="StoryTextBoxFront" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="46,26,46,0" FontSize="36" Background="Transparent" Foreground="Green">
         </RichTextBox>
 
     </Grid>
