@@ -85,10 +85,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Label}">
-						<Border BorderBrush="Black" BorderThickness="0.2" 
-            Background="#1c313a" 
-            SnapsToDevicePixels="true" 
-            CornerRadius="10">
+						<Border BorderBrush="Black" BorderThickness="0.2" Background="#1c313a" SnapsToDevicePixels="true" CornerRadius="10">
 							<ContentPresenter Margin="10,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True"/>
 						</Border>
 						<ControlTemplate.Triggers>
