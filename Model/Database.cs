@@ -30,19 +30,17 @@ namespace Model
                 Console.WriteLine(e.ToString());
                 return null;
             }
-
-            Console.ReadLine();
         }
 
 
-        public List<char> GetWord()
+        public List<char> GetWord(int amountOfWords)
         {
             List<char> wordList = new List<char>();
-
             using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT TOP 5 Words FROM Words ORDER BY NEWID()", connection);
+                string sql = "SELECT TOP " + amountOfWords + " Words FROM Words ORDER BY NEWID()";
+                SqlCommand command = new SqlCommand(sql, connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())

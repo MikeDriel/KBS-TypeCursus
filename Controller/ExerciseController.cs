@@ -17,13 +17,11 @@ namespace Controller
 		public Database database = new Database();
 		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
-		public Dictionary<char, int[]> Coordinates { get; set; }
-
-		public Random random = new Random();
+		public Dictionary<char, int[]> Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
+		public Random random = new Random(); //random number generator
 		public char CurrentChar { get; set; } //the current letter that is being typed
-		public char DequeuedChar { get; set; }
-		
-		public List<char> TypedChars { get; set; }
+		public char DequeuedChar { get; set; } //the current letter that is being typed
+		public List<char> TypedChars { get; set; } //list which holds all the letters that have been typed
 
 		public ExerciseController(int choice)
 		{
@@ -71,7 +69,7 @@ namespace Controller
 			{
 				GenerateWordData();
 			}
-			if (choice == 2) // StoryExercise
+			if (choice == 2) // StoryExercise 
 			{
 				
 			}	
@@ -98,10 +96,8 @@ namespace Controller
 
 		public void GenerateWordData(){
 
-			CharacterList = database.GetWord();
-
-			//randomize the alphabet
-			//CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
+			//get the words from the database and choose how many you want
+			CharacterList = database.GetWord(10);
 
 			foreach (char letter in CharacterList)
 			{
