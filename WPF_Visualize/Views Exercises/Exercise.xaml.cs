@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,11 +34,18 @@ namespace WPF_Visualize
 
             MoveLetterToTypeBoxOnCanvas();
 			ChangeTextOnScreen();
+			InitializeProgressBar();
 			KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
             KeyboardCanvas.Children.Add(_rectangleLetterTyped);
             _rectangleLetterTyped.Visibility = Visibility.Hidden;
 		}
 
+		private void InitializeProgressBar()
+		{
+			ProgressBar.Minimum = 0;
+			ProgressBar.Maximum = _controller.CharacterList.Count;
+		}
+		
         //Connects events to the button 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -47,7 +55,8 @@ namespace WPF_Visualize
 		
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
-		{
+        {
+	        ProgressBar.Value = _controller.Progress;
 			if (e.Key.ToString().Equals("Space"))
 			{
 				_controller.CurrentChar = ' ';
@@ -124,7 +133,7 @@ namespace WPF_Visualize
 			}
 			if (isGood)
 			{
-				_rectangleLetterTyped.Fill = Brushes.Green;
+				_rectangleLetterTyped.Fill = Brushes.LawnGreen;
 			}
 			else
 			{
@@ -164,8 +173,6 @@ namespace WPF_Visualize
 			//adds a empty space if the list is empty
 			LetterToTypeLabel.Content = "";
 
-			//show a message box
-			MessageBox.Show("You have finished the exercise!");
 			UserControlController.MainWindowChange(this, new ResultatenOefening());
 		}
 
@@ -176,7 +183,7 @@ namespace WPF_Visualize
 			_statisticsController.RightAnswer();
 
 			//Makes the letter black again
-			this.LetterToTypeLabel.Foreground = Brushes.Black;
+			this.LetterToTypeLabel.Foreground = Brushes.White;
 		}
 
 		//EVENTS
