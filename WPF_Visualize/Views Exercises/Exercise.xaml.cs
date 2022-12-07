@@ -16,13 +16,12 @@ namespace WPF_Visualize
 	
     public partial class Exercise : UserControl
 	{
-		Controller.ExerciseController _controller;
-        Controller.StatisticsController _statisticsController = new();
+		private ExerciseController _controller;
+        private StatisticsController _statisticsController = new();
 
-		Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
-		Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
-
-        public StringBuilder _sb = new StringBuilder();
+		private Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		private Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+		
 		public Exercise(int choice)
 		{
 			InitializeComponent();

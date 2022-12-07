@@ -16,7 +16,7 @@ namespace Controller
 
 		public Database database = new Database();
 		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
-		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
+		//public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
 		public Dictionary<char, int[]> Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
 		public Random random = new Random(); //random number generator
 		public char CurrentChar { get; set; } //the current letter that is being typed
@@ -26,7 +26,7 @@ namespace Controller
 		public ExerciseController(int choice)
 		{
 			CharacterList = new List<char>();
-			CharacterQueue = new Queue<char>();
+			//CharacterQueue = new Queue<char>();
 			TypedChars = new List<char>();
 
 			//Coordinates
@@ -88,10 +88,10 @@ namespace Controller
 			//randomize the alphabet
 			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
 
-			foreach (char letter in CharacterList)
-			{
-				CharacterQueue.Enqueue(letter);
-			}
+			// foreach (char letter in CharacterList)
+			// {
+			// 	 CharacterQueue.Enqueue(letter);
+			// }
 		}
 
 		public void GenerateWordData(){
@@ -99,10 +99,10 @@ namespace Controller
 			//get the words from the database and choose how many you want
 			CharacterList = database.GetWord(10);
 
-			foreach (char letter in CharacterList)
-			{
-				CharacterQueue.Enqueue(letter);
-			}
+			// foreach (char letter in CharacterList)
+			// {
+			// 	CharacterQueue.Enqueue(letter);
+			// }
 		}
 
 		/// <summary>
@@ -117,9 +117,9 @@ namespace Controller
 				{
 
 					//if it is, remove the letter from the queue
-					CharacterList.RemoveAt(0);
 
-					DequeuedChar = CharacterQueue.Dequeue();
+					DequeuedChar = CharacterList[0];
+					CharacterList.RemoveAt(0);
 					TypedChars.Add(DequeuedChar);
 
 					if (CharacterList.Count == 0)
