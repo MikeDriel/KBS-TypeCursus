@@ -29,7 +29,8 @@ namespace WPF_Visualize
         List<char> _charListBack = new List<char>();
         List<char> _charListFront = new List<char>();
         string Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-        
+
+       
 
 
 
@@ -46,6 +47,7 @@ namespace WPF_Visualize
             _controller.ExerciseEvent += ExerciseEvent;
             _statisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
+            SetCharListBack();
             ChangeTextOnScreen();
             KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
             KeyboardCanvas.Children.Add(_rectangleLetterTyped);
@@ -58,19 +60,28 @@ namespace WPF_Visualize
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
         }
+
+        private void SetCharListBack()
+        {
+            foreach (char character in Story)
+            {
+                _charListBackCorrect.Add(character);
+            }
+            _charListBack = _charListBackCorrect;
+        }
+        
         
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            _charListBack = _charListBackCorrect;
-
-
+            
 
             //if key is space
             if (e.Key.ToString().Equals("Space"))
             {
                 //_charListFront + space
                 _charListFront.Add(' ');
+                _controller.CurrentChar = ' ';
                 _typingIndex++;
             }
 
@@ -83,16 +94,24 @@ namespace WPF_Visualize
                 {
                     char character = char.Parse(e.Key.ToString().ToUpper());
                     _charListFront.Add(character);
+                    _controller.CurrentChar = character;
+                    _typingIndex++;
                 }
                 //key is not the same
                 else
                 {
+
                     //_charListFront + e.key
                     //remove letter on back text when key is wrong 
                     _charListBack[_typingIndex] = ' ';
-                    char character = char.Parse(e.Key.ToString());
-                    _charListFront.Add(character);
-                    _typingIndex++;
+                    if (e.Key != Key.LeftShift)
+                    {
+                        char character = char.Parse(e.Key.ToString());
+                        _charListFront.Add(character);
+                        _controller.CurrentChar = character;
+                        _typingIndex++;
+                    }
+                   
                 }
             }
             //shift is not pressed / not capitalized
@@ -103,6 +122,8 @@ namespace WPF_Visualize
                 {
                     char character = char.Parse(e.Key.ToString().ToLower());
                     _charListFront.Add(character);
+                    _controller.CurrentChar = character;
+                    _typingIndex++;
                 }
                 //key is not the same
                 else
@@ -110,14 +131,18 @@ namespace WPF_Visualize
                     //_charListFront + e.key
                     //remove letter on back text when key is wrong 
                     _charListBack[_typingIndex] = ' ';
-                    char character = char.Parse(e.Key.ToString());
-                    _charListFront.Add(character);
-                    _typingIndex++;
+                    if (e.Key != Key.LeftShift)
+                    {
+                        char character = char.Parse(e.Key.ToString());
+                        _charListFront.Add(character);
+                        _controller.CurrentChar = character;
+                        _typingIndex++;
+                    }
                 }
             }
-
             
-
+            _controller.CheckIfLetterIsCorrect();
+            MoveLetterToTypeBoxOnCanvas();
             _statisticsController.ResetTimeLeft();
             _statisticsController.StartTimer();
         }
@@ -125,28 +150,19 @@ namespace WPF_Visualize
         //updates values on view
         private void ChangeTextOnScreen()
         {
-            //Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-            //Displays the content to the application
-
-            foreach (char character in Story)
-            {
-                _charListBackCorrect.Add(character);
-            }
 
             foreach (var item in _charListBack)
             {
                 StoryTextBoxBack.AppendText(item.ToString());
             }
 
-            StoryTextBoxBack.AppendText(Story);
-
             foreach (var item in _charListFront)
             {
                 StoryTextBoxFront.AppendText(item.ToString());
             }
 
-    
 
+            
             //StoryTextBoxBack.AppendText(_charListBack.ToString());
             //StoryTextBoxFront.AppendText(_charListFront.ToString());
             SetLiveStatistics(this, null);
@@ -177,6 +193,54 @@ namespace WPF_Visualize
             window.KeyDown -= HandleKeyPress;
             _controller.CurrentChar = '.';
         }
+
+        //moves the highlighted box
+        private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
+        {
+            if (_controller.CharacterList.Count >= 1)
+            {
+                int posX = _controller.Coordinates[_controller.CharacterList[0]][0]; //sets posx
+                int posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
+
+                if (_controller.CharacterList[0] == ' ')
+                {
+                    _rectangleLetterToType.Width = 359;
+                }
+                else
+                {
+                    _rectangleLetterToType.Width = 33;
+                }
+
+                Canvas.SetTop(_rectangleLetterToType, posY);
+                Canvas.SetLeft(_rectangleLetterToType, posX);
+            }
+        }
+
+        private void MoveLetterTypedBoxOnCanvas(bool isGood, char charTyped) //Moves box on canvas that displays which letter has to be typed
+        {
+            int posX = _controller.Coordinates[charTyped][0]; //sets posx
+            int posY = _controller.Coordinates[charTyped][1]; //sets posy
+            _rectangleLetterTyped.Visibility = Visibility.Visible;
+            if (charTyped == ' ')
+            {
+                _rectangleLetterTyped.Width = 359;
+            }
+            else
+            {
+                _rectangleLetterTyped.Width = 33;
+            }
+            if (isGood)
+            {
+                _rectangleLetterTyped.Fill = Brushes.Green;
+            }
+            else
+            {
+                _rectangleLetterTyped.Fill = Brushes.Red;
+            }
+            Canvas.SetTop(_rectangleLetterTyped, posY);
+            Canvas.SetLeft(_rectangleLetterTyped, posX);
+        }
+
 
 
         //Methods for events to fire
