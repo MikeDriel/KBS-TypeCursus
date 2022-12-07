@@ -55,6 +55,7 @@ namespace WPF_Visualize
         {
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
+            window.KeyUp += HandleKeyUp;
         }
 
         //Handles the keypresses from the userinput
