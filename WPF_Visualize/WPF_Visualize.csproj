@@ -17,8 +17,10 @@
     <None Remove="Images\LetterExercise.png" />
     <None Remove="Images\logout.png" />
     <None Remove="Images\planning.png" />
+    <None Remove="Images\Pupil.png" />
     <None Remove="Images\ranking.png" />
     <None Remove="Images\Statistics.png" />
+    <None Remove="Images\Teacher.png" />
     <None Remove="Images\WordExercise.png" />
   </ItemGroup>
 
@@ -47,10 +49,16 @@
     <Content Include="Images\planning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Pupil.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\ranking.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Statistics.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Teacher.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\WordExercise.png">
