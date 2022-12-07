@@ -71,11 +71,12 @@ namespace Controller
 			{
 				GenerateWordData();
 			}
-			if (choice == 2) // StoryExercise
-			{
-				
-			}	
-		}
+            if (choice == 2) // StoryExercise
+            {
+                GenerateStoryData();
+            }
+
+        }
 
 		/// <summary>
 		/// Generates the alphabet data for the list. Also copies data to the queue for logic use.

@@ -19,17 +19,13 @@ namespace WPF_Visualize
     public partial class StoryExercise : UserControl
     {
         Controller.ExerciseController _controller;
+        Controller.StoryExerciseController _storyController;
         Controller.StatisticsController _statisticsController = new();
         
         Rectangle _rectangleLetterTyped = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
         Rectangle _rectangleLetterToType = new Rectangle { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-        int _typingIndex = 0;
-        List<char> _charListBackCorrect = new List<char>();
-        List<char> _charListBack = new List<char>();
-        List<char> _charListFront = new List<char>();
-        string Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-
+    
        
 
 
@@ -39,15 +35,15 @@ namespace WPF_Visualize
 
 
     public StringBuilder _sb = new StringBuilder();
-        public StoryExercise(int choice)
+        public StoryExercise()
         {
             InitializeComponent();
-            _controller = new(choice);
+            StoryExerciseController storyExerciseController = new();
             //subscribe events
             _controller.ExerciseEvent += ExerciseEvent;
             _statisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
-            SetCharListBack();
+            _storyController.SetCharListBack();
             ChangeTextOnScreen();
             KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
             KeyboardCanvas.Children.Add(_rectangleLetterTyped);
@@ -60,16 +56,6 @@ namespace WPF_Visualize
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
         }
-
-        private void SetCharListBack()
-        {
-            foreach (char character in Story)
-            {
-                _charListBackCorrect.Add(character);
-            }
-            _charListBack = _charListBackCorrect;
-        }
-        
         
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
@@ -80,9 +66,9 @@ namespace WPF_Visualize
             if (e.Key.ToString().Equals("Space"))
             {
                 //_charListFront + space
-                _charListFront.Add(' ');
+                _storyController._charListFront.Add(' ');
                 _controller.CurrentChar = ' ';
-                _typingIndex++;
+                _storyController._typingIndex++;
             }
 
 
@@ -90,12 +76,12 @@ namespace WPF_Visualize
             if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
             {
                 //if key is the same
-                if (e.Key.ToString().ToUpper()[0] == _charListBackCorrect[_typingIndex])
+                if (e.Key.ToString().ToUpper()[0] == _storyController._charListBackCorrect[_storyController._typingIndex])
                 {
                     char character = char.Parse(e.Key.ToString().ToUpper());
-                    _charListFront.Add(character);
+                    _storyController._charListFront.Add(character);
                     _controller.CurrentChar = character;
-                    _typingIndex++;
+                    _storyController._typingIndex++;
                 }
                 //key is not the same
                 else
@@ -103,13 +89,13 @@ namespace WPF_Visualize
 
                     //_charListFront + e.key
                     //remove letter on back text when key is wrong 
-                    _charListBack[_typingIndex] = ' ';
+                    _storyController._charListBack[_storyController._typingIndex] = ' ';
                     if (e.Key != Key.LeftShift)
                     {
                         char character = char.Parse(e.Key.ToString());
-                        _charListFront.Add(character);
+                        _storyController._charListFront.Add(character);
                         _controller.CurrentChar = character;
-                        _typingIndex++;
+                        _storyController._typingIndex++;
                     }
                    
                 }
@@ -118,25 +104,25 @@ namespace WPF_Visualize
             else
             {
                 //if key is the same
-                if (e.Key.ToString().ToLower()[0] == _charListBackCorrect[_typingIndex])
+                if (e.Key.ToString().ToLower()[0] == _storyController._charListBackCorrect[_storyController._typingIndex])
                 {
                     char character = char.Parse(e.Key.ToString().ToLower());
-                    _charListFront.Add(character);
+                    _storyController._charListFront.Add(character);
                     _controller.CurrentChar = character;
-                    _typingIndex++;
+                    _storyController._typingIndex++;
                 }
                 //key is not the same
                 else
                 {
                     //_charListFront + e.key
                     //remove letter on back text when key is wrong 
-                    _charListBack[_typingIndex] = ' ';
+                    _storyController._charListBack[_storyController._typingIndex] = ' ';
                     if (e.Key != Key.LeftShift)
                     {
                         char character = char.Parse(e.Key.ToString());
-                        _charListFront.Add(character);
+                        _storyController._charListFront.Add(character);
                         _controller.CurrentChar = character;
-                        _typingIndex++;
+                        _storyController._typingIndex++;
                     }
                 }
             }
@@ -151,12 +137,12 @@ namespace WPF_Visualize
         private void ChangeTextOnScreen()
         {
 
-            foreach (var item in _charListBack)
+            foreach (var item in _storyController._charListBack)
             {
                 StoryTextBoxBack.AppendText(item.ToString());
             }
 
-            foreach (var item in _charListFront)
+            foreach (var item in _storyController._charListFront)
             {
                 StoryTextBoxFront.AppendText(item.ToString());
             }
