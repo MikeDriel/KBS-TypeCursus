@@ -7,7 +7,7 @@ namespace Controller
         public bool IsTeacher { get; set; }
         public event EventHandler<LoginEventArgs> LoginEvent;
         private Database _db = new Database();
-        public static int UserId { get; private set; }
+        public static int? UserId { get; private set; }
 
         public LoginController(bool isTeacher)
         {
@@ -37,6 +37,11 @@ namespace Controller
             {
                 LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
             }
+        }
+
+        public static void LogOut()
+        {
+            UserId = null;
         }
         
         

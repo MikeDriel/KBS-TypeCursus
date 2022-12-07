@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Controller;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
 
@@ -29,6 +30,7 @@ namespace WPF_Visualize.Views_Navigate
 
         private void OnLogOut(object sender, RoutedEventArgs e)
         {
+            LoginController.LogOut();
             UserControlController.MainWindowChange(this, new LoginChoose());
         }
     }
