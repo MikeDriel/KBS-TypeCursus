@@ -94,7 +94,7 @@ namespace WPF_Visualize
                     {
                         char character = char.Parse(e.Key.ToString());
                         _storyController._charListFront.Add(character);
-                        _controller.CurrentChar = character;
+                        _storyController._currentChar = character;
                         _storyController._typingIndex++;
                     }
                    

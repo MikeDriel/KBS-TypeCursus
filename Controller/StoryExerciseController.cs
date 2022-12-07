@@ -8,12 +8,15 @@ namespace Controller
 {
     public class StoryExerciseController
     {
+        public event EventHandler<ExerciseEventArgs> ExerciseEvent;
         public int _typingIndex { get; set; } //the index of the current letter that is being typed 
         public ExerciseController exerciseController;
         public string Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
         public List<char> _charListBackCorrect;
         public List<char> _charListBack;
         public List<char> _charListFront;
+        public char _currentChar;
+        
 
         public StoryExerciseController()
         {
@@ -21,6 +24,9 @@ namespace Controller
             _charListBackCorrect = new List<char>();
             _charListBack = new List<char>();
             _charListFront = new List<char>();
+            _currentChar = exerciseController.CurrentChar;
+            
+            
         }
 
         public void SetCharListBack()
@@ -38,16 +44,13 @@ namespace Controller
                 if (_charListBackCorrect.Count >= 1)
                 {
                     //checks if the last keypress is equal to the first letter in the queue
-                    if (_charListBackCorrect[0] == exerciseController.CurrentChar)
+                    if (_charListBackCorrect[0] == _currentChar)
                     {
 
-                        //if it is, remove the letter from the queue
-                        exerciseController.CharacterList.RemoveAt(0);
+                        //if it is, add letter to _charListFront
+                        _charListFront.Add(_currentChar);
 
-                        DequeuedChar = CharacterQueue.Dequeue();
-                        TypedChars.Add(DequeuedChar);
-
-                        if (CharacterList.Count == 0)
+                        if (_charListFront.Count == _charListBackCorrect.Count)
                         {
                             ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
                         }
