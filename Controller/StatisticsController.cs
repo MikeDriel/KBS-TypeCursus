@@ -11,20 +11,20 @@ namespace Controller
 	{
         public int NumberOfMistakes { get; set; }
         public int NumberCorrect{ get; set; }
-        private int _numberOfCorrectPerSecond;
+        private int _numberOfCorrectLastSecond; //int that contains the amount of correct typed characters before the current second (necesary to calculatet he amount of characters typed in 1 certain second)
         public DateTime CurrentTime { get; set; }
         public int TimeLeft { get; set; }
         private int _maxTimePerKey = 5;
-        private System.Timers.Timer _timer = new System.Timers.Timer(1000);
+        private System.Timers.Timer _timer = new System.Timers.Timer(1000);  //timer that executes OnTImedEvent every second
         public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
-        public Dictionary<int, int> CharactersPerSecond { get; set; }
+        public Dictionary<int, int> CharactersPerSecond { get; set; } //Dictionary which holds the amount of characters typed correct for every second passed
 
         public StatisticsController()
 		{
 			CurrentTime = new DateTime();
 			NumberOfMistakes = 0;
 			NumberCorrect = 0;
-            _numberOfCorrectPerSecond = 0;
+            _numberOfCorrectLastSecond = 0;
             _timer.Elapsed += OnTimedEvent;
             CharactersPerSecond = new Dictionary<int, int>();
             }
@@ -67,10 +67,10 @@ namespace Controller
             
             if (!CharactersPerSecond.ContainsKey(CurrentTime.Second + (CurrentTime.Minute*60) + (CurrentTime.Hour*3600)))
             {
-                CharactersPerSecond.Add((CurrentTime.Second + (CurrentTime.Minute * 60) + (CurrentTime.Hour * 3600)), NumberCorrect - _numberOfCorrectPerSecond);
+                CharactersPerSecond.Add((CurrentTime.Second + (CurrentTime.Minute * 60) + (CurrentTime.Hour * 3600)), NumberCorrect - _numberOfCorrectLastSecond);
             }
            
-            _numberOfCorrectPerSecond = NumberCorrect;
+            _numberOfCorrectLastSecond = NumberCorrect;
         }
 
 

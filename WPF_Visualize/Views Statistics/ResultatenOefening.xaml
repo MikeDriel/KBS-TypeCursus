@@ -18,21 +18,25 @@
     <Grid>
 
 
-       
-        
-        <oxy:PlotView Model="{Binding Stats}" Margin="400,149,69,78"/>
+
+
+        <oxy:PlotView x:Name="Tekens_per_seconde_" Model="{Binding Stats}" Margin="400,189,69,38"/>
 
         <Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="130" Margin="10,10,0,0"/>
-
-        <Label Content="Tekens per seconde:&#xD;&#xA;" HorizontalAlignment="Left" Margin="48,149,0,0" VerticalAlignment="Top"/>
-        <Label Content="Meest voorkomen fouten:&#xD;&#xA;" HorizontalAlignment="Left" Margin="45,335,0,0" VerticalAlignment="Top"/>
+        <Label Content="Gemiddelde tekens per seconde:" HorizontalAlignment="Left" Margin="48,149,0,0" VerticalAlignment="Top"/>
+        <Label Content="Totale tijd opdracht:" HorizontalAlignment="Left" Margin="48,189,0,0" VerticalAlignment="Top"/>
+        <Label Content="Aantal goed;" HorizontalAlignment="Left" Margin="48,286,0,0" VerticalAlignment="Top"/>
         <Label Content="Resultaat opdracht" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Label Content="Aantal fouten:" HorizontalAlignment="Left" Margin="48,255,0,0" VerticalAlignment="Top"/>
+        <Label Content="Percentage goed:" HorizontalAlignment="Left" Margin="48,317,0,0" VerticalAlignment="Top"/>
 
 
+        <Label x:Name="Feedback" Content="Feedback" HorizontalAlignment="Left" Margin="400,149,0,0" VerticalAlignment="Top"/>
         <Label x:Name="WPS" Content="WPS" HorizontalAlignment="Left" Margin="258,149,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Totaltime" Content="Tijd" HorizontalAlignment="Left" Margin="258,189,0,0" VerticalAlignment="Top"/>
         <Label x:Name="MistakeCount" Content="Fouten" HorizontalAlignment="Left" Margin="182,255,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="MVF" Content="MVF" HorizontalAlignment="Left" Margin="288,335,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="CorrectCount" Content="Goed" HorizontalAlignment="Left" Margin="182,286,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="CorrectPercentage" Content="Goed%" HorizontalAlignment="Left" Margin="182,317,0,0" VerticalAlignment="Top"/>
 
 
 

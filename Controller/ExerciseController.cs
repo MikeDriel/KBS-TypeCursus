@@ -17,7 +17,7 @@ namespace Controller
 		public Database database = new Database();
 		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
 		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
-		public Dictionary<char, int[]> Coordinates { get; set; }
+		public Dictionary<char, int[]> Coordinates { get; set; } 
 
 		public Random random = new Random();
 		public char CurrentChar { get; set; } //the current letter that is being typed

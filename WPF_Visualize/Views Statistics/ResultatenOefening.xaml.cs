@@ -33,12 +33,44 @@ namespace WPF_Visualize
 
         
         
+        //sets all labels
         private void _InitializeLabels()
         {
+            //calculate the amount of characters typed per second
+            double wps = (double)Exercise._statisticsController.NumberCorrect / (double)Exercise._statisticsController.CurrentTime.Second;
+            wps = Math.Round(wps, 1);
+            //calculate the percentage of correct typed characters
+            double correctPercentage = ((double)Exercise._statisticsController.NumberCorrect / ((double)Exercise._statisticsController.NumberCorrect + (double)Exercise._statisticsController.NumberOfMistakes)) * 100;
+            correctPercentage = Math.Round(correctPercentage, 1);
+
+
+            //sets the labels
+            this.Totaltime.Content = Exercise._statisticsController.CurrentTime.ToString("mm:ss");
             this.MistakeCount.Content = Exercise._statisticsController.NumberOfMistakes;
-            double wps = Exercise._statisticsController.NumberCorrect / Exercise._statisticsController.CurrentTime.Second;
             this.WPS.Content = wps;
-            //this.MVF.Content = " ";
+            this.CorrectCount.Content = Exercise._statisticsController.NumberCorrect;
+            this.CorrectPercentage.Content = $"{correctPercentage}%";
+            _InitializeFeedback(correctPercentage);
+        }
+
+        //logic for feedback label
+        private void _InitializeFeedback(double percentage)
+        {
+            if(percentage >= 80)
+            {
+                this.Feedback.Content = "Heel goed gedaan!";
+            } else if(percentage >= 55)
+            {
+                this.Feedback.Content = "Goed gedaan, maar het kan beter!";
+            } else if(percentage >= 40)
+            {
+                this.Feedback.Content = "Helaas, je hebt nog geen voldoende. Maar je komt dichtbij";
+            } else
+            {
+                this.Feedback.Content = "Helaas, je hebt nog geen voldoende";
+            }
+
+
         }
 
 

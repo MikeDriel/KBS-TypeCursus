@@ -21,31 +21,16 @@ namespace WPF_Visualize.Views_Statistics
             for (int i = 1; i < Exercise._statisticsController.CharactersPerSecond.Count; i++)
             {
                 Data.Add(new DataPoint(i, Exercise._statisticsController.CharactersPerSecond[i]));
-                this.Stats = new PlotModel { Title = "Statistics" };
+                this.Stats = new PlotModel { Title = "Tekens per seconde" };
                 this.Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
 
             }
         }
-        
+
         public IList<DataPoint> Data { get; private set; }
         public PlotModel Stats { get; private set; }
-    
 
 
-   
 
-        /*
-        public Charts()
-        {
-            
-            this.Stats = new PlotModel { Title = "Statistics" };
-            this.Stats.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
-            
-        }
-
-        public PlotModel Stats { get; private set; }
-        
-
-    */
-    }
+    } 
 }
