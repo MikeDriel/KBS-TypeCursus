@@ -65,53 +65,58 @@ namespace WPF_Visualize
             _charListBack = _charListBackCorrect;
 
 
-            //if key is same
-            if (e.Key.ToString()[0] == _charListBackCorrect[_typingIndex])
+
+            //if key is space
+            if (e.Key.ToString().Equals("Space"))
             {
-                //if key is space
-                if (e.Key.ToString().Equals("Space"))
+                //_charListFront + space
+                _charListFront.Add(' ');
+                _typingIndex++;
+            }
+
+
+            //if shift is pressed / capitalized
+            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+            {
+                //if key is the same
+                if (e.Key.ToString().ToUpper()[0] == _charListBackCorrect[_typingIndex])
                 {
-                    //_charListFront + space
-                    _charListFront.Add(' ');
-                    _typingIndex++;
+                    char character = char.Parse(e.Key.ToString().ToUpper());
+                    _charListFront.Add(character);
                 }
-                //key is not space
+                //key is not the same
                 else
                 {
                     //_charListFront + e.key
-                    char character = char.Parse(e.Key.ToString());
-                    _charListFront.Add(character);
-
-
-                    _typingIndex++;
-                }
-            }
-            //if key is not the same
-            else
-            {
-                //_charListFront + e.key
-                //remove letter on back text when key is wrong 
-                //do not print wrong letter after first wrong letter
-
-                //if key is space
-                if (e.Key.ToString().Equals("Space"))
-                {
-                    //_charListFront + space
-                    _charListFront.Add(' ');
-                    _typingIndex++;
-                }
-                else
-                {
+                    //remove letter on back text when key is wrong 
                     _charListBack[_typingIndex] = ' ';
                     char character = char.Parse(e.Key.ToString());
                     _charListFront.Add(character);
                     _typingIndex++;
                 }
-
-                
-
-
             }
+            //shift is not pressed / not capitalized
+            else
+            {
+                //if key is the same
+                if (e.Key.ToString().ToLower()[0] == _charListBackCorrect[_typingIndex])
+                {
+                    char character = char.Parse(e.Key.ToString().ToLower());
+                    _charListFront.Add(character);
+                }
+                //key is not the same
+                else
+                {
+                    //_charListFront + e.key
+                    //remove letter on back text when key is wrong 
+                    _charListBack[_typingIndex] = ' ';
+                    char character = char.Parse(e.Key.ToString());
+                    _charListFront.Add(character);
+                    _typingIndex++;
+                }
+            }
+
+            
 
             _statisticsController.ResetTimeLeft();
             _statisticsController.StartTimer();
