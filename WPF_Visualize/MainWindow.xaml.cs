@@ -34,19 +34,6 @@ namespace WPF_Visualize
 		{
 			this.contentControl.Content = UserControlController.Content;
 		}
-
-		private void OnExercise_Select(object sender, RoutedEventArgs e)
-		{
-			this.contentControl.Content = new ExerciseSelect();
-		}
 	}
-
-	internal class OnWindowChange : EventArgs
-	{
-		public UserControl Content { get; set; }
-		public OnWindowChange(UserControl content)
-		{
-			Content = content;
-		}
-	}
+    
 }

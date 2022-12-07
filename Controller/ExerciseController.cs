@@ -119,8 +119,9 @@ namespace Controller
 					//if it is, remove the letter from the queue
 
 					DequeuedChar = CharacterList[0];
-					CharacterList.RemoveAt(0);
 					TypedChars.Add(DequeuedChar);
+						
+					CharacterList.RemoveAt(0);
 
 					if (CharacterList.Count == 0)
 					{
