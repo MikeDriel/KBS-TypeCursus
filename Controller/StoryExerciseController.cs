@@ -50,6 +50,7 @@ namespace Controller
                         _charListFront.Add(_currentChar);
                         //flag for correct letter (color)
 
+
                         if (_charListFront.Count == _charListBackCorrect.Count)
                         {
                             ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));

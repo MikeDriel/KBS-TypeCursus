@@ -67,7 +67,22 @@ namespace WPF_Visualize
             }
             else 
             {
-                _storyController._currentChar = e.Key.ToString().ToLower()[0];
+                if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+                {
+                    if(e.Key.ToString().Length == 1)
+                    {
+                        _storyController._currentChar = e.Key.ToString().ToUpper()[0];
+                    }
+                    
+                }
+                else
+                {
+                    if (e.Key.ToString().Length == 1)
+                    {
+                        _storyController._currentChar = e.Key.ToString().ToLower()[0];
+                    } 
+                }
+                
             }
 
 
