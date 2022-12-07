@@ -109,7 +109,5 @@ namespace Model
 			string hash = Encoding.ASCII.GetString(data);
 			return hash;
 		}
-		
-	
-	}
+    }
 }

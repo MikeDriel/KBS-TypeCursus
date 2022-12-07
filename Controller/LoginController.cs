@@ -18,19 +18,25 @@ namespace Controller
         //CHECK IF THE GIVEN LOGIN INFORMATION IS RIGHT AND SET THE UserId ACCORDINGLY
         public void CheckLogin(string? loginKey, string password)
         {
+            if (loginKey == "" || password == "")
+            {
+                LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
+                return;
+            }
             string? correctPasswordWithId = _db.GetPasswordWithId(IsTeacher, loginKey);
             string[] array = correctPasswordWithId.Split(',');
             string? correctPassword = array[0];
-            int userId = int.Parse(array[1]);
             password = _db.HashPassword(password);
             
-            if (correctPassword != null && loginKey != null && correctPassword == password)
+            if (correctPassword != null && correctPassword == password)
             {
-                UserId = userId;
                 LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
-                return;
+                UserId = int.Parse(array[1]);
             }
-            LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
+            else
+            {
+                LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
+            }
         }
         
         

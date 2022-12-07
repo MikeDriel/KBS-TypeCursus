@@ -59,9 +59,11 @@ namespace WPF_Visualize
 
 			_controller.CheckIfLetterIsCorrect();
 			MoveLetterToTypeBoxOnCanvas();
-            _statisticsController.ResetTimeLeft();
-            _statisticsController.StartTimer();
-        }
+			if (!_statisticsController.IsRunning)
+			{
+				_statisticsController.StartTimer();
+			}
+		}
 
 		//updates values on view
 		private void ChangeTextOnScreen()
@@ -73,14 +75,18 @@ namespace WPF_Visualize
 				LettersTodoLabel.Content = string.Join(' ', _controller.CharacterList).Remove(0, 1);
 				LettersTypedLabel.Content = string.Join(' ', _controller.TypedChars);
 			}
-			SetLiveStatistics(this, null);
+			SetLiveStatistics(this, new LiveStatisticsEventArgs(false));
 		}
 
         //updates statistics on view
         private void SetLiveStatistics(object sender, LiveStatisticsEventArgs e)
 		{
-            this.Dispatcher?.Invoke(() =>
+			this.Dispatcher?.InvokeAsync(() =>
             {
+	            if (e.SetTextRed)
+	            {
+		            this.LetterToTypeLabel.Foreground = Brushes.Red;
+	            }
                 string statistics = _statisticsController.GetStatistics();
                 LiveStatisticsScreen.Content = statistics;
                 TimeLeftLabel.Content = _statisticsController.TimeLeft;

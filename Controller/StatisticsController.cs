@@ -15,29 +15,29 @@ namespace Controller
         public DateTime CurrentTime { get; set; }
         public int TimeLeft { get; set; }
         private int _maxTimePerKey = 5;
-        private System.Timers.Timer _timer = new System.Timers.Timer(1000);
+        private System.Timers.Timer _timer;
+        public bool IsRunning { get; set; }
         public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
 
         public StatisticsController()
 		{
+			IsRunning = false;
 			CurrentTime = new DateTime();
 			NumberOfMistakes = 0; 
 			NumberCorrect = 0;
+			_timer = new System.Timers.Timer(180000);
             _timer.Elapsed += OnTimedEvent;
             _hasBeenWrong = false;
-        }
+		}
 
         public void StartTimer()
         {
 			if (!_timer.Enabled)
 			{
                 _timer.Start();
+                _timer.Interval = 1000;
+                IsRunning = true;
             }
-        }
-
-		public void ResetTimeLeft()
-		{
-            TimeLeft = _maxTimePerKey;
         }
 
         public string GetStatistics()
@@ -61,11 +61,13 @@ namespace Controller
 
         private void OnTimedEvent(object sender, EventArgs e)
         {
+	        bool timeUp = false;
 	        if (TimeLeft == 0)
             {
 	            WrongAnswer();
+	            timeUp = true;
             }
-            LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());
+            LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(timeUp));
             if (!_hasBeenWrong)
 			{
 				TimeLeft--;
@@ -79,7 +81,7 @@ namespace Controller
 	        {
 		        NumberOfMistakes++;
 		        _hasBeenWrong = true;
-		        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs()); 
+		        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false)); 
 	        }
         }
         
@@ -88,15 +90,17 @@ namespace Controller
 			NumberCorrect++;
 			_hasBeenWrong = false;
 			TimeLeft = _maxTimePerKey;
-			LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs()); 
+			LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false)); 
 		}
     }
 
     //EVENT FOR LIVE STATISCTICS UPDATE
     public class LiveStatisticsEventArgs : EventArgs
     {
-	    public LiveStatisticsEventArgs()
+	    public bool SetTextRed;
+	    public LiveStatisticsEventArgs(bool setTextRed)
         {
+	        SetTextRed = setTextRed;
         }
     }
 }
