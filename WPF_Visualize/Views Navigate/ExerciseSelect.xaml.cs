@@ -43,7 +43,7 @@ namespace WPF_Visualize
 
         private void OnStoryExercise(object sender, RoutedEventArgs e)
         {
-            UserControlController.MainWindowChange(this, new StoryExercise(2));
+            UserControlController.MainWindowChange(this, new StoryExercise());
         }
     }
 }

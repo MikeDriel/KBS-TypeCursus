@@ -38,9 +38,9 @@ namespace WPF_Visualize
         public StoryExercise()
         {
             InitializeComponent();
-            StoryExerciseController storyExerciseController = new();
+            _storyController = new();
             //subscribe events
-            _controller.ExerciseEvent += ExerciseEvent;
+            _storyController.ExerciseEvent += ExerciseEvent;
             _statisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
             _storyController.SetCharListBack();
@@ -56,92 +56,39 @@ namespace WPF_Visualize
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
         }
-        
+
         //Handles the keypresses from the userinput
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            
 
-            //if key is space
             if (e.Key.ToString().Equals("Space"))
             {
-                //_charListFront + space
-                _storyController._charListFront.Add(' ');
-                _controller.CurrentChar = ' ';
-                _storyController._typingIndex++;
+                _storyController._currentChar = ' ';
             }
-
-
-            //if shift is pressed / capitalized
-            if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+            else 
             {
-                //if key is the same
-                if (e.Key.ToString().ToUpper()[0] == _storyController._charListBackCorrect[_storyController._typingIndex])
-                {
-                    char character = char.Parse(e.Key.ToString().ToUpper());
-                    _storyController._charListFront.Add(character);
-                    _controller.CurrentChar = character;
-                    _storyController._typingIndex++;
-                }
-                //key is not the same
-                else
-                {
+                _storyController._currentChar = e.Key.ToString().ToLower()[0];
+            }
 
-                    //_charListFront + e.key
-                    //remove letter on back text when key is wrong 
-                    _storyController._charListBack[_storyController._typingIndex] = ' ';
-                    if (e.Key != Key.LeftShift)
-                    {
-                        char character = char.Parse(e.Key.ToString());
-                        _storyController._charListFront.Add(character);
-                        _storyController._currentChar = character;
-                        _storyController._typingIndex++;
-                    }
-                   
-                }
-            }
-            //shift is not pressed / not capitalized
-            else
-            {
-                //if key is the same
-                if (e.Key.ToString().ToLower()[0] == _storyController._charListBackCorrect[_storyController._typingIndex])
-                {
-                    char character = char.Parse(e.Key.ToString().ToLower());
-                    _storyController._charListFront.Add(character);
-                    _controller.CurrentChar = character;
-                    _storyController._typingIndex++;
-                }
-                //key is not the same
-                else
-                {
-                    //_charListFront + e.key
-                    //remove letter on back text when key is wrong 
-                    _storyController._charListBack[_storyController._typingIndex] = ' ';
-                    if (e.Key != Key.LeftShift)
-                    {
-                        char character = char.Parse(e.Key.ToString());
-                        _storyController._charListFront.Add(character);
-                        _controller.CurrentChar = character;
-                        _storyController._typingIndex++;
-                    }
-                }
-            }
-            
-            _controller.CheckIfLetterIsCorrect();
-            MoveLetterToTypeBoxOnCanvas();
+
+            _storyController.CheckIfLetterIsCorrectStory();
             _statisticsController.ResetTimeLeft();
             _statisticsController.StartTimer();
         }
 
+
         //updates values on view
         private void ChangeTextOnScreen()
         {
-
+            StoryTextBoxBack.SelectAll();
+            StoryTextBoxBack.Selection.Text = "";
             foreach (var item in _storyController._charListBack)
             {
                 StoryTextBoxBack.AppendText(item.ToString());
             }
 
+            StoryTextBoxFront.SelectAll();
+            StoryTextBoxFront.Selection.Text = "";
             foreach (var item in _storyController._charListFront)
             {
                 StoryTextBoxFront.AppendText(item.ToString());
@@ -149,6 +96,9 @@ namespace WPF_Visualize
 
 
             
+
+
+
             //StoryTextBoxBack.AppendText(_charListBack.ToString());
             //StoryTextBoxFront.AppendText(_charListFront.ToString());
             SetLiveStatistics(this, null);
@@ -177,55 +127,12 @@ namespace WPF_Visualize
         {
             var window = Window.GetWindow(this);
             window.KeyDown -= HandleKeyPress;
-            _controller.CurrentChar = '.';
+            _storyController._currentChar = '.';
         }
 
-        //moves the highlighted box
-        private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
-        {
-            if (_controller.CharacterList.Count >= 1)
-            {
-                int posX = _controller.Coordinates[_controller.CharacterList[0]][0]; //sets posx
-                int posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
+   
 
-                if (_controller.CharacterList[0] == ' ')
-                {
-                    _rectangleLetterToType.Width = 359;
-                }
-                else
-                {
-                    _rectangleLetterToType.Width = 33;
-                }
-
-                Canvas.SetTop(_rectangleLetterToType, posY);
-                Canvas.SetLeft(_rectangleLetterToType, posX);
-            }
-        }
-
-        private void MoveLetterTypedBoxOnCanvas(bool isGood, char charTyped) //Moves box on canvas that displays which letter has to be typed
-        {
-            int posX = _controller.Coordinates[charTyped][0]; //sets posx
-            int posY = _controller.Coordinates[charTyped][1]; //sets posy
-            _rectangleLetterTyped.Visibility = Visibility.Visible;
-            if (charTyped == ' ')
-            {
-                _rectangleLetterTyped.Width = 359;
-            }
-            else
-            {
-                _rectangleLetterTyped.Width = 33;
-            }
-            if (isGood)
-            {
-                _rectangleLetterTyped.Fill = Brushes.Green;
-            }
-            else
-            {
-                _rectangleLetterTyped.Fill = Brushes.Red;
-            }
-            Canvas.SetTop(_rectangleLetterTyped, posY);
-            Canvas.SetLeft(_rectangleLetterTyped, posX);
-        }
+   
 
 
 

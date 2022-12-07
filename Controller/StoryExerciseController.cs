@@ -44,11 +44,11 @@ namespace Controller
                 if (_charListBackCorrect.Count >= 1)
                 {
                     //checks if the last keypress is equal to the first letter in the queue
-                    if (_charListBackCorrect[0] == _currentChar)
+                    if (_charListBackCorrect[_typingIndex] == _currentChar)
                     {
-
                         //if it is, add letter to _charListFront
                         _charListFront.Add(_currentChar);
+                        //flag for correct letter (color)
 
                         if (_charListFront.Count == _charListBackCorrect.Count)
                         {
@@ -58,15 +58,20 @@ namespace Controller
                         {
                             ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
                         }
+                        _typingIndex++;
                     }
                     else
                     {
+                        _charListFront.Add(_currentChar);
+                        //flag for wrong letter (color)
                         ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+                        _typingIndex++;
                     }
                 }
             }
         }
 
-        
+
+
     }
 }
