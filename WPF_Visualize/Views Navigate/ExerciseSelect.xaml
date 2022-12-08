@@ -27,7 +27,7 @@
         <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}"/>
 
 
-        <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
+		<Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" Style="{StaticResource LabelsSelecterScreens}"/>
         <Button Name="LetterExercise" Grid.Row="2"  Grid.Column="1" Click="OnLetterExcersice_Select" Style="{StaticResource IconButtons}">
             <Button.Template>
                 <ControlTemplate>

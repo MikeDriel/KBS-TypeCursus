@@ -54,37 +54,20 @@
 			</Style.Triggers>
 		</Style>
 
-		<Style TargetType="Button" x:Key="LoginButton">
-			<Setter Property="Foreground" Value="#ffffff"/>
-			<Setter Property="HorizontalAlignment" Value="Left"/>
-			<Setter Property="VerticalAlignment" Value="Top"/>
-			<Setter Property="Height" Value="40"/>
-			<Setter Property="Width" Value="90"/>
-			<Setter Property="Margin" Value="10,10,0,0"/>
+		<Style TargetType="ProgressBar" x:Key="ProgressBar">
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<Border CornerRadius="10"
-						        Background="#455a64"
-						        BorderThickness="1">
-							<ContentPresenter
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								Margin="{TemplateBinding Padding}" ></ContentPresenter>
+					<ControlTemplate TargetType="ProgressBar">
+						<Border CornerRadius="10" Background="#1c313a" BorderThickness="0.2">
+							<Grid x:Name="PART_Track">
+								<Grid x:Name="PART_Indicator" HorizontalAlignment="Left">
+									<Rectangle x:Name="Indicator" Fill="#64dd17" RadiusX="10" RadiusY="10"/>
+								</Grid>
+							</Grid>
 						</Border>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
-			<Style.Triggers>
-				<Trigger Property="IsMouseOver" Value="True">
-					<Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-					<Setter Property="RenderTransform">
-						<Setter.Value>
-							<ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
-						</Setter.Value>
-					</Setter>
-				</Trigger>
-			</Style.Triggers>
 		</Style>
 
 		<Style TargetType="Label" x:Key="LabelsSelecterScreens">
@@ -101,26 +84,16 @@
 			<Setter Property="Foreground" Value="#ffffff"/>
 		</Style>
 
-		<Style TargetType="Label" x:Key="LabelsWelcome">
+		<Style TargetType="Label" x:Key="LiveStatisticsScreen">
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Label}">
-						<Border CornerRadius="10" Background="#1c313a" BorderThickness="1" Width="400" Height="80">
-							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12,0,12" RecognizesAccessKey="True"/>
+						<Border BorderBrush="Black" BorderThickness="0.2" Background="#1c313a" SnapsToDevicePixels="true" CornerRadius="10">
+							<ContentPresenter Margin="10,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True"/>
 						</Border>
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
-			<Setter Property="Foreground" Value="#ffffff" />
-		</Style>
-
-		<Style x:Key="TextBox" TargetType="Control">
-			<Setter Property="FontSize" Value="14" />
-			<Setter Property="Grid.Column" Value="1" />
-			<Setter Property="Margin" Value="10 0 0 0" />
-			<Setter Property="Foreground" Value="#E1E1E1" />
-			<Setter Property="BorderBrush" Value="Transparent" />
-			<Setter Property="BorderThickness" Value="0" />
 		</Style>
 	</Application.Resources>
 </Application>
