@@ -47,6 +47,8 @@ public partial class Exercise : UserControl
         MoveLetterToTypeBoxOnCanvas();
         ChangeTextOnScreen();
         InitializeProgressBar();
+
+        //Keyboard Rectangels initializing
         KeyboardCanvas.Children.Add(_rectangleLetterToType); //adds rectangle on screen
         KeyboardCanvas.Children.Add(_rectangleLetterTyped);
         _rectangleLetterTyped.Visibility = Visibility.Hidden;

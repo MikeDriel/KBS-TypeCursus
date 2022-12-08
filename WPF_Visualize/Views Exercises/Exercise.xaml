@@ -35,15 +35,16 @@
         <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}" />
 
         <Viewbox Grid.Row="4" Margin="141,0,141,30" Grid.ColumnSpan="3" Grid.Column="1">
-            <Canvas x:Name="KeyboardCanvas" Height="202" Width="605">
+            <Canvas x:Name="KeyboardCanvas" Height="202" Width="605" Opacity="0.6">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Images/KeyboardExercise.png" />
                 </Canvas.Background>
                 <Rectangle Height="33" Canvas.Left="429" Stroke="Black" Canvas.Top="43" Width="33" Fill="#FFE21717"
                            Opacity="0.45" />
+                <Rectangle Fill="#FFF90000" Height="33" Width="33" Opacity="0.604" Canvas.Left="123" HorizontalAlignment="Left" Canvas.Top="1" VerticalAlignment="Center"/>
             </Canvas>
         </Viewbox>
-        <ProgressBar Name="ProgressBar" Grid.Column="1" Margin="264,18,264,0" Grid.Row="0" Grid.ColumnSpan="3"
+        <ProgressBar Name="ProgressBar" Grid.Column="1" Margin="264,18,264,0" Grid.Row="0" Grid.ColumnSpan="3"  
                      Height="16" VerticalAlignment="Top" Style="{StaticResource ProgressBar}" />
         <Label x:Name="LiveStatisticsScreen" Grid.Column="3" Margin="140,0,0,0" Grid.ColumnSpan="2" Height="84"
                Width="110" Grid.Row="1" FontSize="16" BorderBrush="Black" BorderThickness="2" Foreground="White"

@@ -47,7 +47,18 @@ public class ExerciseController
                     { 'x', new[] { 134, 127 } },
                     { 'y', new[] { 265, 43 } },
                     { 'z', new[] { 93, 127 } },
+                    { '1', new[] { 41, 1 } },
+                    { '2', new[] { 82, 1 } },
+                    { '3', new[] { 123, 1 } },
+                    { '4', new[] { 164, 1 } },
+                    { '5', new[] { 205, 1 } },
+                    { '6', new[] { 245, 1 } },
+                    { '7', new[] { 286, 1 } },
+                    { '8', new[] { 327, 1 } },
+                    { '9', new[] { 368, 1 } },
+                    { '0', new[] { 409, 1 } },
                     { ' ', new[] { 123, 169 } }
+                
                 };
 
         if (choice == 0) // LetterExercise
@@ -92,6 +103,7 @@ public class ExerciseController
 
     public void GenerateStoryData()
     {
+        //<TODO> Get it fronm the database here
         string Story =
             "het leven is een tekening die je inkleurt in december komt sinterklaas met zwarte piet naar jouw schoorsteen toe";
         //get the words from the database and choose how many you want
