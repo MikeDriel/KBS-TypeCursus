@@ -7,23 +7,40 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Style="{StaticResource UserControlBackground}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height=".5*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.5*"/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Column="1" Content="Welkom bij QwerTyping" HorizontalContentAlignment="center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Grid.ColumnSpan="3" FontSize="36"/>
-        <Button x:Name="Student" Grid.Column="1" Content="Ik ben een leerling" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Grid.ColumnSpan="1" Grid.RowSpan="1" Height="180" Width="230" FontSize="24" Click="OnStudent"/>
-        <Button x:Name="Teacher" Grid.Column="3" Content="Ik ben een leraar" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" Grid.RowSpan="1" Height="180" Width="230" FontSize="24" Click="OnTeacher"/>
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height=".5*"/>
+			<RowDefinition Height="1.2*"/>
+			<RowDefinition Height="1.5*"/>
+			<RowDefinition Height="3*"/>
+			<RowDefinition Height="1*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="0.5*"/>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="0.2*"/>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="0.5*"/>
+		</Grid.ColumnDefinitions>
+		<Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Content="Welkom bij QwerTyping" FontSize="36" Margin="50,0,50,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsWelcome}"/>
+
+		<Label Grid.Column="1" Grid.Row="2" Content="Ik ben leerling" FontSize="22" Margin="25,0,25,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}"/>
+		<Button x:Name="Student" Grid.Column="1" Grid.Row="3" Click="OnStudent" Style="{StaticResource IconButtons}">
+			<Button.Template>
+				<ControlTemplate>
+					<Image Source="\Images\Pupil.png"></Image>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+
+
+		<Label Grid.Column="3" Grid.Row="2" Content="Ik ben leraar" FontSize="22" Margin="25,0,25,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}"/>
+		<Button x:Name="Teacher" Grid.Column="3" Grid.Row="3" Click="OnTeacher" Style="{StaticResource IconButtons}">
+			<Button.Template>
+				<ControlTemplate>
+					<Image Source="\Images\Teacher.png"></Image>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+	</Grid>
 </UserControl>
