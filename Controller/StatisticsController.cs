@@ -9,29 +9,41 @@ namespace Controller
 {
     public class StatisticsController
     {
+        
+        public DateTime CurrentTime { get; set; }
+        public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
+        public Dictionary<int, int> CharactersPerSecond { get; set; } //Dictionary which holds the amount of characters typed correct for every second passed
+
         public int NumberOfMistakes { get; private set; }
         public int NumberCorrect { get; private set; }
-        private bool _hasBeenWrong;
-        public DateTime CurrentTime { get; set; }
+        public bool IsRunning { get; set; }
         public int TimeLeft { get; set; }
+
+        private int _numberOfCorrectLastSecond; //int that contains the amount of correct typed characters before the current second (necesary to calculatet he amount of characters typed in 1 certain second)
+        private bool _hasBeenWrong;
         private int _maxTimePerKey = 5;
         private System.Timers.Timer _timer;
-        public bool IsRunning { get; set; }
-        public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
+       
         private char? _lastKey;
         private char _currentKey;
         private bool _timeUp;
+
         public StatisticsController()
         {
-            IsRunning = false;
+            CharactersPerSecond = new Dictionary<int, int>();
             CurrentTime = new DateTime();
+            IsRunning = false;
+            
             NumberOfMistakes = 0;
             NumberCorrect = 0;
+
             _timer = new System.Timers.Timer(180000);
             _timer.Elapsed += OnTimedEvent;
             _hasBeenWrong = false;
             _lastKey = null;
             _timeUp = false;
+            _numberOfCorrectLastSecond = 0;
+            
         }
 
         public void StartTimer()
@@ -64,6 +76,18 @@ namespace Controller
             return $" {NumberOfMistakes} fout \r\n {PercentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
         }
 
+        private void UpdateCharactersPerSecond()
+        {
+            
+            
+            if (!CharactersPerSecond.ContainsKey(CurrentTime.Second + (CurrentTime.Minute*60) + (CurrentTime.Hour*3600)))
+            {
+                CharactersPerSecond.Add((CurrentTime.Second + (CurrentTime.Minute * 60) + (CurrentTime.Hour * 3600)), NumberCorrect - _numberOfCorrectLastSecond);
+            }
+           
+            _numberOfCorrectLastSecond = NumberCorrect;
+        }
+
         private void OnTimedEvent(object sender, EventArgs e)
         {
             if (!_timeUp)
@@ -81,7 +105,7 @@ namespace Controller
             {
                 TimeLeft--;
             }
-
+            UpdateCharactersPerSecond();
             CurrentTime = CurrentTime.AddSeconds(1);
         }
 
