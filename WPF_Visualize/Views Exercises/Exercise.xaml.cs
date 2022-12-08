@@ -74,7 +74,7 @@ public partial class Exercise : UserControl
             //Displays the content to the application
             LetterToTypeLabel.Content = string.Join(' ', _controller.CharacterList[0]);
             LettersTodoLabel.Content = string.Join(' ', _controller.CharacterList).Remove(0, 1);
-            LettersTypedLabel.Content = string.Join(' ', _controller.TypedChars);
+            LettersTypedLabel.Content = string.Join(' ', _controller.TypedCharsList);
         }
 
         SetLiveStatistics(this, new LiveStatisticsEventArgs(false));
@@ -110,8 +110,7 @@ public partial class Exercise : UserControl
         }
     }
 
-    private void
-        MoveLetterTypedBoxOnCanvas(bool isGood,
+    private void MoveLetterTypedBoxOnCanvas(bool isGood,
             char charTyped) //Moves box on canvas that displays which letter has to be typed
     {
         var posX = _controller.Coordinates[charTyped][0]; //sets posx
@@ -179,7 +178,8 @@ public partial class Exercise : UserControl
             CorrectAnswer();
         else
             MistakeMade();
-        if (e.IsFinished) ExerciseFinished();
+        if (e.IsFinished) 
+            ExerciseFinished();
 
         ChangeTextOnScreen();
     }

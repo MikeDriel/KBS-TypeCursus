@@ -7,12 +7,15 @@ public class ExerciseController
     public Database Database = new();
 
     public Random Random = new(); //random number generator
+    private int _choice; //user's choice
 
     public ExerciseController(int choice)
     {
+        _choice = choice;
         CharacterList = new List<char>();
         //CharacterQueue = new Queue<char>();
-        TypedChars = new List<char>();
+        TypedCharsList = new List<char>();
+        CorrectCharsList = new List<char>();
 
         //Coordinates
         Coordinates =
@@ -48,25 +51,21 @@ public class ExerciseController
                     { ' ', new[] { 123, 169 } }
                 };
 
+        if (choice == 0) // LetterExercise
+            GenerateLetterData();
 
-			if(choice == 0) // LetterExercise
-			{
-				GenerateLetterData();
-			}
-			if (choice == 1) // WordExercise
-			{
-				GenerateWordData();
-			}
-            if (choice == 2) // StoryExercise
-            {
-                GenerateStoryData();
-            }
+        if (choice == 1) // WordExercise
+            GenerateWordData();
 
+        if (choice == 2) // StoryExercise 
+        {
+            GenerateStoryData();
         }
-
     }
 
     public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
+    public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed
+    public List<char> TypedCharsList { get; set; } //list which holds all the letters that have been typed
 
     public Dictionary<char, int[]>
         Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
@@ -75,27 +74,34 @@ public class ExerciseController
     public char DequeuedChar { get; set; } //the current letter that is being typed
     public int Progress { get; set; }
 
-    public List<char> TypedChars { get; set; } //list which holds all the letters that have been typed
-
     // events
     public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
-		public void GenerateStoryData()
-		{
-			string LittleStory = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-            
-            foreach (char letter in LittleStory)
-            {
-                CharacterQueue.Enqueue(letter);
-            }
-        }
-
+    /// <summary>
+    ///     Generates the alphabet data for the list. Also copies data to the queue for logic use.
+    /// </summary>
+    public void GenerateLetterData()
+    {
+        for (var i = 0; i < 35; i++) CharacterList.Add((char)Random.Next(97, 123));
+    }
 
     public void GenerateWordData()
     {
         //get the words from the database and choose how many you want
         CharacterList = Database.GetWord(10);
     }
+
+    public void GenerateStoryData()
+    {
+        string Story =
+            "het leven is een tekening die je inkleurt in december komt sinterklaas met zwarte piet naar jouw schoorsteen toe";
+        //get the words from the database and choose how many you want
+        foreach (var character in Story)
+        {
+        CharacterList.Add(character);
+        }
+    }
+
 
     /// <summary>
     ///     Logic to check if letter is correct or incorrect.
@@ -113,8 +119,7 @@ public class ExerciseController
                 //if it is, remove the letter from the queue
 
                 DequeuedChar = CharacterList[0];
-                TypedChars.Add(DequeuedChar);
-
+                TypedCharsList.Add(DequeuedChar);
                 CharacterList.RemoveAt(0);
 
                 if (CharacterList.Count == 0)
@@ -128,6 +133,33 @@ public class ExerciseController
             }
         }
     }
+// Test of dit mogeijk is en of het te combineren is
+    public void CheckIfCharacterIsCorrectStory()
+    {
+        //checks if list isnt empty
+        if (CharacterList.Count >= 1)
+        {
+            DequeuedChar = CharacterList[0];
+            CorrectCharsList.Add(DequeuedChar);
+            CharacterList.RemoveAt(0);
+            TypedCharsList.Add(CurrentChar);
+            
+            //checks if the last keypress is equal to the first letter in the queue
+            if (DequeuedChar == CurrentChar)
+            {
+                Progress++;
+
+                //if it is, remove the letter from the queue
+
+                if (CharacterList.Count == 0)
+                {
+                    ExerciseEvent?.Invoke(this, new ExerciseEventArgs( true));
+                }
+            }
+            ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false));
+        }
+    }
+}
 
 /// <summary>
 ///     Event for exercise
@@ -140,6 +172,11 @@ public class ExerciseEventArgs : EventArgs
     public ExerciseEventArgs(bool isCorrect, bool isFinished)
     {
         IsCorrect = isCorrect;
+        IsFinished = isFinished;
+    }
+    
+    public ExerciseEventArgs(bool isFinished)
+    {
         IsFinished = isFinished;
     }
 }
