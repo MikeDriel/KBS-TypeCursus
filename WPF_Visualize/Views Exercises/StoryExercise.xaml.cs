@@ -57,66 +57,35 @@ public partial class StoryExercise : UserControl
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
         
-            // if (e.Key.ToString().Equals("Space"))
-            // {
-            //     _storyController._currentChar = ' ';
-            // }
-            // else 
-            // {
-            //     if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
-            //     {
-            //         if(e.Key.ToString().Length == 1)
-            //         {
-            //             _storyController._currentChar = e.Key.ToString().ToUpper()[0];
-            //         }
-            //
-            //     }
-            //     else
-            //     {
-            //         if (e.Key.ToString().Length == 1)
-            //         {
-            //             _storyController._currentChar = e.Key.ToString().ToLower()[0];
-            //         } 
-            //     }
-            //
-            // }
-        
-            _controller.CurrentChar = e.Key.ToString().ToLower()[0];
-            _controller.CheckIfCharacterIsCorrectStory();
+            if (e.Key.ToString().Equals("Space"))
+            {
+                _controller.CurrentChar = ' ';
+            }
+            else if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+            {
+                if(e.Key.ToString().Length == 1)
+                {
+                    _controller.CurrentChar = e.Key.ToString().ToUpper()[0];
+                }
+            
+            }
+            else
+            {
+                if (e.Key.ToString().Length == 1)
+                {
+                    _controller.CurrentChar = e.Key.ToString().ToLower()[0];
+                } 
+            }
+            _controller.CheckIfLetterIsCorrect();
         }
-        
-        
-        private void HandleKeyUp(object sender, KeyEventArgs e)
-        {
-        
-        
-        }
-        
-        
+
+
         //updates values on view
         private void ChangeTextOnScreen()
         {            
 
             RichTextBoxStory.Document.Blocks.Clear();
             SetRichBox();
-
-            //RichTextBoxStory.SelectAll();
-            //RichTextBoxStory.Selection.Text = "";
-            //foreach (var item in _storyController._charListTyped)
-            //{
-            //    RichTextBoxStory.AppendText(item.ToString());
-            //}
-        
-            ////StoryTextBoxFront.SelectAll();
-            ////StoryTextBoxFront.Selection.Text = "";
-            ////foreach (var item in _storyController._charListFront)
-            ////{
-            ////    StoryTextBoxFront.AppendText(item.ToString());
-            ////}
-        
-            ////RichTextBoxStory.AppendText(_charListBack.ToString());
-            ////StoryTextBoxFront.AppendText(_charListFront.ToString());
-            //SetLiveStatistics(this, null);
         }
 
         private void SetRichBox()
@@ -179,11 +148,7 @@ public partial class StoryExercise : UserControl
         
         
         private void ExerciseFinished()
-        {
-            //adds a empty space if the list is empty
-        
-            //show a message box
-            MessageBox.Show("You have finished the exercise!");
+        { 
             UserControlController.MainWindowChange(this, new ResultatenOefening());
         }
 
@@ -213,7 +178,7 @@ public partial class StoryExercise : UserControl
                 _rectangleLetterTyped.Width = 359;
             else
                 _rectangleLetterTyped.Width = 33;
-            if (isGood)
+            if (!isGood)
                 _rectangleLetterTyped.Fill = Brushes.LawnGreen;
             else
                 _rectangleLetterTyped.Fill = Brushes.Red;
@@ -229,7 +194,7 @@ public partial class StoryExercise : UserControl
                 ExerciseFinished();
             }
             ChangeTextOnScreen();
-            MoveLetterTypedBoxOnCanvas(false, _controller.CurrentChar);
+            MoveLetterTypedBoxOnCanvas(e.IsCorrect, _controller.CurrentChar);
             MoveLetterToTypeBoxOnCanvas();
             
         }

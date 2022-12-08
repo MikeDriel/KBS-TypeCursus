@@ -111,16 +111,25 @@ public class ExerciseController
         //checks if list isnt empty
         if (CharacterList.Count >= 1)
         {
+            if (_choice == 2)
+            {
+                Progress++;
+                DequeuedChar = CharacterList[0];
+                CorrectCharsList.Add(DequeuedChar);
+                CharacterList.RemoveAt(0);
+                TypedCharsList.Add(CurrentChar);
+            }
             //checks if the last keypress is equal to the first letter in the queue
             if (CharacterList[0] == CurrentChar)
             {
-                Progress++;
-
-                //if it is, remove the letter from the queue
-
-                DequeuedChar = CharacterList[0];
-                TypedCharsList.Add(DequeuedChar);
-                CharacterList.RemoveAt(0);
+                if (_choice != 2)
+                {
+                    Progress++;
+                    //if it is, remove the letter from the List
+                    DequeuedChar = CharacterList[0];
+                    TypedCharsList.Add(DequeuedChar);
+                    CharacterList.RemoveAt(0);
+                }
 
                 if (CharacterList.Count == 0)
                     ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
@@ -131,32 +140,6 @@ public class ExerciseController
             {
                 ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
             }
-        }
-    }
-// Test of dit mogeijk is en of het te combineren is
-    public void CheckIfCharacterIsCorrectStory()
-    {
-        //checks if list isnt empty
-        if (CharacterList.Count >= 1)
-        {
-            DequeuedChar = CharacterList[0];
-            CorrectCharsList.Add(DequeuedChar);
-            CharacterList.RemoveAt(0);
-            TypedCharsList.Add(CurrentChar);
-            
-            //checks if the last keypress is equal to the first letter in the queue
-            if (DequeuedChar == CurrentChar)
-            {
-                Progress++;
-
-                //if it is, remove the letter from the queue
-
-                if (CharacterList.Count == 0)
-                {
-                    ExerciseEvent?.Invoke(this, new ExerciseEventArgs( true));
-                }
-            }
-            ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false));
         }
     }
 }
@@ -172,11 +155,6 @@ public class ExerciseEventArgs : EventArgs
     public ExerciseEventArgs(bool isCorrect, bool isFinished)
     {
         IsCorrect = isCorrect;
-        IsFinished = isFinished;
-    }
-    
-    public ExerciseEventArgs(bool isFinished)
-    {
         IsFinished = isFinished;
     }
 }
