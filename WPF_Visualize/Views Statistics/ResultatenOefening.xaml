@@ -6,33 +6,41 @@
              xmlns:local="clr-namespace:WPF_Visualize" xmlns:local1="clr-namespace:WPF_Visualize.Views_Statistics"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="AntiqueWhite"
              Style="{StaticResource UserControlBackground}">
 
     <UserControl.DataContext>
         <local1:Charts/>
     </UserControl.DataContext>
-
-
-
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <oxy:PlotView IsMouseWheelEnabled="False"  Grid.Column="2" Grid.Row="1" Model="{Binding Stats}" Background="Transparent" Grid.ColumnSpan="3" Margin="47,61,94,0" Grid.RowSpan="2"/>
+
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Style="{StaticResource BackButton}" Click="OnBack"/>
+
+        <Label Grid.Column="1" Grid.Row="1" Content="Statistieken" Style="{StaticResource LabelsSelecterScreens}"/>
+
+        <Label Content="Woorden per seconde:" Grid.Row="2" Grid.Column="1" Width="180" Height="30" Margin="10,119,45,51" FontSize="15" Grid.ColumnSpan="2" Foreground="#ffffff"/>
+        <Label Content="Aantal fouten:" Grid.Row="2" Grid.Column="1" Width="180" Height="30" Margin="10,19,45,151" FontSize="15" Grid.ColumnSpan="2" Foreground="#ffffff"/>
+        <Label x:Name="WordsPerMinute" Content="WPS" Grid.Column="1" Grid.Row="2" Width="130" Height="30" Margin="10,149,48,21" FontSize="15" Foreground="#ffffff"/>
+        <Label x:Name="AmountWrong" Content="Fouten" Grid.Column="1" Grid.Row="2" Width="130" Height="30" Margin="10,54,48,116" FontSize="15" Foreground="#ffffff"/>
+
+        <!--<Label Content="Meest voorkomen fouten:&#xD;&#xA;" HorizontalAlignment="Left" Margin="45,335,0,0" VerticalAlignment="Top"/>-->
 
 
-       
-        
-        <oxy:PlotView Model="{Binding Stats}" Margin="400,149,69,78"/>
-
-        <Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="130" Margin="10,10,0,0"/>
-
-        <Label Content="Woorden per seconde:&#xD;&#xA;" HorizontalAlignment="Left" Margin="48,149,0,0" VerticalAlignment="Top"/>
-        <Label Content="Meest voorkomen fouten:&#xD;&#xA;" HorizontalAlignment="Left" Margin="45,335,0,0" VerticalAlignment="Top"/>
-        <Label Content="Resultaat opdracht" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top" FontSize="36"/>
-        <Label Content="Aantal fouten:" HorizontalAlignment="Left" Margin="48,255,0,0" VerticalAlignment="Top"/>
-
-
-        <Label x:Name="WPS" Content="WPS" HorizontalAlignment="Left" Margin="258,149,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Fouten" Content="Fouten" HorizontalAlignment="Left" Margin="182,255,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="MVF" Content="MVF" HorizontalAlignment="Left" Margin="288,335,0,0" VerticalAlignment="Top"/>
+        <!--<Label x:Name="MVF" Content="MVF" HorizontalAlignment="Left" Margin="288,335,0,0" VerticalAlignment="Top"/>-->
 
 
 
