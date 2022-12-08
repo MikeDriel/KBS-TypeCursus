@@ -43,8 +43,6 @@ namespace Controller
         {
             UserId = null;
         }
-        
-        
     }
 
     //EVENT FOR EXCERCISE
