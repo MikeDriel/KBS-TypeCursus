@@ -45,11 +45,11 @@ namespace WPF_Visualize
 
 
             //sets the labels
-            this.Totaltime.Content = Exercise._statisticsController.CurrentTime.ToString("mm:ss");
-            this.MistakeCount.Content = Exercise._statisticsController.NumberOfMistakes;
-            this.WPS.Content = wps;
-            this.CorrectCount.Content = Exercise._statisticsController.NumberCorrect;
-            this.CorrectPercentage.Content = $"{correctPercentage}%";
+            this.Totaltime.Content = "Totale tijd: " + Exercise._statisticsController.CurrentTime.ToString("mm:ss");
+            this.MistakeCount.Content = "Aantal fouten: " + Exercise._statisticsController.NumberOfMistakes;
+            this.WPS.Content = "Gemiddelde tekens per seconde: " + wps;
+            this.CorrectCount.Content = "Aantal goed: " + Exercise._statisticsController.NumberCorrect;
+            this.CorrectPercentage.Content = $"Percentage goed: {correctPercentage}%";
             _InitializeFeedback(correctPercentage);
         }
 
