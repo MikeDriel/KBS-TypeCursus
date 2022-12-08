@@ -10,7 +10,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height=".5*"/>
-			<RowDefinition Height="1*"/>
+			<RowDefinition Height="1.2*"/>
 			<RowDefinition Height="1.5*"/>
 			<RowDefinition Height="3*"/>
 			<RowDefinition Height="1*"/>
@@ -22,9 +22,9 @@
 			<ColumnDefinition Width="1*"/>
 			<ColumnDefinition Width="0.5*"/>
 		</Grid.ColumnDefinitions>
-		<Label Grid.Column="1" Content="Welkom bij QwerTyping" HorizontalContentAlignment="center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Grid.ColumnSpan="3" FontSize="36" Style="{StaticResource LabelsWelcome}"/>
+		<Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Content="Welkom bij QwerTyping" FontSize="36" Margin="50,0,50,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsWelcome}"/>
 
-		<Label Grid.Column="1" Grid.Row="2" Content="Ik ben leerling" Style="{StaticResource LabelsSelecterScreens}" Margin="26,0,25,0" Height="37" VerticalAlignment="Bottom"/>
+		<Label Grid.Column="1" Grid.Row="2" Content="Ik ben leerling" FontSize="22" Margin="25,0,25,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}"/>
 		<Button x:Name="Student" Grid.Column="1" Grid.Row="3" Click="OnStudent" Style="{StaticResource IconButtons}">
 			<Button.Template>
 				<ControlTemplate>
@@ -34,8 +34,8 @@
 		</Button>
 
 
-		<Label Grid.Column="3" Grid.Row="2" Content="Ik ben leraar" Style="{StaticResource LabelsSelecterScreens}" Margin="25,0,26,0" Height="37" VerticalAlignment="Bottom"/>
-		<Button x:Name="Teacher" Grid.RowSpan="1" Grid.Column="3" Grid.Row="3" Click="OnTeacher" Style="{StaticResource IconButtons}">
+		<Label Grid.Column="3" Grid.Row="2" Content="Ik ben leraar" FontSize="22" Margin="25,0,25,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}"/>
+		<Button x:Name="Teacher" Grid.Column="3" Grid.Row="3" Click="OnTeacher" Style="{StaticResource IconButtons}">
 			<Button.Template>
 				<ControlTemplate>
 					<Image Source="\Images\Teacher.png"></Image>

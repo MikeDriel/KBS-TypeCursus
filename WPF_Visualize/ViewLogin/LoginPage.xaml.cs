@@ -37,12 +37,12 @@ namespace WPF_Visualize.ViewLogin
             if (loginController.IsTeacher)
             {
                 WelcomeBanner.Content = "Login leraar";
-                LoginKey.Content = "Email:";
+                LoginKey.Content = "Email";
             }
             else
             {
                 WelcomeBanner.Content = "Login Leerling";
-                LoginKey.Content = "Gebruikersnaam:";
+                LoginKey.Content = "Gebruikersnaam";
             }
         }
 
@@ -83,5 +83,5 @@ namespace WPF_Visualize.ViewLogin
         {
             UserControlController.MainWindowChange(this, new LoginChoose());
         }
-    }
+	}
 }
