@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -26,6 +29,16 @@ public partial class Exercise : UserControl
     {
         InitializeComponent();
         _controller = new ExerciseController(choice);
+        if (choice == 2)
+        {
+            LettersTypedLabel.Visibility = Visibility.Hidden;
+            LettersTodoLabel.Visibility = Visibility.Hidden;
+            LetterToTypeLabel.Visibility = Visibility.Hidden;
+        }
+        else
+        {
+            RichTextBoxStory.Visibility = Visibility.Hidden;
+        }
         StatisticsController = new StatisticsController();
         //subscribe events
         _controller.ExerciseEvent += ExerciseEvent;
@@ -55,29 +68,95 @@ public partial class Exercise : UserControl
     //Handles the keypresses from the user-input
     private void HandleKeyPress(object sender, KeyEventArgs e)
     {
+        Debug.WriteLine(e.Key.ToString());
         if (e.Key.ToString().Equals("Space"))
+        {
             _controller.CurrentChar = ' ';
-        else
+        }else if (e.Key.ToString().Contains('D') && e.Key.ToString().Length == 2)
+        {
+            _controller.CurrentChar = e.Key.ToString()[1];
+            Debug.WriteLine(_controller.CurrentChar);
+        }
+        else if (e.Key.ToString().Length == 1)
+        {
             _controller.CurrentChar = e.Key.ToString().ToLower()[0];
+        }else if (e.Key.ToString().Equals("Back"))
+        {
+            if (_controller.Choice == 2)
+            {
+                _controller.OnBack();
+                ProgressBar.Value = _controller.Progress;
+                ChangeTextOnScreen();
+            }
+
+            return;
+        }
+        else
+        {
+            return;
+        }
 
         _controller.CheckIfLetterIsCorrect();
         MoveLetterToTypeBoxOnCanvas();
         if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
         ProgressBar.Value = _controller.Progress;
     }
+    
+    // code to convert all possible KeyEventArgs.Key to char and return them
+    
+
+
 
     //updates values on view
     private void ChangeTextOnScreen()
     {
-        if (_controller.CharacterList.Count >= 1)
+        if (_controller.Choice == 2)
         {
-            //Displays the content to the application
-            LetterToTypeLabel.Content = string.Join(' ', _controller.CharacterList[0]);
-            LettersTodoLabel.Content = string.Join(' ', _controller.CharacterList).Remove(0, 1);
-            LettersTypedLabel.Content = string.Join(' ', _controller.TypedCharsList);
+            SetRichBox();
+        }
+        else
+        {
+            if (_controller.CharacterList.Count >= 1)
+            {
+                //Displays the content to the application
+                LetterToTypeLabel.Content = string.Join(' ', _controller.CharacterList[0]);
+                LettersTodoLabel.Content = string.Join(' ', _controller.CharacterList).Remove(0, 1);
+                LettersTypedLabel.Content = string.Join(' ', _controller.TypedCharsList);
+            }
         }
 
         SetLiveStatistics(this, new LiveStatisticsEventArgs(false));
+    }
+    
+    private void SetRichBox()
+    {
+        RichTextBoxStory.Document.Blocks.Clear();
+        int i = 0;
+        Paragraph paragraph = new Paragraph();
+        foreach (Char typedChar in _controller.TypedCharsList)
+        {
+            Run runColor = new Run();
+            runColor.Text = typedChar.ToString();
+            if (typedChar == _controller.CorrectCharsList[i])
+            {
+                runColor.Foreground = Brushes.Green;
+            }
+            else
+            {
+                runColor.Foreground = Brushes.Red;
+            }
+            paragraph.Inlines.Add(runColor);
+            i++;
+        }
+            
+        Run runBlack = new Run();
+        runBlack.Foreground = Brushes.Black;
+        foreach (char charTotype in _controller.CharacterList)
+        {
+            runBlack.Text += charTotype;
+        }
+        paragraph.Inlines.Add(runBlack);
+        RichTextBoxStory.Document.Blocks.Add(paragraph);
     }
 
     //updates statistics on view
@@ -95,37 +174,51 @@ public partial class Exercise : UserControl
     //moves the highlighted box
     private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
     {
-        if (_controller.CharacterList.Count >= 1)
+        try
         {
-            var posX = _controller.Coordinates[_controller.CharacterList[0]][0]; //sets posx
-            var posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
+            if (_controller.CharacterList.Count >= 1)
+            {
+                var posX = _controller.Coordinates[_controller.CharacterList[0]][0]; //sets posx
+                var posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
 
-            if (_controller.CharacterList[0] == ' ')
-                _rectangleLetterToType.Width = 359;
-            else
-                _rectangleLetterToType.Width = 33;
+                if (_controller.CharacterList[0] == ' ')
+                    _rectangleLetterToType.Width = 359;
+                else
+                    _rectangleLetterToType.Width = 33;
 
-            Canvas.SetTop(_rectangleLetterToType, posY);
-            Canvas.SetLeft(_rectangleLetterToType, posX);
+                Canvas.SetTop(_rectangleLetterToType, posY);
+                Canvas.SetLeft(_rectangleLetterToType, posX);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
         }
     }
 
     private void MoveLetterTypedBoxOnCanvas(bool isGood,
             char charTyped) //Moves box on canvas that displays which letter has to be typed
     {
-        var posX = _controller.Coordinates[charTyped][0]; //sets posx
-        var posY = _controller.Coordinates[charTyped][1]; //sets posy
-        _rectangleLetterTyped.Visibility = Visibility.Visible;
-        if (charTyped == ' ')
-            _rectangleLetterTyped.Width = 359;
-        else
-            _rectangleLetterTyped.Width = 33;
-        if (isGood)
-            _rectangleLetterTyped.Fill = Brushes.LawnGreen;
-        else
-            _rectangleLetterTyped.Fill = Brushes.Red;
-        Canvas.SetTop(_rectangleLetterTyped, posY);
-        Canvas.SetLeft(_rectangleLetterTyped, posX);
+        try
+        {
+            var posX = _controller.Coordinates[charTyped][0]; //sets posx
+            var posY = _controller.Coordinates[charTyped][1]; //sets posy
+            _rectangleLetterTyped.Visibility = Visibility.Visible;
+            if (charTyped == ' ')
+                _rectangleLetterTyped.Width = 359;
+            else
+                _rectangleLetterTyped.Width = 33;
+            if (isGood)
+                _rectangleLetterTyped.Fill = Brushes.LawnGreen;
+            else
+                _rectangleLetterTyped.Fill = Brushes.Red;
+            Canvas.SetTop(_rectangleLetterTyped, posY);
+            Canvas.SetLeft(_rectangleLetterTyped, posX);
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
 
     //The back button top left

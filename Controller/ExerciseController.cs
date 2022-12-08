@@ -7,13 +7,12 @@ public class ExerciseController
     public Database Database = new();
 
     public Random Random = new(); //random number generator
-    private int _choice; //user's choice
+    public int Choice { get; private set; } //user's choice
 
     public ExerciseController(int choice)
     {
-        _choice = choice;
+        Choice = choice;
         CharacterList = new List<char>();
-        //CharacterQueue = new Queue<char>();
         TypedCharsList = new List<char>();
         CorrectCharsList = new List<char>();
 
@@ -111,7 +110,7 @@ public class ExerciseController
         //checks if list isnt empty
         if (CharacterList.Count >= 1)
         {
-            if (_choice == 2)
+            if (Choice == 2)
             {
                 Progress++;
                 DequeuedChar = CharacterList[0];
@@ -119,10 +118,11 @@ public class ExerciseController
                 CharacterList.RemoveAt(0);
                 TypedCharsList.Add(CurrentChar);
             }
+            
             //checks if the last keypress is equal to the first letter in the queue
-            if (CharacterList[0] == CurrentChar)
+            if ((DequeuedChar == CurrentChar && Choice == 2) || (CharacterList[0] == CurrentChar && Choice != 2))
             {
-                if (_choice != 2)
+                if (Choice != 2)
                 {
                     Progress++;
                     //if it is, remove the letter from the List
@@ -139,6 +139,21 @@ public class ExerciseController
             else
             {
                 ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+            }
+        }
+    }
+
+    public void OnBack()
+    {
+        if (TypedCharsList.Count > 0)
+        {
+            Progress--;
+            CharacterList.Insert(0, DequeuedChar);
+            TypedCharsList.RemoveAt(TypedCharsList.Count - 1);
+            CorrectCharsList.RemoveAt(CorrectCharsList.Count - 1);
+            if (CorrectCharsList.Count > 0)
+            {
+                DequeuedChar = CorrectCharsList[CorrectCharsList.Count - 1];   
             }
         }
     }

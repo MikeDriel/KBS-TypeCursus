@@ -31,6 +31,6 @@ public partial class ExerciseSelect : UserControl
 
     private void OnStoryExercise(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new StoryExercise());
+        UserControlController.MainWindowChange(this, new Exercise(2));
     }
 }

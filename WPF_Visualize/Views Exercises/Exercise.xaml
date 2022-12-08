@@ -12,7 +12,8 @@
             <RowDefinition Height="0.5*" MinHeight="50" />
             <RowDefinition Height="1.5*" />
             <RowDefinition Height="2*" MinHeight="80" MaxHeight="80" />
-            <RowDefinition Height="4*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" MinWidth="95" />
@@ -33,7 +34,7 @@
 
         <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}" />
 
-        <Viewbox Grid.Row="3" Margin="141,29,141,30" Grid.ColumnSpan="3" Grid.Column="1">
+        <Viewbox Grid.Row="4" Margin="141,0,141,30" Grid.ColumnSpan="3" Grid.Column="1">
             <Canvas x:Name="KeyboardCanvas" Height="202" Width="605">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/Images/KeyboardExercise.png" />
@@ -50,5 +51,6 @@
         <Label x:Name="TimeLeftLabel" Grid.Column="2" Content="&#xD;&#xA;" HorizontalAlignment="Center"
                Margin="0,28,0,0" VerticalAlignment="Top" Grid.Row="0" Grid.RowSpan="2" Width="56"
                HorizontalContentAlignment="Center" FontSize="32" Foreground="White" />
+        <RichTextBox Name="RichTextBoxStory" Grid.Row="2" RenderTransformOrigin="0.626,0.029" Grid.ColumnSpan="3" FontSize="30" IsReadOnly="True" Grid.RowSpan="2" Grid.Column="1" Margin="90,0,90,0" />
     </Grid>
 </UserControl>
