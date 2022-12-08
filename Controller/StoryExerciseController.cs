@@ -11,7 +11,7 @@ namespace Controller
         public event EventHandler<ExerciseEventArgs> ExerciseEvent;
         public int _typingIndex { get; set; } //the index of the current letter that is being typed 
         public ExerciseController exerciseController;
-        public string Story = "Het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
+        public string Story = "het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
         public List<char> _charListBackCorrect;
         public List<char> _charListBack;
         public List<char> _charListFront;
@@ -63,7 +63,7 @@ namespace Controller
                     }
                     else
                     {
-                        _charListFront.Add(_currentChar);
+                        //_charListFront.Add(_currentChar);
                         //flag for wrong letter (color)
                         ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
                         _typingIndex++;

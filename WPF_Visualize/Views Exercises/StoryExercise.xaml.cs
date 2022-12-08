@@ -85,11 +85,16 @@ namespace WPF_Visualize
                 }
                 
             }
-
-
             _storyController.CheckIfLetterIsCorrectStory();
             _statisticsController.ResetTimeLeft();
             _statisticsController.StartTimer();
+        }
+
+
+        private void HandleKeyUp(object sender, KeyEventArgs e)
+        {
+
+            
         }
 
 
