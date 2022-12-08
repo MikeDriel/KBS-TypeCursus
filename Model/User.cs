@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Model;
 
-namespace Model
+internal abstract class User
 {
-    internal abstract class User
+    private readonly string _password;
+
+    public User(string name, string username, string password)
     {
-        public string Name { get; set; }
-        public string Username { get; set; }
-        private string _password;
+        Name = name;
+        Username = username;
+        _password = password;
+    }
 
-        public User(string name, string username, string password)
-        {
-            Name = name;
-            Username = username;
-            _password = password;
-        }
+    public string Name { get; set; }
+    public string Username { get; set; }
 
-        public bool Login(string password)
-        {
-            return _password == password;
-        }
+    public bool Login(string password)
+    {
+        return _password == password;
     }
 }

@@ -1,113 +1,103 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Model
+namespace Model;
+
+public class Database
 {
-    public class Database
+    private string? DatabaseConnectionString()
     {
-        //private static string connectionString = "Data Source=DESKTOP-2QJQJ3G\\SQLEXPRESS;Initial Catalog=Test;Integrated Security=True";
-
-        public string DatabaseConnectionString()
+        try
         {
-            try
+            var builder = new SqlConnectionStringBuilder
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
-                builder.UserID = "SA";
-                builder.Password = "KaasKnabbel123!";
-                builder.InitialCatalog = "TestDB";
+                DataSource = "127.0.0.1",
+                UserID = "SA",
+                Password = "KaasKnabbel123!",
+                InitialCatalog = "TestDB"
+            };
 
-                return builder.ConnectionString;
-            }
-
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.ToString());
-                return null;
-            }
+            return builder.ConnectionString;
         }
 
-
-        public List<char> GetWord(int amountOfWords)
+        catch (SqlException e)
         {
-            List<char> wordList = new List<char>();
-            using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
-            {
-                connection.Open();
-                string sql = "SELECT TOP (@amountOfWords) Words FROM Words ORDER BY NEWID()";
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@amountOfWords", amountOfWords);
-                SqlDataReader reader = command.ExecuteReader();
+            Console.WriteLine(e.ToString());
+            return null;
+        }
+    }
 
-                while (reader.Read())
+
+    public List<char> GetWord(int amountOfWords)
+    {
+        var wordList = new List<char>();
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT TOP (@amountOfWords) Words FROM Words ORDER BY NEWID()";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@amountOfWords", amountOfWords);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+                for (var i = 0; i < reader.FieldCount; i++)
                 {
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        foreach (char character in reader[i].ToString())
-                        {
-                            wordList.Add(character);
-                        }
+                    wordList.AddRange(reader[i].ToString());
 
-                        //Adds space between words 
-                        wordList.Add(' ');
-                    }
+                    //Adds space between words 
+                    wordList.Add(' ');
                 }
-                connection.Close();
-            }
-			wordList.RemoveAt(wordList.Count - 1);
-            return wordList;
+
+            connection.Close();
         }
 
-		
-		// get password from the database
-		public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
-		{
-			using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
-			{
-				if (isTeacher == null || loginKey == null)
-				{
-					return null;
-				}
-				
-				connection.Open();
-				SqlCommand command;
-				if (isTeacher == true)
-				{
-					command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)", connection);
-				}
-				else
-				{
-					command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)", connection);
-				}
-				command.Parameters.AddWithValue("@LoginKey", loginKey);
-				SqlDataReader reader = command.ExecuteReader();
-				//Debug.WriteLine(reader[0].ToString());
-				
-				string passwordWithId = "";
-				while (reader.Read())
-				{
-					passwordWithId = reader[0].ToString();
-					passwordWithId += "," + reader[1];
-					Debug.WriteLine(passwordWithId);
-				}
-				connection.Close();
+        wordList.RemoveAt(wordList.Count - 1);
+        return wordList;
+    }
 
-				return passwordWithId;
-			}
-		}
-		
-		// hash incoming string and return the hashed value
-		public string HashPassword(string password)
-		{
-			byte[] data = Encoding.ASCII.GetBytes(password);
-			data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
-			string hash = Encoding.ASCII.GetString(data);
-			return hash;
-		}
+
+    // get password from the database
+    public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
+    {
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            if (isTeacher == null || loginKey == null) return null;
+
+            connection.Open();
+            SqlCommand command;
+            if (isTeacher == true)
+                command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)",
+                    connection);
+            else
+                command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)",
+                    connection);
+
+            command.Parameters.AddWithValue("@LoginKey", loginKey);
+            var reader = command.ExecuteReader();
+            //Debug.WriteLine(reader[0].ToString());
+
+            var passwordWithId = "";
+            while (reader.Read())
+            {
+                passwordWithId = reader[0].ToString();
+                passwordWithId += "," + reader[1];
+                Debug.WriteLine(passwordWithId);
+            }
+
+            connection.Close();
+
+            return passwordWithId;
+        }
+    }
+
+    // hash incoming string and return the hashed value
+    public string HashPassword(string password)
+    {
+        var data = Encoding.ASCII.GetBytes(password);
+        data = new SHA256Managed().ComputeHash(data);
+        var hash = Encoding.ASCII.GetString(data);
+        return hash;
     }
 }
