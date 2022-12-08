@@ -1,81 +1,139 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Timers;
+using Timer = System.Timers.Timer;
 
-namespace Controller
+namespace Controller;
+
+public class StatisticsController
 {
-	public class StatisticsController
-	{
-        public int NumberOfMistakes { get; set; }
-        public int NumberCorrect{ get; set; }
+    private readonly int _maxTimePerKey = 5;
+    private readonly Timer _timer;
+    private char _currentKey;
+    private bool _hasBeenWrong;
+
+    private char? _lastKey;
+
+    private int
+        _numberOfCorrectLastSecond; //int that contains the amount of correct typed characters before the current second (necesary to calculatet he amount of characters typed in 1 certain second)
+
+    private bool _timeUp;
+
+    public StatisticsController()
+    {
+        CharactersPerSecond = new Dictionary<int, int>();
+        CurrentTime = new DateTime();
+        IsRunning = false;
+
+        NumberOfMistakes = 0;
+        NumberCorrect = 0;
+
+        _timer = new Timer(180000);
+        _timer.Elapsed += OnTimedEvent;
+        _hasBeenWrong = false;
+        _lastKey = null;
+        _timeUp = false;
+        _numberOfCorrectLastSecond = 0;
+    }
+
     public DateTime CurrentTime { get; set; }
-        public int TimeLeft { get; set; }
-        private int _maxTimePerKey = 5;
-        private System.Timers.Timer _timer = new System.Timers.Timer(1000);
-        public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
 
-        public StatisticsController()
-		{
-			CurrentTime = new DateTime();
-			NumberOfMistakes = 0;
-			NumberCorrect = 0;
-            _timer.Elapsed += OnTimedEvent;
-        }
+    public Dictionary<int, int>
+        CharactersPerSecond
+    {
+        get;
+        set;
+    } //Dictionary which holds the amount of characters typed correct for every second passed
 
-        public void StartTimer()
+    public int NumberOfMistakes { get; private set; }
+    public int NumberCorrect { get; private set; }
+    public bool IsRunning { get; set; }
+    public int TimeLeft { get; set; }
+    public event EventHandler<LiveStatisticsEventArgs>? LiveStatisticsEvent;
+
+    public void StartTimer()
+    {
+        if (!_timer.Enabled)
         {
-			if (!_timer.Enabled)
-			{
-                _timer.Start();
-            }
-        }
-
-		public void ResetTimeLeft()
-		{
-            TimeLeft = _maxTimePerKey;
-        }
-
-        public string GetStatistics()
-		{
-			double PercentGood;
-			if (NumberCorrect == 0)
-			{
-				PercentGood = 0;
-			}
-			else if (NumberOfMistakes == 0)
-			{
-				PercentGood = 100;
-			}
-			else
-			{
-				PercentGood = ((double)NumberCorrect / ((double)NumberCorrect + (double)NumberOfMistakes)) * 100;
-				PercentGood = Math.Round(PercentGood, 1);
-			}
-			return $"{NumberOfMistakes} fout \r\n {PercentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
-		}
-
-        private void OnTimedEvent(object sender, EventArgs e)
-        {
-            if (TimeLeft == 0)
-            {
-                NumberOfMistakes++;
-                TimeLeft = _maxTimePerKey;
-            }
-            LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs());            
-            TimeLeft--;
-            CurrentTime = CurrentTime.AddSeconds(1);
+            _timer.Start();
+            _timer.Interval = 1000;
+            IsRunning = true;
         }
     }
 
-    //EVENT FOR LIVE STATISCTICS UPDATE
-    public class LiveStatisticsEventArgs : EventArgs
+    public string GetStatistics()
     {
-
-        public LiveStatisticsEventArgs()
+        double percentGood;
+        if (NumberCorrect == 0)
         {
+            percentGood = 0;
         }
+        else if (NumberOfMistakes == 0)
+        {
+            percentGood = 100;
+        }
+        else
+        {
+            percentGood = NumberCorrect / (NumberCorrect + (double)NumberOfMistakes) * 100;
+            percentGood = Math.Round(percentGood, 1);
+        }
+
+        return $" {NumberOfMistakes} fout \r\n {percentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
+    }
+
+    private void UpdateCharactersPerSecond()
+    {
+        if (!CharactersPerSecond.ContainsKey(CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600))
+            CharactersPerSecond.Add(CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600,
+                NumberCorrect - _numberOfCorrectLastSecond);
+
+        _numberOfCorrectLastSecond = NumberCorrect;
+    }
+
+    private void OnTimedEvent(object? sender, ElapsedEventArgs elapsedEventArgs)
+    {
+        if (!_timeUp)
+            if (TimeLeft == 0)
+            {
+                WrongAnswer();
+                _timeUp = true;
+                _hasBeenWrong = true;
+            }
+
+        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(_timeUp));
+        if (!_hasBeenWrong) TimeLeft--;
+        UpdateCharactersPerSecond();
+        CurrentTime = CurrentTime.AddSeconds(1);
+    }
+
+    public void WrongAnswer(char currentKey)
+    {
+        _lastKey = _currentKey;
+        _currentKey = currentKey;
+        if (_lastKey != _currentKey) WrongAnswer();
+    }
+
+    public void WrongAnswer()
+    {
+        NumberOfMistakes++;
+        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
+    }
+
+    public void RightAnswer()
+    {
+        NumberCorrect++;
+        _hasBeenWrong = false;
+        TimeLeft = _maxTimePerKey;
+        _timeUp = false;
+        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
+    }
+}
+
+//EVENT FOR LIVE STATISTICS UPDATE
+public class LiveStatisticsEventArgs : EventArgs
+{
+    public bool SetTextRed;
+
+    public LiveStatisticsEventArgs(bool setTextRed)
+    {
+        SetTextRed = setTextRed;
     }
 }

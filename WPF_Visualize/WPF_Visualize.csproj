@@ -1,65 +1,78 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <StartupObject>WPF_Visualize.App</StartupObject>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Images\bar-chart.png" />
-    <None Remove="Images\Exercise.jpg" />
-    <None Remove="Images\Keyboard.png" />
-    <None Remove="Images\KeyboardExercise.png" />
-    <None Remove="Images\Leaderboard.jpg" />
-    <None Remove="Images\LetterExercise.png" />
-    <None Remove="Images\logout.png" />
-    <None Remove="Images\planning.png" />
-    <None Remove="Images\ranking.png" />
-    <None Remove="Images\Statistics.png" />
-    <None Remove="Images\WordExercise.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Images\bar-chart.png" />
+        <None Remove="Images\Exercise.jpg" />
+        <None Remove="Images\Keyboard.png" />
+        <None Remove="Images\KeyboardExercise.png" />
+        <None Remove="Images\Leaderboard.jpg" />
+        <None Remove="Images\LetterExercise.png" />
+        <None Remove="Images\logout.png" />
+        <None Remove="Images\planning.png" />
+        <None Remove="Images\Pupil.png" />
+        <None Remove="Images\ranking.png" />
+        <None Remove="Images\Statistics.png" />
+        <None Remove="Images\Teacher.png" />
+        <None Remove="Images\WordExercise.png" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Images\LetterExercise.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\bar-chart.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\Exercise.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\keyboard.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\KeyboardExercise.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\Leaderboard.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\logout.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\planning.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ranking.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\Statistics.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\WordExercise.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="Images\LetterExercise.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\bar-chart.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\Exercise.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\keyboard.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\KeyboardExercise.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\Leaderboard.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\logout.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\planning.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\Pupil.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\ranking.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\Statistics.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\Teacher.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\WordExercise.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Controller\Controller.csproj" />
-    <ProjectReference Include="..\Model\Model.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Controller\Controller.csproj" />
+        <ProjectReference Include="..\Model\Model.csproj" />
+    </ItemGroup>
 
 </Project>

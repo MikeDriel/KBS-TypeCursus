@@ -1,67 +1,53 @@
 ﻿using Model;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Controller
+namespace Controller;
+
+public class ExerciseController
 {
-	public class ExerciseController
-	{
-		// events
-		public event EventHandler<ExerciseEventArgs> ExerciseEvent;
+    public Database Database = new();
 
-		public Database database = new Database();
-		public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
-		public Queue<char> CharacterQueue { get; set; } //queue which holds all the letters of the alphabet
-		public Dictionary<char, int[]> Coordinates { get; set; }
+    public Random Random = new(); //random number generator
 
-		public Random random = new Random();
-		public char CurrentChar { get; set; } //the current letter that is being typed
-		public char DequeuedChar { get; set; }
-		
-		public List<char> TypedChars { get; set; }
+    public ExerciseController(int choice)
+    {
+        CharacterList = new List<char>();
+        //CharacterQueue = new Queue<char>();
+        TypedChars = new List<char>();
 
-		public ExerciseController(int choice)
-		{
-			CharacterList = new List<char>();
-			CharacterQueue = new Queue<char>();
-			TypedChars = new List<char>();
+        //Coordinates
+        Coordinates =
+            new
+                Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
+                {
+                    { 'a', new[] { 73, 85 } },
+                    { 'b', new[] { 257, 127 } },
+                    { 'c', new[] { 175, 127 } },
+                    { 'd', new[] { 155, 85 } },
+                    { 'e', new[] { 143, 43 } },
+                    { 'f', new[] { 196, 85 } },
+                    { 'g', new[] { 237, 84 } },
+                    { 'h', new[] { 278, 85 } },
+                    { 'i', new[] { 347, 43 } },
+                    { 'j', new[] { 319, 85 } },
+                    { 'k', new[] { 360, 85 } },
+                    { 'l', new[] { 401, 85 } },
+                    { 'm', new[] { 339, 127 } },
+                    { 'n', new[] { 298, 127 } },
+                    { 'o', new[] { 388, 43 } },
+                    { 'p', new[] { 429, 43 } },
+                    { 'q', new[] { 62, 43 } },
+                    { 'r', new[] { 184, 43 } },
+                    { 's', new[] { 114, 85 } },
+                    { 't', new[] { 224, 43 } },
+                    { 'u', new[] { 306, 43 } },
+                    { 'v', new[] { 216, 127 } },
+                    { 'w', new[] { 102, 43 } },
+                    { 'x', new[] { 134, 127 } },
+                    { 'y', new[] { 265, 43 } },
+                    { 'z', new[] { 93, 127 } },
+                    { ' ', new[] { 123, 169 } }
+                };
 
-			//Coordinates
-			Coordinates = new Dictionary<char, int[]>() //Makes dictionary with every coordinate for the canvas to display the rectangle
-			{
-				{'a', new int[] { 73, 85 } },
-				{'b', new int[] { 257, 127 } },
-				{'c', new int[] { 175, 127 } },
-				{'d', new int[] { 155, 85 } },
-				{'e', new int[] { 143, 43 } },
-				{'f', new int[] { 196, 85 } },
-				{'g', new int[] { 237, 84 } },
-				{'h', new int[] { 278, 85 } },
-				{'i', new int[] { 347, 43 } },
-				{'j', new int[] { 319, 85 } },
-				{'k', new int[] { 360, 85 } },
-				{'l', new int[] { 401, 85 } },
-				{'m', new int[] { 339, 127 } },
-				{'n', new int[] { 298, 127 } },
-				{'o', new int[] { 388, 43 } },
-				{'p', new int[] { 429, 43 } },
-				{'q', new int[] { 62, 43 } },
-				{'r', new int[] { 184, 43 } },
-				{'s', new int[] { 114, 85 } },
-				{'t', new int[] { 224, 43 } },
-				{'u', new int[] { 306, 43 } },
-				{'v', new int[] { 216, 127 } },
-				{'w', new int[] { 102, 43 } },
-				{'x', new int[] { 134, 127 } },
-				{'y', new int[] { 265, 43 } },
-				{'z', new int[] { 93, 127 } },
-				{' ', new int[] { 123, 169 } },
-			};
 
 			if(choice == 0) // LetterExercise
 			{
@@ -78,37 +64,21 @@ namespace Controller
 
         }
 
-		/// <summary>
-		/// Generates the alphabet data for the list. Also copies data to the queue for logic use.
-		/// </summary>
-		public void GenerateLetterData()
-		{
-			for (int i = 0; i < 26; i++)
-			{
-				CharacterList.Add((char)(i + 97));
-			}
-			
-			//randomize the alphabet
-			CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
+    }
 
-			foreach (char letter in CharacterList)
-			{
-				CharacterQueue.Enqueue(letter);
-			}
-		}
+    public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
 
-		public void GenerateWordData(){
+    public Dictionary<char, int[]>
+        Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
 
-			CharacterList = database.GetWord();
+    public char CurrentChar { get; set; } //the current letter that is being typed
+    public char DequeuedChar { get; set; } //the current letter that is being typed
+    public int Progress { get; set; }
 
-			//randomize the alphabet
-			//CharacterList = CharacterList.OrderBy(x => random.Next()).ToList();
+    public List<char> TypedChars { get; set; } //list which holds all the letters that have been typed
 
-			foreach (char letter in CharacterList)
-			{
-				CharacterQueue.Enqueue(letter);
-			}
-		}
+    // events
+    public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
 		public void GenerateStoryData()
 		{
@@ -120,52 +90,56 @@ namespace Controller
             }
         }
 
-		/// <summary>
-		/// Logic to check if letter is correct or incorrect.
-		/// </summary>
-		public void CheckIfLetterIsCorrect()
-		{//checks if list isnt empty
-			if (CharacterList.Count >= 1)
-			{
-				//checks if the last keypress is equal to the first letter in the queue
-				if (CharacterList[0] == CurrentChar)
-				{
 
-					//if it is, remove the letter from the queue
-					CharacterList.RemoveAt(0);
+    public void GenerateWordData()
+    {
+        //get the words from the database and choose how many you want
+        CharacterList = Database.GetWord(10);
+    }
 
-					DequeuedChar = CharacterQueue.Dequeue();
-					TypedChars.Add(DequeuedChar);
+    /// <summary>
+    ///     Logic to check if letter is correct or incorrect.
+    /// </summary>
+    public void CheckIfLetterIsCorrect()
+    {
+        //checks if list isnt empty
+        if (CharacterList.Count >= 1)
+        {
+            //checks if the last keypress is equal to the first letter in the queue
+            if (CharacterList[0] == CurrentChar)
+            {
+                Progress++;
 
-					if (CharacterList.Count == 0)
-					{
-						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
-					}
-					else
-					{
-						ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
-					}
-				}
-				else
-				{
-					ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
-				}
-			}
-		}
-	}
+                //if it is, remove the letter from the queue
 
-	/// <summary>
-	/// Event for exercise
-	/// </summary>
-	public class ExerciseEventArgs : EventArgs
-	{
-		public bool IsCorrect;
-		public bool IsFinished;
+                DequeuedChar = CharacterList[0];
+                TypedChars.Add(DequeuedChar);
 
-		public ExerciseEventArgs(bool isCorrect, bool isFinished)
-		{
-			IsCorrect = isCorrect;
-			IsFinished = isFinished;
-		}
-	}
+                CharacterList.RemoveAt(0);
+
+                if (CharacterList.Count == 0)
+                    ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
+                else
+                    ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, false));
+            }
+            else
+            {
+                ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
+            }
+        }
+    }
+
+/// <summary>
+///     Event for exercise
+/// </summary>
+public class ExerciseEventArgs : EventArgs
+{
+    public bool IsCorrect;
+    public bool IsFinished;
+
+    public ExerciseEventArgs(bool isCorrect, bool isFinished)
+    {
+        IsCorrect = isCorrect;
+        IsFinished = isFinished;
+    }
 }

@@ -11,7 +11,12 @@ using Controller;
 using WPF_Visualize.ViewLogic;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
-namespace WPF_Visualize
+namespace WPF_Visualize;
+
+/// <summary>
+///     Interaction logic for StoryExercise.xaml
+/// </summary>
+public partial class StoryExercise : UserControl
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml

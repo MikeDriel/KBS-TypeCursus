@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Model;
 
-namespace Model
+internal class StatisticsData
 {
-    internal class StatisticsData
+    public int CorrectAnwsers;
+
+
+    public StatisticsData()
     {
-        public int CorrectAnwsers;
-        
-        
-        public StatisticsData()
-        {
-            CorrectAnwsers = 0;
-            
-        }
+        CorrectAnwsers = 0;
     }
 }
