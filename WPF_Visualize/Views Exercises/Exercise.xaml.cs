@@ -168,7 +168,7 @@ namespace WPF_Visualize
 		private void MistakeMade()
 		{
 			//if the letter is wrong, add a mistake and update the screen
-			_statisticsController.WrongAnswer();
+			_statisticsController.WrongAnswer(_controller.CurrentChar);
 			MoveLetterTypedBoxOnCanvas(false, _controller.CurrentChar);
 			this.LetterToTypeLabel.Foreground = Brushes.Red;
 		}
