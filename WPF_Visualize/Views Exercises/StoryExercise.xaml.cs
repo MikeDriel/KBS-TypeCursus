@@ -94,7 +94,7 @@ namespace WPF_Visualize
 
             //}
 
-            _storyController._currentChar = e.Key.ToString().ToLower()[0];
+            _storyController.CurrentChar = e.Key.ToString().ToLower()[0];
             _storyController.CheckIfLetterIsCorrectStory();
             _statisticsController.ResetTimeLeft();
             _statisticsController.StartTimer();
@@ -153,7 +153,7 @@ namespace WPF_Visualize
         {
             var window = Window.GetWindow(this);
             window.KeyDown -= HandleKeyPress;
-            _storyController._currentChar = '.';
+            _storyController.CurrentChar = '.';
         }
 
         //Methods for events to fire

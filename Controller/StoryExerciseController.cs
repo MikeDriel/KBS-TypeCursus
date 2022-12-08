@@ -6,31 +6,27 @@ using System.Threading.Tasks;
 
 namespace Controller
 {
-    public class StoryExerciseController
+    public class StoryExerciseController : ExerciseController
     {
         public event EventHandler<ExerciseEventArgs> ExerciseEvent;
-        public int TypingIndex { get; set; } //the index of the current letter that is being typed 
-        public ExerciseController exerciseController;
         public string Story = "het leven is een tekening die je inkleurt. Op 5 december komt Sinterklaas met zwarte Piet naar jouw schoorsteen toe.";
-        public List<char> _charListCorrect;
-        public List<char> _charListTyped;
-        public char _currentChar;
+        public List<char> CharListCorrect;
+        public List<char> CharListTyped;
+        public List<char> CharListTyoType;
+        public char CurrentChar;
 
 
-        public StoryExerciseController()
+        public StoryExerciseController() : base(2)
         {
-            exerciseController = new ExerciseController(2);
-            _charListCorrect = new List<char>();
-            _charListTyped = new List<char>();
-            _currentChar = exerciseController.CurrentChar;
-            TypingIndex = 0;
+            CharListCorrect = new List<char>();
+            CharListTyped = new List<char>();
         }
 
         public void SetCharListBack()
         {
             foreach (char character in Story)
             {
-                _charListCorrect.Add(character);
+                CharListCorrect.Add(character);
             }
             //_charListTyped = _charListCorrect;
         }
@@ -39,11 +35,11 @@ namespace Controller
         {
             //checks if list isnt empty
 
-            if (_currentChar == _charListCorrect[TypingIndex])
+            if (CurrentChar == CharListCorrect[TypingIndex])
             {
-                _charListTyped.Add(_currentChar);
+                CharListTyped.Add(CurrentChar);
                
-                if (TypingIndex == _charListCorrect.Count)
+                if (TypingIndex == CharListCorrect.Count)
                 {
                     ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
                     
