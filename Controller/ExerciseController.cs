@@ -80,7 +80,7 @@ namespace Controller
 		/// </summary>
 		public void GenerateLetterData()
 		{
-			for (int i = 0; i < 35; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				CharacterList.Add((char)random.Next(97, 123));
 			}

@@ -15,20 +15,20 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="2.5*"/>
-			<RowDefinition Height="4*" MaxHeight="800"/>
+			<RowDefinition Height="4*" MinHeight="700" MaxHeight="1000"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="5*"/>
-			<ColumnDefinition Width="5*" MaxWidth="800"/>
+			<ColumnDefinition Width="5*" MinWidth="500" MaxWidth="1000"/>
 		</Grid.ColumnDefinitions>
 
 
-		<Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" Width="130" Click="OnBack" Style="{StaticResource BackButton}"/>
+		<Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" Width="190" Click="OnBack" Style="{StaticResource BackButton}"/>
 
-		<Label Content="Resultaat opdracht" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="36" Style="{StaticResource LabelsWelcome}"/>
-		<Label x:Name="Feedback" Content="Feedback" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="18" Margin="0,113,0,0" VerticalAlignment="Top" Style="{StaticResource LabelsFeedback}"/>
+		<Label Content="Resultaat opdracht" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
+		<Label x:Name="Feedback" Content="Feedback" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="30" Margin="0,113,0,0" VerticalAlignment="Top" Style="{StaticResource LabelsFeedback}"/>
 
-		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="0" MaxWidth="400" Height="350" CornerRadius="10" Margin="-1,0,25,0" BorderThickness="0.2" VerticalAlignment="Center">
+		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="0" MaxWidth="400" Height="350" CornerRadius="10" Margin="0,0,25,0" BorderThickness="0.2" VerticalAlignment="Center">
 			<StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Background="#1c313a" Height="350">
 				<Border BorderBrush="#455a64" BorderThickness="1" Margin="0,20,0,10" CornerRadius="5" Width="350">
 					<Label x:Name="WPS" Content="WPS" HorizontalAlignment="Left" Margin="7, 9" FontSize="18" VerticalAlignment="Top" Foreground="White"/>
@@ -53,7 +53,7 @@
 			</StackPanel>
 		</Border>
 
-		<oxy:PlotView x:Name="Tekens_perseconde" Background="#455a64" Grid.Column="2" Grid.Row="1" Margin="40,40,40,40" Model="{Binding Stats}"/>
+		<oxy:PlotView x:Name="Tekens_perseconde" Background="#455a64" Grid.Column="2" Grid.Row="1" Margin="40,40,100,100" Model="{Binding Stats}"/>
 
 	</Grid>
 </UserControl>
