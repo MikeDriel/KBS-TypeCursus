@@ -24,7 +24,7 @@
         <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Content="Welkom bij QwerTyping" FontSize="36"
                Margin="50,0,50,0" VerticalAlignment="Bottom" Style="{StaticResource LabelsWelcome}" />
 
-        <Label Grid.Column="1" Grid.Row="2" Content="Ik ben leerling" FontSize="22" Margin="25,0,25,0"
+        <Label Grid.Column="1" Grid.Row="2" Content="Leerling" FontSize="22" Margin="25,0,25,0"
                VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}" />
         <Button x:Name="Student" Grid.Column="1" Grid.Row="3" Click="OnStudent" Style="{StaticResource IconButtons}">
             <Button.Template>
@@ -35,7 +35,7 @@
         </Button>
 
 
-        <Label Grid.Column="3" Grid.Row="2" Content="Ik ben leraar" FontSize="22" Margin="25,0,25,0"
+        <Label Grid.Column="3" Grid.Row="2" Content="Leraar" FontSize="22" Margin="25,0,25,0"
                VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}" />
         <Button x:Name="Teacher" Grid.Column="3" Grid.Row="3" Click="OnTeacher" Style="{StaticResource IconButtons}">
             <Button.Template>
