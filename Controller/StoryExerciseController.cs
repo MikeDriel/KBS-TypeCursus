@@ -41,8 +41,7 @@ namespace Controller
         public void CheckIfLetterIsCorrectStory()
         {
             {//checks if list isnt empty
-                if (_charListBackCorrect.Count >= 1)
-                {
+
                     //checks if the last keypress is equal to the first letter in the queue
                     if (_charListBackCorrect[_typingIndex] == _currentChar)
                     {
@@ -63,12 +62,12 @@ namespace Controller
                     }
                     else
                     {
-                        //_charListFront.Add(_currentChar);
+                        _charListFront.Add(_currentChar);
                         //flag for wrong letter (color)
                         ExerciseEvent?.Invoke(this, new ExerciseEventArgs(false, false));
                         _typingIndex++;
                     }
-                }
+                
             }
         }
 
