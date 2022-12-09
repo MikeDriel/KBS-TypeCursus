@@ -105,7 +105,7 @@ public class ExerciseController
     {
         //<TODO> Get it fronm the database here
         string Story =
-            "het leven is een tekening die je inkleurt in december komt sinterklaas met zwarte piet naar jouw schoorsteen toe";
+            "Het leven is een tekening die je inkleurt. Op 5 December komt sinterklaas met zwarte piet naar jouw schoorsteen toe!";
         //get the words from the database and choose how many you want
         foreach (var character in Story)
         {

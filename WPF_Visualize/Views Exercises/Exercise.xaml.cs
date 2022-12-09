@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using Controller;
 using WPF_Visualize.ViewLogic;
 
@@ -64,25 +65,57 @@ public partial class Exercise : UserControl
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         var window = Window.GetWindow(this);
-        window.KeyDown += HandleKeyPress;
+        if (_controller.Choice == 2)
+        {
+            window.TextInput += TextInputPress;
+        }
+        else
+        {
+            window.KeyDown += HandleKeyPress;
+        }
+    }
+
+    private void TextInputPress(object sender, TextCompositionEventArgs e)
+    {
+        if (e.Text == "\b")
+        {
+            _controller.OnBack();
+            ProgressBar.Value = _controller.Progress;
+            ChangeTextOnScreen();
+
+            return;
+
+        } else
+        {
+            _controller.CurrentChar = e.Text[0];
+            _controller.CheckIfLetterIsCorrect();
+            MoveLetterToTypeBoxOnCanvas();
+            if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
+            ProgressBar.Value = _controller.Progress;
+        }
+      
+
+        
     }
 
     //Handles the keypresses from the user-input
     private void HandleKeyPress(object sender, KeyEventArgs e)
     {
-        Debug.WriteLine(e.Key.ToString());
+        //Debug.WriteLine(e.Key.ToString());
         if (e.Key.ToString().Equals("Space"))
         {
             _controller.CurrentChar = ' ';
-        }else if (e.Key.ToString().Contains('D') && e.Key.ToString().Length == 2)
+        }
+        else if (e.Key.ToString().Contains('D') && e.Key.ToString().Length == 2)
         {
             _controller.CurrentChar = e.Key.ToString()[1];
-            Debug.WriteLine(_controller.CurrentChar);
+            //Debug.WriteLine(_controller.CurrentChar);
         }
         else if (e.Key.ToString().Length == 1)
         {
             _controller.CurrentChar = e.Key.ToString().ToLower()[0];
-        }else if (e.Key.ToString().Equals("Back"))
+        }
+        else if (e.Key.ToString().Equals("Back"))
         {
             if (_controller.Choice == 2)
             {
@@ -103,9 +136,9 @@ public partial class Exercise : UserControl
         if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
         ProgressBar.Value = _controller.Progress;
     }
-    
+
     // code to convert all possible KeyEventArgs.Key to char and return them
-    
+
 
 
 
@@ -129,7 +162,7 @@ public partial class Exercise : UserControl
 
         SetLiveStatistics(this, new LiveStatisticsEventArgs(false));
     }
-    
+
     private void SetRichBox()
     {
         RichTextBoxStory.Document.Blocks.Clear();
@@ -148,9 +181,11 @@ public partial class Exercise : UserControl
                 runColor.Foreground = Brushes.Red;
             }
             paragraph.Inlines.Add(runColor);
+
+
             i++;
         }
-            
+
         Run runBlack = new Run();
         runBlack.Foreground = Brushes.Black;
         foreach (char charTotype in _controller.CharacterList)
@@ -273,7 +308,7 @@ public partial class Exercise : UserControl
             CorrectAnswer();
         else
             MistakeMade();
-        if (e.IsFinished) 
+        if (e.IsFinished)
             ExerciseFinished();
 
         ChangeTextOnScreen();
