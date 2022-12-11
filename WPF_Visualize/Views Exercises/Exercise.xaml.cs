@@ -65,25 +65,26 @@ public partial class Exercise : UserControl
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         var window = Window.GetWindow(this);
-        if (_controller.Choice == 2)
-        {
+        // if (_controller.Choice == 2)
+        // {
             window.TextInput += TextInputPress;
-        }
-        else
-        {
-            window.KeyDown += HandleKeyPress;
-        }
+        // }
+        // else
+        // {
+        //     window.KeyDown += HandleKeyPress;
+        // }
     }
 
     private void TextInputPress(object sender, TextCompositionEventArgs e)
     {
         if (e.Text == "\b")
         {
-            _controller.OnBack();
-            ProgressBar.Value = _controller.Progress;
-            ChangeTextOnScreen();
-
-            return;
+            if (_controller.Choice == 2)
+            {
+                _controller.OnBack();
+                ProgressBar.Value = _controller.Progress;
+                ChangeTextOnScreen();
+            }
 
         } else
         {
@@ -93,49 +94,46 @@ public partial class Exercise : UserControl
             if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
             ProgressBar.Value = _controller.Progress;
         }
-      
-
-        
     }
 
     //Handles the keypresses from the user-input
-    private void HandleKeyPress(object sender, KeyEventArgs e)
-    {
-        //Debug.WriteLine(e.Key.ToString());
-        if (e.Key.ToString().Equals("Space"))
-        {
-            _controller.CurrentChar = ' ';
-        }
-        else if (e.Key.ToString().Contains('D') && e.Key.ToString().Length == 2)
-        {
-            _controller.CurrentChar = e.Key.ToString()[1];
-            //Debug.WriteLine(_controller.CurrentChar);
-        }
-        else if (e.Key.ToString().Length == 1)
-        {
-            _controller.CurrentChar = e.Key.ToString().ToLower()[0];
-        }
-        else if (e.Key.ToString().Equals("Back"))
-        {
-            if (_controller.Choice == 2)
-            {
-                _controller.OnBack();
-                ProgressBar.Value = _controller.Progress;
-                ChangeTextOnScreen();
-            }
-
-            return;
-        }
-        else
-        {
-            return;
-        }
-
-        _controller.CheckIfLetterIsCorrect();
-        MoveLetterToTypeBoxOnCanvas();
-        if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
-        ProgressBar.Value = _controller.Progress;
-    }
+    // private void HandleKeyPress(object sender, KeyEventArgs e)
+    // {
+    //     //Debug.WriteLine(e.Key.ToString());
+    //     if (e.Key.ToString().Equals("Space"))
+    //     {
+    //         _controller.CurrentChar = ' ';
+    //     }
+    //     else if (e.Key.ToString().Contains('D') && e.Key.ToString().Length == 2)
+    //     {
+    //         _controller.CurrentChar = e.Key.ToString()[1];
+    //         //Debug.WriteLine(_controller.CurrentChar);
+    //     }
+    //     else if (e.Key.ToString().Length == 1)
+    //     {
+    //         _controller.CurrentChar = e.Key.ToString().ToLower()[0];
+    //     }
+    //     else if (e.Key.ToString().Equals("Back"))
+    //     {
+    //         if (_controller.Choice == 2)
+    //         {
+    //             _controller.OnBack();
+    //             ProgressBar.Value = _controller.Progress;
+    //             ChangeTextOnScreen();
+    //         }
+    //
+    //         return;
+    //     }
+    //     else
+    //     {
+    //         return;
+    //     }
+    //
+    //     _controller.CheckIfLetterIsCorrect();
+    //     MoveLetterToTypeBoxOnCanvas();
+    //     if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
+    //     ProgressBar.Value = _controller.Progress;
+    // }
 
     // code to convert all possible KeyEventArgs.Key to char and return them
 
@@ -188,6 +186,7 @@ public partial class Exercise : UserControl
 
         Run runBlack = new Run();
         runBlack.Foreground = Brushes.Black;
+        // runBlack.Text += '|';
         foreach (char charTotype in _controller.CharacterList)
         {
             runBlack.Text += charTotype;
@@ -269,7 +268,7 @@ public partial class Exercise : UserControl
     private void Cleanup()
     {
         var window = Window.GetWindow(this);
-        window.KeyDown -= HandleKeyPress;
+        window.TextInput += TextInputPress;
         _controller.CurrentChar = '.';
     }
 
