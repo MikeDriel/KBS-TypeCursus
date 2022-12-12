@@ -136,7 +136,7 @@ public class Database
 
     public async Task<bool> IsServerConnected()
     {
-        using var connection = new SqlConnection(DatabaseConnectionString());
+        await using var connection = new SqlConnection(DatabaseConnectionString());
 
         try
         {
