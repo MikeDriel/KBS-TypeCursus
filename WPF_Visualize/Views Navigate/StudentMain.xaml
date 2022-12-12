@@ -53,6 +53,9 @@
             </Button.Template>
         </Button>
 
-        <Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" Margin="0,20,20,0" HorizontalAlignment="Right" Click="OnLogOut" Style="{StaticResource BackButton}"/>
+        <Button x:Name="Log_out" Content="Log uit" Grid.Column="5"
+                Height="30" Width="70" Click="OnLogOut" Style="{StaticResource HeaderButton}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <Button x:Name="Close" Content="Afsluiten" Grid.Column="6"
+                Height="30" Width="70" Click="OnAfsluiten" Style="{StaticResource HeaderButton}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
     </Grid>
 </UserControl>

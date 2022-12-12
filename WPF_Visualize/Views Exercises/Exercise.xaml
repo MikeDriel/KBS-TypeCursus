@@ -32,7 +32,7 @@
                Margin="-500000,0,0,0" VerticalContentAlignment="Center" FlowDirection="LeftToRight" Grid.ColumnSpan="2"
                Foreground="#64dd17" />
 
-        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}" />
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource HeaderButton}" />
 
         <Viewbox Grid.Row="4" Margin="141,0,141,30" Grid.ColumnSpan="3" Grid.Column="1">
             <Canvas x:Name="KeyboardCanvas" Height="202" Width="605" Opacity="0.6">

@@ -24,4 +24,9 @@ public partial class LoginChoose : UserControl
     {
         UserControlController.MainWindowChange(this, new LoginPage(true));
     }
+
+    private void OnAfsluiten(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();        
+    }
 }
