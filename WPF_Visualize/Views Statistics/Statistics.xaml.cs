@@ -7,8 +7,8 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class Statistics : UserControl
 {
-	public Statistics()
-	{
-		InitializeComponent();
-	}
+    public Statistics()
+    {
+        InitializeComponent();
+    }
 }

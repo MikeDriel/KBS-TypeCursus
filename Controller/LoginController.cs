@@ -4,60 +4,60 @@ namespace Controller;
 
 public class LoginController
 {
-	private readonly Database _db;
+    private readonly Database _db;
 
-	public LoginController(bool isTeacher)
-	{
-		_db = new Database();
-		IsTeacher = isTeacher;
-	}
+    public LoginController(bool isTeacher)
+    {
+        _db = new Database();
+        IsTeacher = isTeacher;
+    }
 
-	public bool IsTeacher { get; set; }
-	private static int? UserId { get; set; }
+    public bool IsTeacher { get; set; }
+    private static int? UserId { get; set; }
 
-	public event EventHandler<LoginEventArgs>? LoginEvent;
+    public event EventHandler<LoginEventArgs>? LoginEvent;
 
 
-	//CHECK IF THE GIVEN LOGIN INFORMATION IS RIGHT AND SET THE UserId ACCORDINGLY
-	public void CheckLogin(string? loginKey, string password)
-	{
-		if (loginKey == "" || password == "")
-		{
-			LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
-			return;
-		}
+    //CHECK IF THE GIVEN LOGIN INFORMATION IS RIGHT AND SET THE UserId ACCORDINGLY
+    public void CheckLogin(string? loginKey, string password)
+    {
+        if (loginKey == "" || password == "")
+        {
+            LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
+            return;
+        }
 
-		var correctPasswordWithId = _db.GetPasswordWithId(IsTeacher, loginKey);
-		var array = correctPasswordWithId.Split(',');
-		var correctPassword = array[0];
-		password = _db.HashPassword(password);
+        var correctPasswordWithId = _db.GetPasswordWithId(IsTeacher, loginKey);
+        var array = correctPasswordWithId.Split(',');
+        var correctPassword = array[0];
+        password = _db.HashPassword(password);
 
-		if (correctPassword != null && correctPassword == password)
-		{
-			LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
-			UserId = int.Parse(array[1]);
-		}
-		else
-		{
-			LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
-		}
-	}
+        if (correctPassword != null && correctPassword == password)
+        {
+            LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
+            UserId = int.Parse(array[1]);
+        }
+        else
+        {
+            LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
+        }
+    }
 
-	public static void LogOut()
-	{
-		UserId = null;
-	}
+    public static void LogOut()
+    {
+        UserId = null;
+    }
 }
 
 //EVENT FOR EXCERCISE
 public class LoginEventArgs : EventArgs
 {
-	public bool IsLoggedin;
-	public bool IsTeacher;
+    public bool IsLoggedin;
+    public bool IsTeacher;
 
-	public LoginEventArgs(bool isLoggedin, bool isTeacher)
-	{
-		IsLoggedin = isLoggedin;
-		IsTeacher = isTeacher;
-	}
+    public LoginEventArgs(bool isLoggedin, bool isTeacher)
+    {
+        IsLoggedin = isLoggedin;
+        IsTeacher = isTeacher;
+    }
 }

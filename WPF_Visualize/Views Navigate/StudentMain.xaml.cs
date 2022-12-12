@@ -11,29 +11,29 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class StudentMain : UserControl
 {
-	public StudentMain()
-	{
-		InitializeComponent();
-	}
+    public StudentMain()
+    {
+        InitializeComponent();
+    }
 
-	private void OnExerciseSelect(object sender, RoutedEventArgs e)
-	{
-		UserControlController.MainWindowChange(this, new ExerciseSelect());
-	}
+    private void OnExerciseSelect(object sender, RoutedEventArgs e)
+    {
+        UserControlController.MainWindowChange(this, new ExerciseSelect());
+    }
 
-	private void OnStatistics(object sender, RoutedEventArgs e)
-	{
-		UserControlController.MainWindowChange(this, new Statistics());
-	}
+    private void OnStatistics(object sender, RoutedEventArgs e)
+    {
+        UserControlController.MainWindowChange(this, new Statistics());
+    }
 
-	private void OnLeaderBoard(object sender, RoutedEventArgs e)
-	{
-		UserControlController.MainWindowChange(this, new LeaderBoard());
-	}
+    private void OnLeaderBoard(object sender, RoutedEventArgs e)
+    {
+        UserControlController.MainWindowChange(this, new LeaderBoard());
+    }
 
-	private void OnLogOut(object sender, RoutedEventArgs e)
-	{
-		LoginController.LogOut();
-		UserControlController.MainWindowChange(this, new LoginChoose());
-	}
+    private void OnLogOut(object sender, RoutedEventArgs e)
+    {
+        LoginController.LogOut();
+        UserControlController.MainWindowChange(this, new LoginChoose());
+    }
 }
