@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
@@ -21,8 +22,10 @@ public partial class ResultatenOefening : UserControl
 	private void _InitializeLabels()
 	{
 		//calculate the amount of characters typed per second
-		var wps = Exercise.StatisticsController.NumberCorrect /
-		          (double)Exercise.StatisticsController.CurrentTime.Second;
+		// var wps = Exercise.StatisticsController.NumberCorrect /
+		//           (double)Exercise.StatisticsController.CurrentTime.Second;
+		// wps = Math.Round(wps, 1);
+		var wps = Exercise.StatisticsController.CharactersPerSecond.Values.Average();
 		wps = Math.Round(wps, 1);
 		//calculate the percentage of correct typed characters
 		var correctPercentage = Exercise.StatisticsController.NumberCorrect /
