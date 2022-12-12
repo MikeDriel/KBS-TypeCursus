@@ -25,7 +25,7 @@ namespace TestProject.DataBaseTest
         }
 
         [Test]
-        public void Test1()
+        public void HashPassword_CorrectCombination_HashedPasswordsEqual()
         {
             _woord2 = "test";
             _woord2hashed = _db.HashPassword(_woord2);
@@ -33,7 +33,7 @@ namespace TestProject.DataBaseTest
         }
 
         [Test]
-        public void Test2()
+        public void HashPassword_WrongCombination_HashedPasswordsNotEqual()
         {
             _woord2 = "incorrect";
             _woord2hashed = _db.HashPassword(_woord2);
