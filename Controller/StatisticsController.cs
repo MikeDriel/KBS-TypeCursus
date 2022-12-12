@@ -5,23 +5,26 @@ namespace Controller;
 
 public class StatisticsController
 {
-    private readonly int _maxTimePerKey = 5;
-    private readonly Timer _timer;
-    private char _currentKey;
-    private bool _hasBeenWrong;
+	private int _maxTime;
+	private readonly Timer _timer;
+	private char _currentKey;
+	private bool _hasBeenWrong;
+	private readonly int _longestTimePerChar = 30;
 
     private char? _lastKey;
 
-    private int
-        _numberOfCorrectLastSecond; //int that contains the amount of correct typed characters before the current second (necesary to calculatet he amount of characters typed in 1 certain second)
+    //int that contains the amount of correct typed characters before the current second (necessary to calculate the amount of characters typed in 1 certain second)
+    private int _numberOfCorrectLastSecond;
 
     private bool _timeUp;
 
-    public StatisticsController()
-    {
-        CharactersPerSecond = new Dictionary<int, int>();
-        CurrentTime = new DateTime();
-        IsRunning = false;
+	public StatisticsController(int maxTime)
+	{
+		_maxTime = maxTime;
+		TimeLeft = maxTime;
+		CharactersPerSecond = new Dictionary<int, int>();
+		CurrentTime = new DateTime();
+		IsRunning = false;
 
         NumberOfMistakes = 0;
         NumberCorrect = 0;
@@ -36,12 +39,8 @@ public class StatisticsController
 
     public DateTime CurrentTime { get; set; }
 
-    public Dictionary<int, int>
-        CharactersPerSecond
-    {
-        get;
-        set;
-    } //Dictionary which holds the amount of characters typed correct for every second passed
+    //Dictionary which holds the amount of characters typed correct for every second passed
+    public Dictionary<int, int> CharactersPerSecond { get; set; }
 
     public int NumberOfMistakes { get; private set; }
     public int NumberCorrect { get; private set; }
@@ -81,9 +80,11 @@ public class StatisticsController
 
     private void UpdateCharactersPerSecond()
     {
-        if (!CharactersPerSecond.ContainsKey(CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600))
-            CharactersPerSecond.Add(CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600,
-                NumberCorrect - _numberOfCorrectLastSecond);
+        var Key = CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600;
+        if (!CharactersPerSecond.ContainsKey(Key))
+        {
+            CharactersPerSecond.Add(Key, NumberCorrect - _numberOfCorrectLastSecond);
+        }
 
         _numberOfCorrectLastSecond = NumberCorrect;
     }
@@ -91,15 +92,21 @@ public class StatisticsController
     private void OnTimedEvent(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
         if (!_timeUp)
+        {
             if (TimeLeft == 0)
             {
                 WrongAnswer();
                 _timeUp = true;
                 _hasBeenWrong = true;
             }
+        }
 
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(_timeUp));
-        if (!_hasBeenWrong) TimeLeft--;
+        if (!_hasBeenWrong)
+        {
+            TimeLeft--;
+        }
+
         UpdateCharactersPerSecond();
         CurrentTime = CurrentTime.AddSeconds(1);
     }
@@ -108,7 +115,10 @@ public class StatisticsController
     {
         _lastKey = _currentKey;
         _currentKey = currentKey;
-        if (_lastKey != _currentKey) WrongAnswer();
+        if (_lastKey != _currentKey)
+        {
+            WrongAnswer();
+        }
     }
 
     public void WrongAnswer()
@@ -117,14 +127,17 @@ public class StatisticsController
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
     }
 
-    public void RightAnswer()
-    {
-        NumberCorrect++;
-        _hasBeenWrong = false;
-        TimeLeft = _maxTimePerKey;
-        _timeUp = false;
-        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
-    }
+	public void RightAnswer()
+	{
+		NumberCorrect++;
+		_hasBeenWrong = false;
+		if (_maxTime < _longestTimePerChar)
+		{
+			TimeLeft = _maxTime;
+		}
+		_timeUp = false;
+		LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
+	}
 }
 
 //EVENT FOR LIVE STATISTICS UPDATE

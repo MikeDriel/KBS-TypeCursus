@@ -6,7 +6,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Xml.Serialization;
 using Controller;
 using WPF_Visualize.ViewLogic;
 
@@ -26,24 +25,28 @@ public partial class Exercise : UserControl
     private readonly Rectangle _rectangleLetterTyped =
         new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    public Exercise(int choice)
-    {
-        InitializeComponent();
-        _controller = new ExerciseController(choice);
-        if (choice == 2)
-        {
-            LettersTypedLabel.Visibility = Visibility.Hidden;
-            LettersTodoLabel.Visibility = Visibility.Hidden;
-            LetterToTypeLabel.Visibility = Visibility.Hidden;
-        }
-        else
-        {
-            RichTextBoxStory.Visibility = Visibility.Hidden;
-        }
-        StatisticsController = new StatisticsController();
-        //subscribe events
-        _controller.ExerciseEvent += ExerciseEvent;
-        StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
+	public Exercise(int choice)
+	{
+		InitializeComponent();
+		_controller = new ExerciseController(choice);
+		int maxTime;
+		if (choice == 2)
+		{
+			maxTime = 240;
+			LettersTypedLabel.Visibility = Visibility.Hidden;
+			LettersTodoLabel.Visibility = Visibility.Hidden;
+			LetterToTypeLabel.Visibility = Visibility.Hidden;
+		}
+		else
+		{
+			maxTime = 5;
+			RichTextBoxStory.Visibility = Visibility.Hidden;
+		}
+		
+		StatisticsController = new StatisticsController(maxTime);
+		//subscribe events
+		_controller.ExerciseEvent += ExerciseEvent;
+		StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
         MoveLetterToTypeBoxOnCanvas();
         ChangeTextOnScreen();
@@ -65,57 +68,18 @@ public partial class Exercise : UserControl
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         var window = Window.GetWindow(this);
-        if (_controller.Choice == 2)
-        {
-            window.TextInput += TextInputPress;
-        }
-        else
-        {
-            window.KeyDown += HandleKeyPress;
-        }
+        window.TextInput += TextInputPress;
     }
 
     private void TextInputPress(object sender, TextCompositionEventArgs e)
     {
-        if (e.Text == "\b")
+        // check if button pressed was enter
+        if (e.Text == "\r")
         {
-            _controller.OnBack();
-            ProgressBar.Value = _controller.Progress;
-            ChangeTextOnScreen();
-
             return;
+        }
 
-        } else
-        {
-            _controller.CurrentChar = e.Text[0];
-            _controller.CheckIfLetterIsCorrect();
-            MoveLetterToTypeBoxOnCanvas();
-            if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
-            ProgressBar.Value = _controller.Progress;
-        }
-      
-
-        
-    }
-
-    //Handles the keypresses from the user-input
-    private void HandleKeyPress(object sender, KeyEventArgs e)
-    {
-        //Debug.WriteLine(e.Key.ToString());
-        if (e.Key.ToString().Equals("Space"))
-        {
-            _controller.CurrentChar = ' ';
-        }
-        else if (e.Key.ToString().Contains('D') && e.Key.ToString().Length == 2)
-        {
-            _controller.CurrentChar = e.Key.ToString()[1];
-            //Debug.WriteLine(_controller.CurrentChar);
-        }
-        else if (e.Key.ToString().Length == 1)
-        {
-            _controller.CurrentChar = e.Key.ToString().ToLower()[0];
-        }
-        else if (e.Key.ToString().Equals("Back"))
+        if (e.Text == "\b")
         {
             if (_controller.Choice == 2)
             {
@@ -123,24 +87,20 @@ public partial class Exercise : UserControl
                 ProgressBar.Value = _controller.Progress;
                 ChangeTextOnScreen();
             }
-
-            return;
         }
         else
         {
-            return;
+            _controller.CurrentChar = e.Text[0];
+            _controller.CheckIfLetterIsCorrect();
+            MoveLetterToTypeBoxOnCanvas();
+            if (!StatisticsController!.IsRunning)
+            {
+                StatisticsController.StartTimer();
+            }
+
+            ProgressBar.Value = _controller.Progress;
         }
-
-        _controller.CheckIfLetterIsCorrect();
-        MoveLetterToTypeBoxOnCanvas();
-        if (!StatisticsController!.IsRunning) StatisticsController.StartTimer();
-        ProgressBar.Value = _controller.Progress;
     }
-
-    // code to convert all possible KeyEventArgs.Key to char and return them
-
-
-
 
     //updates values on view
     private void ChangeTextOnScreen()
@@ -166,11 +126,11 @@ public partial class Exercise : UserControl
     private void SetRichBox()
     {
         RichTextBoxStory.Document.Blocks.Clear();
-        int i = 0;
-        Paragraph paragraph = new Paragraph();
-        foreach (Char typedChar in _controller.TypedCharsList)
+        var i = 0;
+        var paragraph = new Paragraph();
+        foreach (var typedChar in _controller.TypedCharsList)
         {
-            Run runColor = new Run();
+            var runColor = new Run();
             runColor.Text = typedChar.ToString();
             if (typedChar == _controller.CorrectCharsList[i])
             {
@@ -178,21 +138,24 @@ public partial class Exercise : UserControl
             }
             else
             {
+                if (typedChar == ' ')
+                {
+                    runColor.Text = "_";
+                }
+
                 runColor.Foreground = Brushes.Red;
             }
-            paragraph.Inlines.Add(runColor);
 
+            paragraph.Inlines.Add(runColor);
 
             i++;
         }
 
-        Run runBlack = new Run();
-        runBlack.Foreground = Brushes.Black;
-        foreach (char charTotype in _controller.CharacterList)
-        {
-            runBlack.Text += charTotype;
-        }
-        paragraph.Inlines.Add(runBlack);
+        var runWhite = new Run();
+
+        foreach (var charTotype in _controller.CharacterList) runWhite.Text += charTotype;
+
+        paragraph.Inlines.Add(runWhite);
         RichTextBoxStory.Document.Blocks.Add(paragraph);
     }
 
@@ -201,7 +164,11 @@ public partial class Exercise : UserControl
     {
         Dispatcher?.InvokeAsync(() =>
         {
-            if (e.SetTextRed) LetterToTypeLabel.Foreground = Brushes.Red;
+            if (e.SetTextRed)
+            {
+                LetterToTypeLabel.Foreground = Brushes.Red;
+            }
+
             var statistics = StatisticsController.GetStatistics();
             LiveStatisticsScreen.Content = statistics;
             TimeLeftLabel.Content = StatisticsController.TimeLeft;
@@ -219,9 +186,13 @@ public partial class Exercise : UserControl
                 var posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
 
                 if (_controller.CharacterList[0] == ' ')
+                {
                     _rectangleLetterToType.Width = 359;
+                }
                 else
+                {
                     _rectangleLetterToType.Width = 33;
+                }
 
                 Canvas.SetTop(_rectangleLetterToType, posY);
                 Canvas.SetLeft(_rectangleLetterToType, posX);
@@ -233,8 +204,8 @@ public partial class Exercise : UserControl
         }
     }
 
-    private void MoveLetterTypedBoxOnCanvas(bool isGood,
-            char charTyped) //Moves box on canvas that displays which letter has to be typed
+    //Moves box on canvas that displays which letter has to be typed
+    private void MoveLetterTypedBoxOnCanvas(bool isGood, char charTyped)
     {
         try
         {
@@ -242,13 +213,23 @@ public partial class Exercise : UserControl
             var posY = _controller.Coordinates[charTyped][1]; //sets posy
             _rectangleLetterTyped.Visibility = Visibility.Visible;
             if (charTyped == ' ')
+            {
                 _rectangleLetterTyped.Width = 359;
+            }
             else
+            {
                 _rectangleLetterTyped.Width = 33;
+            }
+
             if (isGood)
+            {
                 _rectangleLetterTyped.Fill = Brushes.LawnGreen;
+            }
             else
+            {
                 _rectangleLetterTyped.Fill = Brushes.Red;
+            }
+
             Canvas.SetTop(_rectangleLetterTyped, posY);
             Canvas.SetLeft(_rectangleLetterTyped, posX);
         }
@@ -269,7 +250,7 @@ public partial class Exercise : UserControl
     private void Cleanup()
     {
         var window = Window.GetWindow(this);
-        window.KeyDown -= HandleKeyPress;
+        window.TextInput -= TextInputPress;
         _controller.CurrentChar = '.';
     }
 
@@ -278,7 +259,15 @@ public partial class Exercise : UserControl
     private void MistakeMade()
     {
         //if the letter is wrong, add a mistake and update the screen
-        StatisticsController?.WrongAnswer(_controller.CurrentChar);
+        if (_controller.Choice == 2)
+        {
+            StatisticsController?.WrongAnswer();
+        }
+        else
+        {
+            StatisticsController?.WrongAnswer(_controller.CurrentChar);
+        }
+
         MoveLetterTypedBoxOnCanvas(false, _controller.CurrentChar);
         LetterToTypeLabel.Foreground = Brushes.Red;
     }
@@ -305,11 +294,18 @@ public partial class Exercise : UserControl
     private void ExerciseEvent(object? sender, ExerciseEventArgs e)
     {
         if (e.IsCorrect)
+        {
             CorrectAnswer();
+        }
         else
+        {
             MistakeMade();
+        }
+
         if (e.IsFinished)
+        {
             ExerciseFinished();
+        }
 
         ChangeTextOnScreen();
     }

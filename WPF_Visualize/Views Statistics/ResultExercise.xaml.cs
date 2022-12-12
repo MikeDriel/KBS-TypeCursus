@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
@@ -17,19 +18,17 @@ public partial class ResultatenOefening : UserControl
     }
 
 
-    //sets all labels
-    private void _InitializeLabels()
-    {
-        //calculate the amount of characters typed per second
-        var wps = Exercise.StatisticsController.NumberCorrect /
-                  (double)Exercise.StatisticsController.CurrentTime.Second;
-        wps = Math.Round(wps, 1);
-        //calculate the percentage of correct typed characters
-        var correctPercentage = Exercise.StatisticsController.NumberCorrect /
-                                (Exercise.StatisticsController.NumberCorrect +
-                                 (double)Exercise.StatisticsController.NumberOfMistakes) *
-                                100;
-        correctPercentage = Math.Round(correctPercentage, 1);
+	//sets all labels
+	private void _InitializeLabels()
+	{
+		var wps = Exercise.StatisticsController.CharactersPerSecond.Values.Average();
+		wps = Math.Round(wps, 1);
+		//calculate the percentage of correct typed characters
+		var correctPercentage = Exercise.StatisticsController.NumberCorrect /
+		                        (Exercise.StatisticsController.NumberCorrect +
+		                         (double)Exercise.StatisticsController.NumberOfMistakes) *
+		                        100;
+		correctPercentage = Math.Round(correctPercentage, 1);
 
 
         //sets the labels
@@ -45,13 +44,21 @@ public partial class ResultatenOefening : UserControl
     private void _InitializeFeedback(double percentage)
     {
         if (percentage >= 80)
+        {
             Feedback.Content = "Heel goed gedaan!";
+        }
         else if (percentage >= 55)
+        {
             Feedback.Content = "Goed gedaan, maar het kan beter!";
+        }
         else if (percentage >= 40)
+        {
             Feedback.Content = "Helaas, je hebt nog geen voldoende. Maar je komt dichtbij";
+        }
         else
+        {
             Feedback.Content = "Helaas, je hebt nog geen voldoende";
+        }
     }
 
     private void OnBack(object sender, RoutedEventArgs e)

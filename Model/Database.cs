@@ -16,7 +16,8 @@ public class Database
                 DataSource = "127.0.0.1",
                 UserID = "SA",
                 Password = "KaasKnabbel123!",
-                InitialCatalog = "TestDB"
+                InitialCatalog = "TestDB",
+                ConnectTimeout = 3
             };
 
             return builder.ConnectionString;
@@ -42,6 +43,7 @@ public class Database
             var reader = command.ExecuteReader();
 
             while (reader.Read())
+            {
                 for (var i = 0; i < reader.FieldCount; i++)
                 {
                     wordList.AddRange(reader[i].ToString());
@@ -49,6 +51,7 @@ public class Database
                     //Adds space between words 
                     wordList.Add(' ');
                 }
+            }
 
             connection.Close();
         }
@@ -57,22 +60,52 @@ public class Database
         return wordList;
     }
 
+    //This method is used to get stories from the database
+    public string GetStory()
+    {
+        string StoryString = "";
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT TOP 1 Verhaaltje FROM Verhaal ORDER BY NEWID()";
+            var command = new SqlCommand(sql, connection);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                for (var i = 0; i < reader.FieldCount; i++)
+                {
+                    StoryString = reader[i].ToString();
+                }
+            }
+
+            connection.Close();
+        }
+
+        return StoryString;
+    }
+
 
     // get password from the database
     public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
     {
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
-            if (isTeacher == null || loginKey == null) return null;
+            if (isTeacher == null || loginKey == null)
+            {
+                return null;
+            }
 
             connection.Open();
             SqlCommand command;
             if (isTeacher == true)
-                command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)",
-                    connection);
+            {
+                command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)", connection);
+            }
             else
-                command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)",
-                    connection);
+            {
+                command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)", connection);
+            }
 
             command.Parameters.AddWithValue("@LoginKey", loginKey);
             var reader = command.ExecuteReader();
@@ -99,5 +132,20 @@ public class Database
         data = new SHA256Managed().ComputeHash(data);
         var hash = Encoding.ASCII.GetString(data);
         return hash;
+    }
+
+    public async Task<bool> IsServerConnected()
+    {
+        using var connection = new SqlConnection(DatabaseConnectionString());
+
+        try
+        {
+            await connection.OpenAsync();
+            return true;
+        }
+        catch (SqlException)
+        {
+            return false;
+        }
     }
 }

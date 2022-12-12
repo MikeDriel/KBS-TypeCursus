@@ -1,5 +1,11 @@
-﻿using System.Windows;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using Model;
 using WPF_Visualize.ViewLogic;
+using WPF_Visualize.ViewLogin;
+using WPF_Visualize.Views_Navigate;
 
 namespace WPF_Visualize;
 
@@ -8,9 +14,12 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly Database database = new();
+
     public MainWindow()
     {
         InitializeComponent();
+
         contentControl.Content = UserControlController.Content;
         UserControlController.OnWindowChange += MainWindow_OnWindowChange;
     }
@@ -19,4 +28,33 @@ public partial class MainWindow : Window
     {
         contentControl.Content = UserControlController.Content;
     }
+
+    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        contentControl.Content = new LoadingScreen();
+
+        CheckDatabaseConnectionAsync();
+    }
+
+    private async Task CheckDatabaseConnectionAsync()
+    {
+        if (await database.IsServerConnected())
+        {
+            contentControl.Content = new LoginChoose();
+        }
+        else
+        {
+            contentControl.Content = new NoDatabase();
+        }
+    }
+}
+
+internal class OnWindowChange : EventArgs
+{
+    public OnWindowChange(UserControl content)
+    {
+        Content = content;
+    }
+
+    public UserControl Content { get; set; }
 }

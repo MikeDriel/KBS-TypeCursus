@@ -54,9 +54,13 @@ public partial class LoginPage : UserControl
         if (e.IsLoggedin)
         {
             if (e.IsTeacher)
+            {
                 UserControlController.MainWindowChange(this, new TeacherMain());
+            }
             else
+            {
                 UserControlController.MainWindowChange(this, new StudentMain());
+            }
         }
         else
         {
