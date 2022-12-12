@@ -77,11 +77,11 @@ public class StatisticsController
 
 	private void UpdateCharactersPerSecond()
 	{
-		if (!CharactersPerSecond.ContainsKey(CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600))
+		int Key = CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600;
+		if (!CharactersPerSecond.ContainsKey(Key))
 		{
-			CharactersPerSecond.Add(CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600, NumberCorrect - _numberOfCorrectLastSecond);
+			CharactersPerSecond.Add(Key, NumberCorrect - _numberOfCorrectLastSecond);
 		}
-
 		_numberOfCorrectLastSecond = NumberCorrect;
 	}
 

@@ -250,7 +250,7 @@ public partial class Exercise : UserControl
 	private void Cleanup()
 	{
 		var window = Window.GetWindow(this);
-		window.TextInput += TextInputPress;
+		window.TextInput -= TextInputPress;
 		_controller.CurrentChar = '.';
 	}
 
@@ -259,7 +259,14 @@ public partial class Exercise : UserControl
 	private void MistakeMade()
 	{
 		//if the letter is wrong, add a mistake and update the screen
-		StatisticsController?.WrongAnswer(_controller.CurrentChar);
+		if (_controller.Choice == 2)
+		{
+			StatisticsController?.WrongAnswer();
+		}
+		else
+		{
+			StatisticsController?.WrongAnswer(_controller.CurrentChar);
+		}
 		MoveLetterTypedBoxOnCanvas(false, _controller.CurrentChar);
 		LetterToTypeLabel.Foreground = Brushes.Red;
 	}
