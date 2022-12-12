@@ -26,6 +26,7 @@ public static class UserControlController
     {
         OnWindowChange?.Invoke(sender, new OnWindowChangeEventArgs(content));
     }
+    
 }
 
 // This is the event that we use to acces the mainwindow to change the usercontrol

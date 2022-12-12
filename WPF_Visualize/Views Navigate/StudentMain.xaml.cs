@@ -36,4 +36,10 @@ public partial class StudentMain : UserControl
         LoginController.LogOut();
         UserControlController.MainWindowChange(this, new LoginChoose());
     }
+    
+    // Close the application
+    private void OnAfsluiten(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
 }
