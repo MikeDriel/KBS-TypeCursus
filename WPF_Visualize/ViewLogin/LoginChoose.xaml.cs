@@ -9,19 +9,19 @@ namespace WPF_Visualize.ViewLogin;
 /// </summary>
 public partial class LoginChoose : UserControl
 {
-	public LoginChoose()
-	{
-		InitializeComponent();
-	}
+    public LoginChoose()
+    {
+        InitializeComponent();
+    }
 
-	private void OnStudent(object sender, RoutedEventArgs e)
-	{
-		UserControlController.MainWindowChange(this, new LoginPage(false));
-	}
+    private void OnStudent(object sender, RoutedEventArgs e)
+    {
+        UserControlController.MainWindowChange(this, new LoginPage(false));
+    }
 
 
-	private void OnTeacher(object sender, RoutedEventArgs e)
-	{
-		UserControlController.MainWindowChange(this, new LoginPage(true));
-	}
+    private void OnTeacher(object sender, RoutedEventArgs e)
+    {
+        UserControlController.MainWindowChange(this, new LoginPage(true));
+    }
 }

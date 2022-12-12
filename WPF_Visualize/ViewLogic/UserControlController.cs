@@ -9,32 +9,32 @@ namespace WPF_Visualize.ViewLogic;
 // Via this class we can change the content of the mainwindow to any usercontroller
 public static class UserControlController
 {
-	public static UserControl Content;
+    public static UserControl Content;
 
-	static UserControlController()
-	{
-		Content = new LoginChoose();
-		// Here we make it so that when the event gets new content it sets the content of this file
-		// to that kind of content
-		OnWindowChange = (sender, args) => { Content = args.Content; };
-	}
+    static UserControlController()
+    {
+        Content = new LoginChoose();
+        // Here we make it so that when the event gets new content it sets the content of this file
+        // to that kind of content
+        OnWindowChange = (sender, args) => { Content = args.Content; };
+    }
 
-	public static event EventHandler<OnWindowChangeEventArgs> OnWindowChange;
+    public static event EventHandler<OnWindowChangeEventArgs> OnWindowChange;
 
-	// this is the method we use to invoke the event to start the process of changing the content
-	public static void MainWindowChange(UserControl sender, UserControl content)
-	{
-		OnWindowChange?.Invoke(sender, new OnWindowChangeEventArgs(content));
-	}
+    // this is the method we use to invoke the event to start the process of changing the content
+    public static void MainWindowChange(UserControl sender, UserControl content)
+    {
+        OnWindowChange?.Invoke(sender, new OnWindowChangeEventArgs(content));
+    }
 }
 
 // This is the event that we use to acces the mainwindow to change the usercontrol
 public class OnWindowChangeEventArgs : EventArgs
 {
-	public OnWindowChangeEventArgs(UserControl content)
-	{
-		Content = content;
-	}
+    public OnWindowChangeEventArgs(UserControl content)
+    {
+        Content = content;
+    }
 
-	public UserControl Content { get; set; }
+    public UserControl Content { get; set; }
 }
