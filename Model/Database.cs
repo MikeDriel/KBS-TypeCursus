@@ -61,13 +61,13 @@ public class Database
     }
 
     //This method is used to get stories from the database
-    public List<char> GetStory()
+    public string GetStory()
     {
-        var StoryList = new List<char>();
+        string StoryString = "";
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sql = "SELECT TOP Verhaal FROM Verhaaltje ORDER BY NEWID()";
+            var sql = "SELECT TOP 1 Verhaaltje FROM Verhaal ORDER BY NEWID()";
             var command = new SqlCommand(sql, connection);
             var reader = command.ExecuteReader();
 
@@ -75,14 +75,14 @@ public class Database
             {
                 for (var i = 0; i < reader.FieldCount; i++)
                 {
-                    StoryList.AddRange(reader[i].ToString());
+                    StoryString = reader[i].ToString();
                 }
             }
 
             connection.Close();
         }
 
-        return StoryList;
+        return StoryString;
     }
 
 

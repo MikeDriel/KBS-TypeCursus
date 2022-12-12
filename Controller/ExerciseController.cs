@@ -111,8 +111,11 @@ public class ExerciseController
 
     public void GenerateStoryData()
     {
-        var Story = Database.GetStory();
-        foreach (var character in Story) CharacterList.Add(character);
+        string StoryString = Database.GetStory();
+        foreach (char character in StoryString)
+        {
+            CharacterList.Add(character);
+        }
     }
 
 
