@@ -23,7 +23,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}" />
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource HeaderButton}" />
 
 
         <Label Grid.Column="1" Grid.Row="1" Content="Letter Oefening" Style="{StaticResource LabelsSelecterScreens}" />

@@ -20,7 +20,7 @@
             <Setter Property="Background" Value="#455a64" />
         </Style>
 
-        <Style TargetType="Button" x:Key="BackButton">
+        <Style TargetType="Button" x:Key="HeaderButton">
             <Setter Property="Foreground" Value="#ffffff" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />

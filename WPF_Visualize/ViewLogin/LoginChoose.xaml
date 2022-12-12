@@ -26,6 +26,8 @@
 
         <Label Grid.Column="1" Grid.Row="2" Content="Leerling" FontSize="22" Margin="25,0,25,0"
                VerticalAlignment="Bottom" Style="{StaticResource LabelsSelecterScreens}" />
+        <Button x:Name="Close" Content="Afsluiten" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="4" Grid.Row="0"
+                Style="{StaticResource HeaderButton}"  VerticalAlignment="Center" HorizontalAlignment="Center" Click="OnAfsluiten"/>
         <Button x:Name="Student" Grid.Column="1" Grid.Row="3" Click="OnStudent" Style="{StaticResource IconButtons}">
             <Button.Template>
                 <ControlTemplate>
