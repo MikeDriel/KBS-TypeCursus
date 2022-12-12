@@ -9,19 +9,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Images\bar-chart.png" />
-        <None Remove="Images\Exercise.jpg" />
-        <None Remove="Images\Keyboard.png" />
-        <None Remove="Images\KeyboardExercise.png" />
-        <None Remove="Images\Leaderboard.jpg" />
-        <None Remove="Images\LetterExercise.png" />
-        <None Remove="Images\logout.png" />
-        <None Remove="Images\planning.png" />
-        <None Remove="Images\Pupil.png" />
-        <None Remove="Images\ranking.png" />
-        <None Remove="Images\Statistics.png" />
-        <None Remove="Images\Teacher.png" />
-        <None Remove="Images\WordExercise.png" />
+        <None Remove="Images\bar-chart.png"/>
+        <None Remove="Images\Exercise.jpg"/>
+        <None Remove="Images\Keyboard.png"/>
+        <None Remove="Images\KeyboardExercise.png"/>
+        <None Remove="Images\Leaderboard.jpg"/>
+        <None Remove="Images\LetterExercise.png"/>
+        <None Remove="Images\logout.png"/>
+        <None Remove="Images\planning.png"/>
+        <None Remove="Images\Pupil.png"/>
+        <None Remove="Images\ranking.png"/>
+        <None Remove="Images\Statistics.png"/>
+        <None Remove="Images\Teacher.png"/>
+        <None Remove="Images\WordExercise.png"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -67,12 +67,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Controller\Controller.csproj" />
-        <ProjectReference Include="..\Model\Model.csproj" />
+        <ProjectReference Include="..\Controller\Controller.csproj"/>
+        <ProjectReference Include="..\Model\Model.csproj"/>
     </ItemGroup>
 
 </Project>

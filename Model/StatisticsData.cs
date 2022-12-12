@@ -2,11 +2,11 @@
 
 internal class StatisticsData
 {
-    public int CorrectAnwsers;
+	public int CorrectAnwsers;
 
 
-    public StatisticsData()
-    {
-        CorrectAnwsers = 0;
-    }
+	public StatisticsData()
+	{
+		CorrectAnwsers = 0;
+	}
 }

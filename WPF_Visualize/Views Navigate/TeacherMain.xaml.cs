@@ -11,14 +11,14 @@ namespace WPF_Visualize.Views_Navigate;
 /// </summary>
 public partial class TeacherMain : UserControl
 {
-    public TeacherMain()
-    {
-        InitializeComponent();
-    }
+	public TeacherMain()
+	{
+		InitializeComponent();
+	}
 
-    private void OnLogOut(object sender, RoutedEventArgs e)
-    {
-        LoginController.LogOut();
-        UserControlController.MainWindowChange(this, new LoginChoose());
-    }
+	private void OnLogOut(object sender, RoutedEventArgs e)
+	{
+		LoginController.LogOut();
+		UserControlController.MainWindowChange(this, new LoginChoose());
+	}
 }

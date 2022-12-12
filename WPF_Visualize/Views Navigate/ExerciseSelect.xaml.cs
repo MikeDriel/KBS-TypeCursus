@@ -9,28 +9,28 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class ExerciseSelect : UserControl
 {
-    public ExerciseSelect()
-    {
-        InitializeComponent();
-    }
+	public ExerciseSelect()
+	{
+		InitializeComponent();
+	}
 
-    private void OnBack(object sender, RoutedEventArgs e)
-    {
-        UserControlController.MainWindowChange(this, new StudentMain());
-    }
+	private void OnBack(object sender, RoutedEventArgs e)
+	{
+		UserControlController.MainWindowChange(this, new StudentMain());
+	}
 
-    private void OnLetterExcersice_Select(object sender, RoutedEventArgs e)
-    {
-        UserControlController.MainWindowChange(this, new Exercise(0));
-    }
+	private void OnLetterExcersice_Select(object sender, RoutedEventArgs e)
+	{
+		UserControlController.MainWindowChange(this, new Exercise(0));
+	}
 
-    private void OnWordExercise(object sender, RoutedEventArgs e)
-    {
-        UserControlController.MainWindowChange(this, new Exercise(1));
-    }
+	private void OnWordExercise(object sender, RoutedEventArgs e)
+	{
+		UserControlController.MainWindowChange(this, new Exercise(1));
+	}
 
-    private void OnStoryExercise(object sender, RoutedEventArgs e)
-    {
-        UserControlController.MainWindowChange(this, new Exercise(2));
-    }
+	private void OnStoryExercise(object sender, RoutedEventArgs e)
+	{
+		UserControlController.MainWindowChange(this, new Exercise(2));
+	}
 }

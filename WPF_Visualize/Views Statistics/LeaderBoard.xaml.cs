@@ -7,8 +7,8 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class LeaderBoard : UserControl
 {
-    public LeaderBoard()
-    {
-        InitializeComponent();
-    }
+	public LeaderBoard()
+	{
+		InitializeComponent();
+	}
 }

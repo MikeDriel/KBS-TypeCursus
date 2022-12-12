@@ -41,7 +41,7 @@
                 </Canvas.Background>
             </Canvas>
         </Viewbox>
-        <ProgressBar Name="ProgressBar" Grid.Column="1" Margin="264,18,264,0" Grid.Row="0" Grid.ColumnSpan="3"  
+        <ProgressBar Name="ProgressBar" Grid.Column="1" Margin="264,18,264,0" Grid.Row="0" Grid.ColumnSpan="3"
                      Height="16" VerticalAlignment="Top" Style="{StaticResource ProgressBar}" />
         <Label x:Name="LiveStatisticsScreen" Grid.Column="3" Margin="140,0,0,0" Grid.ColumnSpan="2" Height="84"
                Width="110" Grid.Row="1" FontSize="16" BorderBrush="Black" BorderThickness="2" Foreground="White"
@@ -49,6 +49,10 @@
         <Label x:Name="TimeLeftLabel" Grid.Column="2" Content="&#xD;&#xA;" HorizontalAlignment="Center"
                Margin="0,28,0,0" VerticalAlignment="Top" Grid.Row="0" Grid.RowSpan="2" Width="56"
                HorizontalContentAlignment="Center" FontSize="32" Foreground="White" />
-        <RichTextBox Name="RichTextBoxStory" Grid.Row="2" RenderTransformOrigin="0.626,0.029" Grid.ColumnSpan="3" FontSize="30" IsReadOnly="True" Grid.RowSpan="2" Grid.Column="1" Margin="90,0,90,0" />
+
+        <RichTextBox Name="RichTextBoxStory" Grid.Row="2" RenderTransformOrigin="0.626,0.029" Grid.ColumnSpan="3"
+                     FontSize="30" IsReadOnly="True" Grid.RowSpan="2" Grid.Column="1" Margin="90,0,90,0"
+                     Focusable="False" IsHitTestVisible="False" IsTabStop="False" AllowDrop="False"
+                     Background="Transparent" BorderBrush="#03ABADB3" Foreground="White" />
     </Grid>
 </UserControl>
