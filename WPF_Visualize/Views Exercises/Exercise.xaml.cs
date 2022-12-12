@@ -25,25 +25,28 @@ public partial class Exercise : UserControl
     private readonly Rectangle _rectangleLetterTyped =
         new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    public Exercise(int choice)
-    {
-        InitializeComponent();
-        _controller = new ExerciseController(choice);
-        if (choice == 2)
-        {
-            LettersTypedLabel.Visibility = Visibility.Hidden;
-            LettersTodoLabel.Visibility = Visibility.Hidden;
-            LetterToTypeLabel.Visibility = Visibility.Hidden;
-        }
-        else
-        {
-            RichTextBoxStory.Visibility = Visibility.Hidden;
-        }
-
-        StatisticsController = new StatisticsController();
-        //subscribe events
-        _controller.ExerciseEvent += ExerciseEvent;
-        StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
+	public Exercise(int choice)
+	{
+		InitializeComponent();
+		_controller = new ExerciseController(choice);
+		int maxTime;
+		if (choice == 2)
+		{
+			maxTime = 240;
+			LettersTypedLabel.Visibility = Visibility.Hidden;
+			LettersTodoLabel.Visibility = Visibility.Hidden;
+			LetterToTypeLabel.Visibility = Visibility.Hidden;
+		}
+		else
+		{
+			maxTime = 5;
+			RichTextBoxStory.Visibility = Visibility.Hidden;
+		}
+		
+		StatisticsController = new StatisticsController(maxTime);
+		//subscribe events
+		_controller.ExerciseEvent += ExerciseEvent;
+		StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
         MoveLetterToTypeBoxOnCanvas();
         ChangeTextOnScreen();

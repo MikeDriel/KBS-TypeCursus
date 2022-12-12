@@ -5,10 +5,11 @@ namespace Controller;
 
 public class StatisticsController
 {
-    private readonly int _maxTimePerKey = 5;
-    private readonly Timer _timer;
-    private char _currentKey;
-    private bool _hasBeenWrong;
+	private int _maxTime;
+	private readonly Timer _timer;
+	private char _currentKey;
+	private bool _hasBeenWrong;
+	private readonly int _longestTimePerChar = 30;
 
     private char? _lastKey;
 
@@ -17,11 +18,13 @@ public class StatisticsController
 
     private bool _timeUp;
 
-    public StatisticsController()
-    {
-        CharactersPerSecond = new Dictionary<int, int>();
-        CurrentTime = new DateTime();
-        IsRunning = false;
+	public StatisticsController(int maxTime)
+	{
+		_maxTime = maxTime;
+		TimeLeft = maxTime;
+		CharactersPerSecond = new Dictionary<int, int>();
+		CurrentTime = new DateTime();
+		IsRunning = false;
 
         NumberOfMistakes = 0;
         NumberCorrect = 0;
@@ -124,14 +127,17 @@ public class StatisticsController
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
     }
 
-    public void RightAnswer()
-    {
-        NumberCorrect++;
-        _hasBeenWrong = false;
-        TimeLeft = _maxTimePerKey;
-        _timeUp = false;
-        LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
-    }
+	public void RightAnswer()
+	{
+		NumberCorrect++;
+		_hasBeenWrong = false;
+		if (_maxTime < _longestTimePerChar)
+		{
+			TimeLeft = _maxTime;
+		}
+		_timeUp = false;
+		LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
+	}
 }
 
 //EVENT FOR LIVE STATISTICS UPDATE
