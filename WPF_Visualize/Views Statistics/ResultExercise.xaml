@@ -23,7 +23,7 @@
 		</Grid.ColumnDefinitions>
 
 
-		<Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" Width="190" Click="OnBack" Style="{StaticResource BackButton}"/>
+		<Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" Width="190" Click="OnBack" Style="{StaticResource HeaderButton}"/>
 
 		<Label Content="Resultaat opdracht" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
 		<Label x:Name="Feedback" Content="Feedback" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="30" Margin="0,140,0,0" VerticalAlignment="Top" Style="{StaticResource LabelsFeedback}"/>
@@ -54,7 +54,7 @@
 		</Border>
 
 		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="2" Grid.Column="1" MaxWidth="900" Height="650" CornerRadius="10" Margin="25,0,50,50" BorderThickness="0.2" VerticalAlignment="Center">
-			<oxy:PlotView x:Name="Tekens_perseconde" Background="#1c313a" Margin="25,25,25,25" Model="{Binding Stats}"/>
+			<oxy:PlotView x:Name="Tekens_perseconde" Background="#1c313a" Margin="25,25,25,25" Model="{Binding Stats}" />
 		</Border>
 	</Grid>
 </UserControl>
