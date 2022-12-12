@@ -21,10 +21,6 @@ public partial class ResultatenOefening : UserControl
 	//sets all labels
 	private void _InitializeLabels()
 	{
-		//calculate the amount of characters typed per second
-		// var wps = Exercise.StatisticsController.NumberCorrect /
-		//           (double)Exercise.StatisticsController.CurrentTime.Second;
-		// wps = Math.Round(wps, 1);
 		var wps = Exercise.StatisticsController.CharactersPerSecond.Values.Average();
 		wps = Math.Round(wps, 1);
 		//calculate the percentage of correct typed characters

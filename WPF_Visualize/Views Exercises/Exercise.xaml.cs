@@ -29,18 +29,21 @@ public partial class Exercise : UserControl
 	{
 		InitializeComponent();
 		_controller = new ExerciseController(choice);
+		int maxTime;
 		if (choice == 2)
 		{
+			maxTime = 240;
 			LettersTypedLabel.Visibility = Visibility.Hidden;
 			LettersTodoLabel.Visibility = Visibility.Hidden;
 			LetterToTypeLabel.Visibility = Visibility.Hidden;
 		}
 		else
 		{
+			maxTime = 5;
 			RichTextBoxStory.Visibility = Visibility.Hidden;
 		}
-
-		StatisticsController = new StatisticsController();
+		
+		StatisticsController = new StatisticsController(maxTime);
 		//subscribe events
 		_controller.ExerciseEvent += ExerciseEvent;
 		StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
