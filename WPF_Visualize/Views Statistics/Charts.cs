@@ -1,33 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
+﻿using System.Collections.Generic;
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
-using Controller;
-using System.Security.Cryptography.Xml;
 
-namespace WPF_Visualize.Views_Statistics
+namespace WPF_Visualize.Views_Statistics;
+
+public class Charts
 {
-	public class Charts
-	{
-		public Charts()
-		{
-			Data = new List<DataPoint>();
-			Data.Add(new DataPoint(0, 0));
+    public Charts()
+    {
+        Data = new List<DataPoint>();
+        Data.Add(new DataPoint(0, 0));
 
-			for (int i = 1; i < Exercise._statisticsController.CharactersPerSecond.Count; i++)
-			{
-				Data.Add(new DataPoint(i, Exercise._statisticsController.CharactersPerSecond[i]));
-				this.Stats = new PlotModel { Title = "Tekens per seconde" };
-				this.Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
+        for (var i = 1; i < Exercise.StatisticsController.CharactersPerSecond.Count; i++)
+        {
+            Data.Add(new DataPoint(i, Exercise.StatisticsController.CharactersPerSecond[i]));
+            Stats = new PlotModel { Title = "Tekens per seconde", TextColor = OxyColors.White, PlotAreaBorderColor = OxyColors.White };
+            Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
+        }
 
-			}
-		}
+        var timeAxis = new LinearAxis()
+        {
+            Position = AxisPosition.Bottom,
+            Minimum = 0,
+            MinimumMajorStep = 1,
+            Title = "Seconden",
+            MajorGridlineStyle = LineStyle.Solid,
+            TextColor = OxyColors.White,
+            MajorGridlineColor = OxyColors.White,
+            TicklineColor = OxyColors.White,
+            MinorTicklineColor = OxyColors.White,
+            AxislineColor = OxyColors.White,
+            TitleColor = OxyColors.White,
+        };
 
-		public IList<DataPoint> Data { get; private set; }
-		public PlotModel Stats { get; private set; }
-	}
+
+        var KeyPerSecondAxis = new LinearAxis()
+        {
+            Position = AxisPosition.Left,
+            Minimum = 0,
+            MinimumMajorStep = 0.5,
+            Title = "Tekens",
+            MajorGridlineStyle = LineStyle.Solid,
+            TextColor = OxyColors.White,
+            MajorGridlineColor = OxyColors.White,
+            TicklineColor = OxyColors.White,
+            MinorTicklineColor = OxyColors.White,
+            AxislineColor = OxyColors.White,
+            TitleColor = OxyColors.White,
+        };
+
+        Stats.Axes.Add(timeAxis);
+        Stats.Axes.Add(KeyPerSecondAxis);
+    }
+
+    public IList<DataPoint> Data { get; }
+    public PlotModel Stats { get; }
 }

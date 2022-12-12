@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="WPF_Visualize.ResultatenOefening"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local1="clr-namespace:WPF_Visualize.Views_Statistics"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             Style="{StaticResource UserControlBackground}">
+
+    <UserControl.DataContext>
+        <local1:Charts />
+    </UserControl.DataContext>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" /> 
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="0.5*" />
+
+        </Grid.ColumnDefinitions>
+
+
+
+        <oxy:PlotView x:Name="Tekens_perseconde" Model="{Binding Stats}" Grid.Column="3" Grid.Row="3" IsMouseWheelEnabled="false"
+                      oxy:Background="Transparent"/>
+
+
+
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}" />
+
+        <Label Content="Resultaat opdracht" Grid.Column="1" Grid.Row="1" Foreground="White" FontSize="35"/>
+        <Label x:Name="Feedback" Content="Feedback" Grid.Column="1" Grid.Row="2" Foreground="White" FontSize="30"/>
+
+        <Label Content="Gemiddelde tekens per seconde:" Grid.Row="3" Grid.Column="1" Height="40" Foreground="White" FontSize="20" Margin="0,0,0,160" />
+        <Label Content="Totale tijd opdracht:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Margin="0,40,0,120"/>
+        <Label Content="Aantal goed:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Grid.ColumnSpan="2" Margin="2,80,78,80"/>
+        <Label Content="Aantal fouten:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Margin="0,120,0,40"/>
+        <Label Content="Percentage goed:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Margin="0,160,0,0"/>
+
+
+
+        <Label x:Name="WPS" Content="WPS" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,0,0,160"/>
+        <Label x:Name="Totaltime"  Content="Tijd" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,40,0,120"/>
+        <Label x:Name="CorrectCount" Content="Goed" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,80,0,80"/>
+        <Label x:Name="MistakeCount" Content="Fouten" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,120,0,40"/>
+        <Label x:Name="CorrectPercentage" Content="Goed%" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,160,0,0"/>
+
+    </Grid>
+</UserControl>

@@ -1,39 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Model;
 using WPF_Visualize.ViewLogic;
+using WPF_Visualize.ViewLogin;
+using WPF_Visualize.Views_Navigate;
 
-namespace WPF_Visualize
+namespace WPF_Visualize;
+
+/// <summary>
+///     Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-	{
-		public MainWindow()
-		{
-			InitializeComponent();
-			this.contentControl.Content = UserControlController.Content;
-			UserControlController.OnWindowChange += MainWindow_OnWindowChange;
-		}
+    private readonly Database database = new();
 
-		private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
-		{
-			this.contentControl.Content = UserControlController.Content;
-		}
-	}
-    
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        contentControl.Content = UserControlController.Content;
+        UserControlController.OnWindowChange += MainWindow_OnWindowChange;
+    }
+
+    private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
+    {
+        contentControl.Content = UserControlController.Content;
+    }
+
+    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        contentControl.Content = new LoadingScreen();
+
+        CheckDatabaseConnectionAsync();
+    }
+
+    private async Task CheckDatabaseConnectionAsync()
+    {
+        if (await database.IsServerConnected())
+        {
+            contentControl.Content = new LoginChoose();
+        }
+        else
+        {
+            contentControl.Content = new NoDatabase();
+        }
+    }
+}
+
+internal class OnWindowChange : EventArgs
+{
+    public OnWindowChange(UserControl content)
+    {
+        Content = content;
+    }
+
+    public UserControl Content { get; set; }
 }
