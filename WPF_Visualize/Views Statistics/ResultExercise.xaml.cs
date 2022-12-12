@@ -32,11 +32,11 @@ public partial class ResultatenOefening : UserControl
 
 
         //sets the labels
-        Totaltime.Content = Exercise.StatisticsController.CurrentTime.ToString("mm:ss");
-        MistakeCount.Content = Exercise.StatisticsController.NumberOfMistakes;
-        WPS.Content = wps;
-        CorrectCount.Content = Exercise.StatisticsController.NumberCorrect;
-        CorrectPercentage.Content = $"{correctPercentage}%";
+        Totaltime.Content = "Totale tijd: " + Exercise.StatisticsController.CurrentTime.ToString("mm:ss") ;
+        MistakeCount.Content = "Aantal fouten: " + Exercise.StatisticsController.NumberOfMistakes;
+        WPS.Content = "Gemiddelde tekens per seconde: " + wps;
+        CorrectCount.Content = "Aantal goed: " + Exercise.StatisticsController.NumberCorrect;
+        CorrectPercentage.Content = $"Percentage goed: {correctPercentage}%";
         _InitializeFeedback(correctPercentage);
     }
 

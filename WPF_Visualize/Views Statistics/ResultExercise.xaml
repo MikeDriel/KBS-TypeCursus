@@ -8,53 +8,53 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Style="{StaticResource UserControlBackground}">
 
-    <UserControl.DataContext>
-        <local1:Charts />
-    </UserControl.DataContext>
+	<UserControl.DataContext>
+		<local1:Charts/>
+	</UserControl.DataContext>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="2.5*"/>
+			<RowDefinition Height="4*" MinHeight="700" MaxHeight="1000"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="5*"/>
+			<ColumnDefinition Width="5*" MinWidth="500" MaxWidth="1000"/>
+		</Grid.ColumnDefinitions>
 
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*" />
-            <RowDefinition Height="0.5*" />
-            <RowDefinition Height="0.5*" /> 
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="4*" />
-            <ColumnDefinition Width="0.5*" />
+		<Button x:Name="Back" Content="Terug naar opdrachten" Grid.Row="0" Width="190" Click="OnBack" Style="{StaticResource BackButton}"/>
 
-        </Grid.ColumnDefinitions>
+		<Label Content="Resultaat opdracht" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
+		<Label x:Name="Feedback" Content="Feedback" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="30" Margin="0,140,0,0" VerticalAlignment="Top" Style="{StaticResource LabelsFeedback}"/>
 
+		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="0" MaxWidth="900" Height="650" CornerRadius="10" Margin="50,0,25,50" BorderThickness="0.2" VerticalAlignment="Center">
+			<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="#1c313a" Height="550">
+				<Border BorderBrush="#455a64" BorderThickness="3" Margin="0,25,0,40" CornerRadius="5" Width="600">
+					<Label x:Name="WPS" Content="WPS" HorizontalAlignment="Left" Margin="7, 9" FontSize="24" VerticalAlignment="Top" Foreground="White"/>
+				</Border>
 
+				<Border BorderBrush="#455a64" BorderThickness="2" Margin="0,0,0,40" CornerRadius="5" Width="600">
+					<Label x:Name="Totaltime" Content="Tijd" HorizontalAlignment="Left" Margin="7, 9" FontSize="24" VerticalAlignment="Top" Foreground="White"/>
+				</Border>
 
-        <oxy:PlotView x:Name="Tekens_perseconde" Model="{Binding Stats}" Grid.Column="3" Grid.Row="3" IsMouseWheelEnabled="false"
-                      oxy:Background="Transparent"/>
+				<Border BorderBrush="#455a64" BorderThickness="3" Margin="0,0,0,40" CornerRadius="5" Width="600">
+					<Label x:Name="CorrectCount" Content="Goed" HorizontalAlignment="Left" Margin="7, 9" FontSize="24" VerticalAlignment="Top" Foreground="White"/>
+				</Border>
 
+				<Border BorderBrush="#455a64" BorderThickness="3" Margin="0,0,0,40" CornerRadius="5" Width="600">
+					<Label x:Name="MistakeCount" Content="Fouten" HorizontalAlignment="Left" Margin="7, 9" FontSize="24" VerticalAlignment="Top" Foreground="White"/>
+				</Border>
 
+				<Border BorderBrush="#455a64" BorderThickness="3" Margin="0,0,0,25" CornerRadius="5" Width="600">
+					<Label x:Name="CorrectPercentage" Content="Goed%" HorizontalAlignment="Left" Margin="7, 9" FontSize="24" VerticalAlignment="Top" Foreground="White"/>
+				</Border>
 
-        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource BackButton}" />
+			</StackPanel>
+		</Border>
 
-        <Label Content="Resultaat opdracht" Grid.Column="1" Grid.Row="1" Foreground="White" FontSize="35"/>
-        <Label x:Name="Feedback" Content="Feedback" Grid.Column="1" Grid.Row="2" Foreground="White" FontSize="30"/>
-
-        <Label Content="Gemiddelde tekens per seconde:" Grid.Row="3" Grid.Column="1" Height="40" Foreground="White" FontSize="20" Margin="0,0,0,160" />
-        <Label Content="Totale tijd opdracht:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Margin="0,40,0,120"/>
-        <Label Content="Aantal goed:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Grid.ColumnSpan="2" Margin="2,80,78,80"/>
-        <Label Content="Aantal fouten:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Margin="0,120,0,40"/>
-        <Label Content="Percentage goed:" Grid.Row="3" Grid.Column="1"  Height="40" Foreground="White" FontSize="20" Margin="0,160,0,0"/>
-
-
-
-        <Label x:Name="WPS" Content="WPS" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,0,0,160"/>
-        <Label x:Name="Totaltime"  Content="Tijd" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,40,0,120"/>
-        <Label x:Name="CorrectCount" Content="Goed" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,80,0,80"/>
-        <Label x:Name="MistakeCount" Content="Fouten" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,120,0,40"/>
-        <Label x:Name="CorrectPercentage" Content="Goed%" Grid.Row="3" Grid.Column="2"  Height="40"  Foreground="White" FontSize="20" Margin="0,160,0,0"/>
-
-    </Grid>
+		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="2" Grid.Column="1" MaxWidth="900" Height="650" CornerRadius="10" Margin="25,0,50,50" BorderThickness="0.2" VerticalAlignment="Center">
+			<oxy:PlotView x:Name="Tekens_perseconde" Background="#1c313a" Margin="25,25,25,25" Model="{Binding Stats}"/>
+		</Border>
+	</Grid>
 </UserControl>
