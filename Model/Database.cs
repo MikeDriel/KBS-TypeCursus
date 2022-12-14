@@ -85,6 +85,33 @@ public class Database
         return StoryString;
     }
 
+    public string GetStatisticsDB()
+    {
+        var statistics = new StringBuilder();
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT * FROM Statistics";
+            var command = new SqlCommand(sql, connection);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                for (var i = 0; i < reader.FieldCount; i++)
+                {
+                    statistics.Append(reader[i].ToString());
+                    statistics.Append(" ");
+                }
+
+                statistics.Append(Environment.NewLine);
+            }
+
+            connection.Close();
+        }
+
+        return statistics.ToString();
+    }
+
 
     // get password from the database
     public string? GetPasswordWithId(bool? isTeacher, string? loginKey)

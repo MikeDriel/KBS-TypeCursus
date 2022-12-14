@@ -16,7 +16,7 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class Exercise : UserControl
 {
-    public static StatisticsController? StatisticsController;
+    public static ExerciseStatisticsController? StatisticsController;
     private readonly ExerciseController _controller;
 
     private readonly Rectangle _rectangleLetterToType =
@@ -43,7 +43,7 @@ public partial class Exercise : UserControl
 			RichTextBoxStory.Visibility = Visibility.Hidden;
 		}
 		
-		StatisticsController = new StatisticsController(maxTime);
+		StatisticsController = new ExerciseStatisticsController(maxTime);
 		//subscribe events
 		_controller.ExerciseEvent += ExerciseEvent;
 		StatisticsController.LiveStatisticsEvent += SetLiveStatistics;

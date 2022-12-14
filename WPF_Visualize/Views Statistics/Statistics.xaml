@@ -4,6 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid />
+             d:DesignHeight="450" d:DesignWidth="800"
+             Style="{StaticResource UserControlBackground}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2.5*" MinHeight="200" MaxHeight="250"/>
+            <RowDefinition Height="4.5*" MinHeight="600" MaxHeight="800"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="5*" MinWidth="500" MaxWidth="1000"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Width="109" Click="OnBack" Style="{StaticResource HeaderButton}"/>
+
+        <Label Content="Statistieken" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
+
+        <Border BorderBrush="#455a64" BorderThickness="3" Margin="48,10,152,455" CornerRadius="5" Width="600" Grid.ColumnSpan="2" Grid.Row="1">
+            <Label x:Name="WPS" Content="WPS" HorizontalAlignment="Left" Margin="7, 9" FontSize="24" VerticalAlignment="Top" Foreground="White"/>
+        </Border>
+
+    </Grid>
 </UserControl>

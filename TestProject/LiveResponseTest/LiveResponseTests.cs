@@ -7,13 +7,13 @@ namespace TestProject.DataBaseTest
     [TestFixture]
     public class LiveResponseTests
     {
-        StatisticsController _statisticsController;
+        ExerciseStatisticsController _statisticsController;
 
 
         [SetUp]
         public void Setup()
         {
-            _statisticsController = new StatisticsController(5);
+            _statisticsController = new ExerciseStatisticsController(5);
         }
 
         [Test]
