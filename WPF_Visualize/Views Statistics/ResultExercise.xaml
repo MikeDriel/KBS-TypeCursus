@@ -14,8 +14,8 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="2.5*"/>
-			<RowDefinition Height="4*" MinHeight="700" MaxHeight="1000"/>
+			<RowDefinition Height="2.5*" MinHeight="150"/>
+			<RowDefinition Height="4*" MinHeight="350" MaxHeight="650"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="5*"/>

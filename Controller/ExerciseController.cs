@@ -57,23 +57,19 @@ public class ExerciseController
             { '0', new[] { 409, 1 } },
             { ' ', new[] { 123, 169 } }
         };
-
-        // LetterExercise
-        if (choice == 0)
+        
+        // Generate the correct data for the selected exercise
+        switch (choice)
         {
-            GenerateLetterData();
-        }
-
-        // WordExercise
-        if (choice == 1)
-        {
-            GenerateWordData();
-        }
-
-        // StoryExercise 
-        if (choice == 2)
-        {
-            GenerateStoryData();
+            case 0 :
+                GenerateLetterData();
+                break;
+            case 1:
+                GenerateWordData();
+                break;
+            case 2:
+                GenerateStoryData();
+                break;
         }
     }
 
@@ -106,7 +102,7 @@ public class ExerciseController
     public void GenerateWordData()
     {
         //get the words from the database and choose how many you want
-        CharacterList = Database.GetWord(10);
+        CharacterList = Database.GetWord(978);
     }
 
     public void GenerateStoryData()

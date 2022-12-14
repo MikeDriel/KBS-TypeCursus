@@ -7,6 +7,8 @@ namespace Model;
 
 public class Database
 {
+    private Dictionary<char, int> _alphabetWithPoints;
+
     private string? DatabaseConnectionString()
     {
         try
@@ -28,6 +30,43 @@ public class Database
             Console.WriteLine(e.ToString());
             return null;
         }
+    }
+
+    public Database()
+    {
+        _alphabetWithPoints = new Dictionary<char, int>();
+        FillDictAlphabet();
+    }
+
+    private void FillDictAlphabet()
+    {
+        //Fill the dictionary with the lowercase alphabet and the points per letter
+        _alphabetWithPoints.Add('a', 1);
+        _alphabetWithPoints.Add('b', 4);
+        _alphabetWithPoints.Add('c', 4);
+        _alphabetWithPoints.Add('d', 1);
+        _alphabetWithPoints.Add('e', 3);
+        _alphabetWithPoints.Add('f', 1);
+        _alphabetWithPoints.Add('g', 2);
+        _alphabetWithPoints.Add('h', 2);
+        _alphabetWithPoints.Add('i', 3);
+        _alphabetWithPoints.Add('j', 1);
+        _alphabetWithPoints.Add('k', 1);
+        _alphabetWithPoints.Add('l', 1);
+        _alphabetWithPoints.Add('m', 4);
+        _alphabetWithPoints.Add('n', 3);
+        _alphabetWithPoints.Add('o', 3);
+        _alphabetWithPoints.Add('p', 3);
+        _alphabetWithPoints.Add('q', 3);
+        _alphabetWithPoints.Add('r', 2);
+        _alphabetWithPoints.Add('s', 1);
+        _alphabetWithPoints.Add('t', 2);
+        _alphabetWithPoints.Add('u', 2);
+        _alphabetWithPoints.Add('v', 3);
+        _alphabetWithPoints.Add('w', 3);
+        _alphabetWithPoints.Add('x', 4);
+        _alphabetWithPoints.Add('y', 2);
+        _alphabetWithPoints.Add('z', 4);
     }
 
 
@@ -100,11 +139,13 @@ public class Database
             SqlCommand command;
             if (isTeacher == true)
             {
-                command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)", connection);
+                command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)",
+                    connection);
             }
             else
             {
-                command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)", connection);
+                command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)",
+                    connection);
             }
 
             command.Parameters.AddWithValue("@LoginKey", loginKey);
@@ -146,6 +187,52 @@ public class Database
         catch (SqlException)
         {
             return false;
+        }
+    }
+
+    private int getWordDifficulty(string word)
+    {
+        int TotalPoints = 0;
+        foreach (char letter in word)
+        {
+            TotalPoints += _alphabetWithPoints[letter];
+        }
+        return TotalPoints;
+    }
+
+    public void AddDifficultyToDatabase()
+    {
+        var wordList = new List<string>();
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT Words FROM Words ORDER BY NEWID()";
+            var command = new SqlCommand(sql, connection);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                for (var i = 0; i < reader.FieldCount; i++)
+                {
+                    wordList.Add(reader[i].ToString());
+                }
+            }
+
+            connection.Close();
+        }
+
+        foreach (string word in wordList)
+        {
+            using (var connection = new SqlConnection(DatabaseConnectionString()))
+            {
+                connection.Open();
+                var sql = "UPDATE Words SET Difficulty = @difficulty WHERE Words = @word";
+                var command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@difficulty", getWordDifficulty(word));
+                command.Parameters.AddWithValue("@word", word);
+                command.ExecuteReader();
+                connection.Close();
+            }
         }
     }
 }
