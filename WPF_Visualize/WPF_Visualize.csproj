@@ -16,9 +16,11 @@
         <None Remove="Images\Leaderboard.jpg" />
         <None Remove="Images\LetterExercise.png" />
         <None Remove="Images\logout.png" />
+        <None Remove="Images\people.png" />
         <None Remove="Images\planning.png" />
         <None Remove="Images\Pupil.png" />
         <None Remove="Images\ranking.png" />
+        <None Remove="Images\settings.png" />
         <None Remove="Images\Statistics.png" />
         <None Remove="Images\StoryExercise2.png" />
         <None Remove="Images\Teacher.png" />
@@ -47,6 +49,12 @@
         <Content Include="Images\logout.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="Images\people.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\settings.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
         <Content Include="Images\StoryExercise2.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
@@ -71,12 +79,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0"/>
+        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Controller\Controller.csproj"/>
-        <ProjectReference Include="..\Model\Model.csproj"/>
+        <ProjectReference Include="..\Controller\Controller.csproj" />
+        <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 
 </Project>
