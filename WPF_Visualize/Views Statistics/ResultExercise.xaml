@@ -8,9 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Style="{StaticResource UserControlBackground}">
 
-	<UserControl.DataContext>
-		<local1:Charts/>
-	</UserControl.DataContext>
+
 
 	<Grid>
 		<Grid.RowDefinitions>

@@ -91,7 +91,7 @@ public class Database
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sql = "SELECT * FROM Statistics";
+            var sql = "SELECT PupilID FROM PupilStatistics;";
             var command = new SqlCommand(sql, connection);
             var reader = command.ExecuteReader();
 
