@@ -190,14 +190,32 @@ public class Database
         }
     }
 
-    private int getWordDifficulty(string word)
+    private string getWordDifficulty(string word)
     {
         int TotalPoints = 0;
         foreach (char letter in word)
         {
             TotalPoints += _alphabetWithPoints[letter];
         }
-        return TotalPoints;
+
+        switch (TotalPoints)
+        {
+            case <= 5:
+                return "";
+                break;
+            case <= 10:
+                return "Easy";
+                break;
+            case <= 15:
+                return "Medium";
+                break;
+            case <= 20:
+                return "Hard";
+                break; 
+            default:
+                return "Very Hard";
+            break;
+        }
     }
 
     public void AddDifficultyToDatabase()

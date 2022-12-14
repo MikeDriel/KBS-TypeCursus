@@ -190,5 +190,5 @@ public class ExerciseEventArgs : EventArgs
     {
         IsCorrect = isCorrect;
         IsFinished = isFinished;
-    }
+    } 
 }
