@@ -24,9 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Column="1" Grid.Row="1" Content="Uw klassen" Style="{StaticResource LabelsSelecterScreens}" />
-        <StackPanel Grid.Row="2" Grid.Column="1">
-            <Button Content="Klas 1" Click="Button_Click"/>
-        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" x:Name="ClassStackPanel"/>
 
         <Label Grid.Column="3" Grid.Row="1" Content="Nieuwe klas aanmaken" Style="{StaticResource LabelsSelecterScreens}"/>
         <Button x:Name="Settings" Grid.Row="2" Grid.Column="3"

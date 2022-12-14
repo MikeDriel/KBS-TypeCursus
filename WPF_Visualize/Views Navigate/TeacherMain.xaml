@@ -22,6 +22,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource HeaderButton}" />
+
+
+        <Label Grid.Row="0" Grid.Column="1" x:Name="ClassNameLabel" Content="Gekozen klas:" Style="{StaticResource ChosenClassLabel}" Grid.ColumnSpan="3" Margin="154,12,154,88" Grid.RowSpan="2"/>
+
         <Label Grid.Column="1" Grid.Row="1" Content="Klas statistieken" Style="{StaticResource LabelsSelecterScreens}" />
         <Button x:Name="Statistics" Grid.Row="2" Grid.Column="1" Click="OnClassStatistics"
                 Style="{StaticResource IconButtons}">

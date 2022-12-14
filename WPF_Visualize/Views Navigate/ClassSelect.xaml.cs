@@ -1,4 +1,5 @@
 ﻿using Controller;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,30 @@ namespace WPF_Visualize.Views_Navigate
     /// </summary>
     public partial class ClassSelect : UserControl
     {
+        public Database Database = new();
         public ClassSelect()
         {
             InitializeComponent();
+            addButtonsForClasses();
+        }
+
+        private void addButtonsForClasses()
+        {
+            {
+                var classes = Database.GetClasses(1);
+                foreach (int classId in classes)
+                {
+                    string className = Database.GetClassName(classId);
+                    var button = new Button
+                    {
+                        Content = className,
+                        Style = (Style)FindResource("ClassSelecterButton"),
+
+                    };
+                    button.Click += (sender, args) => UserControlController.MainWindowChange(this, new TeacherMain(classId));
+                    ClassStackPanel.Children.Add(button);
+                }
+            }
         }
         private void OnLogOut(object sender, RoutedEventArgs e)
         {
@@ -37,11 +59,6 @@ namespace WPF_Visualize.Views_Navigate
         private void OnAfsluiten(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            UserControlController.MainWindowChange(this, new TeacherMain());
         }
     }
 }

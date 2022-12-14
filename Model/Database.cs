@@ -134,6 +134,7 @@ public class Database
         return hash;
     }
 
+
     public async Task<bool> IsServerConnected()
     {
         await using var connection = new SqlConnection(DatabaseConnectionString());
@@ -147,5 +148,49 @@ public class Database
         {
             return false;
         }
+    }
+
+    public List<int> GetClasses(int teacherId)
+    {
+        List<int> classes = new List<int>();
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT ClassID FROM Classes WHERE TeacherID = (@teacherId)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@teacherId", teacherId);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                classes.Add(reader.GetInt32(0));
+            }
+
+            connection.Close();
+        }
+
+        return classes;
+    }
+
+    public string GetClassName(int classId)
+    {
+        string className = "";
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT ClassName FROM Classes WHERE ClassID = (@classId)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@classId", classId);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                className = reader.GetString(0);
+            }
+
+            connection.Close();
+        }
+
+        return className;
     }
 }
