@@ -8,7 +8,8 @@ public class ExerciseController
 
     public Random Random = new(); //random number generator
 
-    public ExerciseController(int choice)
+    
+    public ExerciseController(int choice, Enum niveau)
     {
         Choice = choice;
         CharacterList = new List<char>();
@@ -65,7 +66,7 @@ public class ExerciseController
                 GenerateLetterData();
                 break;
             case 1:
-                GenerateWordData();
+                GenerateWordData(12,5);
                 break;
             case 2:
                 GenerateStoryData();
@@ -89,7 +90,7 @@ public class ExerciseController
     public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
     /// <summary>
-    ///     Generates the alphabet data for the list. Also copies data to the queue for logic use.
+    ///     Generates the alphabet data for the list.
     /// </summary>
     public void GenerateLetterData()
     {
@@ -99,10 +100,10 @@ public class ExerciseController
         }
     }
 
-    public void GenerateWordData()
+    public void GenerateWordData(int difficulty, int amount)
     {
         //get the words from the database and choose how many you want
-        CharacterList = Database.GetWord(978);
+        CharacterList = Database.GetWord(difficulty, amount);
     }
 
     public void GenerateStoryData()

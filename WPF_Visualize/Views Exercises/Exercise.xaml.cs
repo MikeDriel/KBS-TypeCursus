@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Controller;
+using Model;
 using WPF_Visualize.ViewLogic;
 
 namespace WPF_Visualize;
@@ -28,7 +29,7 @@ public partial class Exercise : UserControl
 	public Exercise(int choice)
 	{
 		InitializeComponent();
-		_controller = new ExerciseController(choice);
+		_controller = new ExerciseController(choice,Difficulty.niveau1);
 		int maxTime;
 		if (choice == 2)
 		{

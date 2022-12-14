@@ -5,10 +5,19 @@ using System.Text;
 
 namespace Model;
 
+public enum Difficulty
+{
+    niveau1,
+    niveau2,
+    niveau3,
+    niveau4,
+    niveau5
+
+}
+
 public class Database
 {
     private Dictionary<char, int> _alphabetWithPoints;
-
     private string? DatabaseConnectionString()
     {
         try
@@ -36,6 +45,8 @@ public class Database
     {
         _alphabetWithPoints = new Dictionary<char, int>();
         FillDictAlphabet();
+        
+        Debug.WriteLine(Difficulty.niveau4.ToString());
     }
 
     private void FillDictAlphabet()
@@ -70,15 +81,16 @@ public class Database
     }
 
 
-    public List<char> GetWord(int amountOfWords)
+    public List<char> GetWord(int difficulty, int amountOfWords)
     {
         var wordList = new List<char>();
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sql = "SELECT TOP (@amountOfWords) Words FROM Words ORDER BY NEWID()";
+            var sql = "SELECT TOP (@amountOfWords) Words FROM Words WHERE Difficulty = (@difficulty) ORDER BY NEWID()";
             var command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@amountOfWords", amountOfWords);
+            command.Parameters.AddWithValue("@difficulty", difficulty);
             var reader = command.ExecuteReader();
 
             while (reader.Read())
