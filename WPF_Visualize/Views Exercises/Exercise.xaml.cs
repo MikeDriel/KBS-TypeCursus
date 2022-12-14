@@ -29,7 +29,7 @@ public partial class Exercise : UserControl
 	public Exercise(int choice)
 	{
 		InitializeComponent();
-		_controller = new ExerciseController(choice,Difficulty.niveau1);
+		_controller = new ExerciseController(choice, 1);
 		int maxTime;
 		if (choice == 2)
 		{

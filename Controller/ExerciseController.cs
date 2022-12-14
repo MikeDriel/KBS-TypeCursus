@@ -9,7 +9,7 @@ public class ExerciseController
     public Random Random = new(); //random number generator
 
     
-    public ExerciseController(int choice, Enum niveau)
+    public ExerciseController(int choice, int difficulty)
     {
         Choice = choice;
         CharacterList = new List<char>();
@@ -63,10 +63,10 @@ public class ExerciseController
         switch (choice)
         {
             case 0 :
-                GenerateLetterData();
+                GenerateLetterData(1);
                 break;
             case 1:
-                GenerateWordData(12,5);
+                GenerateWordData(1,5);
                 break;
             case 2:
                 GenerateStoryData();
@@ -92,11 +92,20 @@ public class ExerciseController
     /// <summary>
     ///     Generates the alphabet data for the list.
     /// </summary>
-    public void GenerateLetterData()
+    public void GenerateLetterData(int difficulty)
     {
+        List<char> letters = new List<char>();
+
+        foreach (var charWithPoints in Database.AlphabetWithPoints)
+        {
+            if (charWithPoints.Value <= difficulty)
+            {
+                letters.Add(charWithPoints.Key);
+            }
+        }
         for (var i = 0; i < 35; i++)
         {
-            CharacterList.Add((char)Random.Next(97, 123));
+            CharacterList.Add(letters[Random.Next(0, letters.Count)]);
         }
     }
 

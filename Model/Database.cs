@@ -5,19 +5,12 @@ using System.Text;
 
 namespace Model;
 
-public enum Difficulty
-{
-    niveau1,
-    niveau2,
-    niveau3,
-    niveau4,
-    niveau5
-
-}
 
 public class Database
 {
-    private Dictionary<char, int> _alphabetWithPoints;
+    
+    public Dictionary<char, int> AlphabetWithPoints { get; private set; }
+    private const int _maxPoints = 45;
     private string? DatabaseConnectionString()
     {
         try
@@ -43,41 +36,40 @@ public class Database
 
     public Database()
     {
-        _alphabetWithPoints = new Dictionary<char, int>();
+        AlphabetWithPoints = new Dictionary<char, int>();
         FillDictAlphabet();
-        
-        Debug.WriteLine(Difficulty.niveau4.ToString());
+
     }
 
     private void FillDictAlphabet()
     {
         //Fill the dictionary with the lowercase alphabet and the points per letter
-        _alphabetWithPoints.Add('a', 1);
-        _alphabetWithPoints.Add('b', 4);
-        _alphabetWithPoints.Add('c', 4);
-        _alphabetWithPoints.Add('d', 1);
-        _alphabetWithPoints.Add('e', 3);
-        _alphabetWithPoints.Add('f', 1);
-        _alphabetWithPoints.Add('g', 2);
-        _alphabetWithPoints.Add('h', 2);
-        _alphabetWithPoints.Add('i', 3);
-        _alphabetWithPoints.Add('j', 1);
-        _alphabetWithPoints.Add('k', 1);
-        _alphabetWithPoints.Add('l', 1);
-        _alphabetWithPoints.Add('m', 4);
-        _alphabetWithPoints.Add('n', 3);
-        _alphabetWithPoints.Add('o', 3);
-        _alphabetWithPoints.Add('p', 3);
-        _alphabetWithPoints.Add('q', 3);
-        _alphabetWithPoints.Add('r', 2);
-        _alphabetWithPoints.Add('s', 1);
-        _alphabetWithPoints.Add('t', 2);
-        _alphabetWithPoints.Add('u', 2);
-        _alphabetWithPoints.Add('v', 3);
-        _alphabetWithPoints.Add('w', 3);
-        _alphabetWithPoints.Add('x', 4);
-        _alphabetWithPoints.Add('y', 2);
-        _alphabetWithPoints.Add('z', 4);
+        AlphabetWithPoints.Add('a', 2);
+        AlphabetWithPoints.Add('b', 5);
+        AlphabetWithPoints.Add('c', 5);
+        AlphabetWithPoints.Add('d', 1);
+        AlphabetWithPoints.Add('e', 4);
+        AlphabetWithPoints.Add('f', 1);
+        AlphabetWithPoints.Add('g', 3);
+        AlphabetWithPoints.Add('h', 3);
+        AlphabetWithPoints.Add('i', 4);
+        AlphabetWithPoints.Add('j', 1);
+        AlphabetWithPoints.Add('k', 1);
+        AlphabetWithPoints.Add('l', 2);
+        AlphabetWithPoints.Add('m', 5);
+        AlphabetWithPoints.Add('n', 4);
+        AlphabetWithPoints.Add('o', 4);
+        AlphabetWithPoints.Add('p', 4);
+        AlphabetWithPoints.Add('q', 4);
+        AlphabetWithPoints.Add('r', 3);
+        AlphabetWithPoints.Add('s', 2);
+        AlphabetWithPoints.Add('t', 3);
+        AlphabetWithPoints.Add('u', 3);
+        AlphabetWithPoints.Add('v', 4);
+        AlphabetWithPoints.Add('w', 4);
+        AlphabetWithPoints.Add('x', 4);
+        AlphabetWithPoints.Add('y', 3);
+        AlphabetWithPoints.Add('z', 5);
     }
 
 
@@ -202,30 +194,30 @@ public class Database
         }
     }
 
-    private string getWordDifficulty(string word)
+    private int getWordDifficulty(string word)
     {
         int TotalPoints = 0;
         foreach (char letter in word)
         {
-            TotalPoints += _alphabetWithPoints[letter];
+            TotalPoints += AlphabetWithPoints[letter];
         }
 
         switch (TotalPoints)
         {
-            case <= 5:
-                return "";
+            case <= (_maxPoints / 5):
+                return 1;
                 break;
-            case <= 10:
-                return "Easy";
+            case <= (_maxPoints / 5) * 2:
+                return 2;
                 break;
-            case <= 15:
-                return "Medium";
+            case <= (_maxPoints / 5) * 3:
+                return 3;
                 break;
-            case <= 20:
-                return "Hard";
+            case <= (_maxPoints / 5) * 4:
+                return 4;
                 break; 
             default:
-                return "Very Hard";
+                return 5;
             break;
         }
     }
@@ -265,4 +257,6 @@ public class Database
             }
         }
     }
+    
+    
 }
