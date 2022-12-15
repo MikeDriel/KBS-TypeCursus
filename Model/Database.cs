@@ -89,13 +89,30 @@ public class Database
     }
    
 
-    public List<string> GetStatisticsDB()
+    public List<string> GetStatisticsDB(int type)
     {
         List<string> statistics = new List<string>();
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sql = " SELECT * FROM PupilStatistics WHERE PupilID = 2 "; //id of pupil
+            string sql;
+            if(type == 0)
+            {
+                sql = " SELECT * FROM PupilStatistics WHERE PupilID = 2 AND type = 'Letter' "; // letter statistics for type = 0
+            } else if (type == 1)
+            {
+                sql = " SELECT * FROM PupilStatistics WHERE PupilID = 2 AND type = 'Word' ";// word statistics for type = 1
+            } else if (type == 2)
+            {
+                sql = " SELECT * FROM PupilStatistics WHERE PupilID = 2 AND type = 'Story' ";// story statistics for type = 2
+            } else
+            {
+                return null;
+            }
+
+
+
+
             var command = new SqlCommand(sql, connection);
             var reader = command.ExecuteReader();
 

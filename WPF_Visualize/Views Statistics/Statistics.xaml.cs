@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
 using Controller;
+using System.Collections.Generic;
 
 namespace WPF_Visualize;
 
@@ -13,9 +14,16 @@ namespace WPF_Visualize;
 public partial class Statistics : UserControl
 {
     StatisticsController StatsController = new StatisticsController();
-    
+    List<string> letterstatistics;
+    List<string> wordstatistics;
+    List<string> storystatistics;
+    List<string> totalstatistics;
     public Statistics()
     {
+        letterstatistics = StatsController.GetLetterStatisticsFromDatabase();
+        wordstatistics = StatsController.GetWordStatisticsFromDatabase();
+        storystatistics = StatsController.GetStoryStatisticsFromDatabase();
+
         InitializeComponent();
         _InitializeLabels();
     }
@@ -23,10 +31,9 @@ public partial class Statistics : UserControl
     private void _InitializeLabels()
     {
         
-        var statistics = StatsController.GetStatisticsFromDatabase();
 
         //sets the labels
-        WPS.Content = "Gemiddelde tekens per seconde: " + statistics[1];
+        WPS.Content = "Gemiddelde tekens per seconde: " + storystatistics[1];
     }
 
 

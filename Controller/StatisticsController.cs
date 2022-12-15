@@ -16,9 +16,17 @@ namespace Controller
 
         }
 
-        public List<string> GetStatisticsFromDatabase()
+        public List<string> GetLetterStatisticsFromDatabase()
         {
-            return Database.GetStatisticsDB();
+            return Database.GetStatisticsDB(0);
+        }
+        public List<string> GetWordStatisticsFromDatabase()
+        {
+            return Database.GetStatisticsDB(1);
+        }
+        public List<string> GetStoryStatisticsFromDatabase()
+        {
+            return Database.GetStatisticsDB(2);
         }
 
 
