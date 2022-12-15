@@ -87,10 +87,11 @@ public class Database
 
         return StoryString;
     }
+   
 
-    public string GetStatisticsDB()
+    public List<string> GetStatisticsDB()
     {
-        var statistics = new StringBuilder();
+        List<string> statistics = new List<string>();
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
@@ -102,17 +103,14 @@ public class Database
             {
                 for (var i = 0; i < reader.FieldCount; i++)
                 {
-                    statistics.Append(reader[i].ToString());
-                    statistics.Append(" ");
+                    statistics.Add(reader[i].ToString());
                 }
-
-                statistics.Append(Environment.NewLine);
             }
 
             connection.Close();
         }
 
-        return statistics.ToString();
+        return statistics;
     }
 
 

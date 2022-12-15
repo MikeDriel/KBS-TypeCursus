@@ -26,7 +26,7 @@ public partial class Statistics : UserControl
         var statistics = StatsController.GetStatisticsFromDatabase();
 
         //sets the labels
-        WPS.Content = "Gemiddelde tekens per seconde: " + statistics ;
+        WPS.Content = "Gemiddelde tekens per seconde: " + statistics[1];
     }
 
 

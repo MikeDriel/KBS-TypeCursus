@@ -16,7 +16,7 @@ namespace Controller
 
         }
 
-        public string GetStatisticsFromDatabase()
+        public List<string> GetStatisticsFromDatabase()
         {
             return Database.GetStatisticsDB();
         }
