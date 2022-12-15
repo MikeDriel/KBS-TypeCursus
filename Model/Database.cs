@@ -7,6 +7,9 @@ namespace Model;
 
 public class Database
 {
+    //still need to grab userID for logged in user stats
+    //int UserID = LoginController.UserID;
+
     private string? DatabaseConnectionString()
     {
         try
@@ -91,7 +94,7 @@ public class Database
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sql = "SELECT PupilID FROM PupilStatistics;";
+            var sql = " SELECT * FROM PupilStatistics WHERE PupilID = 2 "; //id of pupil
             var command = new SqlCommand(sql, connection);
             var reader = command.ExecuteReader();
 
