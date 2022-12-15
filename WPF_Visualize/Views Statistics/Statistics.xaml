@@ -12,25 +12,56 @@
             <RowDefinition Height="4.5*" MinHeight="600" MaxHeight="800"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="5*" MinWidth="500" MaxWidth="1000"/>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="6*" MinWidth="500" MaxWidth="1000"/>
         </Grid.ColumnDefinitions>
 
         <Button x:Name="Back" Content="Terug" Grid.Row="0" Width="109" Click="OnBack" Style="{StaticResource HeaderButton}"/>
 
         <Label Content="Statistieken" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
 
-        <Label x:Name="KPS" Content="KPS" HorizontalAlignment="Left" Margin="13,137,0,0" FontSize="24" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Grid.Column="1"/>
-        <Label x:Name="TGF" Content="TGF" HorizontalAlignment="Left" Margin="14,95,0,0" FontSize="24" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Grid.Column="1"/>
-        <Label x:Name="TGA" Content="TGA" HorizontalAlignment="Left" Margin="10,53,0,0" FontSize="24" VerticalAlignment="Top" Foreground="White" RenderTransformOrigin="1.581,4.215" Grid.Row="1" Grid.Column="1"/>
-        <Label x:Name="AGO" Content="AGO" HorizontalAlignment="Left" Margin="13,179,0,0" FontSize="24" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Grid.Column="1"/>
-        <Label x:Name="SC" Content="SC" HorizontalAlignment="Left" Margin="20,10,0,0" FontSize="24" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Grid.Column="1"/>
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="20,11,55,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="1">
+            <StackPanel>
+                <Label Content="Score" FontSize="24" Foreground="White"/>
+                <Label Content="Aantal goed" FontSize="24" Foreground="White"/>
+                <Label Content="Aantal fout" FontSize="24" Foreground="White"/>
+                <Label Content="Tekens per seconden" FontSize="24" Foreground="White"/>
+                <Label Content="Gemaakte opdrachten" FontSize="24" Foreground="White"/>
+            </StackPanel>
+        </Border>
 
-        <Label Content="Aantal goed " HorizontalAlignment="Left" Margin="10,53,0,0" FontSize="24" Foreground="White" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="Aantal fout " HorizontalAlignment="Left" Margin="10,95,0,0" FontSize="24" Foreground="White" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="Tekens per seconden " HorizontalAlignment="Left" Margin="10,137,0,0" FontSize="24" Foreground="White" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="Gemaakte opdrachten
-               " HorizontalAlignment="Left" Margin="10,179,0,0" FontSize="24" Foreground="White" Grid.Row="1" VerticalAlignment="Top" Width="250"/>
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="0,10,488,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
+            <StackPanel>
+                <Label x:Name="LSC" Content="LSC" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
+                <Label x:Name="LTGA" Content="LTGA" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>
+                <Label x:Name="LTGF" Content="LTGF" FontSize="24" Foreground="White"/>
+                <Label x:Name="LKPS" Content="LKPS" FontSize="24" Foreground="White"/>
+                <Label x:Name="LAGO" Content="LAGO" FontSize="24" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="243" CornerRadius="10" Margin="147,10,341,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
+            <StackPanel Margin="0,0,10,0">
+                <Label x:Name="WSC" Content="WSC" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
+                <Label x:Name="WTGA" Content="WTGA" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>
+                <Label x:Name="WTGF" Content="WTGF" FontSize="24" Foreground="White"/>
+                <Label x:Name="WKPS" Content="WKPS" FontSize="24" Foreground="White"/>
+                <Label x:Name="WAGO" Content="WAGO" FontSize="24" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="282,11,200,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
+            <StackPanel>
+                <Label x:Name="SSC" Content="SSC" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
+                <Label x:Name="STGA" Content="STGA" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>
+                <Label x:Name="STGF" Content="STGF" FontSize="24" Foreground="White"/>
+                <Label x:Name="SKPS" Content="SKPS" FontSize="24" Foreground="White"/>
+                <Label x:Name="SAGO" Content="SAGO" FontSize="24" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+
+
 
 
 

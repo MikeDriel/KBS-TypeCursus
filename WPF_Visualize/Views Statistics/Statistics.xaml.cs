@@ -38,12 +38,26 @@ public partial class Statistics : UserControl
     
     private void _InitializeLabels()
     {
-        //sets the labels
-        KPS.Content = "Gemiddelde typsnelheid: " +  storystatistics[5] + " tekens per seconden";
-        TGF.Content = "Totaal gemaakte fouten: " + storystatistics[3];
-        TGA.Content = "Totaal goede antwoorden: " + storystatistics[2];
-        AGO.Content = "Aantal gemaakte opdrachten: " + storystatistics[4];
-        SC.Content = "Score: " + storystatistics[6];
+        //sets the labels for letter statistics
+        LKPS.Content = letterstatistics[5];
+        LTGF.Content = letterstatistics[3];
+        LTGA.Content = letterstatistics[2];
+        LAGO.Content = letterstatistics[4];
+        LSC.Content = letterstatistics[6];
+
+        //sets the labels for word statistics
+        WKPS.Content = wordstatistics[5];
+        WTGF.Content = wordstatistics[3];
+        WTGA.Content = wordstatistics[2];
+        WAGO.Content = wordstatistics[4];
+        WSC.Content = wordstatistics[6];
+
+        //sets the labels for story statistics
+        SKPS.Content = storystatistics[5];
+        STGF.Content = storystatistics[3];
+        STGA.Content = storystatistics[2];
+        SAGO.Content = storystatistics[4];
+        SSC.Content = storystatistics[6];
     }
 
 
