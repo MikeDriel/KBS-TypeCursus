@@ -143,7 +143,7 @@ public class Database
 
 
     // get password from the database
-    public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
+    public string[]? GetPasswordWithId(bool? isTeacher, string? loginKey)
     {
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
@@ -169,11 +169,11 @@ public class Database
             var reader = command.ExecuteReader();
             //Debug.WriteLine(reader[0].ToString());
 
-            var passwordWithId = "";
+            string[] passwordWithId = new string[2];
             while (reader.Read())
             {
-                passwordWithId = reader[0].ToString();
-                passwordWithId += "," + reader[1];
+                passwordWithId[0] = reader[0].ToString();
+                passwordWithId[1] = reader[1].ToString();
                 Debug.WriteLine(passwordWithId);
             }
 

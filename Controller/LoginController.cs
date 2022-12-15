@@ -29,14 +29,13 @@ public class LoginController
         }
 
         var correctPasswordWithId = _db.GetPasswordWithId(IsTeacher, loginKey);
-        var correctPasswordId = correctPasswordWithId.Split(',');
-        var correctPassword = correctPasswordId[0];
+        var correctPassword = correctPasswordWithId[0];
         password = _db.HashPassword(password);
 
         if (correctPassword != null && correctPassword == password)
         {
             LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
-            UserId = int.Parse(correctPasswordId[1]);
+            UserId = int.Parse(correctPasswordWithId[1]);
             _db.CheckIfPupilStatisticsExist(LoginController.GetUserId());
         }
         else
