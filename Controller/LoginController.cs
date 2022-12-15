@@ -13,7 +13,7 @@ public class LoginController
     }
 
     public bool IsTeacher { get; set; }
-    private static int? UserId { get; set; }
+    public static int? UserId { get; private set; }
 
     public event EventHandler<LoginEventArgs>? LoginEvent;
 
