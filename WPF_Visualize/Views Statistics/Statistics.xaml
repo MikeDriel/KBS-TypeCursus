@@ -8,7 +8,7 @@
              Style="{StaticResource UserControlBackground}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2.5*" MinHeight="200" MaxHeight="250"/>
+            <RowDefinition Height="2.5*" MinHeight="300" MaxHeight="250"/>
             <RowDefinition Height="4.5*" MinHeight="600" MaxHeight="800"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,8 +20,9 @@
 
         <Label Content="Statistieken" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
 
-        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="20,11,55,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="1">
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="20,127,55,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="0" Grid.RowSpan="2">
             <StackPanel>
+                <Label Content="Naam leerling" FontSize="24" Foreground="White"/>
                 <Label Content="Score" FontSize="24" Foreground="White"/>
                 <Label Content="Aantal goed" FontSize="24" Foreground="White"/>
                 <Label Content="Aantal fout" FontSize="24" Foreground="White"/>
@@ -30,7 +31,29 @@
             </StackPanel>
         </Border>
 
-        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="0,10,488,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="0,127,475,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+            <StackPanel>
+                <Label x:Name="Name" Content="Name" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
+                <Label x:Name="TSC" Content="TSC" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>
+                <Label x:Name="TTGA" Content="TTGA" FontSize="24" Foreground="White" />
+                <Label x:Name="TTGF" Content="TTGF" FontSize="24" Foreground="White"/>
+                <Label x:Name="TKPS" Content="TKPS" FontSize="24" Foreground="White"/>
+                <Label x:Name="TAGO" Content="TAGO" FontSize="24" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="20,53,55,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="1">
+            <StackPanel>
+                <Label Content="Naam leerling" FontSize="24" Foreground="White"/>
+                <Label Content="Score" FontSize="24" Foreground="White"/>
+                <Label Content="Aantal goed" FontSize="24" Foreground="White"/>
+                <Label Content="Aantal fout" FontSize="24" Foreground="White"/>
+                <Label Content="Tekens per seconden" FontSize="24" Foreground="White"/>
+                <Label Content="Gemaakte opdrachten" FontSize="24" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="0,53,488,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
             <StackPanel>
                 <Label x:Name="LSC" Content="LSC" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
                 <Label x:Name="LTGA" Content="LTGA" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>
@@ -40,7 +63,7 @@
             </StackPanel>
         </Border>
 
-        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="243" CornerRadius="10" Margin="147,10,341,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="243" CornerRadius="10" Margin="144,53,344,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
             <StackPanel Margin="0,0,10,0">
                 <Label x:Name="WSC" Content="WSC" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
                 <Label x:Name="WTGA" Content="WTGA" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>
@@ -50,7 +73,7 @@
             </StackPanel>
         </Border>
 
-        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="282,11,200,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
+        <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="282,53,200,0" BorderThickness="0.2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1">
             <StackPanel>
                 <Label x:Name="SSC" Content="SSC" FontSize="24" Foreground="White" RenderTransformOrigin="-0.567,0.562"/>
                 <Label x:Name="STGA" Content="STGA" FontSize="24" Foreground="White" RenderTransformOrigin="1.581,4.215"/>

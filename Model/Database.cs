@@ -87,7 +87,34 @@ public class Database
 
         return StoryString;
     }
-   
+
+
+    public string GetStatisticsNameDB(string userid)
+    {
+        List<string> nameList = new List<string>();
+        string name = "";
+
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            string sql = $" SELECT Firstname FROM Pupil WHERE PupilID = {userid}"; 
+           
+            
+            var command = new SqlCommand(sql, connection);
+            var reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                name = reader[0].ToString();
+            }
+
+            connection.Close();
+        }
+        return name;
+    }
+
+
 
     public List<string> GetStatisticsDB(int type, string userid)
     {
@@ -109,9 +136,6 @@ public class Database
             {
                 return null;
             }
-
-
-
 
             var command = new SqlCommand(sql, connection);
             var reader = command.ExecuteReader();

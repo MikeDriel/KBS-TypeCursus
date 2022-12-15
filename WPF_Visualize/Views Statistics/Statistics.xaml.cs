@@ -18,6 +18,7 @@ public partial class Statistics : UserControl
     List<string> wordstatistics;
     List<string> storystatistics;
     List<string> totalstatistics;
+    string pupilname;
     //index [0] is PupilID
     //index [1] is Type
     //index [2] is AmountCorrect
@@ -31,6 +32,8 @@ public partial class Statistics : UserControl
         letterstatistics = StatsController.LetterStatistics;
         wordstatistics = StatsController.WordStatistics;
         storystatistics = StatsController.StoryStatistics;
+        totalstatistics = StatsController.TotalStatistics;
+        pupilname = StatsController.PupilName;
 
         InitializeComponent();
         _InitializeLabels();
@@ -38,6 +41,17 @@ public partial class Statistics : UserControl
     
     private void _InitializeLabels()
     {
+        //sets name label
+        Name.Content = pupilname;
+
+        //sets the labels for total statistics
+        TKPS.Content = totalstatistics[3];
+        TTGF.Content = totalstatistics[1];
+        TTGA.Content = totalstatistics[0];
+        TAGO.Content = totalstatistics[2];
+        TSC.Content = totalstatistics[4];
+
+
         //sets the labels for letter statistics
         LKPS.Content = letterstatistics[5];
         LTGF.Content = letterstatistics[3];

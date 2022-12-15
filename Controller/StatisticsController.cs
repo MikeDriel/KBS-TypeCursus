@@ -14,6 +14,7 @@ namespace Controller
         public List<string> WordStatistics { get; private set; }
         public List<string> StoryStatistics { get; private set; }
         public List<string> TotalStatistics { get; private set; }
+        public string PupilName { get; private set; }
 
 
         public StatisticsController()
@@ -23,6 +24,7 @@ namespace Controller
             InitializeWordStatistics();
             InitializeStoryStatistics();
             InitializeTotalStatistics();
+            InitializePupilName();
         }
 
 
@@ -46,13 +48,17 @@ namespace Controller
         }
         private void InitializeTotalStatistics()
         {
+            TotalStatistics = new List<string>();
             for (int i = 2; i < LetterStatistics.Count; i++)
             {
                 double total = Convert.ToDouble(LetterStatistics[i]) + Convert.ToDouble(WordStatistics[i]) + Convert.ToDouble(StoryStatistics[i]);
-                TotalStatistics[i - 2] = total.ToString();
+                TotalStatistics.Add(total.ToString());
             }
         }
-
+        private void InitializePupilName()
+        {
+            PupilName = _database.GetStatisticsNameDB(LoginController.UserId.ToString());
+        }
 
 
     }
