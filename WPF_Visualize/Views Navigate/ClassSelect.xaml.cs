@@ -25,6 +25,7 @@ namespace WPF_Visualize.Views_Navigate
     public partial class ClassSelect : UserControl
     {
         public Database Database = new();
+        int user_id = LoginController.GetUserId();
         public ClassSelect()
         {
             InitializeComponent();
@@ -33,22 +34,22 @@ namespace WPF_Visualize.Views_Navigate
 
         private void addButtonsForClasses()
         {
-            {
-                var classes = Database.GetClasses(1);
-                foreach (int classId in classes)
-                {
-                    string className = Database.GetClassName(classId);
-                    var button = new Button
-                    {
-                        Content = className,
-                        Style = (Style)FindResource("ClassSelecterButton"),
 
-                    };
-                    button.Click += (sender, args) => UserControlController.MainWindowChange(this, new TeacherMain(classId));
-                    ClassStackPanel.Children.Add(button);
-                }
+            List<int> classes = Database.GetClasses(user_id);
+            foreach (int classId in classes)
+            {
+                string className = Database.GetClassName(classId);
+                var button = new Button
+                {
+                    Content = className,
+                    Style = (Style)FindResource("ClassSelecterButton"),
+
+                };
+                button.Click += (sender, args) => UserControlController.MainWindowChange(this, new TeacherMain(classId));
+                ClassStackPanel.Children.Add(button);
             }
         }
+
         private void OnLogOut(object sender, RoutedEventArgs e)
         {
             LoginController.LogOut();
@@ -60,5 +61,11 @@ namespace WPF_Visualize.Views_Navigate
         {
             Application.Current.Shutdown();
         }
+        
+        private void OnClassAdd(object sender, RoutedEventArgs e)
+        {
+            UserControlController.MainWindowChange(this, new ClassSettings());
+        }
+
     }
 }

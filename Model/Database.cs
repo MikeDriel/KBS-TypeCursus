@@ -193,4 +193,121 @@ public class Database
 
         return className;
     }
+
+    public List<int> GetStudents(int classId)
+    {
+        List<int> studentIds = new List<int>();
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT PupilID FROM Pupil WHERE ClassID = (@classId)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@classId", classId);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                studentIds.Add(reader.GetInt32(0));
+            }
+
+            connection.Close();
+        }
+
+        return studentIds;
+    }
+
+    public string[] GetStudentName(int studentID)
+    {
+        string[] Pupil = new string[2];
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT Firstname,LastName FROM Pupil WHERE PupilID = (@studentID)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@studentID", studentID);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Pupil[0] = reader[0].ToString();
+                Pupil[1] = reader[1].ToString();
+            }
+
+            connection.Close();
+        }
+
+        return Pupil;
+    }
+
+    //Make new class and return the auto incremented class id using ExecuteScalar and output.insereted.classid
+    public int AddNewClass(int TeacherId, string ClassName)
+    {
+        object newClassId;
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sqlInsert = "INSERT INTO Classes (TeacherID, ClassName)" + "output inserted.ClassID " + "VALUES (@TeacherId, @ClassName)";
+            var commandInsert = new SqlCommand(sqlInsert, connection);
+            commandInsert.Parameters.AddWithValue("@TeacherId", TeacherId);
+            commandInsert.Parameters.AddWithValue("@ClassName", ClassName);
+            newClassId = commandInsert.ExecuteScalar();
+            connection.Close();
+        }
+
+        return (int)newClassId;
+    }
+
+    //Update CLassName
+    public void UpdateClassName(int ClassId, string NewClassName)
+    {
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sqlInsert = "UPDATE Classes SET ClassName = (@NewClassName) WHERE ClassID = (@ClassId)";
+            var commandInsert = new SqlCommand(sqlInsert, connection);
+            commandInsert.Parameters.AddWithValue("@ClassId", ClassId);
+            commandInsert.Parameters.AddWithValue("@NewClassName", NewClassName);
+            commandInsert.ExecuteReader();
+            connection.Close();
+        }
+    }
+
+
+    public string[] AddStudent(string[] student, int classId)
+    {
+        string UnhashedPassword = GetRandomPassword(5);
+        string HashedPassword = HashPassword(UnhashedPassword);
+        object newPupilId;
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password, UnHashedPasswords)"  + "output inserted.PupilID " + "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword),(@UnhashedPassword))";
+            var commandInsert = new SqlCommand(sqlInsert, connection);
+            commandInsert.Parameters.AddWithValue("@FirstName", student[0]);
+            commandInsert.Parameters.AddWithValue("@LastName", student[1]);
+            commandInsert.Parameters.AddWithValue("@classId", classId);
+            commandInsert.Parameters.AddWithValue("@UserName", student[0] + student[1]);
+            commandInsert.Parameters.AddWithValue("@HashedPassword", HashedPassword);
+            commandInsert.Parameters.AddWithValue("@UnhashedPassword", UnhashedPassword);
+            newPupilId = commandInsert.ExecuteScalar();
+            connection.Close();
+        }
+
+        return new string[2] { newPupilId.ToString(), UnhashedPassword };
+    }
+    public static string GetRandomPassword(int length)
+    {
+        const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        StringBuilder sb = new StringBuilder();
+        Random rnd = new Random();
+
+        for (int i = 0; i < length; i++)
+        {
+            int index = rnd.Next(chars.Length);
+            sb.Append(chars[index]);
+        }
+
+        return sb.ToString();
+    }
 }

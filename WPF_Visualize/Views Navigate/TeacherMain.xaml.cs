@@ -14,10 +14,12 @@ namespace WPF_Visualize.Views_Navigate;
 public partial class TeacherMain : UserControl
 {
     public Database Database = new();
+    int classId;
     public TeacherMain(int classId)
     {
         InitializeComponent();
-        setClassNameLabel(classId);
+        this.classId = classId;
+        setClassNameLabel(this.classId);
     }
 
     private void setClassNameLabel(int classId)
@@ -33,7 +35,7 @@ public partial class TeacherMain : UserControl
 
     private void OnClassSettings(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new ClassSettings());
+        UserControlController.MainWindowChange(this, new ClassSettings(classId));
     }
 
     private void OnBack(object sender, RoutedEventArgs e)

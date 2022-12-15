@@ -5,8 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF_Visualize.Views_Navigate"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+              d:DesignHeight="450" d:DesignWidth="800"
+             Style="{StaticResource UserControlBackground}">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="0.5*" />
+
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource HeaderButton}" />
+        <Button x:Name="Annuleren" Content="Annuleren" Grid.Row="3" Grid.Column="3" Click="OnBack"  Style="{StaticResource HeaderButton}"/>
+        <Button x:Name="Bevestigen" Content="Bevestigen" Grid.Row="3" Grid.Column="3" Click="OnConfirm" Margin="130,20,0,0" Style="{StaticResource HeaderButton}" />
+
+        <StackPanel Grid.Row="2" Grid.Column="1">
+            <Label Content="Naam groep:" Foreground="White"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <TextBox Name="tbClassName" MaxLength="20" Width="150" Margin="0,0,10,0" />
+            </StackPanel>
+            <Label Content="Leerling Toevoegen:" Foreground="White"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <Label Content="Voornaam:" Foreground="White" Width="78"/>
+                <TextBox Name="tbFirstName" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Achternaam:" Foreground="White" Width="78"/>
+                <TextBox Name="tbLastName" Width="150" Margin="0,0,10,0" />
+            </StackPanel>
+            <Button Content="Toevoegen" HorizontalAlignment="Center" Margin="0,10,0,0" Click="OnStudentAdd"/>
+        </StackPanel>
+        <Label Grid.Column="3" Grid.Row="1" Content="Leerlingenlijst:" Style="{StaticResource LabelsSelecterScreens}" />
+        <ScrollViewer Grid.Row="2" Grid.Column="3">
+            <StackPanel Grid.Row="2" Grid.Column="3" x:Name="StudentListPanel"/>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>
