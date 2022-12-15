@@ -5,12 +5,26 @@ using System.Text;
 
 namespace Model;
 
+public enum Difficulty
+{
+    Niveau1 = 1,
+    Niveau2 = 2,
+    Niveau3 = 3,
+    Niveau4 = 4,
+    Niveau5 = 5
+}
+
+public enum TypeExercise
+{
+    Letter,
+    Word,
+    Story
+}
 
 public class Database
 {
-    
     public Dictionary<char, int> AlphabetWithPoints { get; private set; }
-    private const int _maxPoints = 45;
+
     private string? DatabaseConnectionString()
     {
         try
@@ -38,7 +52,6 @@ public class Database
     {
         AlphabetWithPoints = new Dictionary<char, int>();
         FillDictAlphabet();
-
     }
 
     private void FillDictAlphabet()
@@ -73,7 +86,7 @@ public class Database
     }
 
 
-    public List<char> GetWord(int difficulty, int amountOfWords)
+    public List<char> GetWord(Difficulty difficulty, int amountOfWords)
     {
         var wordList = new List<char>();
         using (var connection = new SqlConnection(DatabaseConnectionString()))
@@ -194,8 +207,9 @@ public class Database
         }
     }
 
-    private int getWordDifficulty(string word)
+    private Difficulty getWordDifficulty(string word)
     {
+        const int maxPoints = 45;
         int TotalPoints = 0;
         foreach (char letter in word)
         {
@@ -204,21 +218,21 @@ public class Database
 
         switch (TotalPoints)
         {
-            case <= (_maxPoints / 5):
-                return 1;
+            case <= (maxPoints / 5):
+                return Difficulty.Niveau1;
                 break;
-            case <= (_maxPoints / 5) * 2:
-                return 2;
+            case <= (maxPoints / 5) * 2:
+                return Difficulty.Niveau2;
                 break;
-            case <= (_maxPoints / 5) * 3:
-                return 3;
+            case <= (maxPoints / 5) * 3:
+                return Difficulty.Niveau3;
                 break;
-            case <= (_maxPoints / 5) * 4:
-                return 4;
-                break; 
+            case <= (maxPoints / 5) * 4:
+                return Difficulty.Niveau4;
+                break;
             default:
-                return 5;
-            break;
+                return Difficulty.Niveau5;
+                break;
         }
     }
 
@@ -243,9 +257,9 @@ public class Database
             connection.Close();
         }
 
-        foreach (string word in wordList)
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
-            using (var connection = new SqlConnection(DatabaseConnectionString()))
+            foreach (string word in wordList)
             {
                 connection.Open();
                 var sql = "UPDATE Words SET Difficulty = @difficulty WHERE Words = @word";
@@ -253,10 +267,94 @@ public class Database
                 command.Parameters.AddWithValue("@difficulty", getWordDifficulty(word));
                 command.Parameters.AddWithValue("@word", word);
                 command.ExecuteReader();
+                command.Dispose();
                 connection.Close();
             }
         }
     }
-    
-    
+
+    private int getScore(int pupilId, TypeExercise type)
+    {
+        int score = 0;
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT Score FROM PupilStatistics WHERE PupilId = @pupilId AND Type = @type";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@pupilId", pupilId);
+            command.Parameters.AddWithValue("@type", type.ToString());
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                score = Convert.ToInt32(reader[0]);
+            }
+
+            connection.Close();
+        }
+
+        return score;
+    }
+
+    public Difficulty getNiveau(int pupilID, TypeExercise typeExercise)
+    {
+        const int maxscore = 100;
+        int score = getScore(pupilID, typeExercise);
+        switch (score)
+        {
+            case <= (maxscore / 5):
+                int amountOfWords = (maxscore / 5 - score * 5);
+                return Difficulty.Niveau1;
+                break;
+            case <= (maxscore / 5) * 2:
+                return Difficulty.Niveau2;
+                break;
+            case <= (maxscore / 5) * 3:
+                return Difficulty.Niveau3;
+                break;
+            case <= (maxscore / 5) * 4:
+                return Difficulty.Niveau4;
+                break;
+            default:
+                return Difficulty.Niveau5;
+                break;
+        }
+    }
+
+    public void CheckIfPupilStatisticsExist(int pupilId)
+    {
+        bool exists = false;
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            foreach (var VARIABLE in TypeExercise.GetValues(typeof(TypeExercise)))
+            {
+                connection.Open();
+                var sql = "SELECT * FROM PupilStatistics WHERE PupilId = @pupilId AND Type = @type";
+                var command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@pupilId", pupilId);
+                command.Parameters.AddWithValue("@type", VARIABLE.ToString());
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    exists = true;
+                }
+
+                command.Dispose();
+                connection.Close();
+
+                if (!exists)
+                {
+                    connection.Open();
+                    var sqlInsert =
+                        "INSERT INTO PupilStatistics (PupilId, Type, Score,AmountCorr, AmountFalse, AssignmentsMade, KeyPerSec ) VALUES (@pupilId, @type, 0,0,0,0,0)";
+                    var commandInsert = new SqlCommand(sqlInsert, connection);
+                    commandInsert.Parameters.AddWithValue("@pupilId", pupilId);
+                    commandInsert.Parameters.AddWithValue("@type", VARIABLE.ToString());
+                    commandInsert.ExecuteReader();
+                    connection.Close();
+                }
+
+                exists = false;
+            }
+        }
+    }
 }

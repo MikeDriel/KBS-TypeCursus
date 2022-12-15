@@ -9,7 +9,7 @@ public class ExerciseController
     public Random Random = new(); //random number generator
 
     
-    public ExerciseController(int choice, int difficulty)
+    public ExerciseController(int choice, Difficulty difficulty)
     {
         Choice = choice;
         CharacterList = new List<char>();
@@ -63,10 +63,10 @@ public class ExerciseController
         switch (choice)
         {
             case 0 :
-                GenerateLetterData(1);
+                GenerateLetterData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Letter));
                 break;
             case 1:
-                GenerateWordData(1,5);
+                GenerateWordData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Word),20);
                 break;
             case 2:
                 GenerateStoryData();
@@ -92,13 +92,13 @@ public class ExerciseController
     /// <summary>
     ///     Generates the alphabet data for the list.
     /// </summary>
-    public void GenerateLetterData(int difficulty)
+    public void GenerateLetterData(Difficulty difficulty)
     {
         List<char> letters = new List<char>();
 
         foreach (var charWithPoints in Database.AlphabetWithPoints)
         {
-            if (charWithPoints.Value <= difficulty)
+            if (charWithPoints.Value <= (int)difficulty)
             {
                 letters.Add(charWithPoints.Key);
             }
@@ -109,7 +109,7 @@ public class ExerciseController
         }
     }
 
-    public void GenerateWordData(int difficulty, int amount)
+    public void GenerateWordData(Difficulty difficulty, int amount)
     {
         //get the words from the database and choose how many you want
         CharacterList = Database.GetWord(difficulty, amount);
