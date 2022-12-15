@@ -9,25 +9,50 @@ namespace Controller
 {
     public class StatisticsController
     {
-        public Database Database = new();
+        private Database _database;
+        public List<string> LetterStatistics { get; private set; }
+        public List<string> WordStatistics { get; private set; }
+        public List<string> StoryStatistics { get; private set; }
+        public List<string> TotalStatistics { get; private set; }
+
 
         public StatisticsController()
         {
-
+            _database = new();
+            InitializeLetterStatistics();
+            InitializeWordStatistics();
+            InitializeStoryStatistics();
+            InitializeTotalStatistics();
         }
 
-        public List<string> GetLetterStatisticsFromDatabase()
+
+
+
+
+
+
+
+        private void InitializeLetterStatistics()
         {
-            return Database.GetStatisticsDB(0, LoginController.UserId.ToString());
+            LetterStatistics = _database.GetStatisticsDB(0, LoginController.UserId.ToString());
         }
-        public List<string> GetWordStatisticsFromDatabase()
+        private void InitializeWordStatistics()
         {
-            return Database.GetStatisticsDB(1, LoginController.UserId.ToString());
+            WordStatistics = _database.GetStatisticsDB(1, LoginController.UserId.ToString());
         }
-        public List<string> GetStoryStatisticsFromDatabase()
+        private void InitializeStoryStatistics()
         {
-            return Database.GetStatisticsDB(2, LoginController.UserId.ToString());
+            StoryStatistics = _database.GetStatisticsDB(2, LoginController.UserId.ToString());
         }
+        private void InitializeTotalStatistics()
+        {
+            for (int i = 2; i < LetterStatistics.Count; i++)
+            {
+                double total = Convert.ToDouble(LetterStatistics[i]) + Convert.ToDouble(WordStatistics[i]) + Convert.ToDouble(StoryStatistics[i]);
+                TotalStatistics[i - 2] = total.ToString();
+            }
+        }
+
 
 
     }

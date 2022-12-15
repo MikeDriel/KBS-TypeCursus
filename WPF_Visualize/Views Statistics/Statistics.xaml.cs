@@ -28,9 +28,9 @@ public partial class Statistics : UserControl
 
     public Statistics()
     {
-        letterstatistics = StatsController.GetLetterStatisticsFromDatabase();
-        wordstatistics = StatsController.GetWordStatisticsFromDatabase();
-        storystatistics = StatsController.GetStoryStatisticsFromDatabase();
+        letterstatistics = StatsController.LetterStatistics;
+        wordstatistics = StatsController.WordStatistics;
+        storystatistics = StatsController.StoryStatistics;
 
         InitializeComponent();
         _InitializeLabels();
