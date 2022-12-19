@@ -30,11 +30,14 @@ namespace WPF_Visualize.Views_Navigate
         private int choice;
         int user_id = LoginController.GetUserId();
         TeacherController teacherController = new();
+        
 
         //2 constructors, depending on where teacher came from, when class is new the first constuctor is used, when class already existed 2 constructor is used.
         public ClassSettings()
         {
             InitializeComponent();
+            AddStudentButton.IsEnabled = false;
+            ConfirmButton.IsEnabled = false;
             choice = 1;
         }
         public ClassSettings(int classId)
@@ -44,6 +47,7 @@ namespace WPF_Visualize.Views_Navigate
             teacherController.FillListWithStudents(this.classId);
             AddCurrentsStudentsToStackPanel(this.classId);
             SetLabelsAndTextBoxes(this.classId);
+            AddStudentButton.IsEnabled = false;
             choice = 2;
         }
 
@@ -64,7 +68,7 @@ namespace WPF_Visualize.Views_Navigate
                         Foreground = Brushes.White,
                         FontSize = 25
                     };
-                    
+
                     StudentListPanel.Children.Add(label);
                 }
             }
@@ -128,7 +132,7 @@ namespace WPF_Visualize.Views_Navigate
             {
                 int newClassId = teacherController.MakeNewClass(user_id, tbClassName.Text);
                 teacherController.AddStudents(newClassId);
-                UserControlController.MainWindowChange(this, new TeacherMain(newClassId)); 
+                UserControlController.MainWindowChange(this, new TeacherMain(newClassId));
             }
             else
             {
@@ -150,6 +154,30 @@ namespace WPF_Visualize.Views_Navigate
             tbLastName.Text = "";
             StudentListPanel.Children.Clear();
             AddCurrentsStudentsToStackPanel(teacherController.ClassStudents);
+        }
+
+        private void SetStudentAddButton()
+        {
+            AddStudentButton.IsEnabled = (tbFirstName.Text != "") && (tbLastName.Text != "");
+        }
+
+        private void SetConfirmButton()
+        {
+            ConfirmButton.IsEnabled = tbClassName.Text != "";
+        }
+        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetStudentAddButton();
+        }
+
+        private void tbLastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetStudentAddButton();
+        }
+
+        private void tbClassName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetConfirmButton();
         }
     }
 }
