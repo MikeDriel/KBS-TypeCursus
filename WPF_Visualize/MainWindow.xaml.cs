@@ -32,6 +32,7 @@ public partial class MainWindow : Window
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
         contentControl.Content = new LoadingScreen();
+        SshTunnel tunnel = new SshTunnel();
 
         CheckDatabaseConnectionAsync();
     }

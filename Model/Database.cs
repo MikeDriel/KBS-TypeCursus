@@ -25,8 +25,9 @@ public class Database
 {
     public Dictionary<char, int> AlphabetWithPoints { get; private set; }
     public int SizeExercise { get; private set; }
+	
 
-    private string? DatabaseConnectionString()
+	private string? DatabaseConnectionString()
     {
         try
         {
