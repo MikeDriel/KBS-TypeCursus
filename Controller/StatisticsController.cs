@@ -141,7 +141,7 @@ public class StatisticsController
 }
 
 //EVENT FOR LIVE STATISTICS UPDATE
-public class LiveStatisticsEventArgs : EventArgs
+public class LiveStatisticsEventArgs
 {
     public bool SetTextRed;
 

@@ -24,6 +24,7 @@ public enum TypeExercise
 public class Database
 {
     public Dictionary<char, int> AlphabetWithPoints { get; private set; }
+    public int SizeExercise { get; private set; }
 
     private string? DatabaseConnectionString()
     {
@@ -139,6 +140,18 @@ public class Database
         }
 
         return StoryString;
+    }
+
+    // make a txtfile with an given name and fill it with keys and values of a dictionary
+    public void MakeTxtFile(string fileName, Dictionary<string, int> dict)
+    {
+        using (StreamWriter sw = new StreamWriter(fileName))
+        {
+            foreach (var item in dict)
+            {
+                sw.WriteLine(item.Key + " " + item.Value);
+            }
+        }
     }
 
 
@@ -297,26 +310,40 @@ public class Database
 
     public Difficulty getNiveau(int pupilID, TypeExercise typeExercise)
     {
+        const int minSize = 5;
         const int maxscore = 100;
         int score = getScore(pupilID, typeExercise);
         switch (score)
         {
             case <= (maxscore / 5):
-                int amountOfWords = (maxscore / 5 - score * 5);
+                setSizeExercise(1,maxscore,score, minSize);
                 return Difficulty.Niveau1;
                 break;
             case <= (maxscore / 5) * 2:
+                setSizeExercise(2,maxscore,score, minSize);
                 return Difficulty.Niveau2;
                 break;
             case <= (maxscore / 5) * 3:
+                setSizeExercise(3,maxscore,score, minSize);
                 return Difficulty.Niveau3;
                 break;
             case <= (maxscore / 5) * 4:
+                setSizeExercise(4,maxscore,score, minSize);
                 return Difficulty.Niveau4;
                 break;
             default:
+                setSizeExercise(5,maxscore,score, minSize);
                 return Difficulty.Niveau5;
                 break;
+        }
+    }
+
+    private void setSizeExercise(int sizeScore , int maxscore, int score, int minSize)
+    {
+        SizeExercise = ((((maxscore / 5)*sizeScore) - score) * minSize);
+        if (SizeExercise == 0)
+        {
+            SizeExercise = minSize;
         }
     }
 
@@ -345,7 +372,7 @@ public class Database
                 {
                     connection.Open();
                     var sqlInsert =
-                        "INSERT INTO PupilStatistics (PupilId, Type, Score,AmountCorr, AmountFalse, AssignmentsMade, KeyPerSec ) VALUES (@pupilId, @type, 0,0,0,0,0)";
+                        "INSERT INTO PupilStatistics (PupilId, Type, Score,AmountCorr, AmountFalse, AssignmentsMade, KeyPerSec ) VALUES (@pupilId, @type, 1,0,0,0,0)";
                     var commandInsert = new SqlCommand(sqlInsert, connection);
                     commandInsert.Parameters.AddWithValue("@pupilId", pupilId);
                     commandInsert.Parameters.AddWithValue("@type", VARIABLE.ToString());

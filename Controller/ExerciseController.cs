@@ -63,10 +63,10 @@ public class ExerciseController
         switch (choice)
         {
             case 0 :
-                GenerateLetterData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Letter));
+                GenerateLetterData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
                 break;
             case 1:
-                GenerateWordData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Word),20);
+                GenerateWordData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Word),Database.SizeExercise);
                 break;
             case 2:
                 GenerateStoryData();
@@ -92,7 +92,7 @@ public class ExerciseController
     /// <summary>
     ///     Generates the alphabet data for the list.
     /// </summary>
-    public void GenerateLetterData(Difficulty difficulty)
+    public void GenerateLetterData(Difficulty difficulty, int amountOfChars)
     {
         List<char> letters = new List<char>();
 
@@ -103,7 +103,7 @@ public class ExerciseController
                 letters.Add(charWithPoints.Key);
             }
         }
-        for (var i = 0; i < 35; i++)
+        for (var i = 0; i < amountOfChars; i++)
         {
             CharacterList.Add(letters[Random.Next(0, letters.Count)]);
         }
@@ -201,4 +201,8 @@ public class ExerciseEventArgs : EventArgs
         IsCorrect = isCorrect;
         IsFinished = isFinished;
     } 
+}
+
+public class Exercise
+{
 }
