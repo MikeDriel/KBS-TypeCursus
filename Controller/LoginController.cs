@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System.Diagnostics;
+using Model;
 
 namespace Controller;
 
@@ -13,7 +14,7 @@ public class LoginController
     }
 
     public bool IsTeacher { get; set; }
-    private static int? UserId { get; set; }
+    public static int? UserId { get; private set; }
 
     public event EventHandler<LoginEventArgs>? LoginEvent;
 
@@ -28,14 +29,14 @@ public class LoginController
         }
 
         var correctPasswordWithId = _db.GetPasswordWithId(IsTeacher, loginKey);
-        var array = correctPasswordWithId.Split(',');
-        var correctPassword = array[0];
+        var correctPassword = correctPasswordWithId[0];
         password = _db.HashPassword(password);
 
         if (correctPassword != null && correctPassword == password)
         {
             LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
-            UserId = int.Parse(array[1]);
+            UserId = int.Parse(correctPasswordWithId[1]);
+            _db.CheckIfPupilStatisticsExist(LoginController.GetUserId());
         }
         else
         {
@@ -46,6 +47,18 @@ public class LoginController
     public static void LogOut()
     {
         UserId = null;
+    }
+
+    public static int GetUserId()
+    {
+        if (UserId != null)
+        {
+            return (int)UserId;
+        }
+        else
+        {
+            throw new Exception("UserId is null");
+        }
     }
 }
 
