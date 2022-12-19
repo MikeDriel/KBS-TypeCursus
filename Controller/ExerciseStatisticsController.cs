@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using Model;
+using System.Timers;
 using static System.Formats.Asn1.AsnWriter;
 using Timer = System.Timers.Timer;
 
@@ -6,6 +7,7 @@ namespace Controller;
 
 public class ExerciseStatisticsController
 {
+    private Database _database;
     private int _maxTime;
     private readonly Timer _timer;
     private char _currentKey;
@@ -21,6 +23,7 @@ public class ExerciseStatisticsController
 
     public ExerciseStatisticsController(int maxTime)
     {
+        _database = new();
         _maxTime = maxTime;
         TimeLeft = maxTime;
         CharactersPerSecond = new Dictionary<int, int>();
@@ -147,6 +150,19 @@ public class ExerciseStatisticsController
         var score = ((NumberCorrect - NumberOfMistakes) / (int)CurrentTime.Second) * 4;
         return score;
     }
+
+
+    //public void UpdatePupilStatistics(int pupilId, int type, int amountCorrect, int amountFalse, int keyPerSec, int score)
+
+    public void SendStatisticInformationToDatabase( double keyPerSec)
+    {   
+        if (LoginController.UserId != null)
+        {
+            int UserId = (int)LoginController.UserId;
+            _database.UpdatePupilStatistics(UserId, ExerciseController.Type, NumberCorrect, NumberOfMistakes, keyPerSec, _InitializeScore());
+        }
+    }
+
 }
 
 //EVENT FOR LIVE STATISTICS UPDATE

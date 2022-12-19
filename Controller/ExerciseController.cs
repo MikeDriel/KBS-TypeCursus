@@ -8,6 +8,8 @@ public class ExerciseController
 
     public Random Random = new(); //random number generator
 
+    public static string Type;
+
     public ExerciseController(int choice)
     {
         Choice = choice;
@@ -61,18 +63,21 @@ public class ExerciseController
         // LetterExercise
         if (choice == 0)
         {
+            Type = "Letter";
             GenerateLetterData();
         }
 
         // WordExercise
         if (choice == 1)
         {
+            Type = "Word";
             GenerateWordData();
         }
 
         // StoryExercise 
         if (choice == 2)
         {
+            Type = "Story";
             GenerateStoryData();
         }
     }

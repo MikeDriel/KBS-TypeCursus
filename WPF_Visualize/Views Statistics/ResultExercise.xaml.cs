@@ -16,6 +16,7 @@ public partial class ResultatenOefening : UserControl
     {
         InitializeComponent();
         _InitializeLabels();
+        Exercise.StatisticsController.SendStatisticInformationToDatabase(Math.Round(Exercise.StatisticsController.CharactersPerSecond.Values.Average(), 1)) ;
     }
 
 
@@ -24,8 +25,12 @@ public partial class ResultatenOefening : UserControl
 	{
 		var wps = Exercise.StatisticsController.CharactersPerSecond.Values.Average();
 		wps = Math.Round(wps, 1);
-		//calculate the percentage of correct typed characters
-		var correctPercentage = Exercise.StatisticsController.NumberCorrect /
+       
+
+
+
+        //calculate the percentage of correct typed characters
+        var correctPercentage = Exercise.StatisticsController.NumberCorrect /
 		                        (Exercise.StatisticsController.NumberCorrect +
 		                         (double)Exercise.StatisticsController.NumberOfMistakes) *
 		                        100;
