@@ -202,7 +202,3 @@ public class ExerciseEventArgs : EventArgs
         IsFinished = isFinished;
     } 
 }
-
-public class Exercise
-{
-}
