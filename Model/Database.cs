@@ -170,18 +170,16 @@ public class Database
 		using (SqlConnection connection =
 		   new SqlConnection(DatabaseConnectionString()))
 		{
-			// Create the Command and Parameter objects.
 			string sql = $"SELECT PupilID FROM Pupil WHERE PupilID = {userids[0]} AND ClassID = {classid}";
 
 			SqlCommand command = new SqlCommand(sql, connection);
-
-			// Create and execute the DataReader..
+			
 			connection.Open();
 			SqlDataReader reader = command.ExecuteReader();
 			while (reader.Read())
 			{
 				var rec = new List<string>();
-				for (int i = 0; i <= reader.FieldCount - 1; i++) //The mathematical formula for reading the next fields must be <=
+				for (int i = 0; i <= reader.FieldCount - 1; i++) 
 				{
 					rec.Add(reader.GetString(i));
 				}
