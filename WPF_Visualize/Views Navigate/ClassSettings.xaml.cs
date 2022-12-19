@@ -31,6 +31,7 @@ namespace WPF_Visualize.Views_Navigate
         int user_id = LoginController.GetUserId();
         TeacherController teacherController = new();
 
+        //2 constructors, depending on where teacher came from, when class is new the first constuctor is used, when class already existed 2 constructor is used.
         public ClassSettings()
         {
             InitializeComponent();
@@ -46,6 +47,10 @@ namespace WPF_Visualize.Views_Navigate
             choice = 2;
         }
 
+        /// <summary>
+        /// Adds the students that are already in the class to the stackpanel, used when class already existed
+        /// </summary>
+        /// <param name="classId"></param>
         private void AddCurrentsStudentsToStackPanel(int classId)
         {
             {
@@ -65,6 +70,10 @@ namespace WPF_Visualize.Views_Navigate
             }
         }
 
+        /// <summary>
+        /// Add the students that are newly added to the stackpanel, used when it's a new class
+        /// </summary>
+        /// <param name="Pupils"></param>
         private void AddCurrentsStudentsToStackPanel(List<string[]> Pupils)
         {
             {
@@ -82,11 +91,20 @@ namespace WPF_Visualize.Views_Navigate
             }
         }
 
+        /// <summary>
+        /// Sets the content of the classname label to the current classname.
+        /// </summary>
+        /// <param name="classId"></param>
         private void SetLabelsAndTextBoxes(int classId)
         {
             tbClassName.Text = Database.GetClassName(classId);
         }
 
+        /// <summary>
+        /// Back button, 2 possibilty's depending on if it's  a new class or already existed class. Choice 1 = new class
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnBack(object sender, RoutedEventArgs e)
         {
             if (choice == 1)
@@ -99,6 +117,11 @@ namespace WPF_Visualize.Views_Navigate
             }
         }
 
+        /// <summary>
+        /// Confirm button, 2 possibilty's depending on if it's  a new class or already existed class. Choice 1 = new class
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnConfirm(object sender, RoutedEventArgs e)
         {
             if (choice == 1)
@@ -115,6 +138,11 @@ namespace WPF_Visualize.Views_Navigate
             }
         }
 
+        /// <summary>
+        /// When new student is added, it adds it to the student list to the right of the screen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnStudentAdd(object sender, RoutedEventArgs e)
         {
             teacherController.AddPupilToClass(tbFirstName.Text, tbLastName.Text);
