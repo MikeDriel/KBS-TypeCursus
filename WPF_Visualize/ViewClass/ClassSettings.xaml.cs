@@ -131,12 +131,10 @@ namespace WPF_Visualize.Views_Navigate
         { 
             if (IsNewClass)
             {
-                int newClassId = teacherController.MakeNewClass(user_id, tbClassName.Text);
-                teacherController.AddStudents(newClassId);
+                teacherController.addNewClass(user_id, tbClassName.Text);
             }
             else
             {
-                teacherController.UpdateClassName(classId, tbClassName.Text);
                 teacherController.AddStudents(classId);
             }
         }

@@ -25,21 +25,7 @@ namespace Controller
             ClassStudents = new();
             Database = new();
         }
-
-
-        /// <summary>
-        /// Add new class to Database
-        /// </summary>
-        /// <param name="user_id"></param>
-        /// <param name="className"></param>
-        /// <returns></returns>
-        public int MakeNewClass(int user_id, string className)
-        {
-            int classId = Database.AddNewClass(user_id, className); 
-            return classId;
-            
-        }
-
+        
         /// <summary>
         ///  Change the classname
         /// </summary>
@@ -72,9 +58,22 @@ namespace Controller
         /// <param name="pupilLastName"></param>
         public void AddPupilToClass(string pupilFirstName, string pupilLastName)
         {
-            string[] student = new string[2] { pupilFirstName, pupilLastName };
-            ClassStudents.Add(student);
-            ClassStudentsNewlyAdded.Add(student);
+            if (pupilFirstName == "" || pupilLastName == "")
+            {
+                TeacherEvent?.Invoke(this, new TeacherEventArgs(false, false));
+            }
+            else
+            {
+                string[] student = new string[2] { pupilFirstName, pupilLastName };
+                ClassStudents.Add(student);
+                ClassStudentsNewlyAdded.Add(student); 
+            }
+        }
+
+        public void addNewClass(int user_id, string className)
+        {
+            int classId = Database.AddNewClass(user_id, className); 
+            AddStudents(classId);
         }
 
         /// <summary>
