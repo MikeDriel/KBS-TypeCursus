@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace WPF_Visualize;
 
@@ -32,6 +33,7 @@ public partial class ResultatenOefening : UserControl
 
 
         //sets the labels
+        Score.Content = "Score: " + Exercise.StatisticsController._InitializeScore();
         Totaltime.Content = "Totale tijd: " + Exercise.StatisticsController.CurrentTime.ToString("mm:ss") ;
         MistakeCount.Content = "Aantal fouten: " + Exercise.StatisticsController.NumberOfMistakes;
         WPS.Content = "Gemiddelde tekens per seconde: " + wps;

@@ -63,6 +63,28 @@ public class Database
         return wordList;
     }
 
+
+    //Method that updates data in the Pupilstatistics table
+    public void UpdatePupilStatistics(int pupilId, int type, int amountCorrect, int amountFalse,
+        int keyPerSec, int score)
+    {
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "UPDATE PupilStatistics SET AmountFalse = AmountFalse + @amountFalse, AmountCorrect = AmountCorrect + @amountCorrect, KeyPerSec = ((KeyPerSec * AssignmentsMade) + @keyPerSec)/(AssignmentsMade+1), AssignmentsMade = AssigmentsMade+1 Score=@score WHERE PupilID = @pupilId AND Type = @type";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@pupild", pupilId);
+            command.Parameters.AddWithValue("@type", type);
+            command.Parameters.AddWithValue("@amountFalse", amountFalse);
+            command.Parameters.AddWithValue("@amountCorrect", amountCorrect);
+            command.Parameters.AddWithValue("@keyPerSec", keyPerSec);
+            command.Parameters.AddWithValue("@score", score);
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+
+
     //This method is used to get stories from the database
     public string GetStory()
     {

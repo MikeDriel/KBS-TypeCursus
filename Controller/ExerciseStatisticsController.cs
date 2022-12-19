@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using static System.Formats.Asn1.AsnWriter;
 using Timer = System.Timers.Timer;
 
 namespace Controller;
@@ -137,6 +138,14 @@ public class ExerciseStatisticsController
         }
         _timeUp = false;
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
+    }
+
+    public int _InitializeScore()
+    {
+        // Calculation = ((Correct answers - Incorrect answers) / total time ) * difficulty 
+        // difficulty is a placeholder as it's not in this current branch
+        var score = ((NumberCorrect - NumberOfMistakes) / (int)CurrentTime.Second) * 4;
+        return score;
     }
 }
 
