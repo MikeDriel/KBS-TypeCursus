@@ -21,21 +21,21 @@ public partial class ResultatenOefening : UserControl
 	//sets all labels
 	private void _InitializeLabels()
 	{
-		var wps = Exercise.StatisticsController.CharactersPerSecond.Values.Average();
+		var wps = Exercise.s_StatisticsController.CharactersPerSecond.Values.Average();
 		wps = Math.Round(wps, 1);
 		//calculate the percentage of correct typed characters
-		var correctPercentage = Exercise.StatisticsController.NumberCorrect /
-		                        (Exercise.StatisticsController.NumberCorrect +
-		                         (double)Exercise.StatisticsController.NumberOfMistakes) *
+		var correctPercentage = Exercise.s_StatisticsController.NumberCorrect /
+		                        (Exercise.s_StatisticsController.NumberCorrect +
+		                         (double)Exercise.s_StatisticsController.NumberOfMistakes) *
 		                        100;
 		correctPercentage = Math.Round(correctPercentage, 1);
 
 
         //sets the labels
-        Totaltime.Content = "Totale tijd: " + Exercise.StatisticsController.CurrentTime.ToString("mm:ss") ;
-        MistakeCount.Content = "Aantal fouten: " + Exercise.StatisticsController.NumberOfMistakes;
+        Totaltime.Content = "Totale tijd: " + Exercise.s_StatisticsController.CurrentTime.ToString("mm:ss") ;
+        MistakeCount.Content = "Aantal fouten: " + Exercise.s_StatisticsController.NumberOfMistakes;
         WPS.Content = "Gemiddelde tekens per seconde: " + wps;
-        CorrectCount.Content = "Aantal goed: " + Exercise.StatisticsController.NumberCorrect;
+        CorrectCount.Content = "Aantal goed: " + Exercise.s_StatisticsController.NumberCorrect;
         CorrectPercentage.Content = $"Percentage goed: {correctPercentage}%";
         _InitializeFeedback(correctPercentage);
     }

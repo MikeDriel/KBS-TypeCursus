@@ -71,12 +71,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0"/>
+        <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Controller\Controller.csproj"/>
-        <ProjectReference Include="..\Model\Model.csproj"/>
+        <ProjectReference Include="..\Controller\Controller.csproj" />
+        <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 
 </Project>
