@@ -27,24 +27,28 @@ namespace WPF_Visualize.Views_Navigate
     {
         public Database Database = new();
         private int classId;
-        private int choice;
+        private bool IsNewClass;
         int user_id = LoginController.GetUserId();
         TeacherController teacherController = new();
 
-        //2 constructors, depending on where teacher came from, when class is new the first constuctor is used, when class already existed 2 constructor is used.
+        //2 constructors, depending on where teacher came from, when class is new the first constructor is used, when class already existed 2 constructor is used.
         public ClassSettings()
         {
             InitializeComponent();
-            choice = 1;
+            tbClassName.IsReadOnly = false;
+            IsNewClass = true;
+            teacherController.TeacherEvent += TeacherController_TeacherEvent;
         }
+
         public ClassSettings(int classId)
         {
             InitializeComponent();
+            tbClassName.IsReadOnly = true;
             this.classId = classId;
             teacherController.FillListWithStudents(this.classId);
             AddCurrentsStudentsToStackPanel(this.classId);
             SetLabelsAndTextBoxes(this.classId);
-            choice = 2;
+            IsNewClass = false;
         }
 
         /// <summary>
@@ -107,7 +111,7 @@ namespace WPF_Visualize.Views_Navigate
         /// <param name="e"></param>
         private void OnBack(object sender, RoutedEventArgs e)
         {
-            if (choice == 1)
+            if (IsNewClass)
             {
                 UserControlController.MainWindowChange(this, new ClassSelect());
             }
@@ -122,19 +126,18 @@ namespace WPF_Visualize.Views_Navigate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// // To do: fix deze troep
         private void OnConfirm(object sender, RoutedEventArgs e)
-        {
-            if (choice == 1)
+        { 
+            if (IsNewClass)
             {
                 int newClassId = teacherController.MakeNewClass(user_id, tbClassName.Text);
                 teacherController.AddStudents(newClassId);
-                UserControlController.MainWindowChange(this, new TeacherMain(newClassId)); 
             }
             else
             {
                 teacherController.UpdateClassName(classId, tbClassName.Text);
                 teacherController.AddStudents(classId);
-                UserControlController.MainWindowChange(this, new TeacherMain(classId));
             }
         }
 
@@ -150,6 +153,20 @@ namespace WPF_Visualize.Views_Navigate
             tbLastName.Text = "";
             StudentListPanel.Children.Clear();
             AddCurrentsStudentsToStackPanel(teacherController.ClassStudents);
+        }
+        
+        private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
+        {
+            if (e.InformationIsCorrect && e.GoToNextScreen)
+            {
+                UserControlController.MainWindowChange(this, new TeacherMain(classId));
+            }else if (!e.InformationIsCorrect)
+            {
+                ErrorText.Visibility = Visibility.Visible;
+            }else if (!e.GoToNextScreen)
+            {
+                ErrorText.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

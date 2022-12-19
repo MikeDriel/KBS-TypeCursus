@@ -14,9 +14,17 @@ namespace Controller
 {
     public class TeacherController
     {
-        public Database Database = new();
-        public List<string[]> ClassStudents = new();
-        public List<string[]> ClassStudentsNewlyAdded = new();
+        public Database Database;
+        public List<string[]> ClassStudents;
+        public List<string[]> ClassStudentsNewlyAdded;
+        public EventHandler<TeacherEventArgs> TeacherEvent;
+
+        public TeacherController()
+        {
+            ClassStudentsNewlyAdded = new();
+            ClassStudents = new();
+            Database = new();
+        }
 
 
         /// <summary>
@@ -27,9 +35,8 @@ namespace Controller
         /// <returns></returns>
         public int MakeNewClass(int user_id, string className)
         {
-            
-                int classId = Database.AddNewClass(user_id, className);
-                return classId;
+            int classId = Database.AddNewClass(user_id, className); 
+            return classId;
             
         }
 
@@ -85,7 +92,7 @@ namespace Controller
             }
             MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId));
         }
-
+        
         public void MakePdfWithAddedStudentPasswords(Dictionary<int, string> dictionary, string classname)
         {
             Random random = new Random(DateTime.Now.Millisecond);
@@ -94,15 +101,19 @@ namespace Controller
             PdfDocument UserNameAndPasswordList = new();
             PdfPage page = UserNameAndPasswordList.AddPage();
             XGraphics graphics = XGraphics.FromPdfPage(page);
-            XFont font = new("Segoe UI Variable", 20, XFontStyle.Bold);
+            XFont font = new("Segoe UI Variable", 15, XFontStyle.Bold);
             classname.Replace(' ', '_');
             string filename = $"{classname}_{random.Next(-2147483647,2147483647)}.pdf";
             string text = "";
             foreach (var KeyValue in dictionary)
             {
                 string UserName = Database.getPupilUserName(KeyValue.Key);
+                string[] studentNameArray = Database.GetStudentName(KeyValue.Key);
+                string naam = studentNameArray[0] + " " + studentNameArray[1];
                 string Password = KeyValue.Value;
-                graphics.DrawString($"Username: {UserName}   Password: {Password}", font, XBrushes.Black, new XRect(0, height, page.Width, 100), XStringFormats.TopCenter);
+                graphics.DrawString($"Naam: {naam}", font, XBrushes.Black, new XRect(0, height, page.Width, 100), XStringFormats.TopCenter);
+                height += 20;
+                graphics.DrawString($"gebruikersnaam: {UserName}    Wachtwoord: {Password}", font, XBrushes.Black, new XRect(0, height, page.Width, 100), XStringFormats.TopCenter);
                 height += 70;
                 if (page.Height < height)
                 {
@@ -118,6 +129,19 @@ namespace Controller
         string GetDownloadFolderPath() 
         {
             return Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString();
+        }
+    }
+    
+    //EVENT FOR LIVE STATISTICS UPDATE
+    public class TeacherEventArgs : EventArgs
+    {
+        public bool GoToNextScreen { get; set; }
+        public bool InformationIsCorrect { get; set; }
+
+        public TeacherEventArgs(bool GoToNextScreen, bool informationIsCorrect)
+        {
+            GoToNextScreen = GoToNextScreen;
+            InformationIsCorrect = informationIsCorrect;
         }
     }
 }
