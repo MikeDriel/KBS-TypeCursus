@@ -144,21 +144,21 @@ public class Database
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            string sql;
+            string typeString;
             if(type == 0)
             {
-                sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Letter' "; // letter statistics for type = 0
+                typeString = "Letter";
             } else if (type == 1)
             {
-                sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Word' ";// word statistics for type = 1
+                typeString = "Word";
             } else if (type == 2)
             {
-                sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Story' ";// story statistics for type = 2
+                typeString = "Story";
             } else
             {
                 return null;
             }
-
+            string sql = $"SELECT PupilID, Type, AmountCorr, AmountFalse, AssignmentsMade, ROUND(KeyPerSec, 1), Score FROM PupilStatistics WHERE PupilID = {userid} AND type = '{typeString}'";
             var command = new SqlCommand(sql, connection);
             var reader = command.ExecuteReader();
 

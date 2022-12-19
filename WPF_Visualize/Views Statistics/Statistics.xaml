@@ -44,7 +44,6 @@
 
         <Border BorderBrush="#1c313a" Background="#1c313a" MaxWidth="400" Height="242" CornerRadius="10" Margin="20,53,55,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="1">
             <StackPanel>
-                <Label Content="Naam leerling" FontSize="24" Foreground="White"/>
                 <Label Content="Score" FontSize="24" Foreground="White"/>
                 <Label Content="Aantal goed" FontSize="24" Foreground="White"/>
                 <Label Content="Aantal fout" FontSize="24" Foreground="White"/>

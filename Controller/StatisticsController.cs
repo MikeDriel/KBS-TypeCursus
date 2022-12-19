@@ -51,8 +51,23 @@ namespace Controller
             TotalStatistics = new List<string>();
             for (int i = 2; i < LetterStatistics.Count; i++)
             {
-                double total = Convert.ToDouble(LetterStatistics[i]) + Convert.ToDouble(WordStatistics[i]) + Convert.ToDouble(StoryStatistics[i]);
-                TotalStatistics.Add(total.ToString());
+                double total;
+                if (i != 5) //if the position in the array isnt the Key per second value (position 5)
+                            //this has to be checked since KPS is calculated in a different way
+                {
+                    total = Convert.ToDouble(LetterStatistics[i]) + Convert.ToDouble(WordStatistics[i]) + Convert.ToDouble(StoryStatistics[i]);
+                } else
+                {
+                    //equation to calculate average Keys per second 
+                    total = ((Convert.ToDouble(LetterStatistics[i]) * Convert.ToDouble(LetterStatistics[4])) +
+                        (Convert.ToDouble(WordStatistics[i]) * Convert.ToDouble(WordStatistics[4])) +
+                        (Convert.ToDouble(StoryStatistics[i]) * Convert.ToDouble(StoryStatistics[4]))) /
+                        (Convert.ToDouble(LetterStatistics[4]) + Convert.ToDouble(WordStatistics[4]) + Convert.ToDouble(StoryStatistics[4]));
+                }
+
+                
+                total = Math.Round(total, 1);
+                TotalStatistics.Add((total).ToString());
             }
         }
         private void InitializePupilName()
