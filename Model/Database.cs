@@ -71,14 +71,20 @@ public class Database
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sql = "UPDATE PupilStatistics SET AmountFalse = AmountFalse + @amountFalse, AmountCorr = AmountCorr + @amountCorrect, KeyPerSec = ((KeyPerSec * AssignmentsMade) + @keyPerSec)/(AssignmentsMade+1), AssignmentsMade = AssignmentsMade+1, Score=@score WHERE PupilID = @pupilId AND Type = @type";
+            var sql = "UPDATE PupilStatistics SET AmountFalse = AmountFalse + @amountFalse, AmountCorr = AmountCorr + @amountCorrect, KeyPerSec = ((KeyPerSec * AssignmentsMade) + @keyPerSec)/(AssignmentsMade+1), AssignmentsMade = AssignmentsMade+1, Score= Score + @score WHERE PupilID = @pupilId AND Type = @type; UPDATE PupilStatistics SET Score = 0 WHERE Score < 0";
             var command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@pupilId", pupilId);
             command.Parameters.AddWithValue("@type", type);
             command.Parameters.AddWithValue("@amountFalse", amountFalse);
             command.Parameters.AddWithValue("@amountCorrect", amountCorrect);
             command.Parameters.AddWithValue("@keyPerSec", keyPerSec);
-            command.Parameters.AddWithValue("@score", score);
+            if (score > 0)
+            {
+                command.Parameters.AddWithValue("@score", score);
+            } else
+            {
+                command.Parameters.AddWithValue("@score", score);
+            }
             command.ExecuteNonQuery();
             connection.Close();
         }
