@@ -295,7 +295,7 @@ public class Database
 
         return new string[2] { newPupilId.ToString(), UnhashedPassword };
     }
-    public static string GetRandomPassword(int length)
+    public string GetRandomPassword(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -310,4 +310,26 @@ public class Database
 
         return sb.ToString();
     }
+
+    public string getPupilUserName(int studentID)
+    {
+        string Pupil = "";
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT Username FROM Pupil WHERE PupilID = (@studentID)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@studentID", studentID);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Pupil = reader[0].ToString();
+            }
+
+            connection.Close();
+        }
+
+        return Pupil;
+    } 
 }

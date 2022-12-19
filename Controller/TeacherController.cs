@@ -1,9 +1,14 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Win32;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+
 
 namespace Controller
 {
@@ -78,6 +83,41 @@ namespace Controller
                 string[] studentInfo = Database.AddStudent(student, classId);
                 studentsInformation.Add(Int32.Parse(studentInfo[0]), studentInfo[1]);
             }
+            MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId));
+        }
+
+        public void MakePdfWithAddedStudentPasswords(Dictionary<int, string> dictionary, string classname)
+        {
+            Random random = new Random(DateTime.Now.Millisecond);
+            int height = 40;
+            int width = 0;
+            PdfDocument UserNameAndPasswordList = new();
+            PdfPage page = UserNameAndPasswordList.AddPage();
+            XGraphics graphics = XGraphics.FromPdfPage(page);
+            XFont font = new("Segoe UI Variable", 20, XFontStyle.Bold);
+            classname.Replace(' ', '_');
+            string filename = $"{classname}_{random.Next(-2147483647,2147483647)}.pdf";
+            string text = "";
+            foreach (var KeyValue in dictionary)
+            {
+                string UserName = Database.getPupilUserName(KeyValue.Key);
+                string Password = KeyValue.Value;
+                graphics.DrawString($"Username: {UserName}   Password: {Password}", font, XBrushes.Black, new XRect(0, height, page.Width, 100), XStringFormats.TopCenter);
+                height += 70;
+                if (page.Height < height)
+                {
+                    page = UserNameAndPasswordList.AddPage();
+                    graphics = XGraphics.FromPdfPage(page);
+                    height = 40;
+                }
+            }
+
+            UserNameAndPasswordList.Save(GetDownloadFolderPath()+"/"+ filename);
+        }
+        
+        string GetDownloadFolderPath() 
+        {
+            return Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString();
         }
     }
 }
