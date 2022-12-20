@@ -9,9 +9,9 @@ public class ExerciseController
     public Random Random = new(); //random number generator
 
     
-    public ExerciseController(int choice, Difficulty difficulty)
+    public ExerciseController(TypeExercise choice, Difficulty difficulty)
     {
-        Choice = choice;
+        s_Choice = choice;
         CharacterList = new List<char>();
         TypedCharsList = new List<char>();
         CorrectCharsList = new List<char>();
@@ -62,19 +62,19 @@ public class ExerciseController
         // Generate the correct data for the selected exercise
         switch (choice)
         {
-            case 0 :
+            case TypeExercise.Letter :
                 GenerateLetterData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
                 break;
-            case 1:
+            case TypeExercise.Word:
                 GenerateWordData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Word),Database.SizeExercise);
                 break;
-            case 2:
+            case TypeExercise.Story:
                 GenerateStoryData();
                 break;
         }
     }
 
-    public int Choice { get; } //user's choice
+    public static TypeExercise s_Choice { get; private set; } //user's choice
 
     public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
     public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed
@@ -133,7 +133,7 @@ public class ExerciseController
         //checks if list isnt empty
         if (CharacterList.Count >= 1)
         {
-            if (Choice == 2)
+            if (s_Choice == TypeExercise.Story)
             {
                 Progress++;
                 DequeuedChar = CharacterList[0];
@@ -144,9 +144,9 @@ public class ExerciseController
 
 
             //checks if the last keypress is equal to the first letter in the queue
-            if ((DequeuedChar == CurrentChar && Choice == 2) || (Choice != 2 && CharacterList[0] == CurrentChar))
+            if ((DequeuedChar == CurrentChar && s_Choice == TypeExercise.Story) || (s_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar))
             {
-                if (Choice != 2)
+                if (s_Choice != TypeExercise.Story)
                 {
                     Progress++;
                     //if it is, remove the letter from the List

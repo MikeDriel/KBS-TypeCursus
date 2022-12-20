@@ -50,7 +50,7 @@ public class ExerciseStatisticsController
     public int NumberCorrect { get; private set; }
     public bool IsRunning { get; set; }
     public int TimeLeft { get; set; }
-    public event EventHandler<LiveStatisticsEventArgs>? LiveStatisticsEvent;
+    public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
 
     public void StartTimer()
     {
@@ -153,13 +153,12 @@ public class ExerciseStatisticsController
 
 
     //public void UpdatePupilStatistics(int pupilId, int type, int amountCorrect, int amountFalse, int keyPerSec, int score)
-
     public void SendStatisticInformationToDatabase( double keyPerSec)
     {   
-        if (LoginController.UserId != null)
+        if (LoginController.s_UserId != null)
         {
-            int UserId = (int)LoginController.UserId;
-            _database.UpdatePupilStatistics(UserId, ExerciseController.Type, NumberCorrect, NumberOfMistakes, keyPerSec, _InitializeScore());
+            int UserId = (int)LoginController.s_UserId;
+            _database.UpdatePupilStatistics(UserId, ExerciseController.s_Choice, NumberCorrect, NumberOfMistakes, keyPerSec, _InitializeScore());
         }
     }
 

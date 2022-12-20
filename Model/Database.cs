@@ -119,7 +119,7 @@ public class Database
 
 
     //Method that updates data in the Pupilstatistics table
-    public void UpdatePupilStatistics(int pupilId, string type, int amountCorrect, int amountFalse,
+    public void UpdatePupilStatistics(int pupilId, TypeExercise type, int amountCorrect, int amountFalse,
         double keyPerSec, int score)
     {
         using (var connection = new SqlConnection(DatabaseConnectionString()))
@@ -128,7 +128,7 @@ public class Database
             var sql = "UPDATE PupilStatistics SET AmountFalse = AmountFalse + @amountFalse, AmountCorr = AmountCorr + @amountCorrect, KeyPerSec = ((KeyPerSec * AssignmentsMade) + @keyPerSec)/(AssignmentsMade+1), AssignmentsMade = AssignmentsMade+1, Score= Score + @score WHERE PupilID = @pupilId AND Type = @type; UPDATE PupilStatistics SET Score = 0 WHERE Score < 0";
             var command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@pupilId", pupilId);
-            command.Parameters.AddWithValue("@type", type);
+            command.Parameters.AddWithValue("@type", type.ToString());
             command.Parameters.AddWithValue("@amountFalse", amountFalse);
             command.Parameters.AddWithValue("@amountCorrect", amountCorrect);
             command.Parameters.AddWithValue("@keyPerSec", keyPerSec);
