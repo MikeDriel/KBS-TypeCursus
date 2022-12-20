@@ -15,11 +15,13 @@ namespace Controller
         public List<string> StoryStatistics { get; private set; }
         public List<string> TotalStatistics { get; private set; }
         public string PupilName { get; private set; }
-
-
-        public StatisticsController()
+        public int UserId { get; private set; }
+        
+        public StatisticsController(int userID)
         {
+            this.UserId = userID;
             _database = new();
+            
             InitializeLetterStatistics();
             InitializeWordStatistics();
             InitializeStoryStatistics();
@@ -27,24 +29,17 @@ namespace Controller
             InitializePupilName();
         }
 
-
-
-
-
-
-
-
         private void InitializeLetterStatistics()
         {
-            LetterStatistics = _database.GetStatisticsDB(0, LoginController.UserId.ToString());
+            LetterStatistics = _database.GetStatisticsDB(0, UserId.ToString());
         }
         private void InitializeWordStatistics()
         {
-            WordStatistics = _database.GetStatisticsDB(1, LoginController.UserId.ToString());
+            WordStatistics = _database.GetStatisticsDB(1, UserId.ToString());
         }
         private void InitializeStoryStatistics()
         {
-            StoryStatistics = _database.GetStatisticsDB(2, LoginController.UserId.ToString());
+            StoryStatistics = _database.GetStatisticsDB(2, UserId.ToString());
         }
         private void InitializeTotalStatistics()
         {
@@ -72,7 +67,7 @@ namespace Controller
         }
         private void InitializePupilName()
         {
-            PupilName = _database.GetStatisticsNameDB(LoginController.UserId.ToString());
+            PupilName = _database.GetStatisticsNameDB(UserId.ToString());
         }
 
 

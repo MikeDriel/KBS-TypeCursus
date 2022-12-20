@@ -8,9 +8,9 @@
              Style="{StaticResource UserControlBackground}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2.5*" MinHeight="150" MaxHeight="250"/>
             <RowDefinition Height="2.5*" MinHeight="200" MaxHeight="250"/>
-            <RowDefinition Height="4.5*" MinHeight="550" MaxHeight="800"/>
+            <RowDefinition Height="2.5*" MinHeight="225" MaxHeight="250"/>
+            <RowDefinition Height="4.5*" MinHeight="650" MaxHeight="800"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
