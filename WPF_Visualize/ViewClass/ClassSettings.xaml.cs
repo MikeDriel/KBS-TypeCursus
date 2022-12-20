@@ -30,7 +30,7 @@ namespace WPF_Visualize.Views_Navigate
         private bool IsNewClass;
         int user_id = LoginController.GetUserId();
         TeacherController teacherController = new();
-        
+
 
         //2 constructors, depending on where teacher came from, when class is new the first constructor is used, when class already existed 2 constructor is used.
         public ClassSettings()
@@ -131,7 +131,7 @@ namespace WPF_Visualize.Views_Navigate
         /// <param name="e"></param>
         /// // To do: fix deze troep
         private void OnConfirm(object sender, RoutedEventArgs e)
-        { 
+        {
             if (IsNewClass)
             {
                 teacherController.addNewClass(user_id, tbClassName.Text);
@@ -156,7 +156,7 @@ namespace WPF_Visualize.Views_Navigate
             AddCurrentsStudentsToStackPanel(teacherController.ClassStudents);
         }
 
-                private void SetStudentAddButton()
+        private void SetStudentAddButton()
         {
             AddStudentButton.IsEnabled = (tbFirstName.Text != "") && (tbLastName.Text != "");
         }
@@ -165,6 +165,7 @@ namespace WPF_Visualize.Views_Navigate
         {
             ConfirmButton.IsEnabled = tbClassName.Text != "";
         }
+
         private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
         {
             SetStudentAddButton();
@@ -179,20 +180,19 @@ namespace WPF_Visualize.Views_Navigate
         {
             SetConfirmButton();
         }
-    }
-        
+
+
         private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
         {
-            if (e.InformationIsCorrect && e.GoToNextScreen)
+            if (e.InformationIsCorrect)
             {
-                UserControlController.MainWindowChange(this, new TeacherMain(classId));
-            }else if (!e.InformationIsCorrect)
+                UserControlController.MainWindowChange(this, new TeacherMain(e.ClassId));
+            }
+            else if (!e.InformationIsCorrect)
             {
                 ErrorText.Visibility = Visibility.Visible;
-            }else if (!e.GoToNextScreen)
-            {
-                ErrorText.Visibility = Visibility.Hidden;
             }
         }
+    }
 }
 

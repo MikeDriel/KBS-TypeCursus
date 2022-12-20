@@ -150,6 +150,19 @@ public class Database
         }
     }
 
+    public bool CheckIfClassExists(int teacherId, string classname)
+    {
+        List<int> classIds = GetClasses(teacherId);
+        foreach (var classId in classIds)
+        {
+            if (GetClassName(classId).Equals(classname))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<int> GetClasses(int teacherId)
     {
         List<int> classes = new List<int>();
