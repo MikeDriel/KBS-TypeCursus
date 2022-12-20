@@ -32,6 +32,12 @@ namespace Controller
 			InitializeLeaderboard();
 		}
 
+		/// <summary>
+		/// Initializes the leaderboard.
+		/// Gets the ClassID to determine which group of pupils to show.
+		/// Gets all PupilID's from the database, needed to be able to show all pupils.
+		/// Finally, generate the leaderboard.
+		/// </summary>
 		private void InitializeLeaderboard()
 		{
 			ClassId = _database.GetClassId(LoginController.UserId.ToString());

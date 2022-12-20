@@ -114,6 +114,12 @@ public class Database
 		return name;
 	}
 
+	/// <summary>
+	/// Gets the ClassID of the class of the current user.
+	/// Used to get all the pupils in the class of the current user.
+	/// </summary>
+	/// <param name="userid"></param>
+	/// <returns></returns>
 	public int GetClassId(string userid)
 	{
 		int classid = new();
@@ -140,6 +146,12 @@ public class Database
 		return classid;
 	}
 
+	/// <summary>
+	/// Gets all PupilID's from the Class with the given ClassID
+	/// Used to generate leaderboard.
+	/// </summary>
+	/// <param name="classid"></param>
+	/// <returns></returns>
 	public List<string> GetClass(int classid)
 	{
 		List<string> userids = new();
@@ -163,6 +175,15 @@ public class Database
 		}
 		return userids;
 	}
+
+	/// <summary>
+	/// Generates the leaderboard.
+	/// Gets the PupilID, Firstname, Lastname and the SUM of the score of every user.
+	/// Adds every user in a list of leaderboard.
+	/// </summary>
+	/// <param name="userids"></param>
+	/// <param name="classid"></param>
+	/// <returns></returns>
 	public List<List<string>> GenerateLeaderboard(List<int> userids, int classid)
 	{
 		List<List<string>> leaderboard = new();
@@ -172,7 +193,11 @@ public class Database
 		{
 			foreach (var userid in userids)
 			{
-				string sql = $"SELECT Pupil.PupilID, Pupil.Firstname, Pupil.Lastname, SUM(PupilStats.Score) FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} GROUP BY Pupil.PupilID, Pupil.Firstname, Pupil.Lastname ORDER BY SUM(PupilStats.Score) DESC;";
+				string sql = $"SELECT Pupil.PupilID, Pupil.Firstname, Pupil.Lastname, SUM(PupilStats.Score) " +
+					$"FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID " +
+					$"WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} " +
+					$"GROUP BY Pupil.PupilID, Pupil.Firstname, Pupil.Lastname " +
+					$"ORDER BY SUM(PupilStats.Score) DESC;";
 				SqlCommand command = new SqlCommand(sql, connection);
 
 				connection.Open();

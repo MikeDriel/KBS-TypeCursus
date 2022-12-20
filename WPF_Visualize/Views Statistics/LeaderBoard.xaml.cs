@@ -46,6 +46,7 @@ public partial class LeaderBoard : UserControl
 
 	/// <summary>
 	/// Adds the leaderboard to stack panel.
+	/// The name of the current user is put in bold.
 	/// </summary>
 	/// <param name="leaderboard"></param>
 	private void AddLeaderboardToStackPanel(List<List<string>> leaderboard)
