@@ -27,28 +27,31 @@ namespace WPF_Visualize.Views_Navigate
     {
         public Database Database = new();
         private int classId;
-        private int choice;
+        private bool IsNewClass;
         int user_id = LoginController.GetUserId();
         TeacherController teacherController = new();
-        
 
-        //2 constructors, depending on where teacher came from, when class is new the first constuctor is used, when class already existed 2 constructor is used.
+
+        //2 constructors, depending on where teacher came from, when class is new the first constructor is used, when class already existed 2 constructor is used.
         public ClassSettings()
         {
             InitializeComponent();
+            IsNewClass = true;
+            teacherController.TeacherEvent += TeacherController_TeacherEvent;
             AddStudentButton.IsEnabled = false;
             ConfirmButton.IsEnabled = false;
-            choice = 1;
         }
+
         public ClassSettings(int classId)
         {
             InitializeComponent();
+            tbClassName.IsReadOnly = true;
             this.classId = classId;
             teacherController.FillListWithStudents(this.classId);
             AddCurrentsStudentsToStackPanel(this.classId);
             SetLabelsAndTextBoxes(this.classId);
+            IsNewClass = false;
             AddStudentButton.IsEnabled = false;
-            choice = 2;
         }
 
         /// <summary>
@@ -111,7 +114,7 @@ namespace WPF_Visualize.Views_Navigate
         /// <param name="e"></param>
         private void OnBack(object sender, RoutedEventArgs e)
         {
-            if (choice == 1)
+            if (IsNewClass)
             {
                 UserControlController.MainWindowChange(this, new ClassSelect());
             }
@@ -126,19 +129,16 @@ namespace WPF_Visualize.Views_Navigate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// // To do: fix deze troep
         private void OnConfirm(object sender, RoutedEventArgs e)
         {
-            if (choice == 1)
+            if (IsNewClass)
             {
-                int newClassId = teacherController.MakeNewClass(user_id, tbClassName.Text);
-                teacherController.AddStudents(newClassId);
-                UserControlController.MainWindowChange(this, new TeacherMain(newClassId));
+                teacherController.addNewClass(user_id, tbClassName.Text);
             }
             else
             {
-                teacherController.UpdateClassName(classId, tbClassName.Text);
                 teacherController.AddStudents(classId);
-                UserControlController.MainWindowChange(this, new TeacherMain(classId));
             }
         }
 
@@ -165,6 +165,7 @@ namespace WPF_Visualize.Views_Navigate
         {
             ConfirmButton.IsEnabled = tbClassName.Text != "";
         }
+
         private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
         {
             SetStudentAddButton();
@@ -179,5 +180,19 @@ namespace WPF_Visualize.Views_Navigate
         {
             SetConfirmButton();
         }
+
+
+        private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
+        {
+            if (e.InformationIsCorrect)
+            {
+                UserControlController.MainWindowChange(this, new TeacherMain(e.ClassId));
+            }
+            else if (!e.InformationIsCorrect)
+            {
+                ErrorText.Visibility = Visibility.Visible;
+            }
+        }
     }
 }
+

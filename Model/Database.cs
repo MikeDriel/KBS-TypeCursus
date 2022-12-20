@@ -150,6 +150,19 @@ public class Database
         }
     }
 
+    public bool CheckIfClassExists(int teacherId, string classname)
+    {
+        List<int> classIds = GetClasses(teacherId);
+        foreach (var classId in classIds)
+        {
+            if (GetClassName(classId).Equals(classname))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<int> GetClasses(int teacherId)
     {
         List<int> classes = new List<int>();
@@ -278,6 +291,17 @@ public class Database
         string UnhashedPassword = GetRandomPassword(5);
         string HashedPassword = HashPassword(UnhashedPassword);
         object newPupilId;
+        string Username = student[0] +'_'+ student[1];
+        Username.Replace(' ', '_');
+        string UsernameSave = Username;
+        int number = 1;
+        while (checkIfUserNameExists(UsernameSave))
+        {
+            UsernameSave = Username;
+            UsernameSave += number;
+            number++;
+        }
+        Username = UsernameSave;
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
@@ -286,7 +310,7 @@ public class Database
             commandInsert.Parameters.AddWithValue("@FirstName", student[0]);
             commandInsert.Parameters.AddWithValue("@LastName", student[1]);
             commandInsert.Parameters.AddWithValue("@classId", classId);
-            commandInsert.Parameters.AddWithValue("@UserName", student[0] + student[1]);
+            commandInsert.Parameters.AddWithValue("@UserName", Username);
             commandInsert.Parameters.AddWithValue("@HashedPassword", HashedPassword);
             commandInsert.Parameters.AddWithValue("@UnhashedPassword", UnhashedPassword);
             newPupilId = commandInsert.ExecuteScalar();
@@ -295,7 +319,7 @@ public class Database
 
         return new string[2] { newPupilId.ToString(), UnhashedPassword };
     }
-    public static string GetRandomPassword(int length)
+    public string GetRandomPassword(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -310,4 +334,55 @@ public class Database
 
         return sb.ToString();
     }
+
+    public string getPupilUserName(int studentID)
+    {
+        string Pupil = "";
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT Username FROM Pupil WHERE PupilID = (@studentID)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@studentID", studentID);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Pupil = reader[0].ToString();
+            }
+
+            connection.Close();
+        }
+
+        return Pupil;
+    } 
+    
+    public bool checkIfUserNameExists(string username)
+    {
+        string? Pupil = null;
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sql = "SELECT Username FROM Pupil WHERE Username = (@Username)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@Username", username);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Pupil = reader[0].ToString();
+            }
+            connection.Close();
+        }
+
+        if (Pupil == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
 }
