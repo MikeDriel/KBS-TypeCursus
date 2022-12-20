@@ -30,14 +30,16 @@ namespace WPF_Visualize.Views_Navigate
         private bool IsNewClass;
         int user_id = LoginController.GetUserId();
         TeacherController teacherController = new();
+        
 
         //2 constructors, depending on where teacher came from, when class is new the first constructor is used, when class already existed 2 constructor is used.
         public ClassSettings()
         {
             InitializeComponent();
-            tbClassName.IsReadOnly = false;
             IsNewClass = true;
             teacherController.TeacherEvent += TeacherController_TeacherEvent;
+            AddStudentButton.IsEnabled = false;
+            ConfirmButton.IsEnabled = false;
         }
 
         public ClassSettings(int classId)
@@ -49,6 +51,7 @@ namespace WPF_Visualize.Views_Navigate
             AddCurrentsStudentsToStackPanel(this.classId);
             SetLabelsAndTextBoxes(this.classId);
             IsNewClass = false;
+            AddStudentButton.IsEnabled = false;
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace WPF_Visualize.Views_Navigate
                         Foreground = Brushes.White,
                         FontSize = 25
                     };
-                    
+
                     StudentListPanel.Children.Add(label);
                 }
             }
@@ -152,6 +155,31 @@ namespace WPF_Visualize.Views_Navigate
             StudentListPanel.Children.Clear();
             AddCurrentsStudentsToStackPanel(teacherController.ClassStudents);
         }
+
+                private void SetStudentAddButton()
+        {
+            AddStudentButton.IsEnabled = (tbFirstName.Text != "") && (tbLastName.Text != "");
+        }
+
+        private void SetConfirmButton()
+        {
+            ConfirmButton.IsEnabled = tbClassName.Text != "";
+        }
+        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetStudentAddButton();
+        }
+
+        private void tbLastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetStudentAddButton();
+        }
+
+        private void tbClassName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetConfirmButton();
+        }
+    }
         
         private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
         {
@@ -166,5 +194,5 @@ namespace WPF_Visualize.Views_Navigate
                 ErrorText.Visibility = Visibility.Hidden;
             }
         }
-    }
 }
+
