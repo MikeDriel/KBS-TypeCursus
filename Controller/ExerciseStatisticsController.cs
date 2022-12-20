@@ -147,7 +147,14 @@ public class ExerciseStatisticsController
     {
         // Calculation = ((Correct answers - Incorrect answers) / total time ) * difficulty 
         // difficulty is a placeholder as it's not in this current branch
-        var score = ((NumberCorrect - NumberOfMistakes) / (int)CurrentTime.Second) * 4;
+        int score;
+        if ((int)CurrentTime.Second != 0)
+        {
+            score = ((NumberCorrect - NumberOfMistakes) / (int)CurrentTime.Second) * 4;
+        } else
+        {
+            score = ((NumberCorrect - NumberOfMistakes) / 1) * 4;
+        }
         return score;
     }
 
