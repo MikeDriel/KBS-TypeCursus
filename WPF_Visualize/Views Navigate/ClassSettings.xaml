@@ -28,37 +28,30 @@
         <Button x:Name="ConfirmButton" Content="Bevestigen" Grid.Row="3" Grid.Column="3" Click="OnConfirm" Margin="130,20,0,0" Style="{StaticResource HeaderButton}" />
 
         <Border Grid.Row="2" Grid.Column="1" BorderBrush="#1c313a" Background="#1c313a"
-                VerticalAlignment="Center" CornerRadius="10" BorderThickness="1" Width="auto" Height="600">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.5*"/>
-                </Grid.RowDefinitions>
+                VerticalAlignment="Center" CornerRadius="10" BorderThickness="1" Width="330">
+            <StackPanel>
+                <Label Content="Naam groep:" Foreground="White" FontSize="18" VerticalAlignment="Bottom"/>
 
-                <Label Content="Naam groep:" Foreground="White" Grid.Row="0" FontSize="30" VerticalAlignment="Bottom"/>
-
-                <StackPanel Orientation="Horizontal" Grid.Row="1" >
-                    <TextBox x:Name="tbClassName" MaxLength="20" FontSize="45" VerticalContentAlignment="Center" Width="500" Height="80" TextChanged="tbClassName_TextChanged" Background="#1c313a" VerticalAlignment="Center"  Style="{StaticResource TextBoxClassSettings}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="tbClassName" MaxLength="20" FontSize="18" TextChanged="tbClassName_TextChanged" Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 
-                <Label Content="Leerling Toevoegen:" Foreground="White" Grid.Row="2" FontSize="30" VerticalAlignment="Bottom"/>
+                <Label Content="Leerling Toevoegen:" Foreground="White" FontSize="18" VerticalAlignment="Bottom"/>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="3" >
-                    <Label Content="Voornaam:" Foreground="White" FontSize="30" Width="225" VerticalAlignment="Center"/>
-                    <TextBox Name="tbFirstName" TextChanged="tbFirstName_TextChanged" Width="500" Height="80" Background="#1c313a" FontSize="45" VerticalContentAlignment="Center"  Style="{StaticResource TextBoxClassSettings}" />
+                <StackPanel Orientation="Horizontal" >
+                    <Label Content="Voornaam:" Foreground="White" FontSize="18" Width="109"  VerticalAlignment="Center"/>
+                    <TextBox Name="tbFirstName" TextChanged="tbFirstName_TextChanged"  FontSize="18" Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="4">
-                    <Label Content="Achternaam:" Foreground="White" FontSize="30" Width="225" VerticalAlignment="Center"/>
-                    <TextBox Name="tbLastName" TextChanged="tbLastName_TextChanged" FontSize="45" VerticalContentAlignment="Center" Width="500" Height="80" Background="#1c313a"  Style="{StaticResource TextBoxClassSettings}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Achternaam:" Foreground="White" FontSize="18" Width="109" VerticalAlignment="Center"/>
+                    <TextBox Name="tbLastName" TextChanged="tbLastName_TextChanged" FontSize="18" Style="{StaticResource TextBoxClassSettings}"/>
                 </StackPanel>
 
-                <Button Content="Toevoegen" x:Name="AddStudentButton" Grid.Row="5" Click="OnStudentAdd" Style="{StaticResource AddButton}" />
-            </Grid>
+                <Button Content="Toevoegen" x:Name="AddStudentButton" Click="OnStudentAdd" Style="{StaticResource AddButton}" />
+            </StackPanel>
+
+                
         </Border>
 
 
