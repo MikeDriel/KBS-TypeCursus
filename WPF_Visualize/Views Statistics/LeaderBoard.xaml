@@ -23,23 +23,22 @@
 				<Canvas.Background>
 					<ImageBrush ImageSource="/Images/Leaderboard.png"/>
 				</Canvas.Background>
-				<Label x:Name="Number1" Content="null" Grid.Row="1" Margin="25,75" HorizontalAlignment="Center" />
-				<Label x:Name="Number2" Content="null" Grid.Row="1" Margin="90,45" HorizontalAlignment="Center"/>
-				<Label x:Name="Number3" Content="null" Grid.Row="1" Margin="155,95" HorizontalAlignment="Center"/>
+				<Label x:Name="Number1" Content="null" Grid.Row="1" Foreground="Gold" HorizontalAlignment="Center" Canvas.Left="71" Canvas.Top="44" VerticalAlignment="Center" FontSize="8" />
+				<Label x:Name="Number2" Content="null" Grid.Row="1" Foreground="Silver" HorizontalAlignment="Center" Canvas.Left="10" Canvas.Top="71" VerticalAlignment="Center" FontSize="8" />
+				<Label x:Name="Number3" Content="null" Grid.Row="1" Foreground="SandyBrown" HorizontalAlignment="Center" Canvas.Left="142" Canvas.Top="87" VerticalAlignment="Center" FontSize="8" />
 			</Canvas>
 		</Viewbox>
 
-		<ListView Grid.Row="1" Grid.Column="1" Background="#455a64" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="50,50,50,50">
-			<ListView.View>
-				<GridView>
-					<GridViewColumn Header="Position" DisplayMemberBinding="{Binding Position}" Width="60"/>
-					<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="60"/>
-					<GridViewColumn Header="Score" DisplayMemberBinding="{Binding Score}" Width="60"/>
-				</GridView>
-			</ListView.View>
-		</ListView>
-		
-		
-
+		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="1" Width="600" Height="600" CornerRadius="10" Margin="50,0,25,0" BorderThickness="0.2" VerticalAlignment="Center">
+			<ScrollViewer Grid.Row="1" Grid.Column="1" Width="600" Height="500">
+				<StackPanel x:Name="StudentsPanel" Margin="50,0,50,0" Orientation="Vertical">
+					<StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+						<Label Content="Plaats" FontSize="25" Foreground="White" Margin="0,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
+						<Label Content="Naam" FontSize="25" Foreground="White" Margin="30,0,0,0" Style="{StaticResource LabelsLeaderboard}" />
+						<Label Content="Score" FontSize="25" Foreground="White" Margin="170,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
+					</StackPanel>
+				</StackPanel>
+			</ScrollViewer>
+		</Border>
 	</Grid>
 </UserControl>

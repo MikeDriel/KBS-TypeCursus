@@ -172,14 +172,14 @@ public class Database
 		{
 			foreach (var userid in userids)
 			{
-				string sql = $"SELECT Pupil.Firstname, SUM(PupilStats.Score) FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} GROUP BY Pupil.Firstname ORDER BY SUM(PupilStats.Score) DESC;";
+				string sql = $"SELECT Pupil.PupilID, Pupil.Firstname, Pupil.Lastname, SUM(PupilStats.Score) FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} GROUP BY Pupil.PupilID, Pupil.Firstname, Pupil.Lastname ORDER BY SUM(PupilStats.Score) DESC;";
 				SqlCommand command = new SqlCommand(sql, connection);
 
 				connection.Open();
 				SqlDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
-					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString() });
+					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString() });
 				}
 				connection.Close();
 			}
