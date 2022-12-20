@@ -33,7 +33,6 @@ public partial class StudentMain : UserControl
 
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
-        LoginController.LogOut();
         UserControlController.MainWindowChange(this, new LoginChoose());
     }
     

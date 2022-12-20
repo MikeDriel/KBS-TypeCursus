@@ -73,3 +73,14 @@ namespace Controller
 
     }
 }
+
+//EVENT FOR LIVE STATISTICS UPDATE
+public class LiveStatisticsEventArgs
+{
+    public bool SetTextRed;
+
+    public LiveStatisticsEventArgs(bool setTextRed)
+    {
+        SetTextRed = setTextRed;
+    }
+}

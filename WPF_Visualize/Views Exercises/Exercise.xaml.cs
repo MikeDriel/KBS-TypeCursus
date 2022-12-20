@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Controller;
+using Model;
 using WPF_Visualize.ViewLogic;
 
 namespace WPF_Visualize;
@@ -16,7 +17,7 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class Exercise : UserControl
 {
-    public static ExerciseStatisticsController? StatisticsController;
+    public static StatisticsController? s_StatisticsController;
     private readonly ExerciseController _controller;
 
     private readonly Rectangle _rectangleLetterToType =
@@ -28,7 +29,7 @@ public partial class Exercise : UserControl
 	public Exercise(int choice)
 	{
 		InitializeComponent();
-		_controller = new ExerciseController(choice);
+		_controller = new ExerciseController(choice, Difficulty.Niveau1);
 		int maxTime;
 		if (choice == 2)
 		{
@@ -43,10 +44,10 @@ public partial class Exercise : UserControl
 			RichTextBoxStory.Visibility = Visibility.Hidden;
 		}
 		
-		StatisticsController = new ExerciseStatisticsController(maxTime);
+		s_StatisticsController = new StatisticsController(maxTime);
 		//subscribe events
 		_controller.ExerciseEvent += ExerciseEvent;
-		StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
+		s_StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
         MoveLetterToTypeBoxOnCanvas();
         ChangeTextOnScreen();
@@ -93,9 +94,9 @@ public partial class Exercise : UserControl
             _controller.CurrentChar = e.Text[0];
             _controller.CheckIfLetterIsCorrect();
             MoveLetterToTypeBoxOnCanvas();
-            if (!StatisticsController!.IsRunning)
+            if (!s_StatisticsController!.IsRunning)
             {
-                StatisticsController.StartTimer();
+                s_StatisticsController.StartTimer();
             }
 
             ProgressBar.Value = _controller.Progress;
@@ -169,9 +170,9 @@ public partial class Exercise : UserControl
                 LetterToTypeLabel.Foreground = Brushes.Red;
             }
 
-            var statistics = StatisticsController.GetStatistics();
+            var statistics = s_StatisticsController.GetStatistics();
             LiveStatisticsScreen.Content = statistics;
-            TimeLeftLabel.Content = StatisticsController.TimeLeft;
+            TimeLeftLabel.Content = s_StatisticsController.TimeLeft;
         });
     }
 
@@ -261,11 +262,11 @@ public partial class Exercise : UserControl
         //if the letter is wrong, add a mistake and update the screen
         if (_controller.Choice == 2)
         {
-            StatisticsController?.WrongAnswer();
+            s_StatisticsController?.WrongAnswer();
         }
         else
         {
-            StatisticsController?.WrongAnswer(_controller.CurrentChar);
+            s_StatisticsController?.WrongAnswer(_controller.CurrentChar);
         }
 
         MoveLetterTypedBoxOnCanvas(false, _controller.CurrentChar);
@@ -284,7 +285,7 @@ public partial class Exercise : UserControl
     {
         MoveLetterTypedBoxOnCanvas(true, _controller.CurrentChar);
 
-        StatisticsController?.RightAnswer();
+        s_StatisticsController?.RightAnswer();
 
         //Makes the letter black again
         LetterToTypeLabel.Foreground = Brushes.White;

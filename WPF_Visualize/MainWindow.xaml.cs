@@ -20,13 +20,13 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        contentControl.Content = UserControlController.Content;
+        contentControl.Content = UserControlController.s_Content;
         UserControlController.OnWindowChange += MainWindow_OnWindowChange;
     }
 
     private void MainWindow_OnWindowChange(object source, OnWindowChangeEventArgs e)
     {
-        contentControl.Content = UserControlController.Content;
+        contentControl.Content = UserControlController.s_Content;
     }
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
