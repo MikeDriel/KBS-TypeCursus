@@ -17,6 +17,7 @@
         <None Remove="Images\LetterExercise.png" />
         <None Remove="Images\logout.png" />
         <None Remove="Images\planning.png" />
+        <None Remove="Images\Podium.png" />
         <None Remove="Images\Pupil.png" />
         <None Remove="Images\ranking.png" />
         <None Remove="Images\Statistics.png" />
@@ -46,6 +47,9 @@
         </Content>
         <Content Include="Images\logout.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Images\Podium.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Include="Images\StoryExercise2.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

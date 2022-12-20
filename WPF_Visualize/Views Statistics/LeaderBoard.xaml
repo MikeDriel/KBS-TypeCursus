@@ -19,13 +19,13 @@
 		<Label Content="Ranglijst" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
 
 		<Viewbox Grid.Row="1">
-			<Canvas Height="200" Width="210" Margin="0,0,0,30">
+			<Canvas Height="170" Width="260" Margin="5,0,-30,24">
 				<Canvas.Background>
-					<ImageBrush ImageSource="/Images/Leaderboard.png"/>
+					<ImageBrush ImageSource="/Images/Podium.png"/>
 				</Canvas.Background>
-				<Label x:Name="Number1" Content="null" Grid.Row="1" Foreground="Gold" HorizontalAlignment="Center" Canvas.Left="71" Canvas.Top="44" VerticalAlignment="Center" FontSize="8" />
-				<Label x:Name="Number2" Content="null" Grid.Row="1" Foreground="Silver" HorizontalAlignment="Center" Canvas.Left="10" Canvas.Top="71" VerticalAlignment="Center" FontSize="8" />
-				<Label x:Name="Number3" Content="null" Grid.Row="1" Foreground="SandyBrown" HorizontalAlignment="Center" Canvas.Left="142" Canvas.Top="87" VerticalAlignment="Center" FontSize="8" />
+				<Label x:Name="Number1" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="109" Canvas.Top="10" VerticalAlignment="Center" FontSize="6	" Width="41" />
+				<Label x:Name="Number2" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="48" VerticalAlignment="Top" FontSize="6" Width="41" />
+				<Label x:Name="Number3" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Center" Canvas.Left="198" Canvas.Top="29" VerticalAlignment="Top" FontSize="6" Width="41" />
 			</Canvas>
 		</Viewbox>
 

@@ -1,6 +1,7 @@
 ﻿using Controller;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -30,6 +31,14 @@ public partial class LeaderBoard : UserControl
 	/// </summary>
 	public void InitializeLabels()
 	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (LeaderBoardList[i][1].Length + LeaderBoardList[i][2].Length > 11)
+			{
+				LeaderBoardList[i][2] = LeaderBoardList[i][2].Substring(0, 1) + ".";
+			}
+				
+		}
 		Number1.Content = $"{LeaderBoardList[0][1]} {LeaderBoardList[0][2]} \n {LeaderBoardList[0][3]} punten";
 		Number2.Content = $"{LeaderBoardList[1][1]} {LeaderBoardList[1][2]} \n {LeaderBoardList[1][3]} punten";
 		Number3.Content = $"{LeaderBoardList[2][1]} {LeaderBoardList[2][2]} \n {LeaderBoardList[2][3]} punten";
