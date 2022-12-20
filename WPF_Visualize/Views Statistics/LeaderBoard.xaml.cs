@@ -13,20 +13,12 @@ namespace WPF_Visualize;
 public partial class LeaderBoard : UserControl
 {
 	StatisticsController statisticsController = new();
-
-	string Number1Name;
-	string Number2Name;
-	string Number3Name;
-
-	List<string> LeaderBoardList = new();
+	private List<List<string>> LeaderBoardList { get; set; }
 	public LeaderBoard()
 	{
-		//LeaderBoardList = statisticsController.LeaderBoardList;
-
-		//Number1Name = LeaderBoardList[0].ToString();
-		//Number2Name = LeaderBoardList[1].ToString();
-		//Number3Name = LeaderBoardList[2].ToString();
-		
+		LeaderBoardList = statisticsController.LeaderBoardList;
+		//sort leaderboardlist by score
+		LeaderBoardList.Sort((x, y) => int.Parse(y[1]).CompareTo(int.Parse(x[1])));
 
 		InitializeComponent();
 		InitializeLabels();
@@ -34,9 +26,9 @@ public partial class LeaderBoard : UserControl
 
 	public void InitializeLabels()
 	{
-		Number1.Content = Number1Name;
-		Number2.Content = Number2Name;
-		Number3.Content = Number3Name;
+		Number1.Content = LeaderBoardList[0][0].ToString();
+		Number2.Content = LeaderBoardList[1][0].ToString();
+		Number3.Content = LeaderBoardList[2][0].ToString();
 	}
 	private void OnBack(object sender, RoutedEventArgs e)
 	{

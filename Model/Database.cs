@@ -165,133 +165,129 @@ public class Database
 	}
 	public List<List<string>> GenerateLeaderboard(List<int> userids, int classid)
 	{
-
 		List<List<string>> leaderboard = new();
+
 		using (SqlConnection connection =
 		   new SqlConnection(DatabaseConnectionString()))
 		{
-			string sql = $"SELECT PupilID FROM Pupil WHERE PupilID = {userids[0]} AND ClassID = {classid}";
-
-			SqlCommand command = new SqlCommand(sql, connection);
-			
-			connection.Open();
-			SqlDataReader reader = command.ExecuteReader();
-			while (reader.Read())
+			foreach (var userid in userids)
 			{
-				var rec = new List<string>();
-				for (int i = 0; i <= reader.FieldCount - 1; i++) 
-				{
-					rec.Add(reader.GetString(i));
-				}
-				leaderboard.Add(rec);
+				string sql = $"SELECT Pupil.Firstname, SUM(PupilStats.Score) FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} GROUP BY Pupil.Firstname ORDER BY SUM(PupilStats.Score) DESC;";
+				SqlCommand command = new SqlCommand(sql, connection);
 
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString() });
+				}
+				connection.Close();
 			}
 		}
-
 		return leaderboard;
 	}
 
 	public List<string> GetStatisticsDB(int type, string userid)
-{
-	List<string> statistics = new List<string>();
-	using (var connection = new SqlConnection(DatabaseConnectionString()))
 	{
-		connection.Open();
-		string sql;
-		if (type == 0)
+		List<string> statistics = new List<string>();
+		using (var connection = new SqlConnection(DatabaseConnectionString()))
 		{
-			sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Letter' "; // letter statistics for type = 0
-		}
-		else if (type == 1)
-		{
-			sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Word' ";// word statistics for type = 1
-		}
-		else if (type == 2)
-		{
-			sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Story' ";// story statistics for type = 2
-		}
-		else
-		{
-			return null;
-		}
-
-		var command = new SqlCommand(sql, connection);
-		var reader = command.ExecuteReader();
-
-		while (reader.Read())
-		{
-			for (var i = 0; i < reader.FieldCount; i++)
+			connection.Open();
+			string sql;
+			if (type == 0)
 			{
-				statistics.Add(reader[i].ToString());
+				sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Letter' "; // letter statistics for type = 0
 			}
+			else if (type == 1)
+			{
+				sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Word' ";// word statistics for type = 1
+			}
+			else if (type == 2)
+			{
+				sql = $" SELECT * FROM PupilStatistics WHERE PupilID = {userid} AND type = 'Story' ";// story statistics for type = 2
+			}
+			else
+			{
+				return null;
+			}
+
+			var command = new SqlCommand(sql, connection);
+			var reader = command.ExecuteReader();
+
+			while (reader.Read())
+			{
+				for (var i = 0; i < reader.FieldCount; i++)
+				{
+					statistics.Add(reader[i].ToString());
+				}
+			}
+
+			connection.Close();
 		}
 
-		connection.Close();
+		return statistics;
 	}
 
-	return statistics;
-}
-
-// get password from the database
-public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
-{
-	using (var connection = new SqlConnection(DatabaseConnectionString()))
+	// get password from the database
+	public string? GetPasswordWithId(bool? isTeacher, string? loginKey)
 	{
-		if (isTeacher == null || loginKey == null)
+		using (var connection = new SqlConnection(DatabaseConnectionString()))
 		{
-			return null;
+			if (isTeacher == null || loginKey == null)
+			{
+				return null;
+			}
+
+			connection.Open();
+			SqlCommand command;
+			if (isTeacher == true)
+			{
+				command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)", connection);
+			}
+			else
+			{
+				command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)", connection);
+			}
+
+			command.Parameters.AddWithValue("@LoginKey", loginKey);
+			var reader = command.ExecuteReader();
+			//Debug.WriteLine(reader[0].ToString());
+
+			var passwordWithId = "";
+			while (reader.Read())
+			{
+				passwordWithId = reader[0].ToString();
+				passwordWithId += "," + reader[1];
+				Debug.WriteLine(passwordWithId);
+			}
+
+			connection.Close();
+
+			return passwordWithId;
 		}
-
-		connection.Open();
-		SqlCommand command;
-		if (isTeacher == true)
-		{
-			command = new SqlCommand("SELECT Password, TeacherId FROM Teacher WHERE Email = (@loginKey)", connection);
-		}
-		else
-		{
-			command = new SqlCommand("SELECT Password, PupilId FROM Pupil WHERE Username = (@loginKey)", connection);
-		}
-
-		command.Parameters.AddWithValue("@LoginKey", loginKey);
-		var reader = command.ExecuteReader();
-		//Debug.WriteLine(reader[0].ToString());
-
-		var passwordWithId = "";
-		while (reader.Read())
-		{
-			passwordWithId = reader[0].ToString();
-			passwordWithId += "," + reader[1];
-			Debug.WriteLine(passwordWithId);
-		}
-
-		connection.Close();
-
-		return passwordWithId;
 	}
-}
 
-// hash incoming string and return the hashed value
-public string HashPassword(string password)
-{
-	var data = Encoding.ASCII.GetBytes(password);
-	data = new SHA256Managed().ComputeHash(data);
-	var hash = Encoding.ASCII.GetString(data);
-	return hash;
-}
-
-public async Task<bool> IsServerConnected()
-{
-	await using var connection = new SqlConnection(DatabaseConnectionString());
-
-	try
+	// hash incoming string and return the hashed value
+	public string HashPassword(string password)
 	{
-		await connection.OpenAsync();
-		return true;
+		var data = Encoding.ASCII.GetBytes(password);
+		data = new SHA256Managed().ComputeHash(data);
+		var hash = Encoding.ASCII.GetString(data);
+		return hash;
 	}
-	catch (SqlException)
+
+	public async Task<bool> IsServerConnected()
 	{
-		return false;
+		await using var connection = new SqlConnection(DatabaseConnectionString());
+
+		try
+		{
+			await connection.OpenAsync();
+			return true;
+		}
+		catch (SqlException)
+		{
+			return false;
+		}
 	}
-}
 }

@@ -17,11 +17,8 @@ namespace Controller
 		public List<string> TotalStatistics { get; private set; }
 		public List<List<string>> LeaderBoardList { get; private set; }
 		public List<string> UserIds { get; private set; }
-		public List<int> UserIdsInt { get; set; }
 		public string PupilName { get; private set; }
 		public int ClassId { get; private set; }
-
-
 
 		public StatisticsController()
 		{
@@ -36,11 +33,9 @@ namespace Controller
 
 		private void InitializeLeaderboard()
 		{
-
 			ClassId = _database.GetClassId(LoginController.UserId.ToString());
 			UserIds = _database.GetClass(ClassId); //get the amount of pupils.
-			UserIdsInt = UserIds.Select(int.Parse).ToList();
-			LeaderBoardList = _database.GenerateLeaderboard(UserIdsInt, ClassId);
+			LeaderBoardList = _database.GenerateLeaderboard(UserIds.Select(int.Parse).ToList(), ClassId);
 		}
 
 		private void InitializeLetterStatistics()
