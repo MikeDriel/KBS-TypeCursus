@@ -404,8 +404,8 @@ public class Database
 
     public Difficulty getNiveau(int pupilID, TypeExercise typeExercise)
     {
-        const int minSize = 5;
-        const int maxscore = 100;
+        const int minSize = 1;
+        const int maxscore = 500;
         int score = getScore(pupilID, typeExercise);
         switch (score)
         {

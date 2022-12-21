@@ -36,7 +36,10 @@ public class LoginController
         {
             LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
             s_UserId = int.Parse(correctPasswordWithId[1]);
-            _db.CheckIfPupilStatisticsExist(LoginController.GetUserId());
+            if (!IsTeacher)
+            {
+                _db.CheckIfPupilStatisticsExist(LoginController.GetUserId());   
+            }
         }
         else
         {
