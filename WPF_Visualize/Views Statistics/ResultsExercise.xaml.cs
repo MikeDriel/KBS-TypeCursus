@@ -2,40 +2,46 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Controller;
 using WPF_Visualize.ViewLogic;
+using static System.Formats.Asn1.AsnWriter;
 
-namespace WPF_Visualize;
+namespace WPF_Visualize.Views_Statistics;
 
 /// <summary>
 ///     Interaction logic for ResultatenOefening.xaml
 /// </summary>
-public partial class ResultatenOefening : UserControl
+public partial class ResultsExercise : UserControl
 {
-    public ResultatenOefening()
+    public static ExerciseStatisticsController s_ExerciseStatisticsController;
+    public ResultsExercise(ExerciseStatisticsController statisticsController)
     {
+        s_ExerciseStatisticsController = statisticsController;
         InitializeComponent();
         _InitializeLabels();
+        s_ExerciseStatisticsController.SendStatisticInformationToDatabase(Math.Round(s_ExerciseStatisticsController.CharactersPerSecond.Values.Average(), 1));
+        
     }
 
-
-	//sets all labels
-	private void _InitializeLabels()
+    //sets all labels
+    private void _InitializeLabels()
 	{
-		var wps = Exercise.StatisticsController.CharactersPerSecond.Values.Average();
+        var wps = s_ExerciseStatisticsController.CharactersPerSecond.Values.Average();
 		wps = Math.Round(wps, 1);
 		//calculate the percentage of correct typed characters
-		var correctPercentage = Exercise.StatisticsController.NumberCorrect /
-		                        (Exercise.StatisticsController.NumberCorrect +
-		                         (double)Exercise.StatisticsController.NumberOfMistakes) *
-		                        100;
+		var correctPercentage = s_ExerciseStatisticsController.NumberCorrect /
+                                (s_ExerciseStatisticsController.NumberCorrect +
+                                 (double)s_ExerciseStatisticsController.NumberOfMistakes) *
+                                100;
 		correctPercentage = Math.Round(correctPercentage, 1);
 
 
         //sets the labels
-        Totaltime.Content = "Totale tijd: " + Exercise.StatisticsController.CurrentTime.ToString("mm:ss") ;
-        MistakeCount.Content = "Aantal fouten: " + Exercise.StatisticsController.NumberOfMistakes;
+        Score.Content = "Score: " + s_ExerciseStatisticsController._InitializeScore();
+        Totaltime.Content = "Totale tijd: " + s_ExerciseStatisticsController.CurrentTime.ToString("mm:ss") ;
+        MistakeCount.Content = "Aantal fouten: " + s_ExerciseStatisticsController.NumberOfMistakes;
         WPS.Content = "Gemiddelde tekens per seconde: " + wps;
-        CorrectCount.Content = "Aantal goed: " + Exercise.StatisticsController.NumberCorrect;
+        CorrectCount.Content = "Aantal goed: " + s_ExerciseStatisticsController.NumberCorrect;
         CorrectPercentage.Content = $"Percentage goed: {correctPercentage}%";
         _InitializeFeedback(correctPercentage);
     }

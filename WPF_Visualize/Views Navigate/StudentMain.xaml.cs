@@ -23,7 +23,7 @@ public partial class StudentMain : UserControl
 
     private void OnStatistics(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new Statistics());
+        UserControlController.MainWindowChange(this, new Statistics((int)LoginController.s_UserId));
     }
 
     private void OnLeaderBoard(object sender, RoutedEventArgs e)
@@ -33,7 +33,6 @@ public partial class StudentMain : UserControl
 
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
-        LoginController.LogOut();
         UserControlController.MainWindowChange(this, new LoginChoose());
     }
     
