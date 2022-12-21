@@ -458,19 +458,14 @@ public class Database
 		{
 			case <= (maxPoints / 5):
 				return Difficulty.Level1;
-				break;
 			case <= (maxPoints / 5) * 2:
 				return Difficulty.Level2;
-				break;
 			case <= (maxPoints / 5) * 3:
 				return Difficulty.Level3;
-				break;
 			case <= (maxPoints / 5) * 4:
 				return Difficulty.Level4;
-				break;
 			default:
 				return Difficulty.Level5;
-				break;
 		}
 	}
 
@@ -543,23 +538,18 @@ public class Database
 			case <= (maxscore / 5):
 				SetSizeExercise(1, maxscore, score, minSize);
 				return Difficulty.Level1;
-				break;
 			case <= (maxscore / 5) * 2:
 				SetSizeExercise(2, maxscore, score, minSize);
 				return Difficulty.Level2;
-				break;
 			case <= (maxscore / 5) * 3:
 				SetSizeExercise(3, maxscore, score, minSize);
 				return Difficulty.Level3;
-				break;
 			case <= (maxscore / 5) * 4:
 				SetSizeExercise(4, maxscore, score, minSize);
 				return Difficulty.Level4;
-				break;
 			default:
 				SetSizeExercise(5, maxscore, score, minSize);
 				return Difficulty.Level5;
-				break;
 		}
 	}
 

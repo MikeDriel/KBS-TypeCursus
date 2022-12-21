@@ -88,8 +88,6 @@ namespace Controller
         {
             PupilName = _database.GetStatisticsNameDB(UserId.ToString());
         }
-
-
     }
 }
 
