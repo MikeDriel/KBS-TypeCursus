@@ -14,10 +14,12 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class LeaderBoard : UserControl
 {
-	StatisticsController statisticsController = new();
+	StatisticsController statisticsController;
 	private List<List<string>> LeaderBoardList { get; set; }
-	public LeaderBoard()
+	public LeaderBoard(int userID)
 	{
+		statisticsController = new StatisticsController(userID);
+
 		LeaderBoardList = statisticsController.LeaderBoardList;
 		LeaderBoardList.Sort((x, y) => int.Parse(y[3]).CompareTo(int.Parse(x[3])));
 
@@ -31,7 +33,7 @@ public partial class LeaderBoard : UserControl
 	/// </summary>
 	public void InitializeLabels()
 	{
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			if (LeaderBoardList[i][1].Length + LeaderBoardList[i][2].Length > 6)
 			{
@@ -58,7 +60,7 @@ public partial class LeaderBoard : UserControl
 			FontWeight fontweight = new FontWeight();
 
 			//check if the pupil is the logged in user.
-			if (pupil[0] == LoginController.UserId.ToString())
+			if (pupil[0] == LoginController.s_UserId.ToString())
 			{
 				fontweight = FontWeights.Bold;
 			}

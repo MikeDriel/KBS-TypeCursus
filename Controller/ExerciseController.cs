@@ -63,10 +63,10 @@ public class ExerciseController
         switch (choice)
         {
             case TypeExercise.Letter :
-                GenerateLetterData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
+                GenerateLetterData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
                 break;
             case TypeExercise.Word:
-                GenerateWordData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Word),Database.SizeExercise);
+                GenerateWordData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Word),Database.SizeExercise);
                 break;
             case TypeExercise.Story:
                 GenerateStoryData();

@@ -43,7 +43,7 @@ namespace Controller
 		/// </summary>
 		private void InitializeLeaderboard()
 		{
-			ClassId = _database.GetClassId(LoginController.UserId.ToString());
+			ClassId = _database.GetClassId(LoginController.s_UserId.ToString());
 			UserIds = _database.GetClass(ClassId); //get the amount of pupils.
 			LeaderBoardList = _database.GenerateLeaderboard(UserIds.Select(int.Parse).ToList(), ClassId);
 		}

@@ -30,7 +30,7 @@ public partial class Exercise : UserControl
 	public Exercise(TypeExercise choice)
 	{
 		InitializeComponent();
-		_controller = new ExerciseController(choice, Difficulty.Niveau1);
+		_controller = new ExerciseController(choice, Difficulty.Level1);
 		int maxTime;
 		if (choice == TypeExercise.Story)
 		{

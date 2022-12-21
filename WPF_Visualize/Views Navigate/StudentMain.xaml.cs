@@ -28,8 +28,8 @@ public partial class StudentMain : UserControl
 
     private void OnLeaderBoard(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new LeaderBoard());
-    }
+		UserControlController.MainWindowChange(this, new LeaderBoard((int)LoginController.s_UserId));
+	}
 
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
