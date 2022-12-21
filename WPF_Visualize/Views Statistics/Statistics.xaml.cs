@@ -13,13 +13,12 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class Statistics : UserControl
 {
-    StatisticsController StatsController;
+    StatisticsController StatsController = new StatisticsController();
     List<string> letterstatistics;
     List<string> wordstatistics;
     List<string> storystatistics;
     List<string> totalstatistics;
     string pupilname;
-    private int _userID;
     //index [0] is PupilID
     //index [1] is Type
     //index [2] is AmountCorrect
@@ -28,10 +27,8 @@ public partial class Statistics : UserControl
     //index [5] is KeyPerSec
     //index [6] is Score
 
-    public Statistics(int userID)
+    public Statistics()
     {
-        this._userID = userID;
-        StatsController = new StatisticsController(_userID);
         letterstatistics = StatsController.LetterStatistics;
         wordstatistics = StatsController.WordStatistics;
         storystatistics = StatsController.StoryStatistics;

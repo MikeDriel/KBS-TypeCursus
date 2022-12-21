@@ -1,4 +1,4 @@
-using Model;
+﻿using Model;
 
 namespace Controller;
 
@@ -8,10 +8,9 @@ public class ExerciseController
 
     public Random Random = new(); //random number generator
 
-    
-    public ExerciseController(TypeExercise choice, Difficulty difficulty)
+    public ExerciseController(int choice)
     {
-        s_Choice = choice;
+        Choice = choice;
         CharacterList = new List<char>();
         TypedCharsList = new List<char>();
         CorrectCharsList = new List<char>();
@@ -58,23 +57,27 @@ public class ExerciseController
             { '0', new[] { 409, 1 } },
             { ' ', new[] { 123, 169 } }
         };
-        
-        // Generate the correct data for the selected exercise
-        switch (choice)
+
+        // LetterExercise
+        if (choice == 0)
         {
-            case TypeExercise.Letter :
-                GenerateLetterData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
-                break;
-            case TypeExercise.Word:
-                GenerateWordData(Database.getNiveau(LoginController.GetUserId(), TypeExercise.Word),Database.SizeExercise);
-                break;
-            case TypeExercise.Story:
-                GenerateStoryData();
-                break;
+            GenerateLetterData();
+        }
+
+        // WordExercise
+        if (choice == 1)
+        {
+            GenerateWordData();
+        }
+
+        // StoryExercise 
+        if (choice == 2)
+        {
+            GenerateStoryData();
         }
     }
 
-    public static TypeExercise s_Choice { get; private set; } //user's choice
+    public int Choice { get; } //user's choice
 
     public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
     public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed
@@ -90,29 +93,20 @@ public class ExerciseController
     public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
     /// <summary>
-    ///     Generates the alphabet data for the list.
+    ///     Generates the alphabet data for the list. Also copies data to the queue for logic use.
     /// </summary>
-    public void GenerateLetterData(Difficulty difficulty, int amountOfChars)
+    public void GenerateLetterData()
     {
-        List<char> letters = new List<char>();
-
-        foreach (var charWithPoints in Database.AlphabetWithPoints)
+        for (var i = 0; i < 35; i++)
         {
-            if (charWithPoints.Value <= (int)difficulty)
-            {
-                letters.Add(charWithPoints.Key);
-            }
-        }
-        for (var i = 0; i < amountOfChars; i++)
-        {
-            CharacterList.Add(letters[Random.Next(0, letters.Count)]);
+            CharacterList.Add((char)Random.Next(97, 123));
         }
     }
 
-    public void GenerateWordData(Difficulty difficulty, int amount)
+    public void GenerateWordData()
     {
         //get the words from the database and choose how many you want
-        CharacterList = Database.GetWord(difficulty, amount);
+        CharacterList = Database.GetWord(10);
     }
 
     public void GenerateStoryData()
@@ -133,7 +127,7 @@ public class ExerciseController
         //checks if list isnt empty
         if (CharacterList.Count >= 1)
         {
-            if (s_Choice == TypeExercise.Story)
+            if (Choice == 2)
             {
                 Progress++;
                 DequeuedChar = CharacterList[0];
@@ -144,9 +138,9 @@ public class ExerciseController
 
 
             //checks if the last keypress is equal to the first letter in the queue
-            if ((DequeuedChar == CurrentChar && s_Choice == TypeExercise.Story) || (s_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar))
+            if ((DequeuedChar == CurrentChar && Choice == 2) || (Choice != 2 && CharacterList[0] == CurrentChar))
             {
-                if (s_Choice != TypeExercise.Story)
+                if (Choice != 2)
                 {
                     Progress++;
                     //if it is, remove the letter from the List
@@ -200,5 +194,5 @@ public class ExerciseEventArgs : EventArgs
     {
         IsCorrect = isCorrect;
         IsFinished = isFinished;
-    } 
+    }
 }

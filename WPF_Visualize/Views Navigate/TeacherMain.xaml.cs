@@ -18,6 +18,7 @@ public partial class TeacherMain : UserControl
 
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
+        LoginController.LogOut();
         UserControlController.MainWindowChange(this, new LoginChoose());
     }
 }

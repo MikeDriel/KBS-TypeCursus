@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-		<Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" Margin="0,20,20,0" HorizontalAlignment="Right" Click="OnLogOut" Style="{StaticResource HeaderButton}"/>
+		<Button x:Name="Log_out" Content="Log uit" Grid.Column="6" Grid.Row="0" Margin="0,20,20,0" HorizontalAlignment="Right" Click="OnLogOut" Style="{StaticResource BackButton}"/>
 
 	</Grid>
 </UserControl>

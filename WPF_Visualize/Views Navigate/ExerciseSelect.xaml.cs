@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Model;
 using WPF_Visualize.ViewLogic;
 
 namespace WPF_Visualize;
@@ -22,16 +21,16 @@ public partial class ExerciseSelect : UserControl
 
     private void OnLetterExcersice_Select(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new Exercise(TypeExercise.Letter));
+        UserControlController.MainWindowChange(this, new Exercise(0));
     }
 
     private void OnWordExercise(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new Exercise(TypeExercise.Word));
+        UserControlController.MainWindowChange(this, new Exercise(1));
     }
 
     private void OnStoryExercise(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new Exercise(TypeExercise.Story));
+        UserControlController.MainWindowChange(this, new Exercise(2));
     }
 }

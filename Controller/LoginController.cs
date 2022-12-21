@@ -1,7 +1,5 @@
 ﻿using Model;
 using System.Data.SqlClient;
-﻿using System.Diagnostics;
-using Model;
 
 namespace Controller;
 

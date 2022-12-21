@@ -1,13 +1,10 @@
-﻿using Model;
-using System.Timers;
-using static System.Formats.Asn1.AsnWriter;
+﻿using System.Timers;
 using Timer = System.Timers.Timer;
 
 namespace Controller;
 
 public class ExerciseStatisticsController
 {
-    private Database _database;
     private int _maxTime;
     private readonly Timer _timer;
     private char _currentKey;
@@ -23,7 +20,6 @@ public class ExerciseStatisticsController
 
     public ExerciseStatisticsController(int maxTime)
     {
-        _database = new();
         _maxTime = maxTime;
         TimeLeft = maxTime;
         CharactersPerSecond = new Dictionary<int, int>();
@@ -50,7 +46,7 @@ public class ExerciseStatisticsController
     public int NumberCorrect { get; private set; }
     public bool IsRunning { get; set; }
     public int TimeLeft { get; set; }
-    public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
+    public event EventHandler<LiveStatisticsEventArgs>? LiveStatisticsEvent;
 
     public void StartTimer()
     {
@@ -142,33 +138,6 @@ public class ExerciseStatisticsController
         _timeUp = false;
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
     }
-
-    public int _InitializeScore()
-    {
-        // Calculation = ((Correct answers - Incorrect answers) / total time ) * difficulty 
-        // difficulty is a placeholder as it's not in this current branch
-        int score;
-        if ((int)CurrentTime.Second != 0)
-        {
-            score = ((NumberCorrect - NumberOfMistakes) / (int)CurrentTime.Second) * 4;
-        } else
-        {
-            score = ((NumberCorrect - NumberOfMistakes) / 1) * 4;
-        }
-        return score;
-    }
-
-
-    //public void UpdatePupilStatistics(int pupilId, int type, int amountCorrect, int amountFalse, int keyPerSec, int score)
-    public void SendStatisticInformationToDatabase( double keyPerSec)
-    {   
-        if (LoginController.s_UserId != null)
-        {
-            int UserId = (int)LoginController.s_UserId;
-            _database.UpdatePupilStatistics(UserId, ExerciseController.s_Choice, NumberCorrect, NumberOfMistakes, keyPerSec, _InitializeScore());
-        }
-    }
-
 }
 
 //EVENT FOR LIVE STATISTICS UPDATE

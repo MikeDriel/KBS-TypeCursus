@@ -7,9 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Controller;
-using Model;
 using WPF_Visualize.ViewLogic;
-using WPF_Visualize.Views_Statistics;
 
 namespace WPF_Visualize;
 
@@ -18,7 +16,7 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class Exercise : UserControl
 {
-    public ExerciseStatisticsController? StatisticsController;
+    public static ExerciseStatisticsController? StatisticsController;
     private readonly ExerciseController _controller;
 
     private readonly Rectangle _rectangleLetterToType =
@@ -27,12 +25,12 @@ public partial class Exercise : UserControl
     private readonly Rectangle _rectangleLetterTyped =
         new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-	public Exercise(TypeExercise choice)
+	public Exercise(int choice)
 	{
 		InitializeComponent();
-		_controller = new ExerciseController(choice, Difficulty.Niveau1);
+		_controller = new ExerciseController(choice);
 		int maxTime;
-		if (choice == TypeExercise.Story)
+		if (choice == 2)
 		{
 			maxTime = 240;
 			LettersTypedLabel.Visibility = Visibility.Hidden;
@@ -83,7 +81,7 @@ public partial class Exercise : UserControl
 
         if (e.Text == "\b")
         {
-            if (ExerciseController.s_Choice == TypeExercise.Story)
+            if (_controller.Choice == 2)
             {
                 _controller.OnBack();
                 ProgressBar.Value = _controller.Progress;
@@ -107,7 +105,7 @@ public partial class Exercise : UserControl
     //updates values on view
     private void ChangeTextOnScreen()
     {
-        if (ExerciseController.s_Choice == TypeExercise.Story)
+        if (_controller.Choice == 2)
         {
             SetRichBox();
         }
@@ -261,7 +259,7 @@ public partial class Exercise : UserControl
     private void MistakeMade()
     {
         //if the letter is wrong, add a mistake and update the screen
-        if (ExerciseController.s_Choice == TypeExercise.Story)
+        if (_controller.Choice == 2)
         {
             StatisticsController?.WrongAnswer();
         }
@@ -279,7 +277,7 @@ public partial class Exercise : UserControl
         //adds a empty space if the list is empty
         LetterToTypeLabel.Content = "";
 
-        UserControlController.MainWindowChange(this, new ResultsExercise(StatisticsController));
+        UserControlController.MainWindowChange(this, new ResultatenOefening());
     }
 
     private void CorrectAnswer()
