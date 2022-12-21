@@ -24,8 +24,8 @@
 					<ImageBrush ImageSource="/Images/Podium.png"/>
 				</Canvas.Background>
 				<Label x:Name="Number1" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="109" Canvas.Top="10" VerticalAlignment="Center" FontSize="6	" Width="41" />
-				<Label x:Name="Number2" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="48" VerticalAlignment="Top" FontSize="6" Width="41" />
-				<Label x:Name="Number3" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Center" Canvas.Left="198" Canvas.Top="29" VerticalAlignment="Top" FontSize="6" Width="41" />
+				<Label x:Name="Number2" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="200" Canvas.Top="30" VerticalAlignment="Center" FontSize="6" Width="41" />
+				<Label x:Name="Number3" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Center" Canvas.Left="20" Canvas.Top="49" VerticalAlignment="Top" FontSize="6" Width="41" />
 			</Canvas>
 		</Viewbox>
 

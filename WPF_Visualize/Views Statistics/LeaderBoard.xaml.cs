@@ -33,7 +33,7 @@ public partial class LeaderBoard : UserControl
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			if (LeaderBoardList[i][1].Length + LeaderBoardList[i][2].Length > 11)
+			if (LeaderBoardList[i][1].Length + LeaderBoardList[i][2].Length > 6)
 			{
 				LeaderBoardList[i][2] = LeaderBoardList[i][2].Substring(0, 1) + ".";
 			}

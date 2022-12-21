@@ -44,8 +44,6 @@ namespace Controller
 			UserIds = _database.GetClass(ClassId); //get the amount of pupils.
 			LeaderBoardList = _database.GenerateLeaderboard(UserIds.Select(int.Parse).ToList(), ClassId);
 		}
-		
-
 		private void InitializeLetterStatistics()
 		{
 			LetterStatistics = _database.GetStatisticsDB(0, LoginController.UserId.ToString());
