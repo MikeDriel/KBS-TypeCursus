@@ -430,6 +430,36 @@ public class Database
 		return hash;
 	}
 
+	public Difficulty getNiveau(int pupilID, TypeExercise typeExercise)
+    {
+        const int minSize = 1;
+        const int maxscore = 500;
+        int score = getScore(pupilID, typeExercise);
+        switch (score)
+        {
+            case <= (maxscore / 5):
+                setSizeExercise(1,maxscore,score, minSize);
+                return Difficulty.Niveau1;
+                break;
+            case <= (maxscore / 5) * 2:
+                setSizeExercise(2,maxscore,score, minSize);
+                return Difficulty.Niveau2;
+                break;
+            case <= (maxscore / 5) * 3:
+                setSizeExercise(3,maxscore,score, minSize);
+                return Difficulty.Niveau3;
+                break;
+            case <= (maxscore / 5) * 4:
+                setSizeExercise(4,maxscore,score, minSize);
+                return Difficulty.Niveau4;
+                break;
+            default:
+                setSizeExercise(5,maxscore,score, minSize);
+                return Difficulty.Niveau5;
+                break;
+        }
+    }
+
 	public async Task<bool> IsServerConnected()
 	{
 		await using var connection = new SqlConnection(DatabaseConnectionString());
