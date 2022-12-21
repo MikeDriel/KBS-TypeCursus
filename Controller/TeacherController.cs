@@ -104,7 +104,7 @@ namespace Controller
             XGraphics graphics = XGraphics.FromPdfPage(page);
             XFont font = new("Segoe UI Variable", 15, XFontStyle.Bold);
             classname.Replace(' ', '_');
-            string filename = $"{classname}_{classId}.pdf";
+            string filename = $"{classname}_{classId}_{dictionary.First().Key.ToString()}.pdf";
             foreach (var KeyValue in dictionary)
             {
                 string UserName = Database.getPupilUserName(KeyValue.Key);
