@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
 using Controller;
 using System.Collections.Generic;
+using Model;
 
 namespace WPF_Visualize;
 
@@ -14,6 +15,7 @@ namespace WPF_Visualize;
 public partial class Statistics : UserControl
 {
 	StatisticsController StatsController;
+	Database database;
 	List<string> letterstatistics;
 	List<string> wordstatistics;
 	List<string> storystatistics;
@@ -32,6 +34,7 @@ public partial class Statistics : UserControl
 	{
 		this._userID = userID;
 		StatsController = new StatisticsController(_userID);
+		database = new Database();
 		letterstatistics = StatsController.LetterStatistics;
 		wordstatistics = StatsController.WordStatistics;
 		storystatistics = StatsController.StoryStatistics;
@@ -46,6 +49,10 @@ public partial class Statistics : UserControl
 	{
 		//sets name label
 		Name.Content = pupilname;
+
+		LetterLevel.Content = database.GetLevel(_userID, TypeExercise.Letter).ToString().Substring(5);
+		WordLevel.Content = database.GetLevel(_userID, TypeExercise.Word).ToString().Substring(5);
+		StoryLevel.Content = database.GetLevel(_userID, TypeExercise.Story).ToString().Substring(5);
 
 		//sets the labels for total statistics
 		TotalKeyPerSecond.Content = totalstatistics[3];  //TotalKeyPerSecond
