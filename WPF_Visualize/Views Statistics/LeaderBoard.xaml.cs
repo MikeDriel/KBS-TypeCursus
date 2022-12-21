@@ -15,17 +15,17 @@ namespace WPF_Visualize;
 public partial class LeaderBoard : UserControl
 {
 	StatisticsController statisticsController;
-	private List<List<string>> LeaderBoardList { get; set; }
+	private List<List<string>> _leaderBoardList { get; set; }
 	public LeaderBoard(int userID)
 	{
 		statisticsController = new StatisticsController(userID);
 
-		LeaderBoardList = statisticsController.LeaderBoardList;
-		LeaderBoardList.Sort((x, y) => int.Parse(y[3]).CompareTo(int.Parse(x[3])));
+		_leaderBoardList = statisticsController.LeaderBoardList;
+		_leaderBoardList.Sort((x, y) => int.Parse(y[3]).CompareTo(int.Parse(x[3])));
 
 		InitializeComponent();
 		InitializeLabels();
-		AddLeaderboardToStackPanel(LeaderBoardList);
+		AddLeaderboardToStackPanel(_leaderBoardList);
 	}
 
 	/// <summary>
@@ -35,15 +35,15 @@ public partial class LeaderBoard : UserControl
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			if (LeaderBoardList[i][1].Length + LeaderBoardList[i][2].Length > 6)
+			if (_leaderBoardList[i][1].Length + _leaderBoardList[i][2].Length > 6)
 			{
-				LeaderBoardList[i][2] = LeaderBoardList[i][2].Substring(0, 1) + ".";
+				_leaderBoardList[i][2] = _leaderBoardList[i][2].Substring(0, 1) + ".";
 			}
 				
 		}
-		Number1.Content = $"{LeaderBoardList[0][1]} {LeaderBoardList[0][2]} \n {LeaderBoardList[0][3]} punten";
-		Number2.Content = $"{LeaderBoardList[1][1]} {LeaderBoardList[1][2]} \n {LeaderBoardList[1][3]} punten";
-		Number3.Content = $"{LeaderBoardList[2][1]} {LeaderBoardList[2][2]} \n {LeaderBoardList[2][3]} punten";
+		Number1.Content = $"{_leaderBoardList[0][1]} {_leaderBoardList[0][2]} \n {_leaderBoardList[0][3]} punten";
+		Number2.Content = $"{_leaderBoardList[1][1]} {_leaderBoardList[1][2]} \n {_leaderBoardList[1][3]} punten";
+		Number3.Content = $"{_leaderBoardList[2][1]} {_leaderBoardList[2][2]} \n {_leaderBoardList[2][3]} punten";
 	}
 
 	/// <summary>
