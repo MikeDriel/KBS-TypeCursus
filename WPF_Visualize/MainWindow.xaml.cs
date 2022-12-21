@@ -48,13 +48,3 @@ public partial class MainWindow : Window
         }
     }
 }
-
-internal class OnWindowChange : EventArgs
-{
-    public OnWindowChange(UserControl content)
-    {
-        Content = content;
-    }
-
-    public UserControl Content { get; set; }
-}
