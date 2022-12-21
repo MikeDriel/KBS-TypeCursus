@@ -40,10 +40,11 @@ public partial class LeaderBoard : UserControl
 				_leaderBoardList[i][2] = _leaderBoardList[i][2].Substring(0, 1) + ".";
 			}
 				
-		}
-		Number1.Content = $"{_leaderBoardList[0][1]} {_leaderBoardList[0][2]} \n {_leaderBoardList[0][3]} punten";
-		Number2.Content = $"{_leaderBoardList[1][1]} {_leaderBoardList[1][2]} \n {_leaderBoardList[1][3]} punten";
-		Number3.Content = $"{_leaderBoardList[2][1]} {_leaderBoardList[2][2]} \n {_leaderBoardList[2][3]} punten";
+		} 
+		//blank spaces needed for alignment
+		Number1.Content = $"   {_leaderBoardList[0][1]} {_leaderBoardList[0][2]} \n {_leaderBoardList[0][3]} punten";
+		Number2.Content = $"   {_leaderBoardList[1][1]} {_leaderBoardList[1][2]} \n {_leaderBoardList[1][3]} punten";
+		Number3.Content = $"   {_leaderBoardList[2][1]} {_leaderBoardList[2][2]} \n {_leaderBoardList[2][3]} punten";
 	}
 
 	/// <summary>
