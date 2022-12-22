@@ -29,10 +29,10 @@ namespace WPF_Visualize.Views_Navigate
         public ClassSelect()
         {
             InitializeComponent();
-            addButtonsForClasses();
+            AddButtonsForClasses();
         }
 
-        private void addButtonsForClasses()
+        private void AddButtonsForClasses()
         {
 
             List<int> classes = Database.GetClasses(user_id);

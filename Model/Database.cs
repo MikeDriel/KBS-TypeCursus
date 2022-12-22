@@ -319,6 +319,21 @@ public class Database
 
         return new string[2] { newPupilId.ToString(), UnhashedPassword };
     }
+
+    public void DeleteStudent(int pupilId, int classId)
+    {
+       
+        using (var connection = new SqlConnection(DatabaseConnectionString()))
+        {
+            connection.Open();
+            var sqlDelete = "DELETE FROM Pupil WHERE PupilID = (@pupilId) AND ClassID = (@classId)";
+            var commandInsert = new SqlCommand(sqlDelete, connection);
+            commandInsert.Parameters.AddWithValue("@pupilId", pupilId);
+            commandInsert.Parameters.AddWithValue("@classId", classId);
+            commandInsert.ExecuteReader();
+            connection.Close();
+        }
+    }
     public string GetRandomPassword(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

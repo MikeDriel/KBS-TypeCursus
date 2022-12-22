@@ -2,6 +2,7 @@
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,10 +46,10 @@ namespace WPF_Visualize.Views_Navigate
         public ClassSettings(int classId)
         {
             InitializeComponent();
-            tbClassName.IsReadOnly = true;
+            teacherController.TeacherEvent += TeacherController_TeacherEvent;
             this.classId = classId;
             teacherController.FillListWithStudents(this.classId);
-            AddCurrentsStudentsToStackPanel(this.classId);
+            AddCurrentsStudentsToStackPanelAndComboBox(this.classId);
             SetLabelsAndTextBoxes(this.classId);
             IsNewClass = false;
             AddStudentButton.IsEnabled = false;
@@ -58,7 +59,7 @@ namespace WPF_Visualize.Views_Navigate
         /// Adds the students that are already in the class to the stackpanel, used when class already existed
         /// </summary>
         /// <param name="classId"></param>
-        private void AddCurrentsStudentsToStackPanel(int classId)
+        private void AddCurrentsStudentsToStackPanelAndComboBox(int classId)
         {
             {
                 List<int> pupils = Database.GetStudents(classId);
@@ -72,20 +73,31 @@ namespace WPF_Visualize.Views_Navigate
                         FontSize = 25
                     };
 
+                    var comboBoxItem = new ComboBoxItem
+                    {
+                        Content = $"{pupil[0]} {pupil[1]}",
+                        Name = $"_{pupilId}"
+                    };
+
+
+
                     StudentListPanel.Children.Add(label);
+                    ComboBoxStudents.Items.Add(comboBoxItem);
+
                 }
             }
         }
 
         /// <summary>
-        /// Add the students that are newly added to the stackpanel, used when it's a new class
+        /// Add the students that are newly added to the stackpanel, used when it's a new class / or when there are new students
         /// </summary>
         /// <param name="Pupils"></param>
-        private void AddCurrentsStudentsToStackPanel(List<string[]> Pupils)
+        private void AddCurrentsStudentsToStackPanelAndComboBox(List<string[]> Pupils)
         {
             {
                 foreach (string[] pupil in Pupils)
                 {
+
                     var label = new Label
                     {
                         Content = pupil[0] + " " + pupil[1],
@@ -93,8 +105,16 @@ namespace WPF_Visualize.Views_Navigate
                         FontSize = 25
                     };
 
+                    var comboBoxItem = new ComboBoxItem
+                    {
+                        Content = $"{pupil[0]} {pupil[1]}"
+                    };
+
                     StudentListPanel.Children.Add(label);
+                    ComboBoxStudents.Items.Add(comboBoxItem);
                 }
+
+
             }
         }
 
@@ -125,20 +145,43 @@ namespace WPF_Visualize.Views_Navigate
         }
 
         /// <summary>
-        /// Confirm button, 2 possibilty's depending on if it's  a new class or already existed class. Choice 1 = new class
+        /// Confirm button, 2 possibilty's depending on if it's  a new class or already existed class.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// // To do: fix deze troep
         private void OnConfirm(object sender, RoutedEventArgs e)
         {
+            bool informationCorrect = false;
             if (IsNewClass)
             {
-                teacherController.addNewClass(user_id, tbClassName.Text);
+                informationCorrect = teacherController.AddNewClassToDatabase(user_id, tbClassName.Text);
+                teacherController.SwitchScreen(classId, informationCorrect);
             }
             else
             {
-                teacherController.AddStudents(classId);
+                bool classNameChanged;
+                if (Database.GetClassName(classId) == tbClassName.Text)
+                {
+                    informationCorrect = true;
+                } else
+                {
+                    informationCorrect = !Database.CheckIfClassExists(user_id, tbClassName.Text);
+                }
+                
+                if (informationCorrect)
+                {
+                    teacherController.UpdateClassName(classId, tbClassName.Text);
+                    teacherController.AddStudentsToDatabase(classId);
+                    teacherController.DeleteStudentsFromDatabase(classId);
+                    teacherController.SwitchScreen(classId, true);
+                }
+                else
+                {
+                    teacherController.SwitchScreen(classId, false);
+                }
+
+
             }
         }
 
@@ -153,7 +196,29 @@ namespace WPF_Visualize.Views_Navigate
             tbFirstName.Text = "";
             tbLastName.Text = "";
             StudentListPanel.Children.Clear();
-            AddCurrentsStudentsToStackPanel(teacherController.ClassStudents);
+            ComboBoxStudents.Items.Clear();
+            AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+        }
+
+        private void OnStudentRemove(object sender, RoutedEventArgs e)
+        {
+            if (ComboBoxStudents.SelectedItem != null)
+            {
+                string Pupilid = ComboBoxStudents.SelectedValue.ToString().Replace("_", "");
+
+                if (!string.IsNullOrEmpty(Pupilid))
+                {
+                    teacherController.RemovePupilFromClass(Int32.Parse(Pupilid));
+                }
+                else
+                {
+                    teacherController.RemovePupilFromClass(ComboBoxStudents.SelectedItem.ToString());
+                }
+
+                StudentListPanel.Children.Clear();
+                ComboBoxStudents.Items.Clear();
+                AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+            }
         }
 
         private void SetStudentAddButton()
@@ -193,6 +258,8 @@ namespace WPF_Visualize.Views_Navigate
                 ErrorText.Visibility = Visibility.Visible;
             }
         }
+
+
     }
 }
 

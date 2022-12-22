@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="WPF_Visualize.Views_Navigate.ClassSettings"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF_Visualize.Views_Navigate"
+             xmlns:Controller="clr-namespace:Controller;assembly=Controller" x:Class="WPF_Visualize.Views_Navigate.ClassSettings"
              mc:Ignorable="d" 
               d:DesignHeight="450" d:DesignWidth="800"
              Style="{StaticResource UserControlBackground}">
@@ -36,30 +37,39 @@
                     <TextBox x:Name="tbClassName" MaxLength="20" FontSize="18" TextChanged="tbClassName_TextChanged" Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 
-                <Label Content="Leerling Toevoegen:" Foreground="White" FontSize="18" VerticalAlignment="Bottom"/>
+                <Label Content="Leerling toevoegen:" Foreground="White" FontSize="18" VerticalAlignment="Bottom"/>
 
                 <StackPanel Orientation="Horizontal" >
                     <Label Content="Voornaam:" Foreground="White" FontSize="18" Width="109"  VerticalAlignment="Center"/>
-                    <TextBox Name="tbFirstName" TextChanged="tbFirstName_TextChanged"  FontSize="18" Style="{StaticResource TextBoxClassSettings}" />
+                    <TextBox x:Name="tbFirstName" TextChanged="tbFirstName_TextChanged"  FontSize="18" Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Achternaam:" Foreground="White" FontSize="18" Width="109" VerticalAlignment="Center"/>
-                    <TextBox Name="tbLastName" TextChanged="tbLastName_TextChanged" FontSize="18" Style="{StaticResource TextBoxClassSettings}"/>
+                    <TextBox x:Name="tbLastName" TextChanged="tbLastName_TextChanged" FontSize="18" Style="{StaticResource TextBoxClassSettings}"/>
                 </StackPanel>
 
                 <Button Content="Toevoegen" x:Name="AddStudentButton" Click="OnStudentAdd" Style="{StaticResource AddButton}" />
-            </StackPanel>
 
-                
+
+                <Label Content="Leerling verwijderen:" Foreground="White" FontSize="18" VerticalAlignment="Bottom"/>
+
+                <ComboBox Width="250" x:Name="ComboBoxStudents" SelectedValuePath="Name"/>
+
+                <Button Content="Verwijder" x:Name="DeleteStudentButton" Style="{StaticResource AddButton}" Click="OnStudentRemove" />
+
+            </StackPanel>
         </Border>
+
+
 
 
         <Label Grid.Column="3" Grid.Row="1" Content="Leerlingenlijst:" Style="{StaticResource LabelsSelecterScreens}" />
         <ScrollViewer Grid.Row="2" Grid.Column="3">
             <StackPanel Grid.Row="2" Grid.Column="3" x:Name="StudentListPanel"/>
         </ScrollViewer>
-        <Label Grid.Column="1" Name="ErrorText" Content="De ingevulde infromatie voldoet niet" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Top" Foreground="Red" FontSize="14" Visibility="Hidden" />
+
+        <Label Grid.Column="1" x:Name="ErrorText" Content="De ingevulde infromatie voldoet niet" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Top" Foreground="Red" FontSize="14" Visibility="Hidden" />
 
     </Grid>
 </UserControl>
