@@ -72,7 +72,7 @@
 
 			<Border BorderBrush="#1c313a" Background="#1c313a" Width="120" Height="340" BorderThickness="0.2" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="1">
 				<StackPanel Margin="0,20,20,0">
-					<Label Content="Letter" Width="Auto" FontSize="24" Foreground="White" HorizontalAlignment="Left" Style="{StaticResource LabelsLeaderboard}"/>
+					<Label Content="Letter" Width="85" FontSize="24" Foreground="White" HorizontalAlignment="Left" Style="{StaticResource LabelsLeaderboard}"/>
 					<Label x:Name="LetterScore" Content="LSC" FontSize="24" Foreground="White"/>
 					<Label x:Name="LetterLevel" Content="Level" FontSize="24" Foreground="White"/>
 					<Label x:Name="LettersCorrect" Content="LTGA" FontSize="24" Foreground="White"/>
@@ -84,7 +84,7 @@
 
 			<Border BorderBrush="#1c313a" Background="#1c313a" Width="120" Height="340" BorderThickness="0.2" Margin="-1,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="2">
 				<StackPanel Margin="0,20,20,0">
-					<Label Content="Woord" Width="Auto" FontSize="24" Foreground="White" HorizontalAlignment="Left" Style="{StaticResource LabelsLeaderboard}" />
+					<Label Content="Woord" Width="90" FontSize="24" Foreground="White" HorizontalAlignment="Left" Style="{StaticResource LabelsLeaderboard}" />
 					<Label x:Name="WordScore" Content="WSC" FontSize="24" Foreground="White"/>
 					<Label x:Name="WordLevel" Content="Level" FontSize="24" Foreground="White"/>
 					<Label x:Name="WordsCorrect" Content="WTGA" FontSize="24" Foreground="White"/>
@@ -96,7 +96,7 @@
 
 			<Border BorderBrush="#1c313a" Background="#1c313a" Width="120" Height="340" CornerRadius="0,10,10,0" Margin="-4,0,0,0" BorderThickness="0.2" VerticalAlignment="Top" Grid.Row="2" Grid.Column="3">
 			<StackPanel Margin="0,20,20,0">
-				<Label Content="Verhaal" Width="Auto" FontSize="24" Foreground="White" HorizontalAlignment="Left" Style="{StaticResource LabelsLeaderboard}"/>
+				<Label Content="Verhaal" Width="95" FontSize="24" Foreground="White" HorizontalAlignment="Left" Style="{StaticResource LabelsLeaderboard}"/>
 				<Label x:Name="StoryScore" Content="SSC" FontSize="24" Foreground="White"/>
 				<Label x:Name="StoryLevel" Content="Level" FontSize="24" Foreground="White"/>
 				<Label x:Name="StoryCorrect" Content="STGA" FontSize="24" Foreground="White"/>

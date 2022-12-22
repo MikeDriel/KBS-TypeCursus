@@ -6,6 +6,7 @@ using WPF_Visualize.ViewLogic;
 using Controller;
 using System.Collections.Generic;
 using Model;
+using WPF_Visualize.Views_Statistics;
 
 namespace WPF_Visualize;
 
@@ -15,6 +16,7 @@ namespace WPF_Visualize;
 public partial class Statistics : UserControl
 {
 	StatisticsController StatsController;
+	ClassStatistics classStats;
 	Database database;
 	List<string> letterstatistics;
 	List<string> wordstatistics;
@@ -22,6 +24,8 @@ public partial class Statistics : UserControl
 	List<string> totalstatistics;
 	string pupilname;
 	private int _userID;
+	public int StatisticsClassId { get; set; }
+	
 	//[0] is PupilID
 	//[1] is Type
 	//[2] is AmountCorrect
@@ -40,6 +44,8 @@ public partial class Statistics : UserControl
 		storystatistics = StatsController.StoryStatistics;
 		totalstatistics = StatsController.TotalStatistics;
 		pupilname = StatsController.PupilName;
+
+		//StatisticsClassId = classStats.GetStatisticsClassID(); //werkt niet bruv
 
 		InitializeComponent();
 		_InitializeLabels();
@@ -85,7 +91,14 @@ public partial class Statistics : UserControl
 
 	private void OnBack(object sender, RoutedEventArgs e)
 	{
-		//_cleanup();
-		UserControlController.MainWindowChange(this, new StudentMain());
+
+		if (classStats.IsTeacher)
+		{
+			UserControlController.MainWindowChange(this, new ClassStatistics(StatisticsClassId));
+		}
+		else
+		{
+			UserControlController.MainWindowChange(this, new StudentMain());
+		}
 	}
 }

@@ -30,9 +30,9 @@ public partial class TeacherMain : UserControl
 
     private void OnClassStatistics(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new ClassStatistics());
+        UserControlController.MainWindowChange(this, new ClassStatistics(this.classId));
     }
-
+    
     private void OnClassSettings(object sender, RoutedEventArgs e)
     {
         UserControlController.MainWindowChange(this, new ClassSettings(classId));

@@ -575,6 +575,8 @@ public class Database
 		return leaderboard;
 	}
 
+	
+
 	public List<string> GetStatisticsDB(int type, string userid)
 	{
 		List<string> statistics = new List<string>();
@@ -838,5 +840,32 @@ public class Database
 				exists = false;
 			}
 		}
+	}
+	
+	public List<List<string>> GenerateClassStatistics(List<int> userids, int classid)
+	{
+		List<List<string>> leaderboard = new();
+		using (SqlConnection connection =
+		   new SqlConnection(DatabaseConnectionString()))
+		{
+			foreach (var userid in userids)
+			{
+				string sql = $"SELECT Pupil.PupilID, Pupil.Firstname, Pupil.Lastname, SUM(PupilStats.Score) " +
+					$"FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID " +
+					$"WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} " +
+					$"GROUP BY Pupil.PupilID, Pupil.Firstname, Pupil.Lastname " +
+					$"ORDER BY Pupil.Lastname DESC;";
+				SqlCommand command = new SqlCommand(sql, connection);
+
+				connection.Open();
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString() });
+				}
+				connection.Close();
+			}
+		}
+		return leaderboard;
 	}
 }
