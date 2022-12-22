@@ -444,7 +444,7 @@ public class Database
 		}
 	}
 
-	private Difficulty GetWordDifficulty(string word)
+	public Difficulty GetWordDifficulty(string word)
 	{
 		const int maxPoints = 45;
 		int TotalPoints = 0;
