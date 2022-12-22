@@ -45,6 +45,7 @@ public class LoginController
         }
         else
         {
+	        s_UserId = null;
             LoginEvent?.Invoke(this, new LoginEventArgs(false, IsTeacher));
         }
     }
