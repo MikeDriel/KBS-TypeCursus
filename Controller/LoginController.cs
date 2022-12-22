@@ -36,7 +36,7 @@ public class LoginController
 
         if (correctPassword != null && correctPassword == password)
         {
-            UserId = int.Parse(correctPasswordId[1]);
+			s_UserId = int.Parse(correctPasswordWithId[1]);
             LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
             s_UserId = int.Parse(correctPasswordWithId[1]);
             if (!IsTeacher)
@@ -63,18 +63,6 @@ public class LoginController
         }
         else
         {
-            throw new Exception("UserId is null");
-        }
-    }
-
-    public static int GetUserId()
-    {
-        if (UserId != null)
-        {
-            return (int)UserId;
-        }
-        else
-        {   
             throw new Exception("UserId is null");
         }
     }
