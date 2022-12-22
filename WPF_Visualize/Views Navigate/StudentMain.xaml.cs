@@ -23,17 +23,16 @@ public partial class StudentMain : UserControl
 
     private void OnStatistics(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new Statistics());
+        UserControlController.MainWindowChange(this, new Statistics((int)LoginController.s_UserId));
     }
 
     private void OnLeaderBoard(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new LeaderBoard());
-    }
+		UserControlController.MainWindowChange(this, new LeaderBoard((int)LoginController.s_UserId));
+	}
 
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
-        LoginController.LogOut();
         UserControlController.MainWindowChange(this, new LoginChoose());
     }
     

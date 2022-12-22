@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
+using Controller;
 
 namespace WPF_Visualize.ViewLogin;
 
@@ -11,6 +12,7 @@ public partial class LoginChoose : UserControl
 {
     public LoginChoose()
     {
+        LoginController.LogOut();
         InitializeComponent();
     }
 

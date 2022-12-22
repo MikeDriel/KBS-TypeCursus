@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Controller;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -12,9 +13,10 @@ public class Charts
         Data = new List<DataPoint>();
         Data.Add(new DataPoint(0, 0));
 
-        for (var i = 1; i < Exercise.StatisticsController.CharactersPerSecond.Count; i++)
+        for (var i = 1; i < ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond.Count; i++)
         {
-            Data.Add(new DataPoint(i, Exercise.StatisticsController.CharactersPerSecond[i]));
+            Data.Add(new DataPoint(i, ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond[i]));
+            Data.Add(new DataPoint(i, ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond[i]));
             Stats = new PlotModel { Title = "Tekens per seconde", TextColor = OxyColors.White, PlotAreaBorderColor = OxyColors.White };
             Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
         }

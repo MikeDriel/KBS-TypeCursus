@@ -4,6 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid />
+             d:DesignHeight="450" d:DesignWidth="800"
+             Style="{StaticResource UserControlBackground}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*" MinHeight="120"/>
+			<RowDefinition Height="4*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
+		</Grid.ColumnDefinitions>
+		<Button x:Name="Back" Content="Terug" Grid.Row="0" Width="109" Click="OnBack" Style="{StaticResource HeaderButton}"/>
+		<Label Content="Ranglijst" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
+
+		<Viewbox Grid.Row="1">
+			<Canvas Height="170" Width="260" Margin="5,0,-30,24">
+				<Canvas.Background>
+					<ImageBrush ImageSource="/Images/Podium.png"/>
+				</Canvas.Background>
+				<Label x:Name="Number1" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="107" Canvas.Top="10" VerticalAlignment="Center" FontSize="5.5" Width="48" />
+				<Label x:Name="Number2" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="197" Canvas.Top="30" VerticalAlignment="Center" FontSize="5.5" Width="48" />
+				<Label x:Name="Number3" Content="null" Grid.Row="1" Foreground="Black" HorizontalAlignment="Left" Canvas.Left="18" Canvas.Top="48" VerticalAlignment="Center" FontSize="5.5" Width="48" />
+			</Canvas>
+		</Viewbox>
+
+		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="1" Width="600" Height="600" CornerRadius="10" Margin="50,0,25,0" BorderThickness="0.2" VerticalAlignment="Center">
+			<ScrollViewer Grid.Row="1" Grid.Column="1" Width="600" Height="500">
+				<StackPanel x:Name="StudentsPanel" Margin="50,0,50,0" Orientation="Vertical">
+					<StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+						<Label Content="Plaats" FontSize="25" Foreground="White" Margin="0,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
+						<Label Content="Naam" FontSize="25" Foreground="White" Margin="30,0,0,0" Style="{StaticResource LabelsLeaderboard}" />
+						<Label Content="Score" FontSize="25" Foreground="White" Margin="170,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
+					</StackPanel>
+				</StackPanel>
+			</ScrollViewer>
+		</Border>
+	</Grid>
 </UserControl>
