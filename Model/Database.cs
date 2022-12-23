@@ -57,38 +57,6 @@ public class Database
 		}
 	}
 
-	public List<char> GetWord(int amountOfWords)
-	{
-		var wordList = new List<char>();
-		using (var connection = new SqlConnection(DatabaseConnectionString()))
-		{
-			connection.Open();
-			var sql = "SELECT TOP (@amountOfWords) Words FROM Words ORDER BY NEWID()";
-			var command = new SqlCommand(sql, connection);
-			command.Parameters.AddWithValue("@amountOfWords", amountOfWords);
-			var reader = command.ExecuteReader();
-
-			while (reader.Read())
-			{
-				for (var i = 0; i < reader.FieldCount; i++)
-				{
-					wordList.AddRange(reader[i].ToString());
-
-					//Adds space between words 
-					wordList.Add(' ');
-				}
-			}
-
-			connection.Close();
-		}
-
-		wordList.RemoveAt(wordList.Count - 1);
-		return wordList;
-	}
-
-	//This method is used to get stories from the database
-
-
 	public string GetStatisticsNameDB(string userid)
 	{
 		List<string> nameList = new List<string>();
@@ -410,9 +378,6 @@ public class Database
 		}
 	}
 
-
-
-
 	//Method that updates data in the Pupilstatistics table
 	public void UpdatePupilStatistics(int pupilId, TypeExercise type, int amountCorrect, int amountFalse,
 		double keyPerSec, int score)
@@ -574,8 +539,6 @@ public class Database
 		}
 		return leaderboard;
 	}
-
-	
 
 	public List<string> GetStatisticsDB(int type, string userid)
 	{
@@ -850,18 +813,18 @@ public class Database
 		{
 			foreach (var userid in userids)
 			{
-				string sql = $"SELECT Pupil.PupilID, Pupil.Firstname, Pupil.Lastname, SUM(PupilStats.Score) " +
+				string sql =
+					$"SELECT Pupil.PupilID, Pupil.Firstname, Pupil.Lastname, SUM(PupilStats.Score), SUM(PupilStats.AssignmentsMade)" +
 					$"FROM PupilStatistics PupilStats JOIN Pupil Pupil ON Pupil.PupilID = PupilStats.PupilID " +
 					$"WHERE Pupil.ClassID = {classid} AND Pupil.PupilID = {userid} " +
-					$"GROUP BY Pupil.PupilID, Pupil.Firstname, Pupil.Lastname " +
-					$"ORDER BY Pupil.Lastname DESC;";
+					$"GROUP BY Pupil.PupilID, Pupil.Firstname, Pupil.Lastname;";
 				SqlCommand command = new SqlCommand(sql, connection);
 
 				connection.Open();
 				SqlDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
-					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString() });
+					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString() });
 				}
 				connection.Close();
 			}

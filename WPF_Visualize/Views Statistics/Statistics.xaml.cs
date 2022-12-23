@@ -16,7 +16,6 @@ namespace WPF_Visualize;
 public partial class Statistics : UserControl
 {
 	StatisticsController StatsController;
-	ClassStatistics classStats;
 	Database database;
 	List<string> letterstatistics;
 	List<string> wordstatistics;
@@ -45,7 +44,7 @@ public partial class Statistics : UserControl
 		totalstatistics = StatsController.TotalStatistics;
 		pupilname = StatsController.PupilName;
 
-		//StatisticsClassId = classStats.GetStatisticsClassID(); //werkt niet bruv
+		StatisticsClassId = ClassStatistics.S_ClassId;
 
 		InitializeComponent();
 		_InitializeLabels();
@@ -91,10 +90,11 @@ public partial class Statistics : UserControl
 
 	private void OnBack(object sender, RoutedEventArgs e)
 	{
-
-		if (classStats.IsTeacher)
+		ClassStatistics classStats = new ClassStatistics(StatisticsClassId);
+		classStats.StatisticsClassId = StatisticsClassId;
+		if (LoginController.S_IsTeacher)
 		{
-			UserControlController.MainWindowChange(this, new ClassStatistics(StatisticsClassId));
+			UserControlController.MainWindowChange(this, classStats);
 		}
 		else
 		{

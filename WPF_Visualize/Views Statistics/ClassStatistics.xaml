@@ -22,17 +22,34 @@
 		<Button x:Name="Back" Content="Terug" Grid.Row="0" Click="OnBack" Style="{StaticResource HeaderButton}"/>
 		<Label Content="Klas statistieken" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="20" VerticalAlignment="Top" FontSize="40" Style="{StaticResource LabelsWelcome}"/>
 
-		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Width="1200" Height="730" CornerRadius="10" Margin="50,0,25,0" BorderThickness="0.2" VerticalAlignment="Center">
-			<ScrollViewer Grid.Row="1" Grid.Column="1" Width="1200" Height="700">
-				<StackPanel x:Name="StudentsPanel" Margin="50,0,50,0" Orientation="Vertical">
-					<StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-						<Label Content="Naam" FontSize="25" Foreground="White" Width="90" Margin="0,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
-						<Label Content="Score" FontSize="25" Foreground="White" Width="85" Margin="170,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
-						<Label Content="Gemaakte opdrachten" FontSize="25" Foreground="White" Width="270" Margin="100,0,0,0" Style="{StaticResource LabelsLeaderboard}"/>
-					</StackPanel>
+		<Grid Grid.Row="1" Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*" MinHeight="50" MaxHeight="50"/>
+				<RowDefinition Height="8*" MaxHeight="700" MinHeight="700"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.5*"/>
+				<ColumnDefinition Width="10*" MinWidth="1100" MaxWidth="1100"/>
+				<ColumnDefinition Width="0.5*"/>
+			</Grid.ColumnDefinitions>
+
+			<Border BorderBrush="#1c313a" Background="#1c313a" Height="120" Margin="0,0,0,-25" Grid.Row="0" Grid.Column="1" CornerRadius="10" BorderThickness="0.2" VerticalAlignment="Top">
+				<StackPanel Orientation="Horizontal">
+					<Button Content="Naam" Click="OnName" FontSize="25" Foreground="White" Width="90" Margin="50,20,0,0" Style="{StaticResource ClassStatisticsButton}"/>
+					<Button Content="Score" Click="OnScore" FontSize="25" Foreground="White" Width="85" Margin="165,20,0,0" Style="{StaticResource ClassStatisticsButton}"/>
+					<Button Content="Gemaakte opdrachten" Click="OnAssignmentsMade" FontSize="25" Foreground="White" Width="270" Margin="170,20,0,0" Style="{StaticResource ClassStatisticsButton}"/>
 				</StackPanel>
-			</ScrollViewer>
-		</Border>
-		
+			</Border>
+
+			<Border BorderBrush="#1c313a" Background="#1c313a" Height="670" Grid.Row="1" Grid.Column="1" CornerRadius="10" BorderThickness="0.2" VerticalAlignment="Center">
+				<ScrollViewer Margin="50,50,0,50">
+					<StackPanel x:Name="StudentsPanel" Margin="0,0,50,0" Orientation="Vertical">
+						<StackPanel Orientation="Horizontal" Width="917">
+							
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
+			</Border>
+		</Grid>
 	</Grid>
 </UserControl>

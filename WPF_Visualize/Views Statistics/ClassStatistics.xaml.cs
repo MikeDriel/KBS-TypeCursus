@@ -17,6 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.Views_Navigate;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using VerticalAlignment = System.Windows.VerticalAlignment;
 
 namespace WPF_Visualize.Views_Statistics
 {
@@ -26,17 +28,25 @@ namespace WPF_Visualize.Views_Statistics
 	public partial class ClassStatistics : UserControl
 	{
 		private Database _database;
-
-		public int StatisticsClassId { get; set; }
 		public List<List<string>> ClassStatisticsList { get; private set; }
 		public List<string> UserIds { get; private set; }
-		public bool IsTeacher { get; set; } = true;
+		
+		public bool IsTeacher => true;
+		public int StatisticsClassId { get; set; }
+		public static int S_ClassId { get; set; }
+
+		//[0] = pupilid
+		//[1] = firstname
+		//[2] = lastname
+		//[3] = score
+		//[4] = assignmentsmade
 
 		public ClassStatistics(int classid)
 		{
 			_database = new();
 
-			SetStatisticsClassID(classid);
+			StatisticsClassId = classid;
+			S_ClassId = classid;
 
 			InitializeComponent();
 			InitializeClassStatistics();
@@ -49,21 +59,11 @@ namespace WPF_Visualize.Views_Statistics
 			ClassStatisticsList = _database.GenerateClassStatistics(UserIds.Select(int.Parse).ToList(), StatisticsClassId);
 		}
 
-		private void SetStatisticsClassID(int classid)
-		{
-			StatisticsClassId = classid;
-		}
-		
-		public int GetStatisticsClassID()
-		{
-			return StatisticsClassId;
-		}
-
 		private void AddPupilsToStackPanel()
 		{
+
 			foreach (List<string> pupil in ClassStatisticsList)
 			{
-
 				var stackpanel = new StackPanel
 				{
 					Orientation = Orientation.Horizontal
@@ -87,27 +87,64 @@ namespace WPF_Visualize.Views_Statistics
 
 				var labelassignmentscompleted = new Label
 				{
-					Content = "null",
+					Content = pupil[4],
 					Foreground = Brushes.White,
 					FontSize = 25,
-					Width = 500,
+					Width = 250,
 				};
 
 				var button = new Button
 				{
 					Content = "Meer info",
-					Style = (Style)FindResource("ClassSelecterButton"),
+					Style = (Style)FindResource("StatisticsMoreInfoButton"),
+					FontSize = 16,
 				};
-				button.Click += (sender, args) => UserControlController.MainWindowChange(this, new Statistics(int.Parse(pupil[0])));
 
+				button.Click += (sender, args) => UserControlController.MainWindowChange(this, new Statistics(int.Parse(pupil[0])));
 
 				stackpanel.Children.Add(labelname);
 				stackpanel.Children.Add(labelscore);
 				stackpanel.Children.Add(labelassignmentscompleted);
-				StudentsPanel.Children.Add(button);
+				stackpanel.Children.Add(button);
 
 				StudentsPanel.Children.Add(stackpanel);
 			}
+		}
+
+		/// <summary>
+		/// Order ClassStatisticsList by name.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnName(object sender, RoutedEventArgs e)
+		{
+			ClassStatisticsList.Sort((x,y) => String.CompareOrdinal(x[1], y[2]));
+			StudentsPanel.Children.Clear();
+			AddPupilsToStackPanel();
+		}
+
+		/// <summary>
+		/// Order ClassStatisticsList by score.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnScore(object sender, RoutedEventArgs e)
+		{
+			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x[3]).ToList(); 
+			StudentsPanel.Children.Clear();
+			AddPupilsToStackPanel();
+		}
+
+		/// <summary>
+		/// Order ClassStatisticsList by assignments made.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnAssignmentsMade(object sender, RoutedEventArgs e)
+		{
+			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x[4]).ToList();
+			StudentsPanel.Children.Clear();
+			AddPupilsToStackPanel();
 		}
 
 		private void OnBack(object sender, RoutedEventArgs e)
