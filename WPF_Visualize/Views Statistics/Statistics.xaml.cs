@@ -88,6 +88,13 @@ public partial class Statistics : UserControl
 		StoryScore.Content = storystatistics[6];
 	}
 
+	/// <summary>
+	/// Checks if the current user is a teacher,
+	/// if that's it'll go back to the class statistics window.
+	/// Otherwise it'll go back to the main menu for the pupil.
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
 	private void OnBack(object sender, RoutedEventArgs e)
 	{
 		ClassStatistics classStats = new ClassStatistics(StatisticsClassId);
