@@ -28,12 +28,11 @@ namespace WPF_Visualize.Views_Statistics
 	public partial class ClassStatistics : UserControl
 	{
 		private Database _database;
-		public List<List<string>> ClassStatisticsList { get; private set; }
-		public List<string> UserIds { get; private set; }
+		private List<List<string>> ClassStatisticsList { get; set; }
+		private List<string> UserIds { get; set; }
 		
-		public bool IsTeacher => true;
 		public int StatisticsClassId { get; set; }
-		public static int S_ClassId { get; set; }
+		public static int SClassId { get; set; }
 
 		//[0] = pupilid
 		//[1] = firstname
@@ -46,19 +45,26 @@ namespace WPF_Visualize.Views_Statistics
 			_database = new();
 
 			StatisticsClassId = classid;
-			S_ClassId = classid;
+			SClassId = classid;
 
 			InitializeComponent();
 			InitializeClassStatistics();
 			AddPupilsToStackPanel();
 		}
 
+		/// <summary>
+		/// Prepares the ClassStatisticsList which is needed to 
+		/// display the pupils on the stackpanel.
+		/// </summary>
 		private void InitializeClassStatistics()
 		{
 			UserIds = _database.GetClass(StatisticsClassId); //get the amount of pupils.
 			ClassStatisticsList = _database.GenerateClassStatistics(UserIds.Select(int.Parse).ToList(), StatisticsClassId);
 		}
 
+		/// <summary>
+		/// Adds the pupils to the stackpanel.
+		/// </summary>
 		private void AddPupilsToStackPanel()
 		{
 

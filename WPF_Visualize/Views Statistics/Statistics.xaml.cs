@@ -44,7 +44,7 @@ public partial class Statistics : UserControl
 		totalstatistics = StatsController.TotalStatistics;
 		pupilname = StatsController.PupilName;
 
-		StatisticsClassId = ClassStatistics.S_ClassId;
+		StatisticsClassId = ClassStatistics.SClassId;
 
 		InitializeComponent();
 		_InitializeLabels();

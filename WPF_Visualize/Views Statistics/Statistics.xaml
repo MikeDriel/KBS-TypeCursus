@@ -53,10 +53,10 @@
 
 		<Grid Grid.Row="2" Grid.Column="1" Margin="-44,50,0,0">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="3*" MaxWidth="500"/>
-				<ColumnDefinition Width="1*" MaxWidth="120"/>
-				<ColumnDefinition Width="1*" MaxWidth="120"/>
-				<ColumnDefinition Width="1*" MaxWidth="120"/>
+				<ColumnDefinition Width="3*" MinWidth="500" MaxWidth="500"/>
+				<ColumnDefinition Width="1*" MinWidth="120" MaxWidth="120"/>
+				<ColumnDefinition Width="1*" MinWidth="120" MaxWidth="120"/>
+				<ColumnDefinition Width="1*" MinWidth="120" MaxWidth="120"/>
 			</Grid.ColumnDefinitions>
 			<Border BorderBrush="#1c313a" Background="#1c313a" Width="300" Height="340" CornerRadius="10,0,0,10" Margin="0,0,-1,0" BorderThickness="0.2" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="0">
 				<StackPanel Margin="20,20,20,0">
