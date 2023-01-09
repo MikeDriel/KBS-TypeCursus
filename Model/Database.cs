@@ -811,12 +811,26 @@ public class Database
 		}
 	}
 	
+	public void DeleteStudent(int pupilId, int classId)
+	{
+       
+		using (var connection = new SqlConnection(DatabaseConnectionString()))
+		{
+			connection.Open();
+			var sqlDelete = "DELETE FROM Pupil WHERE PupilID = (@pupilId) AND ClassID = (@classId)";
+			var commandInsert = new SqlCommand(sqlDelete, connection);
+			commandInsert.Parameters.AddWithValue("@pupilId", pupilId);
+			commandInsert.Parameters.AddWithValue("@classId", classId);
+			commandInsert.ExecuteReader();
+			connection.Close();
+		}
+	}
 	public List<Pupil> GenerateClassStatistics(List<int> userids, int classid)
 	{
 		List<Pupil> classtatistics = new();
 		using (SqlConnection connection =
 		   new SqlConnection(DatabaseConnectionString()))
-		{getrandomPassword
+		{
 			foreach (var userid in userids)
 			{
 				string sql =
