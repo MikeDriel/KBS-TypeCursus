@@ -48,18 +48,27 @@ public partial class ClassSettings : UserControl
     private void AddCurrentsStudentsToStackPanelAndComboBox(int classId)
     {
         {
+
             List<int> pupils = Database.GetStudents(classId);
+
+
             foreach (int pupilId in pupils)
             {
+                //Check if pupilID is also in teacherController.ClassStudentsDeleted
+                if (teacherController.ClassStudentsDeleted.Contains(pupilId))
+                {
+                    continue;
+                }
+                    
                 string[] pupil = Database.GetStudentName(pupilId);
-                Label label = new Label
+                var label = new Label
                 {
                     Content = pupil[0] + " " + pupil[1],
                     Foreground = Brushes.White,
                     FontSize = 25
                 };
 
-                ComboBoxItem comboBoxItem = new ComboBoxItem
+                var comboBoxItem = new ComboBoxItem
                 {
                     Content = $"{pupil[0]} {pupil[1]}",
                     Name = $"_{pupilId}"
@@ -70,6 +79,32 @@ public partial class ClassSettings : UserControl
                 StudentListPanel.Children.Add(label);
                 ComboBoxStudents.Items.Add(comboBoxItem);
 
+            }
+        }
+
+        /// <summary>
+        /// Add the students that are newly added to the stackpanel, used when it's a new class / or when there are new students
+        /// </summary>
+        /// <param name="Pupils"></param>
+        private void AddCurrentsStudentsToStackPanelAndComboBox(List<string[]> Pupils)
+        {
+            foreach (string[] pupil in Pupils)
+            {
+
+                var label = new Label
+                {
+                    Content = pupil[0] + " " + pupil[1],
+                    Foreground = Brushes.White,
+                    FontSize = 25
+                };
+
+                var comboBoxItem = new ComboBoxItem
+                {
+                    Content = $"{pupil[0]} {pupil[1]}"
+                };
+
+                StudentListPanel.Children.Add(label);
+                ComboBoxStudents.Items.Add(comboBoxItem);
             }
         }
     }
@@ -131,47 +166,49 @@ public partial class ClassSettings : UserControl
         }
     }
 
-    /// <summary>
-    ///     Confirm button, 2 possibilty's depending on if it's  a new class or already existed class.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// // To do: fix deze troep
-    private void OnConfirm(object sender, RoutedEventArgs e)
-    {
-        bool informationCorrect = false;
-        if (IsNewClass)
+        /// <summary>
+        /// Confirm button, 2 possibilty's depending on if it's  a new class or already existed class.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnConfirm(object sender, RoutedEventArgs e)
         {
-            informationCorrect = teacherController.AddNewClassToDatabase(user_id, tbClassName.Text);
-            teacherController.SwitchScreen(classId, informationCorrect);
-        }
-        else
-        {
-            bool classNameChanged;
-            if (Database.GetClassName(classId) == tbClassName.Text)
+            bool informationCorrect = false;
+            if (IsNewClass)
             {
-                informationCorrect = true;
+                informationCorrect = teacherController.AddNewClassToDatabase(user_id, tbClassName.Text);
+                teacherController.SwitchScreen(classId, informationCorrect, true);
             }
             else
             {
-                informationCorrect = !Database.CheckIfClassExists(user_id, tbClassName.Text);
-            }
+                bool classNameChanged;
+                if (Database.GetClassName(classId) == tbClassName.Text)
+                {
+                    informationCorrect = true;
+                }
+                else
+                {
+                    informationCorrect = !Database.CheckIfClassExists(user_id, tbClassName.Text);
+                }
 
-            if (informationCorrect)
-            {
-                teacherController.UpdateClassName(classId, tbClassName.Text);
-                teacherController.AddStudentsToDatabase(classId);
-                teacherController.DeleteStudentsFromDatabase(classId);
-                teacherController.SwitchScreen(classId, true);
-            }
-            else
-            {
-                teacherController.SwitchScreen(classId, false);
+                if (informationCorrect)
+                {
+                    teacherController.UpdateClassName(classId, tbClassName.Text);
+                    bool newStudentsAdded = teacherController.AddStudentsToDatabase(classId);
+                    teacherController.DeleteStudentsFromDatabase(classId);
+                    teacherController.SwitchScreen(classId, true, newStudentsAdded);
+                }
+                else
+                {
+                    teacherController.SwitchScreen(classId, false, false);
+                }
+
+
             }
 
 
         }
-    }
+    
 
     /// <summary>
     ///     When new student is added, it adds it to the student list to the right of the screen.
@@ -189,63 +226,79 @@ public partial class ClassSettings : UserControl
     }
 
     private void OnStudentRemove(object sender, RoutedEventArgs e)
-    {
-        if (ComboBoxStudents.SelectedItem != null)
         {
-            string Pupilid = ComboBoxStudents.SelectedValue.ToString().Replace("_", "");
-
-            if (!string.IsNullOrEmpty(Pupilid))
+            if (ComboBoxStudents.SelectedItem != null)
             {
-                teacherController.RemovePupilFromClass(int.Parse(Pupilid));
+                string Pupilid = ComboBoxStudents.SelectedValue.ToString().Replace("_", "");
+
+                if (!string.IsNullOrEmpty(Pupilid))
+                {
+                    teacherController.RemovePupilFromClass(Int32.Parse(Pupilid));
+                }
+                else
+                {
+                    string pupilName = ComboBoxStudents.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                    teacherController.RemovePupilFromClass(pupilName);
+                }
+
+                StudentListPanel.Children.Clear();
+                ComboBoxStudents.Items.Clear();
+                //AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+                if (IsNewClass)
+                {
+                    AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+                }
+                else
+                {
+                    AddCurrentsStudentsToStackPanelAndComboBox(classId);
+                }
+
             }
-            else
+        }
+
+        private void SetStudentAddButton()
+        {
+            AddStudentButton.IsEnabled = (tbFirstName.Text != "") && (tbLastName.Text != "");
+        }
+
+        private void SetConfirmButton()
+        {
+            ConfirmButton.IsEnabled = tbClassName.Text != "";
+        }
+
+        private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetStudentAddButton();
+        }
+
+        private void tbLastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetStudentAddButton();
+        }
+
+        private void tbClassName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetConfirmButton();
+        }
+
+
+        private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
+        {
+            if (e.InformationIsCorrect)
             {
-                teacherController.RemovePupilFromClass(ComboBoxStudents.SelectedItem.ToString());
+                UserControlController.MainWindowChange(this, new TeacherMain(e.ClassId));
+            }
+            else if (!e.InformationIsCorrect)
+            {
+                ErrorText.Visibility = Visibility.Visible;
             }
 
-            StudentListPanel.Children.Clear();
-            ComboBoxStudents.Items.Clear();
-            AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+            if (e.NewStudentsAdded)
+            {
+                MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
+            }
         }
-    }
-
-    private void SetStudentAddButton()
-    {
-        AddStudentButton.IsEnabled = tbFirstName.Text != "" && tbLastName.Text != "";
-    }
-
-    private void SetConfirmButton()
-    {
-        ConfirmButton.IsEnabled = tbClassName.Text != "";
-    }
-
-    private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        SetStudentAddButton();
-    }
-
-    private void tbLastName_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        SetStudentAddButton();
-    }
-
-    private void tbClassName_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        SetConfirmButton();
-    }
 
 
-    private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
-    {
-        if (e.InformationIsCorrect)
-        {
-            MessageBox.Show("De klas is toegevoegd/geupdate, wanneer er nieuwe leerlingen zijn toegevoegd staat er een PDF bestand in de dowload map op uw computer.");
-            //MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
-            UserControlController.MainWindowChange(this, new TeacherMain(e.ClassId));
-        }
-        else if (!e.InformationIsCorrect)
-        {
-            ErrorText.Visibility = Visibility.Visible;
-        }
     }
 }
