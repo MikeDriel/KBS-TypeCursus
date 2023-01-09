@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
+using WPF_Visualize.Views_Navigate;
 namespace WPF_Visualize.Views_Statistics;
 
 /// <summary>

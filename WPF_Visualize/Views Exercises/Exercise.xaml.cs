@@ -9,8 +9,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using WPF_Visualize.ViewLogic;
+using WPF_Visualize.Views_Navigate;
 using WPF_Visualize.Views_Statistics;
-namespace WPF_Visualize;
+namespace WPF_Visualize.Views_Exercises;
 
 /// <summary>
 ///     Interaction logic for UserControl1.xaml

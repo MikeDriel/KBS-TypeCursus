@@ -3,7 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
-namespace WPF_Visualize;
+using WPF_Visualize.Views_Statistics;
+namespace WPF_Visualize.Views_Navigate;
 
 /// <summary>
 ///     Interaction logic for StudentMain.xaml

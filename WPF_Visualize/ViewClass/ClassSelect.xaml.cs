@@ -5,14 +5,15 @@ using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
-namespace WPF_Visualize.Views_Navigate;
+using WPF_Visualize.Views_Navigate;
+namespace WPF_Visualize.ViewClass;
 
 /// <summary>
 ///     Interaction logic for ClassSelect.xaml
 /// </summary>
 public partial class ClassSelect : UserControl
 {
-    private readonly int user_id = LoginController.GetUserId();
+    private readonly int _userId = LoginController.GetUserId();
     public Database Database = new Database();
     public ClassSelect()
     {
@@ -23,7 +24,7 @@ public partial class ClassSelect : UserControl
     private void AddButtonsForClasses()
     {
 
-        List<int> classes = Database.GetClasses(user_id);
+        List<int> classes = Database.GetClasses(_userId);
         foreach (int classId in classes)
         {
             string className = Database.GetClassName(classId);

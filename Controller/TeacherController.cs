@@ -82,10 +82,7 @@ public class TeacherController
             AddStudentsToDatabase(classId);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /// <summary>

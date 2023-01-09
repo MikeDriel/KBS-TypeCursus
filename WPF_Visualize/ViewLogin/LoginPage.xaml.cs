@@ -1,6 +1,7 @@
 ﻿using Controller;
 using System.Windows;
 using System.Windows.Controls;
+using WPF_Visualize.ViewClass;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.Views_Navigate;
 namespace WPF_Visualize.ViewLogin;

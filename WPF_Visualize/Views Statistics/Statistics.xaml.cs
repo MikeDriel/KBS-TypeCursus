@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
-using WPF_Visualize.Views_Statistics;
-namespace WPF_Visualize;
+using WPF_Visualize.Views_Navigate;
+namespace WPF_Visualize.Views_Statistics;
 
 /// <summary>
 ///     Interaction logic for Statistics.xaml

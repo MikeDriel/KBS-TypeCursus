@@ -2,7 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
-namespace WPF_Visualize;
+using WPF_Visualize.Views_Exercises;
+namespace WPF_Visualize.Views_Navigate;
 
 /// <summary>
 ///     Interaction logic for ExerciseSelect.xaml
