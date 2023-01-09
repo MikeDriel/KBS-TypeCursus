@@ -755,14 +755,21 @@ public class Database
 
 	private void SetSizeExercise(int sizeScore, int maxscore, int score, int minSize)
 	{
+		int maxsize = 30;
+		
 		if (score > maxscore)
 		{
 			score = maxscore;
 		}
-		SizeExercise = ((((maxscore / 5) * sizeScore) - score) * minSize);
+		SizeExercise = (maxscore / 5 * sizeScore - score) * minSize;
 		if (SizeExercise <= 0)
 		{
 			SizeExercise = minSize;
+		}
+
+		if (SizeExercise > maxsize)
+		{
+			SizeExercise = maxsize;
 		}
 	}
 
