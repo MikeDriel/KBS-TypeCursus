@@ -146,7 +146,7 @@ public partial class ClassSettings : UserControl
         if (_isNewClass)
         {
             informationCorrect = _teacherController.AddNewClassToDatabase(_userId, tbClassName.Text);
-            _teacherController.SwitchScreen(_classId, informationCorrect, true);
+            _teacherController.SwitchScreen(_teacherController.ClassId, informationCorrect, true);
         }
         else
         {
