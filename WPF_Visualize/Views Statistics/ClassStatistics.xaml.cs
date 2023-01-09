@@ -28,17 +28,11 @@ namespace WPF_Visualize.Views_Statistics
 	public partial class ClassStatistics : UserControl
 	{
 		private Database _database;
-		private List<List<string>> ClassStatisticsList { get; set; }
+		private List<Pupil> ClassStatisticsList { get; set; }
 		private List<string> UserIds { get; set; }
 		
 		public int StatisticsClassId { get; set; }
 		public static int SClassId { get; set; }
-
-		//[0] = pupilid
-		//[1] = firstname
-		//[2] = lastname
-		//[3] = score
-		//[4] = assignmentsmade
 
 		public ClassStatistics(int classid)
 		{
@@ -68,7 +62,7 @@ namespace WPF_Visualize.Views_Statistics
 		private void AddPupilsToStackPanel()
 		{
 
-			foreach (List<string> pupil in ClassStatisticsList)
+			foreach (var pupil in ClassStatisticsList)
 			{
 				var stackpanel = new StackPanel
 				{
@@ -77,7 +71,7 @@ namespace WPF_Visualize.Views_Statistics
 
 				var labelname = new Label
 				{
-					Content = $"{pupil[1]} {pupil[2]}",
+					Content = $"{pupil.Lastname}, {pupil.Firstname}",
 					FontSize = 25,
 					Foreground = Brushes.White,
 					Width = 260,
@@ -85,7 +79,7 @@ namespace WPF_Visualize.Views_Statistics
 
 				var labelscore = new Label
 				{
-					Content = pupil[3],
+					Content = pupil.Score,
 					Foreground = Brushes.White,
 					FontSize = 25,
 					Width = 250,
@@ -93,7 +87,7 @@ namespace WPF_Visualize.Views_Statistics
 
 				var labelassignmentscompleted = new Label
 				{
-					Content = pupil[4],
+					Content = pupil.AssignmentsMade,
 					Foreground = Brushes.White,
 					FontSize = 25,
 					Width = 250,
@@ -106,7 +100,7 @@ namespace WPF_Visualize.Views_Statistics
 					FontSize = 16,
 				};
 
-				button.Click += (sender, args) => UserControlController.MainWindowChange(this, new Statistics(int.Parse(pupil[0])));
+				button.Click += (sender, args) => UserControlController.MainWindowChange(this, new Statistics(pupil.PupilID));
 
 				stackpanel.Children.Add(labelname);
 				stackpanel.Children.Add(labelscore);
@@ -124,7 +118,7 @@ namespace WPF_Visualize.Views_Statistics
 		/// <param name="e"></param>
 		private void OnName(object sender, RoutedEventArgs e)
 		{
-			ClassStatisticsList.Sort((x,y) => String.CompareOrdinal(x[1], y[2]));
+			ClassStatisticsList = ClassStatisticsList.OrderBy(x => x.Lastname).ToList();
 			StudentsPanel.Children.Clear();
 			AddPupilsToStackPanel();
 		}
@@ -136,7 +130,7 @@ namespace WPF_Visualize.Views_Statistics
 		/// <param name="e"></param>
 		private void OnScore(object sender, RoutedEventArgs e)
 		{
-			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x[3]).ToList(); 
+			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x.Score).ToList();
 			StudentsPanel.Children.Clear();
 			AddPupilsToStackPanel();
 		}
@@ -148,15 +142,16 @@ namespace WPF_Visualize.Views_Statistics
 		/// <param name="e"></param>
 		private void OnAssignmentsMade(object sender, RoutedEventArgs e)
 		{
-			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x[4]).ToList();
+			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x.AssignmentsMade).ToList();
 			StudentsPanel.Children.Clear();
 			AddPupilsToStackPanel();
 		}
 
 		private void OnBack(object sender, RoutedEventArgs e)
 		{
-			//_cleanup();
 			UserControlController.MainWindowChange(this, new TeacherMain(LoginController.GetUserId()));
 		}
 	}
+
+
 }

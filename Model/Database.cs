@@ -297,14 +297,13 @@ public class Database
 		using (var connection = new SqlConnection(DatabaseConnectionString()))
 		{
 			connection.Open();
-			var sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password, UnHashedPasswords)" + "output inserted.PupilID " + "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword),(@UnhashedPassword))";
+			var sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password)" + "output inserted.PupilID " + "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword))";
 			var commandInsert = new SqlCommand(sqlInsert, connection);
 			commandInsert.Parameters.AddWithValue("@FirstName", student[0]);
 			commandInsert.Parameters.AddWithValue("@LastName", student[1]);
 			commandInsert.Parameters.AddWithValue("@classId", classId);
 			commandInsert.Parameters.AddWithValue("@UserName", Username);
 			commandInsert.Parameters.AddWithValue("@HashedPassword", HashedPassword);
-			commandInsert.Parameters.AddWithValue("@UnhashedPassword", UnhashedPassword);
 			newPupilId = commandInsert.ExecuteScalar();
 			connection.Close();
 		}
@@ -805,9 +804,9 @@ public class Database
 		}
 	}
 	
-	public List<List<string>> GenerateClassStatistics(List<int> userids, int classid)
+	public List<Pupil> GenerateClassStatistics(List<int> userids, int classid)
 	{
-		List<List<string>> leaderboard = new();
+		List<Pupil> classtatistics = new();
 		using (SqlConnection connection =
 		   new SqlConnection(DatabaseConnectionString()))
 		{
@@ -824,11 +823,11 @@ public class Database
 				SqlDataReader reader = command.ExecuteReader();
 				while (reader.Read())
 				{
-					leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString() });
+					classtatistics.Add(new Pupil(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), int.Parse(reader[3].ToString()), (int.Parse(reader[4].ToString()))));
 				}
 				connection.Close();
 			}
 		}
-		return leaderboard;
+		return classtatistics;
 	}
 }
