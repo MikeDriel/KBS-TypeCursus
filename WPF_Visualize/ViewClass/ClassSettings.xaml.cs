@@ -61,30 +61,37 @@ namespace WPF_Visualize.Views_Navigate
         /// <param name="classId"></param>
         private void AddCurrentsStudentsToStackPanelAndComboBox(int classId)
         {
+
+            List<int> pupils = Database.GetStudents(classId);
+
+
+            foreach (int pupilId in pupils)
             {
-                List<int> pupils = Database.GetStudents(classId);
-                foreach (int pupilId in pupils)
+                //Check if pupilID is also in teacherController.ClassStudentsDeleted
+                if (teacherController.ClassStudentsDeleted.Contains(pupilId))
                 {
-                    string[] pupil = Database.GetStudentName(pupilId);
-                    var label = new Label
-                    {
-                        Content = pupil[0] + " " + pupil[1],
-                        Foreground = Brushes.White,
-                        FontSize = 25
-                    };
-
-                    var comboBoxItem = new ComboBoxItem
-                    {
-                        Content = $"{pupil[0]} {pupil[1]}",
-                        Name = $"_{pupilId}"
-                    };
-
-
-
-                    StudentListPanel.Children.Add(label);
-                    ComboBoxStudents.Items.Add(comboBoxItem);
-
+                    continue;
                 }
+                    
+                string[] pupil = Database.GetStudentName(pupilId);
+                var label = new Label
+                {
+                    Content = pupil[0] + " " + pupil[1],
+                    Foreground = Brushes.White,
+                    FontSize = 25
+                };
+
+                var comboBoxItem = new ComboBoxItem
+                {
+                    Content = $"{pupil[0]} {pupil[1]}",
+                    Name = $"_{pupilId}"
+                };
+
+
+
+                StudentListPanel.Children.Add(label);
+                ComboBoxStudents.Items.Add(comboBoxItem);
+
             }
         }
 
@@ -94,27 +101,23 @@ namespace WPF_Visualize.Views_Navigate
         /// <param name="Pupils"></param>
         private void AddCurrentsStudentsToStackPanelAndComboBox(List<string[]> Pupils)
         {
+            foreach (string[] pupil in Pupils)
             {
-                foreach (string[] pupil in Pupils)
+
+                var label = new Label
                 {
+                    Content = pupil[0] + " " + pupil[1],
+                    Foreground = Brushes.White,
+                    FontSize = 25
+                };
 
-                    var label = new Label
-                    {
-                        Content = pupil[0] + " " + pupil[1],
-                        Foreground = Brushes.White,
-                        FontSize = 25
-                    };
+                var comboBoxItem = new ComboBoxItem
+                {
+                    Content = $"{pupil[0]} {pupil[1]}"
+                };
 
-                    var comboBoxItem = new ComboBoxItem
-                    {
-                        Content = $"{pupil[0]} {pupil[1]}"
-                    };
-
-                    StudentListPanel.Children.Add(label);
-                    ComboBoxStudents.Items.Add(comboBoxItem);
-                }
-
-
+                StudentListPanel.Children.Add(label);
+                ComboBoxStudents.Items.Add(comboBoxItem);
             }
         }
 
@@ -149,14 +152,13 @@ namespace WPF_Visualize.Views_Navigate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// // To do: fix deze troep
         private void OnConfirm(object sender, RoutedEventArgs e)
         {
             bool informationCorrect = false;
             if (IsNewClass)
             {
                 informationCorrect = teacherController.AddNewClassToDatabase(user_id, tbClassName.Text);
-                teacherController.SwitchScreen(classId, informationCorrect);
+                teacherController.SwitchScreen(classId, informationCorrect, true);
             }
             else
             {
@@ -164,21 +166,22 @@ namespace WPF_Visualize.Views_Navigate
                 if (Database.GetClassName(classId) == tbClassName.Text)
                 {
                     informationCorrect = true;
-                } else
-                {
-                    informationCorrect = !Database.CheckIfClassExists(user_id, tbClassName.Text);
-                }
-                
-                if (informationCorrect)
-                {
-                    teacherController.UpdateClassName(classId, tbClassName.Text);
-                    teacherController.AddStudentsToDatabase(classId);
-                    teacherController.DeleteStudentsFromDatabase(classId);
-                    teacherController.SwitchScreen(classId, true);
                 }
                 else
                 {
-                    teacherController.SwitchScreen(classId, false);
+                    informationCorrect = !Database.CheckIfClassExists(user_id, tbClassName.Text);
+                }
+
+                if (informationCorrect)
+                {
+                    teacherController.UpdateClassName(classId, tbClassName.Text);
+                    bool newStudentsAdded = teacherController.AddStudentsToDatabase(classId);
+                    teacherController.DeleteStudentsFromDatabase(classId);
+                    teacherController.SwitchScreen(classId, true, newStudentsAdded);
+                }
+                else
+                {
+                    teacherController.SwitchScreen(classId, false, false);
                 }
 
 
@@ -212,12 +215,22 @@ namespace WPF_Visualize.Views_Navigate
                 }
                 else
                 {
-                    teacherController.RemovePupilFromClass(ComboBoxStudents.SelectedItem.ToString());
+                    string pupilName = ComboBoxStudents.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
+                    teacherController.RemovePupilFromClass(pupilName);
                 }
 
                 StudentListPanel.Children.Clear();
                 ComboBoxStudents.Items.Clear();
-                AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+                //AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+                if (IsNewClass)
+                {
+                    AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
+                }
+                else
+                {
+                    AddCurrentsStudentsToStackPanelAndComboBox(classId);
+                }
+
             }
         }
 
@@ -251,13 +264,16 @@ namespace WPF_Visualize.Views_Navigate
         {
             if (e.InformationIsCorrect)
             {
-                MessageBox.Show("De klas is toegevoegd/geupdate, wanneer er nieuwe leerlingen zijn toegevoegd staat er een PDF bestand in de dowload map op uw computer.");
-                //MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
                 UserControlController.MainWindowChange(this, new TeacherMain(e.ClassId));
             }
             else if (!e.InformationIsCorrect)
             {
                 ErrorText.Visibility = Visibility.Visible;
+            }
+
+            if (e.NewStudentsAdded)
+            {
+                MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
             }
         }
 

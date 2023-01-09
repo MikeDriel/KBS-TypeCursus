@@ -102,7 +102,7 @@ namespace Controller
         /// Add newly added students to the database
         /// </summary>
         /// <param name="classId"></param>
-        public void AddStudentsToDatabase(int classId)
+        public bool AddStudentsToDatabase(int classId)
         {
             Dictionary<int, string> studentsInformation = new Dictionary<int, string>();
             foreach (string[] student in ClassStudentsNewlyAdded)
@@ -114,7 +114,10 @@ namespace Controller
             if (studentsInformation.Count > 0)
             {
                 MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
+                return true;
             }
+
+            return false;
         }
 
         public void DeleteStudentsFromDatabase(int classId)
@@ -159,15 +162,15 @@ namespace Controller
             UserNameAndPasswordList.Save(GetDownloadFolderPath() + "/" + filename);
         }
 
-        public void SwitchScreen(int classId, bool informationIsCorrect)
+        public void SwitchScreen(int classId, bool informationIsCorrect, bool newStudentsAdded)
         {
             if (informationIsCorrect)
             {
-                TeacherEvent?.Invoke(this, new TeacherEventArgs(true, classId));
+                TeacherEvent?.Invoke(this, new TeacherEventArgs(true, classId, newStudentsAdded));
             }
             else
             {
-                TeacherEvent?.Invoke(this, new TeacherEventArgs(false, -1));
+                TeacherEvent?.Invoke(this, new TeacherEventArgs(false, -1, newStudentsAdded));
             }
 
 
@@ -181,16 +184,17 @@ namespace Controller
         }
     }
 
-    //EVENT FOR LIVE STATISTICS UPDATE
     public class TeacherEventArgs : EventArgs
     {
         public bool InformationIsCorrect { get; set; }
+        public bool NewStudentsAdded { get; set; }
         public int ClassId { get; set; }
 
-        public TeacherEventArgs(bool informationIsCorrect, int classId)
+        public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
         {
             InformationIsCorrect = informationIsCorrect;
             ClassId = classId;
+            NewStudentsAdded = newStudentsAdded;
         }
     }
 }
