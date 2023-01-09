@@ -174,7 +174,6 @@ public partial class ClassSettings : UserControl
         }
     }
 
-
     /// <summary>
     ///     When new student is added, it adds it to the student list to the right of the screen.
     /// </summary>
@@ -217,7 +216,6 @@ public partial class ClassSettings : UserControl
             {
                 AddCurrentsStudentsToStackPanelAndComboBox(_classId);
             }
-
         }
     }
 
@@ -245,7 +243,6 @@ public partial class ClassSettings : UserControl
     {
         SetConfirmButton();
     }
-
 
     private void TeacherController_TeacherEvent(object sender, TeacherEventArgs e)
     {
