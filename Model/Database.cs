@@ -305,14 +305,13 @@ public class Database
         using (var connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            var sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password, UnHashedPasswords)"  + "output inserted.PupilID " + "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword),(@UnhashedPassword))";
+            var sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password)"  + "output inserted.PupilID " + "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword))";
             var commandInsert = new SqlCommand(sqlInsert, connection);
             commandInsert.Parameters.AddWithValue("@FirstName", student[0]);
             commandInsert.Parameters.AddWithValue("@LastName", student[1]);
             commandInsert.Parameters.AddWithValue("@classId", classId);
             commandInsert.Parameters.AddWithValue("@UserName", Username);
             commandInsert.Parameters.AddWithValue("@HashedPassword", HashedPassword);
-            commandInsert.Parameters.AddWithValue("@UnhashedPassword", UnhashedPassword);
             newPupilId = commandInsert.ExecuteScalar();
             connection.Close();
         }
