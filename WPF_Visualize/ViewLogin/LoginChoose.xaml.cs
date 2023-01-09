@@ -1,8 +1,7 @@
-﻿using System.Windows;
+﻿using Controller;
+using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
-using Controller;
-
 namespace WPF_Visualize.ViewLogin;
 
 /// <summary>
@@ -29,6 +28,6 @@ public partial class LoginChoose : UserControl
 
     private void OnAfsluiten(object sender, RoutedEventArgs e)
     {
-        Application.Current.Shutdown();        
+        Application.Current.Shutdown();
     }
 }

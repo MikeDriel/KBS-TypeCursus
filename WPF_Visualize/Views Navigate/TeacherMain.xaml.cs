@@ -1,11 +1,9 @@
-﻿using System.Windows;
+﻿using Model;
+using System.Windows;
 using System.Windows.Controls;
-using Controller;
-using Model;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
 using WPF_Visualize.Views_Statistics;
-
 namespace WPF_Visualize.Views_Navigate;
 
 /// <summary>
@@ -13,8 +11,8 @@ namespace WPF_Visualize.Views_Navigate;
 /// </summary>
 public partial class TeacherMain : UserControl
 {
-    public Database Database = new();
-    int classId;
+    private readonly int classId;
+    public Database Database = new Database();
     public TeacherMain(int classId)
     {
         InitializeComponent();
@@ -24,15 +22,15 @@ public partial class TeacherMain : UserControl
 
     private void setClassNameLabel(int classId)
     {
-        var className = Database.GetClassName(classId);
+        string className = Database.GetClassName(classId);
         ClassNameLabel.Content = $"Gekozen klas: {className}";
     }
 
     private void OnClassStatistics(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new ClassStatistics(this.classId));
+        UserControlController.MainWindowChange(this, new ClassStatistics(classId));
     }
-    
+
     private void OnClassSettings(object sender, RoutedEventArgs e)
     {
         UserControlController.MainWindowChange(this, new ClassSettings(classId));
@@ -40,7 +38,7 @@ public partial class TeacherMain : UserControl
 
     private void OnBack(object sender, RoutedEventArgs e)
     {
-        
+
         UserControlController.MainWindowChange(this, new ClassSelect());
     }
 

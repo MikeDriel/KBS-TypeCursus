@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-
 namespace WPF_Visualize;
 
 /// <summary>

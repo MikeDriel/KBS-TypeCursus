@@ -1,5 +1,4 @@
 using Controller;
-using Model;
 namespace TestProject;
 
 public class LoginControllerTests
@@ -26,5 +25,4 @@ public class LoginControllerTests
             Assert.Fail();
         }
     }
-
 }

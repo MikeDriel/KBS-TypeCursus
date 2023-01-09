@@ -1,8 +1,7 @@
-﻿using System.Windows;
+﻿using Model;
+using System.Windows;
 using System.Windows.Controls;
-using Model;
 using WPF_Visualize.ViewLogic;
-
 namespace WPF_Visualize;
 
 /// <summary>

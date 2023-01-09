@@ -1,12 +1,9 @@
-using System;
+using Model;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using Model;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
 using WPF_Visualize.Views_Navigate;
-
 namespace WPF_Visualize;
 
 /// <summary>
@@ -14,7 +11,7 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly Database database = new();
+    private readonly Database database = new Database();
 
     public MainWindow()
     {

@@ -1,29 +1,26 @@
 ﻿using Model;
 using System.Timers;
-using static System.Formats.Asn1.AsnWriter;
 using Timer = System.Timers.Timer;
-
 namespace Controller;
 
 public class ExerciseStatisticsController
 {
-    private Database _database;
-    private int _maxTime;
+    private readonly Database _database;
+    private readonly int _longestTimePerChar = 30;
+    private readonly int _maxTime;
     private readonly Timer _timer;
     private char _currentKey;
     private bool _hasBeenWrong;
-    private readonly int _longestTimePerChar = 30;
 
     private char? _lastKey;
 
     //int that contains the amount of correct typed characters before the current second (necessary to calculate the amount of characters typed in 1 certain second)
     private int _numberOfCorrectLastSecond;
-
     private bool _timeUp;
 
     public ExerciseStatisticsController(int maxTime)
     {
-        _database = new();
+        _database = new Database();
         _maxTime = maxTime;
         TimeLeft = maxTime;
         CharactersPerSecond = new Dictionary<int, int>();
@@ -84,7 +81,7 @@ public class ExerciseStatisticsController
 
     private void UpdateCharactersPerSecond()
     {
-        var Key = CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600;
+        int Key = CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600;
         if (!CharactersPerSecond.ContainsKey(Key))
         {
             CharactersPerSecond.Add(Key, NumberCorrect - _numberOfCorrectLastSecond);
@@ -148,10 +145,11 @@ public class ExerciseStatisticsController
         // Calculation = ((Correct answers - Incorrect answers) / total time ) * difficulty 
         // difficulty is a placeholder as it's not in this current branch
         double score;
-        if ((int)CurrentTime.Second != 0)
+        if (CurrentTime.Second != 0)
         {
-            score = (NumberCorrect - NumberOfMistakes) / ((double)CurrentTime.Second +(double)CurrentTime.Minute * 60 + (double)CurrentTime.Hour * 3600) * 4;
-        } else
+            score = (NumberCorrect - NumberOfMistakes) / (CurrentTime.Second + (double)CurrentTime.Minute * 60 + (double)CurrentTime.Hour * 3600) * 4;
+        }
+        else
         {
             score = (NumberCorrect - NumberOfMistakes) * 4;
         }
@@ -161,15 +159,14 @@ public class ExerciseStatisticsController
 
 
     //public void UpdatePupilStatistics(int pupilId, int type, int amountCorrect, int amountFalse, int keyPerSec, int score)
-    public void SendStatisticInformationToDatabase( double keyPerSec)
-    {   
+    public void SendStatisticInformationToDatabase(double keyPerSec)
+    {
         if (LoginController.s_UserId != null)
         {
             int UserId = (int)LoginController.s_UserId;
             _database.UpdatePupilStatistics(UserId, ExerciseController.s_Choice, NumberCorrect, NumberOfMistakes, keyPerSec, _InitializeScore());
         }
     }
-
 }
 
 //EVENT FOR LIVE STATISTICS UPDATE

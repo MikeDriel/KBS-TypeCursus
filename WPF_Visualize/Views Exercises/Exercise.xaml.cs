@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Controller;
+using Model;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,11 +8,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Controller;
-using Model;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.Views_Statistics;
-
 namespace WPF_Visualize;
 
 /// <summary>
@@ -18,37 +17,38 @@ namespace WPF_Visualize;
 /// </summary>
 public partial class Exercise : UserControl
 {
-    public ExerciseStatisticsController? StatisticsController;
     private readonly ExerciseController _controller;
 
-    private readonly Rectangle _rectangleLetterToType =
-        new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterToType = new Rectangle
+        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    private readonly Rectangle _rectangleLetterTyped =
-        new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterTyped = new Rectangle
+        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-	public Exercise(TypeExercise choice)
-	{
-		InitializeComponent();
-		_controller = new ExerciseController(choice, Difficulty.Level1);
-		int maxTime;
-		if (choice == TypeExercise.Story)
-		{
-			maxTime = 240;
-			LettersTypedLabel.Visibility = Visibility.Hidden;
-			LettersTodoLabel.Visibility = Visibility.Hidden;
-			LetterToTypeLabel.Visibility = Visibility.Hidden;
-		}
-		else
-		{
-			maxTime = 5;
-			RichTextBoxStory.Visibility = Visibility.Hidden;
-		}
-		
-		StatisticsController = new ExerciseStatisticsController(maxTime);
-		//subscribe events
-		_controller.ExerciseEvent += ExerciseEvent;
-		StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
+    public ExerciseStatisticsController? StatisticsController;
+
+    public Exercise(TypeExercise choice)
+    {
+        InitializeComponent();
+        _controller = new ExerciseController(choice, Difficulty.Level1);
+        int maxTime;
+        if (choice == TypeExercise.Story)
+        {
+            maxTime = 240;
+            LettersTypedLabel.Visibility = Visibility.Hidden;
+            LettersTodoLabel.Visibility = Visibility.Hidden;
+            LetterToTypeLabel.Visibility = Visibility.Hidden;
+        }
+        else
+        {
+            maxTime = 5;
+            RichTextBoxStory.Visibility = Visibility.Hidden;
+        }
+
+        StatisticsController = new ExerciseStatisticsController(maxTime);
+        //subscribe events
+        _controller.ExerciseEvent += ExerciseEvent;
+        StatisticsController.LiveStatisticsEvent += SetLiveStatistics;
 
         MoveLetterToTypeBoxOnCanvas();
         ChangeTextOnScreen();
@@ -69,7 +69,7 @@ public partial class Exercise : UserControl
     //Connects events to the button 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        var window = Window.GetWindow(this);
+        Window? window = Window.GetWindow(this);
         window.TextInput += TextInputPress;
     }
 
@@ -128,11 +128,11 @@ public partial class Exercise : UserControl
     private void SetRichBox()
     {
         RichTextBoxStory.Document.Blocks.Clear();
-        var i = 0;
-        var paragraph = new Paragraph();
-        foreach (var typedChar in _controller.TypedCharsList)
+        int i = 0;
+        Paragraph paragraph = new Paragraph();
+        foreach (char typedChar in _controller.TypedCharsList)
         {
-            var runColor = new Run();
+            Run runColor = new Run();
             runColor.Text = typedChar.ToString();
             if (typedChar == _controller.CorrectCharsList[i])
             {
@@ -153,9 +153,12 @@ public partial class Exercise : UserControl
             i++;
         }
 
-        var runWhite = new Run();
+        Run runWhite = new Run();
 
-        foreach (var charTotype in _controller.CharacterList) runWhite.Text += charTotype;
+        foreach (char charTotype in _controller.CharacterList)
+        {
+            runWhite.Text += charTotype;
+        }
 
         paragraph.Inlines.Add(runWhite);
         RichTextBoxStory.Document.Blocks.Add(paragraph);
@@ -171,7 +174,7 @@ public partial class Exercise : UserControl
                 LetterToTypeLabel.Foreground = Brushes.Red;
             }
 
-            var statistics = StatisticsController.GetStatistics();
+            string statistics = StatisticsController.GetStatistics();
             LiveStatisticsScreen.Content = statistics;
             TimeLeftLabel.Content = StatisticsController.TimeLeft;
         });
@@ -184,8 +187,8 @@ public partial class Exercise : UserControl
         {
             if (_controller.CharacterList.Count >= 1)
             {
-                var posX = _controller.Coordinates[_controller.CharacterList[0]][0]; //sets posx
-                var posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
+                int posX = _controller.Coordinates[_controller.CharacterList[0]][0]; //sets posx
+                int posY = _controller.Coordinates[_controller.CharacterList[0]][1]; //sets posy
 
                 if (_controller.CharacterList[0] == ' ')
                 {
@@ -211,8 +214,8 @@ public partial class Exercise : UserControl
     {
         try
         {
-            var posX = _controller.Coordinates[charTyped][0]; //sets posx
-            var posY = _controller.Coordinates[charTyped][1]; //sets posy
+            int posX = _controller.Coordinates[charTyped][0]; //sets posx
+            int posY = _controller.Coordinates[charTyped][1]; //sets posy
             _rectangleLetterTyped.Visibility = Visibility.Visible;
             if (charTyped == ' ')
             {
@@ -251,7 +254,7 @@ public partial class Exercise : UserControl
     //cleanup to prevent bugs
     private void Cleanup()
     {
-        var window = Window.GetWindow(this);
+        Window? window = Window.GetWindow(this);
         window.TextInput -= TextInputPress;
         _controller.CurrentChar = '.';
     }

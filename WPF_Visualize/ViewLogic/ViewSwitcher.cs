@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogin;
-
 namespace WPF_Visualize.ViewLogic;
 
 // Because MainWindow and the usercontrols are not really accesible from other files we 
@@ -26,7 +25,6 @@ public static class UserControlController
     {
         OnWindowChange?.Invoke(sender, new OnWindowChangeEventArgs(content));
     }
-    
 }
 
 // This is the event that we use to acces the mainwindow to change the usercontrol

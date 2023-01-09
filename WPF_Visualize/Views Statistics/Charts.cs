@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Controller;
-using OxyPlot;
+﻿using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-
+using System.Collections.Generic;
 namespace WPF_Visualize.Views_Statistics;
 
 public class Charts
@@ -13,7 +11,7 @@ public class Charts
         Data = new List<DataPoint>();
         Data.Add(new DataPoint(0, 0));
 
-        for (var i = 1; i < ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond.Count; i++)
+        for (int i = 1; i < ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond.Count; i++)
         {
             Data.Add(new DataPoint(i, ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond[i]));
             Data.Add(new DataPoint(i, ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond[i]));
@@ -21,7 +19,7 @@ public class Charts
             Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
         }
 
-        var timeAxis = new LinearAxis()
+        LinearAxis timeAxis = new LinearAxis
         {
             Position = AxisPosition.Bottom,
             Minimum = 0,
@@ -33,11 +31,11 @@ public class Charts
             TicklineColor = OxyColors.White,
             MinorTicklineColor = OxyColors.White,
             AxislineColor = OxyColors.White,
-            TitleColor = OxyColors.White,
+            TitleColor = OxyColors.White
         };
 
 
-        var KeyPerSecondAxis = new LinearAxis()
+        LinearAxis KeyPerSecondAxis = new LinearAxis
         {
             Position = AxisPosition.Left,
             Minimum = 0,
@@ -49,7 +47,7 @@ public class Charts
             TicklineColor = OxyColors.White,
             MinorTicklineColor = OxyColors.White,
             AxislineColor = OxyColors.White,
-            TitleColor = OxyColors.White,
+            TitleColor = OxyColors.White
         };
 
         Stats.Axes.Add(timeAxis);

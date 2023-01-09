@@ -1,9 +1,8 @@
-﻿using System.Windows;
+﻿using Controller;
+using System.Windows;
 using System.Windows.Controls;
-using Controller;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.ViewLogin;
-
 namespace WPF_Visualize;
 
 /// <summary>
@@ -28,14 +27,14 @@ public partial class StudentMain : UserControl
 
     private void OnLeaderBoard(object sender, RoutedEventArgs e)
     {
-		UserControlController.MainWindowChange(this, new LeaderBoard((int)LoginController.s_UserId));
-	}
+        UserControlController.MainWindowChange(this, new LeaderBoard((int)LoginController.s_UserId));
+    }
 
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
         UserControlController.MainWindowChange(this, new LoginChoose());
     }
-    
+
     // Close the application
     private void OnAfsluiten(object sender, RoutedEventArgs e)
     {

@@ -1,14 +1,13 @@
 using Model;
-
 namespace Controller;
 
 public class ExerciseController
 {
-    public Database Database = new();
+    private readonly Database Database = new Database();
 
-    public Random Random = new(); //random number generator
+    private readonly Random Random = new Random(); //random number generator
 
-    
+
     public ExerciseController(TypeExercise choice, Difficulty difficulty)
     {
         s_Choice = choice;
@@ -58,11 +57,11 @@ public class ExerciseController
             { '0', new[] { 409, 1 } },
             { ' ', new[] { 123, 169 } }
         };
-        
+
         // Generate the correct data for the selected exercise
         switch (choice)
         {
-            case TypeExercise.Letter :
+            case TypeExercise.Letter:
                 GenerateLetterData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
                 break;
             case TypeExercise.Word:
@@ -96,14 +95,14 @@ public class ExerciseController
     {
         List<char> letters = new List<char>();
 
-        foreach (var charWithPoints in Database.AlphabetWithPoints)
+        foreach (KeyValuePair<char, int> charWithPoints in Database.AlphabetWithPoints)
         {
             if (charWithPoints.Value <= (int)difficulty)
             {
                 letters.Add(charWithPoints.Key);
             }
         }
-        for (var i = 0; i < amountOfChars; i++)
+        for (int i = 0; i < amountOfChars; i++)
         {
             CharacterList.Add(letters[Random.Next(0, letters.Count)]);
         }
@@ -144,7 +143,7 @@ public class ExerciseController
 
 
             //checks if the last keypress is equal to the first letter in the queue
-            if ((DequeuedChar == CurrentChar && s_Choice == TypeExercise.Story) || (s_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar))
+            if (DequeuedChar == CurrentChar && s_Choice == TypeExercise.Story || s_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar)
             {
                 if (s_Choice != TypeExercise.Story)
                 {
@@ -200,5 +199,5 @@ public class ExerciseEventArgs : EventArgs
     {
         IsCorrect = isCorrect;
         IsFinished = isFinished;
-    } 
+    }
 }

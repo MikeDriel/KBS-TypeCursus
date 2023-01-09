@@ -1,6 +1,5 @@
 using Controller;
 using Model;
-
 namespace TestProject;
 
 [TestFixture]
@@ -31,7 +30,7 @@ public class ExerciseControllerTests
             }
         }
     }
-    
+
     [TestCase(10)]
     [TestCase(100)]
     [TestCase(200)]
@@ -93,7 +92,7 @@ public class ExerciseControllerTests
             controller.CharacterList.Add(letter);
         }
         controller.OnBack();
-        if(controller.DequeuedChar == 'n' && controller.CharacterList[0] == 'a')
+        if (controller.DequeuedChar == 'n' && controller.CharacterList[0] == 'a')
         {
             Assert.Pass();
         }
@@ -102,6 +101,4 @@ public class ExerciseControllerTests
             Assert.Fail();
         }
     }
-    
-    
 }
