@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Controller
 {
@@ -17,6 +19,7 @@ namespace Controller
         public Database Database;
         public List<string[]> ClassStudents;
         public List<string[]> ClassStudentsNewlyAdded;
+        public List<int> ClassStudentsDeleted;
         public EventHandler<TeacherEventArgs> TeacherEvent;
         private int _classId;
 
@@ -24,6 +27,7 @@ namespace Controller
         {
             ClassStudentsNewlyAdded = new();
             ClassStudents = new();
+            ClassStudentsDeleted = new();
             Database = new();
         }
 
@@ -63,18 +67,34 @@ namespace Controller
             ClassStudentsNewlyAdded.Add(student);
         }
 
-        public void addNewClass(int user_id, string className)
+        public void RemovePupilFromClass(string pupilName)
+        {
+            string[] student = new string[2] { pupilName.Split(" ")[0], pupilName.Split(" ")[1] };
+            ClassStudentsNewlyAdded.RemoveAll(x => x[0] == student[0] && x[1] == student[1]);
+            ClassStudents.RemoveAll(x => x[0] == student[0] && x[1] == student[1]);
+        }
+
+        public void RemovePupilFromClass(int pupilId)
+        {
+            string[] student = Database.GetStudentName(pupilId);
+            ClassStudents.RemoveAll(x => x[0] == student[0] && x[1] == student[1]);
+            ClassStudentsNewlyAdded.RemoveAll(x => x[0] == student[0] && x[1] == student[1]);
+            ClassStudentsDeleted.Add(pupilId);
+        }
+
+
+        public bool AddNewClassToDatabase(int user_id, string className)
         {
             List<int> listclasses = Database.GetClasses(user_id);
             if (!Database.CheckIfClassExists(user_id, className))
             {
                 int classId = Database.AddNewClass(user_id, className);
-                AddStudents(classId);
-                TeacherEvent?.Invoke(this, new TeacherEventArgs(true, classId));
+                AddStudentsToDatabase(classId);
+                return true;
             }
             else
             {
-                TeacherEvent?.Invoke(this, new TeacherEventArgs(false, -1));
+                return false;
             }
         }
 
@@ -82,7 +102,7 @@ namespace Controller
         /// Add newly added students to the database
         /// </summary>
         /// <param name="classId"></param>
-        public void AddStudents(int classId)
+        public void AddStudentsToDatabase(int classId)
         {
             Dictionary<int, string> studentsInformation = new Dictionary<int, string>();
             foreach (string[] student in ClassStudentsNewlyAdded)
@@ -91,7 +111,18 @@ namespace Controller
                 studentsInformation.Add(Int32.Parse(studentInfo[0]), studentInfo[1]);
             }
 
-            MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
+            if (studentsInformation.Count > 0)
+            {
+                MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
+            }
+        }
+
+        public void DeleteStudentsFromDatabase(int classId)
+        {
+            foreach (int pupilId in ClassStudentsDeleted)
+            {
+                Database.DeleteStudent(pupilId, classId);
+            }
         }
 
         public void MakePdfWithAddedStudentPasswords(Dictionary<int, string> dictionary, string classname, int classId)
@@ -126,6 +157,20 @@ namespace Controller
             }
 
             UserNameAndPasswordList.Save(GetDownloadFolderPath() + "/" + filename);
+        }
+
+        public void SwitchScreen(int classId, bool informationIsCorrect)
+        {
+            if (informationIsCorrect)
+            {
+                TeacherEvent?.Invoke(this, new TeacherEventArgs(true, classId));
+            }
+            else
+            {
+                TeacherEvent?.Invoke(this, new TeacherEventArgs(false, -1));
+            }
+
+
         }
 
         string GetDownloadFolderPath()

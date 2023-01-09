@@ -816,7 +816,7 @@ public class Database
 		List<Pupil> classtatistics = new();
 		using (SqlConnection connection =
 		   new SqlConnection(DatabaseConnectionString()))
-		{
+		{getrandomPassword
 			foreach (var userid in userids)
 			{
 				string sql =
