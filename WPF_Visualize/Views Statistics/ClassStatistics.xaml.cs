@@ -15,29 +15,29 @@ namespace WPF_Visualize.Views_Statistics;
 public partial class ClassStatistics : UserControl
 {
     private readonly Database _database;
-
-    public ClassStatistics(int classid)
-    {
-        _database = new Database();
-
-        StatisticsClassId = classid;
-        SClassId = classid;
-
-        InitializeComponent();
-        InitializeClassStatistics();
-        AddPupilsToStackPanel();
-    }
     private List<Pupil> ClassStatisticsList { get; set; }
     private List<string> UserIds { get; set; }
 
     public int StatisticsClassId { get; set; }
     public static int SClassId { get; set; }
 
-    /// <summary>
-    ///     Prepares the ClassStatisticsList which is needed to
-    ///     display the pupils on the stackpanel.
-    /// </summary>
-    private void InitializeClassStatistics()
+    public ClassStatistics(int classid)
+    {
+	    _database = new Database();
+
+	    StatisticsClassId = classid;
+	    SClassId = classid;
+
+	    InitializeComponent();
+	    InitializeClassStatistics();
+	    AddPupilsToStackPanel();
+    }
+
+	/// <summary>
+	///     Prepares the ClassStatisticsList which is needed to
+	///     display the pupils on the stackpanel.
+	/// </summary>
+	private void InitializeClassStatistics()
     {
         UserIds = _database.GetClass(StatisticsClassId); //get the amount of pupils.
         ClassStatisticsList = _database.GenerateClassStatistics(UserIds.Select(int.Parse).ToList(), StatisticsClassId);
@@ -136,6 +136,6 @@ public partial class ClassStatistics : UserControl
 
     private void OnBack(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new TeacherMain(LoginController.GetUserId()));
+        UserControlController.MainWindowChange(this, new TeacherMain(SClassId));
     }
 }
