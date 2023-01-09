@@ -251,7 +251,8 @@ namespace WPF_Visualize.Views_Navigate
         {
             if (e.InformationIsCorrect)
             {
-                MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
+                MessageBox.Show("De klas is toegevoegd/geupdate, wanneer er nieuwe leerlingen zijn toegevoegd staat er een PDF bestand in de dowload map op uw computer.");
+                //MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
                 UserControlController.MainWindowChange(this, new TeacherMain(e.ClassId));
             }
             else if (!e.InformationIsCorrect)

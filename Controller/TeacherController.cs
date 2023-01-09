@@ -111,8 +111,10 @@ namespace Controller
                 studentsInformation.Add(Int32.Parse(studentInfo[0]), studentInfo[1]);
             }
 
-            MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
-
+            if (studentsInformation.Count > 0)
+            {
+                MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
+            }
         }
 
         public void DeleteStudentsFromDatabase(int classId)
