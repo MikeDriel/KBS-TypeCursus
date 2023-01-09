@@ -84,7 +84,7 @@ public partial class Exercise : UserControl
 
         if (e.Text == "\b")
         {
-            if (ExerciseController.s_Choice == TypeExercise.Story)
+            if (ExerciseController.S_Choice == TypeExercise.Story)
             {
                 _controller.OnBack();
                 ProgressBar.Value = _controller.Progress;
@@ -108,7 +108,7 @@ public partial class Exercise : UserControl
     //updates values on view
     private void ChangeTextOnScreen()
     {
-        if (ExerciseController.s_Choice == TypeExercise.Story)
+        if (ExerciseController.S_Choice == TypeExercise.Story)
         {
             SetRichBox();
         }
@@ -265,7 +265,7 @@ public partial class Exercise : UserControl
     private void MistakeMade()
     {
         //if the letter is wrong, add a mistake and update the screen
-        if (ExerciseController.s_Choice == TypeExercise.Story)
+        if (ExerciseController.S_Choice == TypeExercise.Story)
         {
             StatisticsController?.WrongAnswer();
         }

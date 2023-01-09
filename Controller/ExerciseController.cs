@@ -10,7 +10,7 @@ public class ExerciseController
 
     public ExerciseController(TypeExercise choice, Difficulty difficulty)
     {
-        s_Choice = choice;
+        S_Choice = choice;
         CharacterList = new List<char>();
         TypedCharsList = new List<char>();
         CorrectCharsList = new List<char>();
@@ -73,7 +73,7 @@ public class ExerciseController
         }
     }
 
-    public static TypeExercise s_Choice { get; private set; } //user's choice
+    public static TypeExercise S_Choice { get; private set; } //user's choice
 
     public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
     public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed
@@ -123,7 +123,6 @@ public class ExerciseController
         }
     }
 
-
     /// <summary>
     ///     Logic to check if letter is correct or incorrect.
     /// </summary>
@@ -132,7 +131,7 @@ public class ExerciseController
         //checks if list isnt empty
         if (CharacterList.Count >= 1)
         {
-            if (s_Choice == TypeExercise.Story)
+            if (S_Choice == TypeExercise.Story)
             {
                 Progress++;
                 DequeuedChar = CharacterList[0];
@@ -141,11 +140,10 @@ public class ExerciseController
                 TypedCharsList.Add(CurrentChar);
             }
 
-
             //checks if the last keypress is equal to the first letter in the queue
-            if (DequeuedChar == CurrentChar && s_Choice == TypeExercise.Story || s_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar)
+            if (DequeuedChar == CurrentChar && S_Choice == TypeExercise.Story || S_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar)
             {
-                if (s_Choice != TypeExercise.Story)
+                if (S_Choice != TypeExercise.Story)
                 {
                     Progress++;
                     //if it is, remove the letter from the List

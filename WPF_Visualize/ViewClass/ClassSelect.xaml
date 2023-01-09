@@ -42,6 +42,6 @@
                 Click="OnLogOut" Style="{StaticResource HeaderButton}" VerticalAlignment="Center"
                 HorizontalAlignment="Right" />
         <Button x:Name="Close" Content="Afsluiten" Grid.Column="5"
-                Click="OnAfsluiten" Style="{StaticResource HeaderButton}" VerticalAlignment="Center" />
+                Click="OnExit" Style="{StaticResource HeaderButton}" VerticalAlignment="Center" />
     </Grid>
 </UserControl>

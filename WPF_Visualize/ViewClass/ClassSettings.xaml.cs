@@ -53,7 +53,6 @@ public partial class ClassSettings : UserControl
 
         List<int> pupils = _database.GetStudents(classId);
 
-
         foreach (int pupilId in pupils)
         {
             //Check if pupilID is also in teacherController.ClassStudentsDeleted
@@ -76,11 +75,8 @@ public partial class ClassSettings : UserControl
                 Name = $"_{pupilId}"
             };
 
-
-
             StudentListPanel.Children.Add(label);
             ComboBoxStudents.Items.Add(comboBoxItem);
-
         }
     }
 
@@ -110,8 +106,6 @@ public partial class ClassSettings : UserControl
                 StudentListPanel.Children.Add(label);
                 ComboBoxStudents.Items.Add(comboBoxItem);
             }
-
-
         }
     }
 
@@ -177,11 +171,7 @@ public partial class ClassSettings : UserControl
             {
                 _teacherController.SwitchScreen(_classId, false, false);
             }
-
-
         }
-
-
     }
 
 
@@ -241,17 +231,17 @@ public partial class ClassSettings : UserControl
         ConfirmButton.IsEnabled = tbClassName.Text != "";
     }
 
-    private void tbFirstName_TextChanged(object sender, TextChangedEventArgs e)
+    private void TbFirstName_TextChanged(object sender, TextChangedEventArgs e)
     {
         SetStudentAddButton();
     }
 
-    private void tbLastName_TextChanged(object sender, TextChangedEventArgs e)
+    private void TbLastName_TextChanged(object sender, TextChangedEventArgs e)
     {
         SetStudentAddButton();
     }
 
-    private void tbClassName_TextChanged(object sender, TextChangedEventArgs e)
+    private void TbClassName_TextChanged(object sender, TextChangedEventArgs e)
     {
         SetConfirmButton();
     }
@@ -273,6 +263,4 @@ public partial class ClassSettings : UserControl
             MessageBox.Show("De klas is toegevoegd en er staat een .pdf bestand in de download map op uw computer");
         }
     }
-
-
 }

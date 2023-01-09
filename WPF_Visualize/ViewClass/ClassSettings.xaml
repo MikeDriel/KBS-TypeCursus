@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     x:Class="WPF_Visualize.ViewClass.ClassSettings"
     mc:Ignorable="d"
-    d:DesignHeight="450" d:DesignWidth="800"
+    d:DesignHeight="1080" d:DesignWidth="1920"
     Style="{StaticResource UserControlBackground}">
     <Grid>
         <Grid.RowDefinitions>
@@ -35,7 +35,7 @@
                 <Label Content="Naam groep:" Foreground="White" FontSize="18" VerticalAlignment="Bottom" />
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="tbClassName" MaxLength="20" FontSize="18" TextChanged="tbClassName_TextChanged"
+                    <TextBox x:Name="tbClassName" MaxLength="20" FontSize="18" TextChanged="TbClassName_TextChanged"
                              Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 
@@ -43,14 +43,14 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Voornaam:" Foreground="White" FontSize="18" Width="109" VerticalAlignment="Center" />
-                    <TextBox x:Name="tbFirstName" TextChanged="tbFirstName_TextChanged" FontSize="18"
+                    <TextBox x:Name="tbFirstName" TextChanged="TbFirstName_TextChanged" FontSize="18"
                              Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Achternaam:" Foreground="White" FontSize="18" Width="109"
                            VerticalAlignment="Center" />
-                    <TextBox x:Name="tbLastName" TextChanged="tbLastName_TextChanged" FontSize="18"
+                    <TextBox x:Name="tbLastName" TextChanged="TbLastName_TextChanged" FontSize="18"
                              Style="{StaticResource TextBoxClassSettings}" />
                 </StackPanel>
 

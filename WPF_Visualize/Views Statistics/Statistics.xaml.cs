@@ -21,15 +21,17 @@ public partial class Statistics : UserControl
     private readonly List<string> totalstatistics;
     private readonly List<string> wordstatistics;
 
-    //[0] is PupilID
-    //[1] is Type
-    //[2] is AmountCorrect
-    //[3] is AmountFalse
-    //[4] is AssignmentsMade
-    //[5] is KeyPerSec
-    //[6] is Score
+    public int StatisticsClassId { get; set; }
 
-    public Statistics(int userID)
+	//[0] is PupilID
+	//[1] is Type
+	//[2] is AmountCorrect
+	//[3] is AmountFalse
+	//[4] is AssignmentsMade
+	//[5] is KeyPerSec
+	//[6] is Score
+
+	public Statistics(int userID)
     {
         _userID = userID;
         StatsController = new StatisticsController(_userID);
@@ -40,14 +42,13 @@ public partial class Statistics : UserControl
         totalstatistics = StatsController.TotalStatistics;
         pupilname = StatsController.PupilName;
 
-        StatisticsClassId = ClassStatistics.SClassId;
+        StatisticsClassId = ClassStatistics.S_ClassId;
 
         InitializeComponent();
-        _InitializeLabels();
+        InitializeLabels();
     }
-    public int StatisticsClassId { get; set; }
 
-    private void _InitializeLabels()
+    private void InitializeLabels()
     {
         //sets name label
         Name.Content = pupilname;

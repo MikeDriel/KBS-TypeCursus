@@ -140,7 +140,7 @@ public class ExerciseStatisticsController
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
     }
 
-    public int _InitializeScore()
+    public int InitializeScore()
     {
         // Calculation = ((Correct answers - Incorrect answers) / total time ) * difficulty 
         // difficulty is a placeholder as it's not in this current branch
@@ -164,7 +164,7 @@ public class ExerciseStatisticsController
         if (LoginController.s_UserId != null)
         {
             int UserId = (int)LoginController.s_UserId;
-            _database.UpdatePupilStatistics(UserId, ExerciseController.s_Choice, NumberCorrect, NumberOfMistakes, keyPerSec, _InitializeScore());
+            _database.UpdatePupilStatistics(UserId, ExerciseController.S_Choice, NumberCorrect, NumberOfMistakes, keyPerSec, InitializeScore());
         }
     }
 }

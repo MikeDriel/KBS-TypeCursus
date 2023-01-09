@@ -37,7 +37,7 @@ public partial class StudentMain : UserControl
     }
 
     // Close the application
-    private void OnAfsluiten(object sender, RoutedEventArgs e)
+    private void OnExit(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
     }

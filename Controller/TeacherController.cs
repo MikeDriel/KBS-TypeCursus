@@ -6,7 +6,7 @@ namespace Controller;
 
 public class TeacherController
 {
-    private int _classId;
+    public int ClassId;
     public List<string[]> ClassStudents;
     public List<int> ClassStudentsDeleted;
     public List<string[]> ClassStudentsNewlyAdded;
@@ -78,8 +78,8 @@ public class TeacherController
         List<int> listclasses = Database.GetClasses(user_id);
         if (!Database.CheckIfClassExists(user_id, className))
         {
-            int classId = Database.AddNewClass(user_id, className);
-            AddStudentsToDatabase(classId);
+            ClassId = Database.AddNewClass(user_id, className);
+            AddStudentsToDatabase(ClassId);
             return true;
         }
         return false;
@@ -103,7 +103,6 @@ public class TeacherController
             MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
             return true;
         }
-
         return false;
     }
 
@@ -128,7 +127,7 @@ public class TeacherController
         string filename = $"{classname}_{classId}_{dictionary.First().Key.ToString()}.pdf";
         foreach (var KeyValue in dictionary)
         {
-            string UserName = Database.getPupilUserName(KeyValue.Key);
+            string UserName = Database.GetPupilUserName(KeyValue.Key);
             string[] studentNameArray = Database.GetStudentName(KeyValue.Key);
             string naam = studentNameArray[0] + " " + studentNameArray[1];
             string Password = KeyValue.Value;

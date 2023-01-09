@@ -67,12 +67,12 @@ public class LoginController
 //EVENT FOR EXCERCISE
 public class LoginEventArgs : EventArgs
 {
-    public bool IsLoggedin;
+    public bool IsLoggedIn;
     public bool IsTeacher;
 
     public LoginEventArgs(bool isLoggedin, bool isTeacher)
     {
-        IsLoggedin = isLoggedin;
+        IsLoggedIn = isLoggedin;
         IsTeacher = isTeacher;
     }
 }

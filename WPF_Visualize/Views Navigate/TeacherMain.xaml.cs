@@ -12,16 +12,17 @@ namespace WPF_Visualize.Views_Navigate;
 /// </summary>
 public partial class TeacherMain : UserControl
 {
-    private readonly int classId;
-    public Database Database = new Database();
+    private readonly int _classId;
+    public Database Database = new();
+
     public TeacherMain(int classId)
     {
         InitializeComponent();
-        this.classId = classId;
-        setClassNameLabel(this.classId);
+        _classId = classId;
+        SetClassNameLabel(_classId);
     }
 
-    private void setClassNameLabel(int classId)
+    private void SetClassNameLabel(int classId)
     {
         string className = Database.GetClassName(classId);
         ClassNameLabel.Content = $"Gekozen klas: {className}";
@@ -29,12 +30,12 @@ public partial class TeacherMain : UserControl
 
     private void OnClassStatistics(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new ClassStatistics(classId));
+        UserControlController.MainWindowChange(this, new ClassStatistics(_classId));
     }
 
     private void OnClassSettings(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new ClassSettings(classId));
+        UserControlController.MainWindowChange(this, new ClassSettings(_classId));
     }
 
     private void OnBack(object sender, RoutedEventArgs e)
@@ -49,7 +50,7 @@ public partial class TeacherMain : UserControl
     }
 
     // Close the application
-    private void OnAfsluiten(object sender, RoutedEventArgs e)
+    private void OnExit(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
     }

@@ -284,7 +284,7 @@ public class Database
         Username.Replace(' ', '_');
         string UsernameSave = Username;
         int number = 1;
-        while (checkIfUserNameExists(UsernameSave))
+        while (CheckIfUserNameExists(UsernameSave))
         {
             UsernameSave = Username;
             UsernameSave += number;
@@ -324,7 +324,7 @@ public class Database
         return sb.ToString();
     }
 
-    public string getPupilUserName(int studentID)
+    public string GetPupilUserName(int studentID)
     {
         string Pupil = "";
         using SqlConnection connection = new SqlConnection(DatabaseConnectionString());
@@ -344,7 +344,7 @@ public class Database
         return Pupil;
     }
 
-    public bool checkIfUserNameExists(string username)
+    public bool CheckIfUserNameExists(string username)
     {
         string? pupil = null;
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
@@ -421,19 +421,6 @@ public class Database
 
         return StoryString;
     }
-
-    // make a txtfile with an given name and fill it with keys and values of a dictionary
-    public void MakeTxtFile(string fileName, Dictionary<string, int> dict)
-    {
-        using (StreamWriter sw = new StreamWriter(fileName))
-        {
-            foreach (KeyValuePair<string, int> item in dict)
-            {
-                sw.WriteLine(item.Key + " " + item.Value);
-            }
-        }
-    }
-
 
     /// <summary>
     ///     Gets the ClassID of the class of the current user.
@@ -661,42 +648,43 @@ public class Database
         }
     }
 
-    public void AddDifficultyToDatabase()
-    {
-        List<string> wordList = new List<string>();
-        using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
-        {
-            connection.Open();
-            string sql = "SELECT Words FROM Words ORDER BY NEWID()";
-            SqlCommand command = new SqlCommand(sql, connection);
-            SqlDataReader? reader = command.ExecuteReader();
+    //LEGACY CODE
+    //public void AddDifficultyToDatabase()
+    //{
+    //    List<string> wordList = new List<string>();
+    //    using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
+    //    {
+    //        connection.Open();
+    //        string sql = "SELECT Words FROM Words ORDER BY NEWID()";
+    //        SqlCommand command = new SqlCommand(sql, connection);
+    //        SqlDataReader? reader = command.ExecuteReader();
 
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    wordList.Add(reader[i].ToString());
-                }
-            }
+    //        while (reader.Read())
+    //        {
+    //            for (int i = 0; i < reader.FieldCount; i++)
+    //            {
+    //                wordList.Add(reader[i].ToString());
+    //            }
+    //        }
 
-            connection.Close();
-        }
+    //        connection.Close();
+    //    }
 
-        using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
-        {
-            foreach (string word in wordList)
-            {
-                connection.Open();
-                string sql = "UPDATE Words SET Difficulty = @difficulty WHERE Words = @word";
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@difficulty", GetWordDifficulty(word));
-                command.Parameters.AddWithValue("@word", word);
-                command.ExecuteReader();
-                command.Dispose();
-                connection.Close();
-            }
-        }
-    }
+    //    using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
+    //    {
+    //        foreach (string word in wordList)
+    //        {
+    //            connection.Open();
+    //            string sql = "UPDATE Words SET Difficulty = @difficulty WHERE Words = @word";
+    //            SqlCommand command = new SqlCommand(sql, connection);
+    //            command.Parameters.AddWithValue("@difficulty", GetWordDifficulty(word));
+    //            command.Parameters.AddWithValue("@word", word);
+    //            command.ExecuteReader();
+    //            command.Dispose();
+    //            connection.Close();
+    //        }
+    //    }
+    //}
 
     private int GetScore(int pupilId, TypeExercise type)
     {

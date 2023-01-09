@@ -18,14 +18,14 @@ public partial class ClassStatistics : UserControl
     private List<string> UserIds { get; set; }
 
     public int StatisticsClassId { get; set; }
-    public static int SClassId { get; set; }
+    public static int S_ClassId { get; set; }
 
     public ClassStatistics(int classid)
     {
 	    _database = new Database();
 
 	    StatisticsClassId = classid;
-	    SClassId = classid;
+	    S_ClassId = classid;
 
 	    InitializeComponent();
 	    InitializeClassStatistics();
@@ -135,6 +135,6 @@ public partial class ClassStatistics : UserControl
 
     private void OnBack(object sender, RoutedEventArgs e)
     {
-        UserControlController.MainWindowChange(this, new TeacherMain(SClassId));
+        UserControlController.MainWindowChange(this, new TeacherMain(S_ClassId));
     }
 }
