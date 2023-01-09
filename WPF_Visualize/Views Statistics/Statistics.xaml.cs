@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
 using Controller;
 using System.Collections.Generic;
+using Model;
+using WPF_Visualize.Views_Statistics;
 
 namespace WPF_Visualize;
 
@@ -14,12 +16,15 @@ namespace WPF_Visualize;
 public partial class Statistics : UserControl
 {
 	StatisticsController StatsController;
+	Database database;
 	List<string> letterstatistics;
 	List<string> wordstatistics;
 	List<string> storystatistics;
 	List<string> totalstatistics;
 	string pupilname;
 	private int _userID;
+	public int StatisticsClassId { get; set; }
+	
 	//[0] is PupilID
 	//[1] is Type
 	//[2] is AmountCorrect
@@ -32,11 +37,14 @@ public partial class Statistics : UserControl
 	{
 		this._userID = userID;
 		StatsController = new StatisticsController(_userID);
+		database = new Database();
 		letterstatistics = StatsController.LetterStatistics;
 		wordstatistics = StatsController.WordStatistics;
 		storystatistics = StatsController.StoryStatistics;
 		totalstatistics = StatsController.TotalStatistics;
 		pupilname = StatsController.PupilName;
+
+		StatisticsClassId = ClassStatistics.SClassId;
 
 		InitializeComponent();
 		_InitializeLabels();
@@ -46,6 +54,10 @@ public partial class Statistics : UserControl
 	{
 		//sets name label
 		Name.Content = pupilname;
+
+		LetterLevel.Content = database.GetLevel(_userID, TypeExercise.Letter).ToString().Substring(5);
+		WordLevel.Content = database.GetLevel(_userID, TypeExercise.Word).ToString().Substring(5);
+		StoryLevel.Content = database.GetLevel(_userID, TypeExercise.Story).ToString().Substring(5);
 
 		//sets the labels for total statistics
 		TotalKeyPerSecond.Content = totalstatistics[3];  //TotalKeyPerSecond
@@ -76,9 +88,24 @@ public partial class Statistics : UserControl
 		StoryScore.Content = storystatistics[6];
 	}
 
+	/// <summary>
+	/// Checks if the current user is a teacher,
+	/// if that's it'll go back to the class statistics window.
+	/// Otherwise it'll go back to the main menu for the pupil.
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
 	private void OnBack(object sender, RoutedEventArgs e)
 	{
-		//_cleanup();
-		UserControlController.MainWindowChange(this, new StudentMain());
+		ClassStatistics classStats = new ClassStatistics(StatisticsClassId);
+		classStats.StatisticsClassId = StatisticsClassId;
+		if (LoginController.S_IsTeacher)
+		{
+			UserControlController.MainWindowChange(this, classStats);
+		}
+		else
+		{
+			UserControlController.MainWindowChange(this, new StudentMain());
+		}
 	}
 }

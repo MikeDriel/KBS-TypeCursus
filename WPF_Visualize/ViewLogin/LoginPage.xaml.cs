@@ -55,7 +55,7 @@ public partial class LoginPage : UserControl
         {
             if (e.IsTeacher)
             {
-                UserControlController.MainWindowChange(this, new TeacherMain());
+                UserControlController.MainWindowChange(this, new ClassSelect());
             }
             else
             {

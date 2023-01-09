@@ -1,0 +1,157 @@
+﻿using Controller;
+using Model;
+using OxyPlot;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using WPF_Visualize.ViewLogic;
+using WPF_Visualize.Views_Navigate;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using VerticalAlignment = System.Windows.VerticalAlignment;
+
+namespace WPF_Visualize.Views_Statistics
+{
+	/// <summary>
+	/// Interaction logic for ClassStatistics.xaml
+	/// </summary>
+	public partial class ClassStatistics : UserControl
+	{
+		private Database _database;
+		private List<Pupil> ClassStatisticsList { get; set; }
+		private List<string> UserIds { get; set; }
+		
+		public int StatisticsClassId { get; set; }
+		public static int SClassId { get; set; }
+
+		public ClassStatistics(int classid)
+		{
+			_database = new();
+
+			StatisticsClassId = classid;
+			SClassId = classid;
+
+			InitializeComponent();
+			InitializeClassStatistics();
+			AddPupilsToStackPanel();
+		}
+
+		/// <summary>
+		/// Prepares the ClassStatisticsList which is needed to 
+		/// display the pupils on the stackpanel.
+		/// </summary>
+		private void InitializeClassStatistics()
+		{
+			UserIds = _database.GetClass(StatisticsClassId); //get the amount of pupils.
+			ClassStatisticsList = _database.GenerateClassStatistics(UserIds.Select(int.Parse).ToList(), StatisticsClassId);
+		}
+
+		/// <summary>
+		/// Adds the pupils to the stackpanel.
+		/// </summary>
+		private void AddPupilsToStackPanel()
+		{
+
+			foreach (var pupil in ClassStatisticsList)
+			{
+				var stackpanel = new StackPanel
+				{
+					Orientation = Orientation.Horizontal
+				};
+
+				var labelname = new Label
+				{
+					Content = $"{pupil.Lastname}, {pupil.Firstname}",
+					FontSize = 25,
+					Foreground = Brushes.White,
+					Width = 260,
+				};
+
+				var labelscore = new Label
+				{
+					Content = pupil.Score,
+					Foreground = Brushes.White,
+					FontSize = 25,
+					Width = 250,
+				};
+
+				var labelassignmentscompleted = new Label
+				{
+					Content = pupil.AssignmentsMade,
+					Foreground = Brushes.White,
+					FontSize = 25,
+					Width = 250,
+				};
+
+				var button = new Button
+				{
+					Content = "Meer info",
+					Style = (Style)FindResource("StatisticsMoreInfoButton"),
+					FontSize = 16,
+				};
+
+				button.Click += (sender, args) => UserControlController.MainWindowChange(this, new Statistics(pupil.PupilID));
+
+				stackpanel.Children.Add(labelname);
+				stackpanel.Children.Add(labelscore);
+				stackpanel.Children.Add(labelassignmentscompleted);
+				stackpanel.Children.Add(button);
+
+				StudentsPanel.Children.Add(stackpanel);
+			}
+		}
+
+		/// <summary>
+		/// Order ClassStatisticsList by name.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnName(object sender, RoutedEventArgs e)
+		{
+			ClassStatisticsList = ClassStatisticsList.OrderBy(x => x.Lastname).ToList();
+			StudentsPanel.Children.Clear();
+			AddPupilsToStackPanel();
+		}
+
+		/// <summary>
+		/// Order ClassStatisticsList by score.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnScore(object sender, RoutedEventArgs e)
+		{
+			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x.Score).ToList();
+			StudentsPanel.Children.Clear();
+			AddPupilsToStackPanel();
+		}
+
+		/// <summary>
+		/// Order ClassStatisticsList by assignments made.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnAssignmentsMade(object sender, RoutedEventArgs e)
+		{
+			ClassStatisticsList = ClassStatisticsList.OrderByDescending(x => x.AssignmentsMade).ToList();
+			StudentsPanel.Children.Clear();
+			AddPupilsToStackPanel();
+		}
+
+		private void OnBack(object sender, RoutedEventArgs e)
+		{
+			UserControlController.MainWindowChange(this, new TeacherMain(LoginController.GetUserId()));
+		}
+	}
+
+
+}

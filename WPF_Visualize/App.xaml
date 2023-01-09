@@ -51,6 +51,55 @@
                         </Setter.Value>
                     </Setter>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                Opacity="0.5"
+                                BorderThickness="1">
+                                    <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="{TemplateBinding Padding}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="ClassSelecterButton">
+            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="Width" Value="205"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="0,20,0,0" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="#1c313a"
+                                BorderThickness="1">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="{TemplateBinding Padding}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
             </Style.Triggers>
         </Style>
 
@@ -87,6 +136,119 @@
             </Style.Triggers>
         </Style>
 
+	    <Style TargetType="Button" x:Key="ClassStatisticsButton">
+		    <Setter Property="Foreground" Value="#ffffff" />
+		    <Setter Property="HorizontalAlignment" Value="Left" />
+		    <Setter Property="VerticalAlignment" Value="Top" />
+		    <Setter Property="Height" Value="45" />
+		    <Setter Property="Width" Value="100" />
+		    <Setter Property="Template">
+			    <Setter.Value>
+				    <ControlTemplate TargetType="Button">
+					    <Border CornerRadius="10"
+					            Background="#455a64"
+					            BorderThickness="1">
+						    <ContentPresenter
+							    HorizontalAlignment="Center"
+							    VerticalAlignment="Center"
+							    Margin="{TemplateBinding Padding}" />
+					    </Border>
+				    </ControlTemplate>
+			    </Setter.Value>
+		    </Setter>
+		    <Style.Triggers>
+			    <Trigger Property="IsMouseOver" Value="True">
+				    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+				    <Setter Property="RenderTransform">
+					    <Setter.Value>
+						    <ScaleTransform ScaleX="1.05" ScaleY="1.05" />
+					    </Setter.Value>
+				    </Setter>
+			    </Trigger>
+		    </Style.Triggers>
+	    </Style>
+
+	    <Style TargetType="Button" x:Key="StatisticsMoreInfoButton">
+		    <Setter Property="Foreground" Value="#ffffff" />
+		    <Setter Property="HorizontalAlignment" Value="Right" />
+		    <Setter Property="VerticalAlignment" Value="Bottom" />
+		    <Setter Property="Height" Value="40" />
+		    <Setter Property="Width" Value="90" />
+		    <Setter Property="Template">
+			    <Setter.Value>
+				    <ControlTemplate TargetType="Button">
+					    <Border CornerRadius="10"
+					            Background="#455a64"
+					            BorderThickness="1">
+						    <ContentPresenter
+							    HorizontalAlignment="Center"
+							    VerticalAlignment="Center"
+							    Margin="{TemplateBinding Padding}" />
+					    </Border>
+				    </ControlTemplate>
+			    </Setter.Value>
+		    </Setter>
+		    <Style.Triggers>
+			    <Trigger Property="IsMouseOver" Value="True">
+				    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+				    <Setter Property="RenderTransform">
+					    <Setter.Value>
+						    <ScaleTransform ScaleX="1.05" ScaleY="1.05" />
+					    </Setter.Value>
+				    </Setter>
+			    </Trigger>
+		    </Style.Triggers>
+	    </Style>
+
+
+		<Style TargetType="Button" x:Key="AddButton">
+            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="10,10,10,10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="#455a64"
+                                BorderThickness="1">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="{TemplateBinding Padding}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.05" ScaleY="1.05" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                Opacity="0.5"
+                                BorderThickness="1">
+                                    <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="{TemplateBinding Padding}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Style TargetType="ProgressBar" x:Key="ProgressBar">
             <Setter Property="Template">
                 <Setter.Value>
@@ -107,7 +269,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Label}">
-                        <Border BorderBrush="#1c313a" BorderThickness="0.2" Background="#1c313a" Width="178"
+                        <Border BorderBrush="#1c313a" BorderThickness="0.2" Background="#1c313a" Width="205"
                                 Height="55" CornerRadius="10" VerticalAlignment="Center">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,12,0,12"
                                               RecognizesAccessKey="True" />
@@ -117,6 +279,22 @@
             </Setter>
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="#ffffff" />
+        </Style>
+
+        <Style TargetType="Label" x:Key="ChosenClassLabel">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border BorderBrush="#1c313a" BorderThickness="0.2" Background="#1c313a" Width="250"
+                                Height="45" CornerRadius="10" VerticalAlignment="Center">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,12,0,12"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="Label" x:Key="LiveStatisticsScreen">
@@ -133,38 +311,38 @@
             </Setter>
         </Style>
 
-        <Style TargetType="Label" x:Key="LabelsWelcome">
+		<Style TargetType="Label" x:Key="LabelsWelcome">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Label}">
+						<Border CornerRadius="10" Background="#1c313a" BorderThickness="1" Width="400" Height="80">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="0,12,0,12" RecognizesAccessKey="True" />
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Foreground" Value="#ffffff" />
+		</Style>
+
+		<Style TargetType="Label" x:Key="LabelsFeedback">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Label}">
-                        <Border CornerRadius="10" Background="#1c313a" BorderThickness="1" Width="400" Height="80">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              Margin="0,12,0,12" RecognizesAccessKey="True" />
+                        <Border CornerRadius="10" Background="#1c313a" BorderThickness="1" Width="Auto" Height="80">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,12,20,12" RecognizesAccessKey="True"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Foreground" Value="#ffffff" />
         </Style>
-
-	    <Style TargetType="Label" x:Key="LabelsFeedback">
-		    <Setter Property="Template">
-			    <Setter.Value>
-				    <ControlTemplate TargetType="{x:Type Label}">
-					    <Border CornerRadius="10" Background="#1c313a" BorderThickness="1" Width="Auto" Height="80">
-						    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,12,20,12" RecognizesAccessKey="True"/>
-					    </Border>
-				    </ControlTemplate>
-			    </Setter.Value>
-		    </Setter>
-		    <Setter Property="Foreground" Value="#ffffff" />
-	    </Style>
-
+        
 		<Style TargetType="Label" x:Key="LabelsLeaderboard">
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Label}">
-						<Border CornerRadius="10" Background="#455a64" BorderThickness="1" Width="85" Height="45">
+						<Border CornerRadius="10" Background="#455a64" BorderThickness="1" Height="45">
 							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
 						</Border>
 					</ControlTemplate>
@@ -180,6 +358,20 @@
             <Setter Property="Foreground" Value="#E1E1E1" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+        <Style x:Key="TextBoxClassSettings" TargetType="Control">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="10 0 0 0" />
+            <Setter Property="Foreground" Value="#E1E1E1" />
+            <Setter Property="BorderBrush" Value="#455a64" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="#1c313a" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+
+
         </Style>
     </Application.Resources>
 </Application>

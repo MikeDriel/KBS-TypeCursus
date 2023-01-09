@@ -13,10 +13,12 @@ public class LoginController
 	{
 		_db = new Database();
 		IsTeacher = isTeacher;
+		S_IsTeacher = isTeacher;
 	}
 
     public bool IsTeacher { get; set; }
-    public static int? s_UserId { get; set; }
+    public static bool S_IsTeacher { get; set; }
+    public static int? s_UserId { get; private set; }
 
 	public event EventHandler<LoginEventArgs>? LoginEvent;
 
@@ -36,6 +38,7 @@ public class LoginController
 
         if (correctPassword != null && correctPassword == password)
         {
+			s_UserId = int.Parse(correctPasswordWithId[1]);
             LoginEvent?.Invoke(this, new LoginEventArgs(true, IsTeacher));
             s_UserId = int.Parse(correctPasswordWithId[1]);
             if (!IsTeacher)
