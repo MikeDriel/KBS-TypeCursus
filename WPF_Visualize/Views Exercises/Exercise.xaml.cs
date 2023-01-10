@@ -78,7 +78,7 @@ public partial class Exercise : UserControl
     {
         Debug.WriteLine(e.Text);
         // check if button pressed was enter
-        if (e.Text == "\r" || e.Text == "")
+        if (e.Text == "\r" || e.Text == "" || e.Text == ((char)27).ToString())
         {
             return;
         }
