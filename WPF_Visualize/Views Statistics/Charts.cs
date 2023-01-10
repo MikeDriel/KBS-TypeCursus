@@ -6,11 +6,18 @@ namespace WPF_Visualize.Views_Statistics;
 
 public class Charts
 {
+    //Creates a List with Datapoints, each datapoint had a x and y value, the x value represents time and the y value the amount of correct answers
+    public IList<DataPoint> Data { get; set; }
+    public PlotModel Stats { get; set; } //creates the PlotModel/Chart
     public Charts()
     {
-        Data = new List<DataPoint>();
-        Data.Add(new DataPoint(0, 0));
+        
+        Data = new List<DataPoint>(); //initialize the Data List
+        
+        Data.Add(new DataPoint(0, 0)); //Creates a Datapoint at 0, 0 
 
+        //loop that loops trough the CharactersPerSecond Dictionary, the Dictionary contains the amount of correct answers for eachsecond
+        //every key/value pair gets added to the Data List, the key is the x value (time) and the value is the y value (correct answers)
         for (int i = 1; i < ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond.Count; i++)
         {
             Data.Add(new DataPoint(i, ResultsExercise.s_ExerciseStatisticsController.CharactersPerSecond[i]));
@@ -19,6 +26,7 @@ public class Charts
             Stats.Series.Add(new LineSeries { ItemsSource = Data, Title = "Series 1" });
         }
 
+        //Initialize the X axis
         LinearAxis timeAxis = new LinearAxis
         {
             Position = AxisPosition.Bottom,
@@ -34,7 +42,7 @@ public class Charts
             TitleColor = OxyColors.White
         };
 
-
+        //Initialize the Y axis
         LinearAxis KeyPerSecondAxis = new LinearAxis
         {
             Position = AxisPosition.Left,
@@ -50,10 +58,10 @@ public class Charts
             TitleColor = OxyColors.White
         };
 
+        //adds the axises to the plot
         Stats.Axes.Add(timeAxis);
         Stats.Axes.Add(KeyPerSecondAxis);
     }
 
-    public IList<DataPoint> Data { get; set; }
-    public PlotModel Stats { get; set; }
+
 }
