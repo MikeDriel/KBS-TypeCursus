@@ -76,8 +76,9 @@ public partial class Exercise : UserControl
 
     private void TextInputPress(object sender, TextCompositionEventArgs e)
     {
+        Debug.WriteLine(e.Text);
         // check if button pressed was enter
-        if (e.Text == "\r")
+        if (e.Text == "\r" || e.Text == "")
         {
             return;
         }
