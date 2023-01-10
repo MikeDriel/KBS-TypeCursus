@@ -133,7 +133,7 @@ public class TeacherController
         string filename = $"{classname}_{classId}_{dictionary.First().Key.ToString()}.pdf";
         foreach (var KeyValue in dictionary)
         {
-            string UserName = Database.GetPupilUserName(KeyValue.Key);
+            string? UserName = Database.GetPupilUserName(KeyValue.Key);
             string[] studentNameArray = Database.GetStudentName(KeyValue.Key);
             string naam = studentNameArray[0] + " " + studentNameArray[1];
             string Password = KeyValue.Value;
