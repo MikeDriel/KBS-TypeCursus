@@ -263,38 +263,38 @@ public class Database
     /// <summary>
     /// Returns the name of the student based on the studentId
     /// </summary>
-    /// <param name="studentID"></param>
+    /// <param name="studentId"></param>
     /// <returns>an array with in first position their firstname and in second position their lastname</returns>
-    public string[] GetStudentName(int studentID)
+    public string[] GetStudentName(int studentId)
     {
-        string[] Pupil = new string[2];
+        string[] pupil = new string[2];
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
             string sql = "SELECT Firstname,LastName FROM Pupil WHERE PupilID = (@studentID)";
             SqlCommand command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@studentID", studentID);
+            command.Parameters.AddWithValue("@studentID", studentId);
             SqlDataReader? reader = command.ExecuteReader();
 
             while (reader.Read())
             {
-                Pupil[0] = reader[0].ToString();
-                Pupil[1] = reader[1].ToString();
+                pupil[0] = reader[0].ToString();
+                pupil[1] = reader[1].ToString();
             }
 
             connection.Close();
         }
 
-        return Pupil;
+        return pupil;
     }
 
     /// <summary>
     /// Make new class and return the auto incremented class id using ExecuteScalar and output.insereted.classid
     /// </summary>
-    /// <param name="TeacherId"></param>
-    /// <param name="ClassName"></param>
+    /// <param name="teacherId"></param>
+    /// <param name="className"></param>
     /// <returns>the class id of the newly added class</returns>
-    public int AddNewClass(int TeacherId, string ClassName)
+    public int AddNewClass(int teacherId, string className)
     {
         object newClassId;
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
@@ -303,8 +303,8 @@ public class Database
             string sqlInsert = "INSERT INTO Classes (TeacherID, ClassName)" + "output inserted.ClassID " +
                                "VALUES (@TeacherId, @ClassName)";
             SqlCommand commandInsert = new SqlCommand(sqlInsert, connection);
-            commandInsert.Parameters.AddWithValue("@TeacherId", TeacherId);
-            commandInsert.Parameters.AddWithValue("@ClassName", ClassName);
+            commandInsert.Parameters.AddWithValue("@TeacherId", teacherId);
+            commandInsert.Parameters.AddWithValue("@ClassName", className);
             newClassId = commandInsert.ExecuteScalar();
             connection.Close();
         }
@@ -315,17 +315,17 @@ public class Database
     /// <summary>
     /// Update CLassName
     /// </summary>
-    /// <param name="ClassId"></param>
-    /// <param name="NewClassName"></param>
-    public void UpdateClassName(int ClassId, string NewClassName)
+    /// <param name="classId"></param>
+    /// <param name="newClassName"></param>
+    public void UpdateClassName(int classId, string newClassName)
     {
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
             string sqlInsert = "UPDATE Classes SET ClassName = (@NewClassName) WHERE ClassID = (@ClassId)";
             SqlCommand commandInsert = new SqlCommand(sqlInsert, connection);
-            commandInsert.Parameters.AddWithValue("@ClassId", ClassId);
-            commandInsert.Parameters.AddWithValue("@NewClassName", NewClassName);
+            commandInsert.Parameters.AddWithValue("@ClassId", classId);
+            commandInsert.Parameters.AddWithValue("@NewClassName", newClassName);
             commandInsert.ExecuteReader();
             connection.Close();
         }
@@ -339,21 +339,21 @@ public class Database
     /// <returns>The student id and unhashed password</returns>
     public string[] AddStudent(string[] student, int classId)
     {
-        string UnhashedPassword = GetRandomPassword(5);
-        string HashedPassword = HashPassword(UnhashedPassword);
+        string unhashedPassword = GetRandomPassword(5);
+        string hashedPassword = HashPassword(unhashedPassword);
         object newPupilId;
-        string Username = student[0] + '_' + student[1];
-        Username.Replace(' ', '_');
-        string UsernameSave = Username;
+        string username = student[0] + '_' + student[1];
+        username.Replace(' ', '_');
+        string usernameSave = username;
         int number = 1;
-        while (CheckIfUserNameExists(UsernameSave))
+        while (CheckIfUserNameExists(usernameSave))
         {
-            UsernameSave = Username;
-            UsernameSave += number;
+            usernameSave = username;
+            usernameSave += number;
             number++;
         }
 
-        Username = UsernameSave;
+        username = usernameSave;
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
@@ -364,13 +364,13 @@ public class Database
             commandInsert.Parameters.AddWithValue("@FirstName", student[0]);
             commandInsert.Parameters.AddWithValue("@LastName", student[1]);
             commandInsert.Parameters.AddWithValue("@classId", classId);
-            commandInsert.Parameters.AddWithValue("@UserName", Username);
-            commandInsert.Parameters.AddWithValue("@HashedPassword", HashedPassword);
+            commandInsert.Parameters.AddWithValue("@UserName", username);
+            commandInsert.Parameters.AddWithValue("@HashedPassword", hashedPassword);
             newPupilId = commandInsert.ExecuteScalar();
             connection.Close();
         }
 
-        return new string[2] { newPupilId.ToString(), UnhashedPassword };
+        return new string[2] { newPupilId.ToString(), unhashedPassword };
     }
 /// <summary>
 /// Generate a random generated password
@@ -395,26 +395,26 @@ public class Database
 /// <summary>
 /// Get the student username from the studentId
 /// </summary>
-/// <param name="studentID"></param>
+/// <param name="studentId"></param>
 /// <returns>The student username</returns>
-    public string GetPupilUserName(int studentID)
+    public string? GetPupilUserName(int studentId)
     {
-        string Pupil = "";
+        string? pupil = "";
         using SqlConnection connection = new SqlConnection(DatabaseConnectionString());
         connection.Open();
         string sql = "SELECT Username FROM Pupil WHERE PupilID = (@studentID)";
         SqlCommand command = new SqlCommand(sql, connection);
-        command.Parameters.AddWithValue("@studentID", studentID);
+        command.Parameters.AddWithValue("@studentID", studentId);
         SqlDataReader? reader = command.ExecuteReader();
 
         while (reader.Read())
         {
-            Pupil = reader[0].ToString();
+            pupil = reader[0].ToString();
         }
 
         connection.Close();
 
-        return Pupil;
+        return pupil;
     }
     /// <summary>
     /// Checks if the autogenerated username already exists
@@ -492,7 +492,7 @@ public class Database
     /// <returns>a story</returns>
     public string GetStory()
     {
-        string StoryString = "";
+        string storyString = "";
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
@@ -504,14 +504,14 @@ public class Database
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    StoryString = reader[i].ToString();
+                    storyString = reader[i].ToString();
                 }
             }
 
             connection.Close();
         }
 
-        return StoryString;
+        return storyString;
     }
 
     /// <summary>
@@ -751,13 +751,13 @@ public class Database
     public Difficulty GetWordDifficulty(string word)
     {
         const int maxPoints = 45;
-        int TotalPoints = 0;
+        int totalPoints = 0;
         foreach (char letter in word)
         {
-            TotalPoints += AlphabetWithPoints[letter];
+            totalPoints += AlphabetWithPoints[letter];
         }
 
-        switch (TotalPoints)
+        switch (totalPoints)
         {
             case <= maxPoints / 5:
                 return Difficulty.Level1;
@@ -841,14 +841,14 @@ public class Database
 /// <summary>
 /// Get the level of the pupil from the correct type of exercise
 /// </summary>
-/// <param name="pupilID"></param>
+/// <param name="pupilId"></param>
 /// <param name="typeExercise"></param>
 /// <returns>Difficulty</returns>
-    public Difficulty GetLevel(int pupilID, TypeExercise typeExercise)
+    public Difficulty GetLevel(int pupilId, TypeExercise typeExercise)
     {
         const int minSize = 20;
         const int maxscore = 100;
-        int score = GetScore(pupilID, typeExercise);
+        int score = GetScore(pupilId, typeExercise);
         switch (score)
         {
             case <= maxscore / 5:
@@ -904,13 +904,13 @@ public class Database
     {
         bool exists = false;
         using SqlConnection connection = new SqlConnection(DatabaseConnectionString());
-        foreach (object? VARIABLE in Enum.GetValues(typeof(TypeExercise)))
+        foreach (object? variable in Enum.GetValues(typeof(TypeExercise)))
         {
             connection.Open();
             string sql = "SELECT * FROM PupilStatistics WHERE PupilId = @pupilId AND Type = @type";
             SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@pupilId", pupilId);
-            command.Parameters.AddWithValue("@type", VARIABLE.ToString());
+            command.Parameters.AddWithValue("@type", variable.ToString());
             SqlDataReader? reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -927,7 +927,7 @@ public class Database
                     "INSERT INTO PupilStatistics (PupilId, Type, Score,AmountCorr, AmountFalse, AssignmentsMade, KeyPerSec ) VALUES (@pupilId, @type, 1,0,0,0,0)";
                 SqlCommand commandInsert = new SqlCommand(sqlInsert, connection);
                 commandInsert.Parameters.AddWithValue("@pupilId", pupilId);
-                commandInsert.Parameters.AddWithValue("@type", VARIABLE.ToString());
+                commandInsert.Parameters.AddWithValue("@type", variable.ToString());
                 commandInsert.ExecuteReader();
                 connection.Close();
             }
