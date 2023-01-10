@@ -172,14 +172,14 @@ public class TeacherController
 }
 public class TeacherEventArgs : EventArgs
 {
-    public bool InformationIsCorrect { get; set; }
-    public bool NewStudentsAdded { get; set; }
-    public int ClassId { get; set; }
+	public bool InformationIsCorrect { get; set; }
+	public bool NewStudentsAdded { get; set; }
+	public int ClassId { get; set; }
 
-    public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
-    {
-        InformationIsCorrect = informationIsCorrect;
-        ClassId = classId;
-        NewStudentsAdded = newStudentsAdded;
-    }
+	public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
+	{
+		InformationIsCorrect = informationIsCorrect;
+		ClassId = classId;
+		NewStudentsAdded = newStudentsAdded;
+	}
 }
