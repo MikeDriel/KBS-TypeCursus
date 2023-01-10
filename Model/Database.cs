@@ -811,6 +811,12 @@ public class Database
     //    }
     //}
 
+    /// <summary>
+    /// get the score from the type of exercise and the pupilId
+    /// </summary>
+    /// <param name="pupilId"></param>
+    /// <param name="type"></param>
+    /// <returns>score</returns>
     private int GetScore(int pupilId, TypeExercise type)
     {
         int score = 0;
@@ -832,7 +838,12 @@ public class Database
 
         return score;
     }
-
+/// <summary>
+/// Get the level of the pupil from the correct type of exercise
+/// </summary>
+/// <param name="pupilID"></param>
+/// <param name="typeExercise"></param>
+/// <returns>Difficulty</returns>
     public Difficulty GetLevel(int pupilID, TypeExercise typeExercise)
     {
         const int minSize = 20;
@@ -857,7 +868,13 @@ public class Database
                 return Difficulty.Level5;
         }
     }
-
+    /// <summary>
+    /// algoritm to determine the size of the exercises
+    /// </summary>
+    /// <param name="sizeScore"></param>
+    /// <param name="maxscore"></param>
+    /// <param name="score"></param>
+    /// <param name="minSize"></param>
     private void SetSizeExercise(int sizeScore, int maxscore, int score, int minSize)
     {
         int maxsize = 30;
@@ -878,7 +895,11 @@ public class Database
             SizeExercise = maxsize;
         }
     }
-
+    /// <summary>
+    /// Check if the pupil already exists and if he has his own tables
+    /// if not create the tables
+    /// </summary>
+    /// <param name="pupilId"></param>
     public void CheckIfPupilStatisticsExist(int pupilId)
     {
         bool exists = false;
@@ -914,7 +935,6 @@ public class Database
             exists = false;
         }
     }
-
     public void DeleteStudent(int pupilId, int classId)
     {
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
@@ -928,7 +948,12 @@ public class Database
             connection.Close();
         }
     }
-
+    /// <summary>
+    /// Generate the class statistics for the application exercises
+    /// </summary>
+    /// <param name="userids"></param>
+    /// <param name="classid"></param>
+    /// <returns></returns>
     public List<Pupil> GenerateClassStatistics(List<int> userids, int classid)
     {
         List<Pupil> classtatistics = new List<Pupil>();

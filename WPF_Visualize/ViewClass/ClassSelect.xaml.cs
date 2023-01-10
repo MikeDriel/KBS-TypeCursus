@@ -20,7 +20,9 @@ public partial class ClassSelect : UserControl
         InitializeComponent();
         AddButtonsForClasses();
     }
-
+    /// <summary>
+    /// generates a button assignment to each existing class
+    /// </summary>
     private void AddButtonsForClasses()
     {
 
@@ -38,7 +40,7 @@ public partial class ClassSelect : UserControl
             ClassStackPanel.Children.Add(button);
         }
     }
-
+    
     private void OnLogOut(object sender, RoutedEventArgs e)
     {
         LoginController.LogOut();
