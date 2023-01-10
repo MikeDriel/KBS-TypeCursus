@@ -6,12 +6,12 @@ namespace Controller;
 
 public class TeacherController
 {
-    public int ClassId;
-    public List<string[]> ClassStudents;
-    public List<int> ClassStudentsDeleted;
-    public List<string[]> ClassStudentsNewlyAdded;
-    public Database Database;
-    public EventHandler<TeacherEventArgs> TeacherEvent;
+    public int ClassId { get; set; }
+    public List<string[]> ClassStudents { get; set; }
+    public List<int> ClassStudentsDeleted { get; set; }
+    public List<string[]> ClassStudentsNewlyAdded { get; set; }
+    public Database Database { get; set; }
+    public EventHandler<TeacherEventArgs> TeacherEvent { get; set; }
 
     public TeacherController()
     {
