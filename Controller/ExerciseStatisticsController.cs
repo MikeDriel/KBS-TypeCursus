@@ -1,6 +1,7 @@
 ﻿using Model;
 using System.Timers;
 using Timer = System.Timers.Timer;
+
 namespace Controller;
 
 public class ExerciseStatisticsController
@@ -18,6 +19,10 @@ public class ExerciseStatisticsController
     private int _numberOfCorrectLastSecond;
     private bool _timeUp;
 
+    /// <summary>
+    /// Constructor for the ExerciseStatisticsController to initialize the class when needed
+    /// </summary>
+    /// <param name="maxTime"></param>
     public ExerciseStatisticsController(int maxTime)
     {
         _database = new Database();
@@ -44,8 +49,13 @@ public class ExerciseStatisticsController
     public Dictionary<int, int> CharactersPerSecond { get; set; }
 
     public int NumberOfMistakes { get; private set; }
+
     public int NumberCorrect { get; private set; }
+
+    // bool to know if the timer is running
     public bool IsRunning { get; set; }
+
+    // the time the user has left for the exercise or the character
     public int TimeLeft { get; set; }
     public event EventHandler<LiveStatisticsEventArgs> LiveStatisticsEvent;
 
@@ -59,6 +69,9 @@ public class ExerciseStatisticsController
         }
     }
 
+    /// <summary>
+    /// method to get the statistics in a string that is ready to be placed in the label
+    /// </summary>
     public string GetStatistics()
     {
         double percentGood;
@@ -79,6 +92,9 @@ public class ExerciseStatisticsController
         return $" {NumberOfMistakes} fout \r\n {percentGood}% goed \r\n {CurrentTime.ToString("mm:ss")}";
     }
 
+    /// <summary>
+    /// Method to set the amount in the dictionary of typed chars per second
+    /// </summary>
     private void UpdateCharactersPerSecond()
     {
         int Key = CurrentTime.Second + CurrentTime.Minute * 60 + CurrentTime.Hour * 3600;
@@ -90,6 +106,11 @@ public class ExerciseStatisticsController
         _numberOfCorrectLastSecond = NumberCorrect;
     }
 
+    /// <summary>
+    /// event for when the timer is done
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="elapsedEventArgs"></param>
     private void OnTimedEvent(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
         if (!_timeUp)
@@ -112,6 +133,10 @@ public class ExerciseStatisticsController
         CurrentTime = CurrentTime.AddSeconds(1);
     }
 
+    /// <summary>
+    /// actions to do when the answer is wrong and it is because of a wrongly typed key
+    /// </summary>
+    /// <param name="currentKey"></param>
     public void WrongAnswer(char currentKey)
     {
         _lastKey = _currentKey;
@@ -122,12 +147,16 @@ public class ExerciseStatisticsController
         }
     }
 
+    /// <summary>
+    /// actions to do when the answer is wrong because of a time out
+    /// </summary>
     public void WrongAnswer()
     {
         NumberOfMistakes++;
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
     }
-
+    
+    
     public void RightAnswer()
     {
         NumberCorrect++;
@@ -136,10 +165,15 @@ public class ExerciseStatisticsController
         {
             TimeLeft = _maxTime;
         }
+
         _timeUp = false;
         LiveStatisticsEvent?.Invoke(this, new LiveStatisticsEventArgs(false));
     }
 
+    /// <summary>
+    /// Method to calculate the gained or lost score from the made exercise
+    /// </summary>
+    /// <returns></returns>
     public int InitializeScore()
     {
         // Calculation = ((Correct answers - Incorrect answers) / total time ) * difficulty 
@@ -147,12 +181,14 @@ public class ExerciseStatisticsController
         double score;
         if (CurrentTime.Second != 0)
         {
-            score = (NumberCorrect - NumberOfMistakes) / (CurrentTime.Second + (double)CurrentTime.Minute * 60 + (double)CurrentTime.Hour * 3600) * 4;
+            score = (NumberCorrect - NumberOfMistakes) /
+                (CurrentTime.Second + (double)CurrentTime.Minute * 60 + (double)CurrentTime.Hour * 3600) * 4;
         }
         else
         {
             score = (NumberCorrect - NumberOfMistakes) * 4;
         }
+
         Math.Round(score, 0);
         return (int)score;
     }
@@ -164,7 +200,8 @@ public class ExerciseStatisticsController
         if (LoginController.s_UserId != null)
         {
             int UserId = (int)LoginController.s_UserId;
-            _database.UpdatePupilStatistics(UserId, ExerciseController.S_Choice, NumberCorrect, NumberOfMistakes, keyPerSec, InitializeScore());
+            _database.UpdatePupilStatistics(UserId, ExerciseController.SChoice, NumberCorrect, NumberOfMistakes,
+                keyPerSec, InitializeScore());
         }
     }
 }

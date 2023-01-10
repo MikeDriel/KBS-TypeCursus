@@ -20,18 +20,20 @@ public partial class Exercise : UserControl
 {
     private readonly ExerciseController _controller;
 
-    private readonly Rectangle _rectangleLetterToType = new Rectangle
-        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterToType = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    private readonly Rectangle _rectangleLetterTyped = new Rectangle
-        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterTyped = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
     public ExerciseStatisticsController? StatisticsController { get; set; }
 
+    /// <summary>
+    /// constructor for the page which changes some aspects on the screen and the data based on the selected type of exercise
+    /// </summary>
+    /// <param name="choice"></param>
     public Exercise(TypeExercise choice)
     {
         InitializeComponent();
-        _controller = new ExerciseController(choice, Difficulty.Level1);
+        _controller = new ExerciseController(choice);
         int maxTime;
         if (choice == TypeExercise.Story)
         {
@@ -77,15 +79,15 @@ public partial class Exercise : UserControl
     private void TextInputPress(object sender, TextCompositionEventArgs e)
     {
         Debug.WriteLine(e.Text);
-        // check if button pressed was enter
-        if (e.Text == "\r" || e.Text == "")
+        // check if button pressed was enter esc or ctrl
+        if (e.Text == "\r" || e.Text == "" || e.Text == ((char)27).ToString())
         {
             return;
         }
-
+        // check if button presssed was backspace and act accordingly
         if (e.Text == "\b")
         {
-            if (ExerciseController.S_Choice == TypeExercise.Story)
+            if (ExerciseController.SChoice == TypeExercise.Story)
             {
                 _controller.OnBack();
                 ProgressBar.Value = _controller.Progress;
@@ -109,7 +111,7 @@ public partial class Exercise : UserControl
     //updates values on view
     private void ChangeTextOnScreen()
     {
-        if (ExerciseController.S_Choice == TypeExercise.Story)
+        if (ExerciseController.SChoice == TypeExercise.Story)
         {
             SetRichBox();
         }
@@ -126,7 +128,9 @@ public partial class Exercise : UserControl
 
         SetLiveStatistics(this, new LiveStatisticsEventArgs(false));
     }
-
+    /// <summary>
+    /// set the textbox used for the story exercise
+    /// </summary>
     private void SetRichBox()
     {
         RichTextBoxStory.Document.Blocks.Clear();
@@ -266,7 +270,7 @@ public partial class Exercise : UserControl
     private void MistakeMade()
     {
         //if the letter is wrong, add a mistake and update the screen
-        if (ExerciseController.S_Choice == TypeExercise.Story)
+        if (ExerciseController.SChoice == TypeExercise.Story)
         {
             StatisticsController?.WrongAnswer();
         }

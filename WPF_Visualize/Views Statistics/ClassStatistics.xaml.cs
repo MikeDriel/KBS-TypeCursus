@@ -15,7 +15,7 @@ public partial class ClassStatistics : UserControl
 {
     private readonly Database _database;
     private List<Pupil> ClassStatisticsList { get; set; }
-    private List<string> UserIds { get; set; }
+    private List<int> UserIds { get; set; }
 
     public int StatisticsClassId { get; set; }
     public static int S_ClassId { get; set; }
@@ -39,7 +39,7 @@ public partial class ClassStatistics : UserControl
 	private void InitializeClassStatistics()
     {
         UserIds = _database.GetClass(StatisticsClassId); //get the amount of pupils.
-        ClassStatisticsList = _database.GenerateClassStatistics(UserIds.Select(int.Parse).ToList(), StatisticsClassId);
+        ClassStatisticsList = _database.GenerateClassStatistics(UserIds.ToList(), StatisticsClassId);
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ public class StatisticsController
     public List<string> StoryStatistics { get; private set; }
     public List<string> TotalStatistics { get; private set; }
     public List<List<string>> LeaderBoardList { get; private set; }
-    public List<string> UserIds { get; private set; }
+    public List<int> UserIds { get; private set; }
     public string PupilName { get; private set; }
     public int UserId { get; set; }
     public int ClassId { get; private set; }
@@ -38,20 +38,20 @@ public class StatisticsController
     {
         ClassId = _database.GetClassId(LoginController.s_UserId.ToString());
         UserIds = _database.GetClass(ClassId); //get the amount of pupils.
-        LeaderBoardList = _database.GenerateLeaderboard(UserIds.Select(int.Parse).ToList(), ClassId);
+        LeaderBoardList = _database.GenerateLeaderboard(UserIds.ToList(), ClassId);
     }
 
     private void InitializeLetterStatistics()
     {
-        LetterStatistics = _database.GetStatisticsDB(0, UserId.ToString());
+        LetterStatistics = _database.GetStatistics(0, UserId.ToString());
     }
     private void InitializeWordStatistics()
     {
-        WordStatistics = _database.GetStatisticsDB(1, UserId.ToString());
+        WordStatistics = _database.GetStatistics(1, UserId.ToString());
     }
     private void InitializeStoryStatistics()
     {
-        StoryStatistics = _database.GetStatisticsDB(2, UserId.ToString());
+        StoryStatistics = _database.GetStatistics(2, UserId.ToString());
     }
     private void InitializeTotalStatistics()
     {
@@ -85,6 +85,6 @@ public class StatisticsController
       
     private void InitializePupilName()
     {
-        PupilName = _database.GetStatisticsNameDB(UserId.ToString());
+        PupilName = _database.GetName(UserId);
     }
 }

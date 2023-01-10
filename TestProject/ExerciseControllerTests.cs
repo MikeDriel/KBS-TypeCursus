@@ -19,7 +19,7 @@ public class ExerciseControllerTests
         {
             LoginController.s_UserId = 1;
             Database database = new Database();
-            controller = new ExerciseController(TypeExercise.Letter, level);
+            controller = new ExerciseController(TypeExercise.Letter);
             controller.GenerateLetterData(Difficulty.Level1, count);
             foreach (char letter in controller.CharacterList)
             {
@@ -43,7 +43,7 @@ public class ExerciseControllerTests
         {
             LoginController.s_UserId = 1;
             Database database = new Database();
-            controller = new ExerciseController(TypeExercise.Word, level);
+            controller = new ExerciseController(TypeExercise.Word);
             controller.GenerateLetterData(Difficulty.Level1, count);
             List<string> words = new List<string>();
             string wordToAdd = "";
@@ -73,7 +73,7 @@ public class ExerciseControllerTests
     [Test]
     public void OnBackTest()
     {
-        controller = new ExerciseController(TypeExercise.Story, Difficulty.Level1);
+        controller = new ExerciseController(TypeExercise.Story);
         controller.CharacterList = new List<char>();
         controller.DequeuedChar = 'a';
         string charlist = "Hij zat op de b";

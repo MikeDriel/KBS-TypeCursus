@@ -114,6 +114,12 @@ public class TeacherController
         }
     }
 
+    /// <summary>
+    /// Method that makes a pdf with all the information from the newly added students
+    /// </summary>
+    /// <param name="dictionary"></param>
+    /// <param name="classname"></param>
+    /// <param name="classId"></param>
     public void MakePdfWithAddedStudentPasswords(Dictionary<int, string> dictionary, string classname, int classId)
     {
         Random random = new Random(DateTime.Now.Millisecond);
@@ -162,6 +168,7 @@ public class TeacherController
 
     }
 
+
     public string GetDownloadFolderPath()
     {
         return Registry
@@ -172,14 +179,14 @@ public class TeacherController
 }
 public class TeacherEventArgs : EventArgs
 {
-    public bool InformationIsCorrect { get; set; }
-    public bool NewStudentsAdded { get; set; }
-    public int ClassId { get; set; }
+	public bool InformationIsCorrect { get; set; }
+	public bool NewStudentsAdded { get; set; }
+	public int ClassId { get; set; }
 
-    public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
-    {
-        InformationIsCorrect = informationIsCorrect;
-        ClassId = classId;
-        NewStudentsAdded = newStudentsAdded;
-    }
+	public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
+	{
+		InformationIsCorrect = informationIsCorrect;
+		ClassId = classId;
+		NewStudentsAdded = newStudentsAdded;
+	}
 }

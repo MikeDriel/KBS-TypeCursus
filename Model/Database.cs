@@ -2,8 +2,12 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+
 namespace Model;
 
+/// <summary>
+/// enumerator with all the possible difficulty's
+/// </summary>
 public enum Difficulty
 {
     Level1 = 1,
@@ -13,6 +17,9 @@ public enum Difficulty
     Level5 = 5
 }
 
+/// <summary>
+/// enumerator with all the possible game types
+/// </summary>
 public enum TypeExercise
 {
     Letter,
@@ -22,12 +29,13 @@ public enum TypeExercise
 
 public class Database
 {
-
     public Database()
     {
         AlphabetWithPoints = new Dictionary<char, int>();
         FillDictAlphabet();
     }
+
+    // dictionary with all the letters from the alphabet and their assigned points
     public Dictionary<char, int> AlphabetWithPoints { get; set; }
     public int SizeExercise { get; private set; }
 
@@ -54,7 +62,12 @@ public class Database
         }
     }
 
-    public string GetStatisticsNameDB(string userid)
+    /// <summary>
+    /// Method to get the username based on the userId
+    /// </summary>
+    /// <param name="userid"></param>
+    /// <returns>Username</returns>
+    public string GetName(int userid)
     {
         List<string> nameList = new List<string>();
         string name = "";
@@ -62,10 +75,9 @@ public class Database
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            string sql = $" SELECT Firstname FROM Pupil WHERE PupilID = {userid}";
-
-
+            string sql = " SELECT Firstname FROM Pupil WHERE PupilID = (@userid)";
             SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@userid", userid);
             SqlDataReader? reader = command.ExecuteReader();
 
 
@@ -76,6 +88,7 @@ public class Database
 
             connection.Close();
         }
+
         return name;
     }
 
@@ -110,13 +123,20 @@ public class Database
         AlphabetWithPoints.Add('z', 5);
     }
 
+    /// <summary>
+    /// Get the words for the exercise based on difficulty and amount of words
+    /// </summary>
+    /// <param name="difficulty"></param>
+    /// <param name="amountOfWords"></param>
+    /// <returns>List with all chars for the exercise</returns>
     public List<char> GetWord(Difficulty difficulty, int amountOfWords)
     {
         List<char> wordList = new List<char>();
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            string sql = "SELECT TOP (@amountOfWords) Words FROM Words WHERE Difficulty = (@difficulty) ORDER BY NEWID()";
+            string sql =
+                "SELECT TOP (@amountOfWords) Words FROM Words WHERE Difficulty = (@difficulty) ORDER BY NEWID()";
             SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@amountOfWords", amountOfWords);
             command.Parameters.AddWithValue("@difficulty", difficulty);
@@ -139,6 +159,12 @@ public class Database
         return wordList;
     }
 
+    /// <summary>
+    /// check if the class that the teacher wants to create already exists
+    /// </summary>
+    /// <param name="teacherId"></param>
+    /// <param name="classname"></param>
+    /// <returns>true if the class already exists otherwise false</returns>
     public bool CheckIfClassExists(int teacherId, string classname)
     {
         List<int> classIds = GetClasses(teacherId);
@@ -149,9 +175,15 @@ public class Database
                 return true;
             }
         }
+
         return false;
     }
 
+    /// <summary>
+    /// get all classes linked to the teacherId
+    /// </summary>
+    /// <param name="teacherId"></param>
+    /// <returns>List with all classId's linked to the given teacher</returns>
     public List<int> GetClasses(int teacherId)
     {
         List<int> classes = new List<int>();
@@ -174,6 +206,11 @@ public class Database
         return classes;
     }
 
+    /// <summary>
+    /// Get the name of a class based ont their classId
+    /// </summary>
+    /// <param name="classId"></param>
+    /// <returns>The class name</returns>
     public string GetClassName(int classId)
     {
         string className = "";
@@ -196,6 +233,11 @@ public class Database
         return className;
     }
 
+    /// <summary>
+    /// Get all students linked to the classId
+    /// </summary>
+    /// <param name="classId"></param>
+    /// <returns>Returns all students from the given class</returns>
     public List<int> GetStudents(int classId)
     {
         List<int> studentIds = new List<int>();
@@ -218,6 +260,11 @@ public class Database
         return studentIds;
     }
 
+    /// <summary>
+    /// Returns the name of the student based on the studentId
+    /// </summary>
+    /// <param name="studentID"></param>
+    /// <returns>an array with in first position their firstname and in second position their lastname</returns>
     public string[] GetStudentName(int studentID)
     {
         string[] Pupil = new string[2];
@@ -241,14 +288,20 @@ public class Database
         return Pupil;
     }
 
-    //Make new class and return the auto incremented class id using ExecuteScalar and output.insereted.classid
+    /// <summary>
+    /// Make new class and return the auto incremented class id using ExecuteScalar and output.insereted.classid
+    /// </summary>
+    /// <param name="TeacherId"></param>
+    /// <param name="ClassName"></param>
+    /// <returns>the class id of the newly added class</returns>
     public int AddNewClass(int TeacherId, string ClassName)
     {
         object newClassId;
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            string sqlInsert = "INSERT INTO Classes (TeacherID, ClassName)" + "output inserted.ClassID " + "VALUES (@TeacherId, @ClassName)";
+            string sqlInsert = "INSERT INTO Classes (TeacherID, ClassName)" + "output inserted.ClassID " +
+                               "VALUES (@TeacherId, @ClassName)";
             SqlCommand commandInsert = new SqlCommand(sqlInsert, connection);
             commandInsert.Parameters.AddWithValue("@TeacherId", TeacherId);
             commandInsert.Parameters.AddWithValue("@ClassName", ClassName);
@@ -259,7 +312,11 @@ public class Database
         return (int)newClassId;
     }
 
-    //Update CLassName
+    /// <summary>
+    /// Update CLassName
+    /// </summary>
+    /// <param name="ClassId"></param>
+    /// <param name="NewClassName"></param>
     public void UpdateClassName(int ClassId, string NewClassName)
     {
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
@@ -274,7 +331,12 @@ public class Database
         }
     }
 
-
+    /// <summary>
+    /// Add an array filled with studentnames to the database with the right class
+    /// </summary>
+    /// <param name="student"></param>
+    /// <param name="classId"></param>
+    /// <returns>The student id and unhashed password</returns>
     public string[] AddStudent(string[] student, int classId)
     {
         string UnhashedPassword = GetRandomPassword(5);
@@ -290,11 +352,14 @@ public class Database
             UsernameSave += number;
             number++;
         }
+
         Username = UsernameSave;
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            string sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password)" + "output inserted.PupilID " + "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword))";
+            string sqlInsert = "INSERT INTO Pupil (Firstname, Lastname, ClassID, Username, Password)" +
+                               "output inserted.PupilID " +
+                               "VALUES ((@FirstName), (@LastName), (@classId),(@UserName),(@HashedPassword))";
             SqlCommand commandInsert = new SqlCommand(sqlInsert, connection);
             commandInsert.Parameters.AddWithValue("@FirstName", student[0]);
             commandInsert.Parameters.AddWithValue("@LastName", student[1]);
@@ -307,7 +372,11 @@ public class Database
 
         return new string[2] { newPupilId.ToString(), UnhashedPassword };
     }
-
+/// <summary>
+/// Generate a random generated password
+/// </summary>
+/// <param name="length"></param>
+/// <returns>A new password</returns>
     public string GetRandomPassword(int length)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -323,7 +392,11 @@ public class Database
 
         return sb.ToString();
     }
-
+/// <summary>
+/// Get the student username from the studentId
+/// </summary>
+/// <param name="studentID"></param>
+/// <returns>The student username</returns>
     public string GetPupilUserName(int studentID)
     {
         string Pupil = "";
@@ -343,7 +416,11 @@ public class Database
 
         return Pupil;
     }
-
+    /// <summary>
+    /// Checks if the autogenerated username already exists
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns>true if the username already exists and false if it doesnt</returns>
     public bool CheckIfUserNameExists(string username)
     {
         string? pupil = null;
@@ -359,6 +436,7 @@ public class Database
             {
                 pupil = reader[0].ToString();
             }
+
             connection.Close();
         }
 
@@ -366,17 +444,27 @@ public class Database
         {
             return false;
         }
+
         return true;
     }
 
-    //Method that updates data in the Pupilstatistics table
+    /// <summary>
+    /// Method that updates data in the Pupilstatistics table
+    /// </summary>
+    /// <param name="pupilId"></param>
+    /// <param name="type"></param>
+    /// <param name="amountCorrect"></param>
+    /// <param name="amountFalse"></param>
+    /// <param name="keyPerSec"></param>
+    /// <param name="score"></param>
     public void UpdatePupilStatistics(int pupilId, TypeExercise type, int amountCorrect, int amountFalse,
         double keyPerSec, int score)
     {
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
-            string sql = "UPDATE PupilStatistics SET AmountFalse = AmountFalse + @amountFalse, AmountCorr = AmountCorr + @amountCorrect, KeyPerSec = ((KeyPerSec * AssignmentsMade) + @keyPerSec)/(AssignmentsMade+1), AssignmentsMade = AssignmentsMade+1, Score= Score + @score WHERE PupilID = @pupilId AND Type = @type; UPDATE PupilStatistics SET Score = 0 WHERE Score < 0";
+            string sql =
+                "UPDATE PupilStatistics SET AmountFalse = AmountFalse + @amountFalse, AmountCorr = AmountCorr + @amountCorrect, KeyPerSec = ((KeyPerSec * AssignmentsMade) + @keyPerSec)/(AssignmentsMade+1), AssignmentsMade = AssignmentsMade+1, Score= Score + @score WHERE PupilID = @pupilId AND Type = @type; UPDATE PupilStatistics SET Score = 0 WHERE Score < 0";
             SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@pupilId", pupilId);
             command.Parameters.AddWithValue("@type", type.ToString());
@@ -391,13 +479,17 @@ public class Database
             {
                 command.Parameters.AddWithValue("@score", score);
             }
+
             command.ExecuteNonQuery();
             connection.Close();
         }
     }
 
 
-    //This method is used to get stories from the database
+    /// <summary>
+    /// This method is used to get stories from the database
+    /// </summary>
+    /// <returns>a story</returns>
     public string GetStory()
     {
         string StoryString = "";
@@ -447,10 +539,13 @@ public class Database
                 {
                     userids.Add(reader[i].ToString());
                 }
+
                 classid = (int)reader[0];
             }
+
             connection.Close();
         }
+
         return classid;
     }
 
@@ -459,27 +554,29 @@ public class Database
     ///     Used to generate leaderboard.
     /// </summary>
     /// <param name="classid"></param>
-    /// <returns></returns>
-    public List<string> GetClass(int classid)
+    /// <returns>List with all PupilIds</returns>
+    public List<int> GetClass(int classid)
     {
-        List<string> userids = new List<string>();
+        List<int> userids = new List<int>();
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
             string sql;
-            sql = $"SELECT PupilID FROM Pupil WHERE ClassID = {classid}";
-
+            sql = "SELECT PupilID FROM Pupil WHERE ClassID = (@classid)";
             SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@classid", classid);
             SqlDataReader? reader = command.ExecuteReader();
             while (reader.Read())
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    userids.Add(reader[i].ToString());
+                    userids.Add(int.Parse(reader[i].ToString()));
                 }
             }
+
             connection.Close();
         }
+
         return userids;
     }
 
@@ -510,15 +607,24 @@ public class Database
                 SqlDataReader? reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    leaderboard.Add(new List<string> { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString() });
+                    leaderboard.Add(new List<string>
+                        { reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString() });
                 }
+
                 connection.Close();
             }
         }
+
         return leaderboard;
     }
 
-    public List<string> GetStatisticsDB(int type, string userid)
+    /// <summary>
+    /// get all the needed statistics from all types of exercises
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="userid"></param>
+    /// <returns></returns>
+    public List<string> GetStatistics(int type, string userid)
     {
         List<string> statistics = new List<string>();
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
@@ -541,7 +647,9 @@ public class Database
             {
                 return null;
             }
-            string sql = $"SELECT PupilID, Type, AmountCorr, AmountFalse, AssignmentsMade, ROUND(KeyPerSec, 1), Score FROM PupilStatistics WHERE PupilID = {userid} AND type = '{typeString}'";
+
+            string sql =
+                $"SELECT PupilID, Type, AmountCorr, AmountFalse, AssignmentsMade, ROUND(KeyPerSec, 1), Score FROM PupilStatistics WHERE PupilID = {userid} AND type = '{typeString}'";
             SqlCommand command = new SqlCommand(sql, connection);
             SqlDataReader? reader = command.ExecuteReader();
 
@@ -559,7 +667,12 @@ public class Database
         return statistics;
     }
 
-    // get password from the database
+    /// <summary>
+    /// get password from the database
+    /// </summary>
+    /// <param name="isTeacher"></param>
+    /// <param name="loginKey"></param>
+    /// <returns>returns a string array with the password from the database and the user id</returns>
     public string[]? GetPasswordWithId(bool? isTeacher, string? loginKey)
     {
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
@@ -600,7 +713,11 @@ public class Database
         }
     }
 
-    // hash incoming string and return the hashed value
+    /// <summary>
+    /// hash incoming string and return the hashed value
+    /// </summary>
+    /// <param name="password"></param>
+    /// <returns>The inserted password hashed</returns>
     public string HashPassword(string password)
     {
         byte[] data = Encoding.ASCII.GetBytes(password);
@@ -608,7 +725,9 @@ public class Database
         string hash = Encoding.ASCII.GetString(data);
         return hash;
     }
-
+    /// <summary>
+    /// check if a server connection has been astablished
+    /// </summary>
     public async Task<bool> IsServerConnected()
     {
         await using SqlConnection connection = new SqlConnection(DatabaseConnectionString());
@@ -624,6 +743,11 @@ public class Database
         }
     }
 
+    /// <summary>
+    /// calculate the diffulty for each word
+    /// </summary>
+    /// <param name="word"></param>
+    /// <returns>The difficulty fit for the given word</returns>
     public Difficulty GetWordDifficulty(string word)
     {
         const int maxPoints = 45;
@@ -648,7 +772,8 @@ public class Database
         }
     }
 
-    //LEGACY CODE
+    //LEGACY CODE 
+    //FOR SETTING THE WORD DIFFICULTY IN THE ENTIRE DATABASE
     //public void AddDifficultyToDatabase()
     //{
     //    List<string> wordList = new List<string>();
@@ -686,6 +811,12 @@ public class Database
     //    }
     //}
 
+    /// <summary>
+    /// get the score from the type of exercise and the pupilId
+    /// </summary>
+    /// <param name="pupilId"></param>
+    /// <param name="type"></param>
+    /// <returns>score</returns>
     private int GetScore(int pupilId, TypeExercise type)
     {
         int score = 0;
@@ -707,10 +838,15 @@ public class Database
 
         return score;
     }
-
+/// <summary>
+/// Get the level of the pupil from the correct type of exercise
+/// </summary>
+/// <param name="pupilID"></param>
+/// <param name="typeExercise"></param>
+/// <returns>Difficulty</returns>
     public Difficulty GetLevel(int pupilID, TypeExercise typeExercise)
     {
-        const int minSize = 5;
+        const int minSize = 20;
         const int maxscore = 100;
         int score = GetScore(pupilID, typeExercise);
         switch (score)
@@ -732,7 +868,13 @@ public class Database
                 return Difficulty.Level5;
         }
     }
-
+    /// <summary>
+    /// algoritm to determine the size of the exercises
+    /// </summary>
+    /// <param name="sizeScore"></param>
+    /// <param name="maxscore"></param>
+    /// <param name="score"></param>
+    /// <param name="minSize"></param>
     private void SetSizeExercise(int sizeScore, int maxscore, int score, int minSize)
     {
         int maxsize = 30;
@@ -741,6 +883,7 @@ public class Database
         {
             score = maxscore;
         }
+
         SizeExercise = (maxscore / 5 * sizeScore - score) * minSize;
         if (SizeExercise <= 0)
         {
@@ -752,7 +895,11 @@ public class Database
             SizeExercise = maxsize;
         }
     }
-
+    /// <summary>
+    /// Check if the pupil already exists and if he has his own tables
+    /// if not create the tables
+    /// </summary>
+    /// <param name="pupilId"></param>
     public void CheckIfPupilStatisticsExist(int pupilId)
     {
         bool exists = false;
@@ -776,7 +923,8 @@ public class Database
             if (!exists)
             {
                 connection.Open();
-                string sqlInsert = "INSERT INTO PupilStatistics (PupilId, Type, Score,AmountCorr, AmountFalse, AssignmentsMade, KeyPerSec ) VALUES (@pupilId, @type, 1,0,0,0,0)";
+                string sqlInsert =
+                    "INSERT INTO PupilStatistics (PupilId, Type, Score,AmountCorr, AmountFalse, AssignmentsMade, KeyPerSec ) VALUES (@pupilId, @type, 1,0,0,0,0)";
                 SqlCommand commandInsert = new SqlCommand(sqlInsert, connection);
                 commandInsert.Parameters.AddWithValue("@pupilId", pupilId);
                 commandInsert.Parameters.AddWithValue("@type", VARIABLE.ToString());
@@ -787,10 +935,8 @@ public class Database
             exists = false;
         }
     }
-
     public void DeleteStudent(int pupilId, int classId)
     {
-
         using (SqlConnection connection = new SqlConnection(DatabaseConnectionString()))
         {
             connection.Open();
@@ -802,6 +948,12 @@ public class Database
             connection.Close();
         }
     }
+    /// <summary>
+    /// Generate the class statistics for the application exercises
+    /// </summary>
+    /// <param name="userids"></param>
+    /// <param name="classid"></param>
+    /// <returns></returns>
     public List<Pupil> GenerateClassStatistics(List<int> userids, int classid)
     {
         List<Pupil> classtatistics = new List<Pupil>();
@@ -820,11 +972,14 @@ public class Database
                 SqlDataReader? reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    classtatistics.Add(new Pupil(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), int.Parse(reader[3].ToString()), int.Parse(reader[4].ToString())));
+                    classtatistics.Add(new Pupil(int.Parse(reader[0].ToString()), reader[1].ToString(),
+                        reader[2].ToString(), int.Parse(reader[3].ToString()), int.Parse(reader[4].ToString())));
                 }
+
                 connection.Close();
             }
         }
+
         return classtatistics;
     }
 }

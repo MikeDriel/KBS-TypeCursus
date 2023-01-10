@@ -21,7 +21,10 @@ public partial class TeacherMain : UserControl
         _classId = classId;
         SetClassNameLabel(_classId);
     }
-
+    /// <summary>
+    /// set the banner based on the class name which we get via the classId
+    /// </summary>
+    /// <param name="classId"></param>
     private void SetClassNameLabel(int classId)
     {
         string className = Database.GetClassName(classId);
