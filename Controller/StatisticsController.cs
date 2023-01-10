@@ -25,7 +25,7 @@ public class StatisticsController
     public List<List<string>> LeaderBoardList { get; private set; }
     public List<string> UserIds { get; private set; }
     public string PupilName { get; private set; }
-    public int UserId { get; }
+    public int UserId { get; set; }
     public int ClassId { get; private set; }
 
     /// <summary>

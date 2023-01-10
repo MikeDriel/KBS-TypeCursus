@@ -54,6 +54,6 @@ public class Charts
         Stats.Axes.Add(KeyPerSecondAxis);
     }
 
-    public IList<DataPoint> Data { get; }
-    public PlotModel Stats { get; }
+    public IList<DataPoint> Data { get; set; }
+    public PlotModel Stats { get; set; }
 }

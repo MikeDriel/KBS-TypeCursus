@@ -12,7 +12,7 @@ namespace WPF_Visualize.Views_Statistics;
 /// </summary>
 public partial class ResultsExercise : UserControl
 {
-    public static ExerciseStatisticsController s_ExerciseStatisticsController;
+    public static ExerciseStatisticsController s_ExerciseStatisticsController { get; set; }
     public ResultsExercise(ExerciseStatisticsController statisticsController)
     {
         s_ExerciseStatisticsController = statisticsController;

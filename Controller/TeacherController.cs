@@ -162,7 +162,7 @@ public class TeacherController
 
     }
 
-    string GetDownloadFolderPath()
+    public string GetDownloadFolderPath()
     {
         return Registry
             .GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",

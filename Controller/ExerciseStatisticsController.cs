@@ -172,7 +172,7 @@ public class ExerciseStatisticsController
 //EVENT FOR LIVE STATISTICS UPDATE
 public class LiveStatisticsEventArgs : EventArgs
 {
-    public bool SetTextRed;
+    public bool SetTextRed { get; set; }
 
     public LiveStatisticsEventArgs(bool setTextRed)
     {

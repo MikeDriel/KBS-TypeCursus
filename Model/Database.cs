@@ -28,7 +28,7 @@ public class Database
         AlphabetWithPoints = new Dictionary<char, int>();
         FillDictAlphabet();
     }
-    public Dictionary<char, int> AlphabetWithPoints { get; }
+    public Dictionary<char, int> AlphabetWithPoints { get; set; }
     public int SizeExercise { get; private set; }
 
     private string? DatabaseConnectionString()

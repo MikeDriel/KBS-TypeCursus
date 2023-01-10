@@ -8,7 +8,7 @@ namespace WPF_Visualize.ViewLogic;
 // Via this class we can change the content of the mainwindow to any usercontroller
 public static class UserControlController
 {
-    public static UserControl s_Content;
+    public static UserControl s_Content { get; set; }
 
     static UserControlController()
     {

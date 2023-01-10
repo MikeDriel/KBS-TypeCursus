@@ -13,7 +13,7 @@ namespace WPF_Visualize.Views_Navigate;
 public partial class TeacherMain : UserControl
 {
     private readonly int _classId;
-    public Database Database = new();
+    public Database Database { get; set; } = new();
 
     public TeacherMain(int classId)
     {

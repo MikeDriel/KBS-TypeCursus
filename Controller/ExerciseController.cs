@@ -189,8 +189,8 @@ public class ExerciseController
 /// </summary>
 public class ExerciseEventArgs : EventArgs
 {
-    public bool IsCorrect;
-    public bool IsFinished;
+    public bool IsCorrect { get; set; }
+    public bool IsFinished { get; set; }
 
     public ExerciseEventArgs(bool isCorrect,
         bool isFinished)

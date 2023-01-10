@@ -14,7 +14,7 @@ namespace WPF_Visualize.ViewClass;
 public partial class ClassSelect : UserControl
 {
     private readonly int _userId = LoginController.GetUserId();
-    public Database Database = new Database();
+    public Database Database { get; set; } = new Database();
     public ClassSelect()
     {
         InitializeComponent();

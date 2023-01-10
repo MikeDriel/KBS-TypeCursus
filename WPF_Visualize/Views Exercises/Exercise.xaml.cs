@@ -26,7 +26,7 @@ public partial class Exercise : UserControl
     private readonly Rectangle _rectangleLetterTyped = new Rectangle
         { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    public ExerciseStatisticsController? StatisticsController;
+    public ExerciseStatisticsController? StatisticsController { get; set; }
 
     public Exercise(TypeExercise choice)
     {
