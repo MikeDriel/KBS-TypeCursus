@@ -20,11 +20,9 @@ public partial class Exercise : UserControl
 {
     private readonly ExerciseController _controller;
 
-    private readonly Rectangle _rectangleLetterToType = new Rectangle
-        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterToType = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    private readonly Rectangle _rectangleLetterTyped = new Rectangle
-        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterTyped = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
     public ExerciseStatisticsController? StatisticsController { get; set; }
 
@@ -35,7 +33,7 @@ public partial class Exercise : UserControl
     public Exercise(TypeExercise choice)
     {
         InitializeComponent();
-        _controller = new ExerciseController(choice, Difficulty.Level1);
+        _controller = new ExerciseController(choice);
         int maxTime;
         if (choice == TypeExercise.Story)
         {

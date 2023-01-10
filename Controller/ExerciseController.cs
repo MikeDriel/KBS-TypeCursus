@@ -3,12 +3,11 @@ namespace Controller;
 
 public class ExerciseController
 {
-    private readonly Database Database = new Database();
+    private readonly Database _database = new();
 
-    private readonly Random Random = new Random(); //random number generator
-
-
-    public ExerciseController(TypeExercise choice, Difficulty difficulty)
+    private readonly Random _random = new(); //random number generator
+    
+    public ExerciseController(TypeExercise choice)
     {
         S_Choice = choice;
         CharacterList = new List<char>();
@@ -62,10 +61,10 @@ public class ExerciseController
         switch (choice)
         {
             case TypeExercise.Letter:
-                GenerateLetterData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
+                GenerateLetterData(_database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter), _database.SizeExercise);
                 break;
             case TypeExercise.Word:
-                GenerateWordData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Word), Database.SizeExercise);
+                GenerateWordData(_database.GetLevel(LoginController.GetUserId(), TypeExercise.Word), _database.SizeExercise);
                 break;
             case TypeExercise.Story:
                 GenerateStoryData();
@@ -86,7 +85,7 @@ public class ExerciseController
     public int Progress { get; set; } // holds the users progress over the exercise
 
     // eventHandler for when the user has finished the exercise
-    public event EventHandler<ExerciseEventArgs> ExerciseEvent;
+    public event EventHandler<ExerciseEventArgs>? ExerciseEvent;
 
     /// <summary>
     ///     Generates the alphabet data for the list based on the needed amount of characters and difficulty.
@@ -95,7 +94,7 @@ public class ExerciseController
     {
         List<char> letters = new List<char>();
 
-        foreach (KeyValuePair<char, int> charWithPoints in Database.AlphabetWithPoints)
+        foreach (KeyValuePair<char, int> charWithPoints in _database.AlphabetWithPoints)
         {
             if (charWithPoints.Value <= (int)difficulty)
             {
@@ -104,7 +103,7 @@ public class ExerciseController
         }
         for (int i = 0; i < amountOfChars; i++)
         {
-            CharacterList.Add(letters[Random.Next(0, letters.Count)]);
+            CharacterList.Add(letters[_random.Next(0, letters.Count)]);
         }
     }
 
@@ -113,7 +112,7 @@ public class ExerciseController
     /// </summary>
     public void GenerateWordData(Difficulty difficulty, int amount)
     {
-        CharacterList = Database.GetWord(difficulty, amount);
+        CharacterList = _database.GetWord(difficulty, amount);
     }
 
     /// <summary>
@@ -121,7 +120,7 @@ public class ExerciseController
     /// </summary>
     public void GenerateStoryData()
     {
-        string StoryString = Database.GetStory();
+        string StoryString = _database.GetStory();
         foreach (char character in StoryString)
         {
             CharacterList.Add(character);
