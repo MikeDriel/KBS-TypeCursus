@@ -75,21 +75,21 @@ public class ExerciseController
 
     public static TypeExercise S_Choice { get; private set; } //user's choice
 
-    public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
-    public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed
+    public List<char> CharacterList { get; set; } //list which holds all the letters of the exercise
+    public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed that are correct
     public List<char> TypedCharsList { get; set; } //list which holds all the letters that have been typed
 
     public Dictionary<char, int[]> Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
 
     public char CurrentChar { get; set; } //the current letter that is being typed
-    public char DequeuedChar { get; set; } //the current letter that is being typed
-    public int Progress { get; set; }
+    public char DequeuedChar { get; set; } //the current letter that is should be typed
+    public int Progress { get; set; } // holds the users progress over the exercise
 
-    // events
+    // eventHandler for when the user has finished the exercise
     public event EventHandler<ExerciseEventArgs> ExerciseEvent;
 
     /// <summary>
-    ///     Generates the alphabet data for the list.
+    ///     Generates the alphabet data for the list based on the needed amount of characters and difficulty.
     /// </summary>
     public void GenerateLetterData(Difficulty difficulty, int amountOfChars)
     {
@@ -108,12 +108,17 @@ public class ExerciseController
         }
     }
 
+    /// <summary>
+    ///     Generates the word data for the list based on the needed amount of words and difficulty.
+    /// </summary>
     public void GenerateWordData(Difficulty difficulty, int amount)
     {
-        //get the words from the database and choose how many you want
         CharacterList = Database.GetWord(difficulty, amount);
     }
 
+    /// <summary>
+    ///     Generates the story data for the list.
+    /// </summary>
     public void GenerateStoryData()
     {
         string StoryString = Database.GetStory();
@@ -131,6 +136,7 @@ public class ExerciseController
         //checks if list isnt empty
         if (CharacterList.Count >= 1)
         {
+            // because the story and other exercises work diffrently this step is needed in diffrent places for the story exercise and the other one
             if (S_Choice == TypeExercise.Story)
             {
                 Progress++;
@@ -143,6 +149,7 @@ public class ExerciseController
             //checks if the last keypress is equal to the first letter in the queue
             if (DequeuedChar == CurrentChar && S_Choice == TypeExercise.Story || S_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar)
             {
+                // almost the same step as before but changed to fit the word and letter exercises
                 if (S_Choice != TypeExercise.Story)
                 {
                     Progress++;
@@ -152,6 +159,7 @@ public class ExerciseController
                     CharacterList.RemoveAt(0);
                 }
 
+                // invoke the event to change the screen based on the stage of the exercise and if the answer was correct
                 if (CharacterList.Count == 0)
                 {
                     ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
@@ -167,7 +175,9 @@ public class ExerciseController
             }
         }
     }
-
+    /// <summary>
+    /// method for when the backspace is pressed to revert the changes that have happend to the exercise
+    /// </summary>
     public void OnBack()
     {
         if (TypedCharsList.Count > 0)

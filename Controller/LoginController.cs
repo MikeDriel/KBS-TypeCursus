@@ -12,14 +12,19 @@ public class LoginController
         s_IsTeacher = isTeacher;
     }
 
+    // boolean to check if the user is a teacher or a student
     public bool IsTeacher { get; set; }
     public static bool s_IsTeacher { get; set; }
+    // static int to store the id of the user
     public static int? s_UserId { get; set; }
 
     public event EventHandler<LoginEventArgs>? LoginEvent;
-
-
-    //CHECK IF THE GIVEN LOGIN INFORMATION IS RIGHT AND SET THE UserId ACCORDINGLY
+    
+    /// <summary>
+    /// Check if the given login information is right and set the UserId accordingly
+    /// </summary>
+    /// <param name="loginKey"></param>
+    /// <param name="password"></param>
     public void CheckLogin(string? loginKey, string password)
     {
         if (loginKey == "" || password == "")
@@ -49,11 +54,19 @@ public class LoginController
         }
     }
 
+    /// <summary>
+    /// Method for the the user logs out to set the userId to null
+    /// </summary>
     public static void LogOut()
     {
         s_UserId = null;
     }
 
+    /// <summary>
+    /// Method to het the userId 
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public static int GetUserId()
     {
         if (s_UserId != null)
