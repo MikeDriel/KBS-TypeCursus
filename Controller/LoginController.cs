@@ -9,11 +9,11 @@ public class LoginController
     {
         _db = new Database();
         IsTeacher = isTeacher;
-        S_IsTeacher = isTeacher;
+        s_IsTeacher = isTeacher;
     }
 
     public bool IsTeacher { get; set; }
-    public static bool S_IsTeacher { get; set; }
+    public static bool s_IsTeacher { get; set; }
     public static int? s_UserId { get; set; }
 
     public event EventHandler<LoginEventArgs>? LoginEvent;

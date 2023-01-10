@@ -97,7 +97,7 @@ public partial class Statistics : UserControl
     {
         ClassStatistics classStats = new ClassStatistics(StatisticsClassId);
         classStats.StatisticsClassId = StatisticsClassId;
-        if (LoginController.S_IsTeacher)
+        if (LoginController.s_IsTeacher)
         {
             UserControlController.MainWindowChange(this, classStats);
         }
