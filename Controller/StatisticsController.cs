@@ -73,12 +73,16 @@ public class StatisticsController
                         (Convert.ToDouble(LetterStatistics[4]) + Convert.ToDouble(WordStatistics[4]) + Convert.ToDouble(StoryStatistics[4]));
             }
 
-
             total = Math.Round(total, 1);
+            
+            if(total == 0)
+            {
+                TotalStatistics.Add("0");
+            }
             TotalStatistics.Add(total.ToString());
         }
     }
-
+      
     private void InitializePupilName()
     {
         PupilName = _database.GetStatisticsNameDB(UserId.ToString());
