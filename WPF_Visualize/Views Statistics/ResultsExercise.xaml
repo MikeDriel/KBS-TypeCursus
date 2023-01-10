@@ -73,7 +73,7 @@
 
 		<Border BorderBrush="#1c313a" Background="#1c313a" Grid.Row="1" Grid.Column="2" MaxWidth="800" Height="600" MinWidth="800"
                 CornerRadius="10" Margin="25,0,50,50" BorderThickness="0.2" VerticalAlignment="Center">
-            <oxy:PlotView x:Name="Tekens_perseconde" Background="#1c313a" Margin="25,25,25,25" Model="{Binding Stats}" />
+            <oxy:PlotView x:Name="Tekens_perseconde" Background="#1c313a" Margin="25,25,25,25" IsMouseWheelEnabled="False" Model="{Binding Stats}" />
         </Border>
     </Grid>
 </UserControl>
