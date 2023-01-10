@@ -43,19 +43,67 @@ public partial class ClassSettings : UserControl
         AddStudentButton.IsEnabled = false;
     }
 
-    /// <summary>
-    ///     Adds the students that are already in the class to the stackpanel, used when class already existed
-    /// </summary>
-    /// <param name="classId"></param>
-    private void AddCurrentsStudentsToStackPanelAndComboBox(int classId)
+	private void AddCurrentsStudentsToStackPanelAndComboBox(int classId, List<string[]> newPupils)
+	{
+		List<int> pupils = _database.GetStudents(classId);
+
+		foreach (int pupilId in pupils)
+		{
+			if (_teacherController.ClassStudentsDeleted.Contains(pupilId))
+			{
+				continue;
+			}
+
+			string[] pupil = _database.GetStudentName(pupilId);
+			var label = new Label
+			{
+				Content = pupil[0] + " " + pupil[1],
+				Foreground = Brushes.White,
+				FontSize = 25
+			};
+
+			var comboBoxItem = new ComboBoxItem
+			{
+				Content = $"{pupil[0]} {pupil[1]}",
+				Name = $"_{pupilId}"
+			};
+
+			StudentListPanel.Children.Add(label);
+			ComboBoxStudents.Items.Add(comboBoxItem);
+		}
+
+		foreach (string[] pupil in newPupils)
+		{
+
+			Label label = new Label
+			{
+				Content = pupil[0] + " " + pupil[1],
+				Foreground = Brushes.White,
+				FontSize = 25
+			};
+
+			ComboBoxItem comboBoxItem = new ComboBoxItem
+			{
+				Content = $"{pupil[0]} {pupil[1]}"
+			};
+
+			StudentListPanel.Children.Add(label);
+			ComboBoxStudents.Items.Add(comboBoxItem);
+		}
+
+
+	}
+
+	/// <summary>
+	///     Adds the students that are already in the class to the stackpanel, used when class already existed. Only used when first openened
+	/// </summary>
+	/// <param name="classId"></param>
+	private void AddCurrentsStudentsToStackPanelAndComboBox(int classId)
     {
-
-
         List<int> pupils = _database.GetStudents(classId);
 
         foreach (int pupilId in pupils)
         {
-            //Check if pupilID is also in teacherController.ClassStudentsDeleted
             if (_teacherController.ClassStudentsDeleted.Contains(pupilId))
             {
                 continue;
@@ -77,35 +125,6 @@ public partial class ClassSettings : UserControl
 
             StudentListPanel.Children.Add(label);
             ComboBoxStudents.Items.Add(comboBoxItem);
-        }
-    }
-
-    /// <summary>
-    ///     Add the students that are newly added to the stackpanel, used when it's a new class / or when there are new
-    ///     students
-    /// </summary>
-    /// <param name="pupils"></param>
-    private void AddCurrentsStudentsToStackPanelAndComboBox(List<string[]> pupils)
-    {
-        {
-            foreach (string[] pupil in pupils)
-            {
-
-                Label label = new Label
-                {
-                    Content = pupil[0] + " " + pupil[1],
-                    Foreground = Brushes.White,
-                    FontSize = 25
-                };
-
-                ComboBoxItem comboBoxItem = new ComboBoxItem
-                {
-                    Content = $"{pupil[0]} {pupil[1]}"
-                };
-
-                StudentListPanel.Children.Add(label);
-                ComboBoxStudents.Items.Add(comboBoxItem);
-            }
         }
     }
 
@@ -186,7 +205,7 @@ public partial class ClassSettings : UserControl
         tbLastName.Text = "";
         StudentListPanel.Children.Clear();
         ComboBoxStudents.Items.Clear();
-        AddCurrentsStudentsToStackPanelAndComboBox(_teacherController.ClassStudents);
+		AddCurrentsStudentsToStackPanelAndComboBox(_classId, _teacherController.ClassStudentsNewlyAdded);
     }
 
     private void OnStudentRemove(object sender, RoutedEventArgs e)
@@ -207,15 +226,7 @@ public partial class ClassSettings : UserControl
 
             StudentListPanel.Children.Clear();
             ComboBoxStudents.Items.Clear();
-            //AddCurrentsStudentsToStackPanelAndComboBox(teacherController.ClassStudents);
-            if (_isNewClass)
-            {
-                AddCurrentsStudentsToStackPanelAndComboBox(_teacherController.ClassStudents);
-            }
-            else
-            {
-                AddCurrentsStudentsToStackPanelAndComboBox(_classId);
-            }
+			AddCurrentsStudentsToStackPanelAndComboBox(_classId,_teacherController.ClassStudentsNewlyAdded);
         }
     }
 
