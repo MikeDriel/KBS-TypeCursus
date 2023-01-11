@@ -180,7 +180,9 @@ public partial class Exercise : UserControl
         });
     }
 
-    //moves the highlighted box
+    /// <summary>
+    ///  moves the highlighted box for the letter that has to be typed.
+    /// </summary>
     private void MoveLetterToTypeBoxOnCanvas() //Moves box on canvas that displays which letter has to be typed
     {
         try
@@ -203,13 +205,17 @@ public partial class Exercise : UserControl
                 Canvas.SetLeft(_rectangleLetterToType, posX);
             }
         }
-        catch (Exception e)
+        catch (System.Collections.Generic.KeyNotFoundException e)
         {
             Debug.WriteLine(e);
         }
     }
 
-    //Moves box on canvas that displays which letter has to be typed
+    /// <summary>
+    /// Moves box on canvas that displays which letter was typed
+    /// </summary>
+    /// <param name="isGood"></param>
+    /// <param name="charTyped"></param>
     private void MoveLetterTypedBoxOnCanvas(bool isGood, char charTyped)
     {
         try
@@ -238,7 +244,7 @@ public partial class Exercise : UserControl
             Canvas.SetTop(_rectangleLetterTyped, posY);
             Canvas.SetLeft(_rectangleLetterTyped, posX);
         }
-        catch (Exception e)
+        catch (System.Collections.Generic.KeyNotFoundException e)
         {
             Debug.WriteLine(e);
         }
