@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
-using WPF_Visualize.Views_Statistics;
-namespace WPF_Visualize;
+using WPF_Visualize.Views_Navigate;
+namespace WPF_Visualize.Views_Statistics;
 
 /// <summary>
 ///     Interaction logic for Statistics.xaml
@@ -21,15 +21,17 @@ public partial class Statistics : UserControl
     private readonly List<string> totalstatistics;
     private readonly List<string> wordstatistics;
 
-    //[0] is PupilID
-    //[1] is Type
-    //[2] is AmountCorrect
-    //[3] is AmountFalse
-    //[4] is AssignmentsMade
-    //[5] is KeyPerSec
-    //[6] is Score
+    public int StatisticsClassId { get; set; }
 
-    public Statistics(int userID)
+	//[0] is PupilID
+	//[1] is Type
+	//[2] is AmountCorrect
+	//[3] is AmountFalse
+	//[4] is AssignmentsMade
+	//[5] is KeyPerSec
+	//[6] is Score
+
+	public Statistics(int userID)
     {
         _userID = userID;
         StatsController = new StatisticsController(_userID);
@@ -40,14 +42,13 @@ public partial class Statistics : UserControl
         totalstatistics = StatsController.TotalStatistics;
         pupilname = StatsController.PupilName;
 
-        StatisticsClassId = ClassStatistics.SClassId;
+        StatisticsClassId = ClassStatistics.S_ClassId;
 
         InitializeComponent();
-        _InitializeLabels();
+        InitializeLabels();
     }
-    public int StatisticsClassId { get; set; }
 
-    private void _InitializeLabels()
+    private void InitializeLabels()
     {
         //sets name label
         Name.Content = pupilname;
@@ -87,7 +88,7 @@ public partial class Statistics : UserControl
 
     /// <summary>
     ///     Checks if the current user is a teacher,
-    ///     if that's it'll go back to the class statistics window.
+    ///     if that's the case it'll go back to the class statistics window.
     ///     Otherwise it'll go back to the main menu for the pupil.
     /// </summary>
     /// <param name="sender"></param>
@@ -96,7 +97,7 @@ public partial class Statistics : UserControl
     {
         ClassStatistics classStats = new ClassStatistics(StatisticsClassId);
         classStats.StatisticsClassId = StatisticsClassId;
-        if (LoginController.S_IsTeacher)
+        if (LoginController.s_IsTeacher)
         {
             UserControlController.MainWindowChange(this, classStats);
         }

@@ -4,7 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WPF_Visualize.ViewLogic;
-namespace WPF_Visualize;
+using WPF_Visualize.Views_Navigate;
+namespace WPF_Visualize.Views_Statistics;
 
 /// <summary>
 ///     Interaction logic for LeaderBoard.xaml

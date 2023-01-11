@@ -1,5 +1,5 @@
 ﻿using Controller;
-namespace TestProject.DataBaseTest;
+namespace TestProject.LiveResponseTest;
 
 [TestFixture]
 public class LiveResponseTests

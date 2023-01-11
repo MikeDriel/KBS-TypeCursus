@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using WPF_Visualize.ViewLogic;
+using WPF_Visualize.Views_Navigate;
 namespace WPF_Visualize.Views_Statistics;
 
 /// <summary>
@@ -11,18 +12,17 @@ namespace WPF_Visualize.Views_Statistics;
 /// </summary>
 public partial class ResultsExercise : UserControl
 {
-    public static ExerciseStatisticsController s_ExerciseStatisticsController;
+    public static ExerciseStatisticsController s_ExerciseStatisticsController { get; set; }
     public ResultsExercise(ExerciseStatisticsController statisticsController)
     {
         s_ExerciseStatisticsController = statisticsController;
         InitializeComponent();
-        _InitializeLabels();
+        InitializeLabels();
         s_ExerciseStatisticsController.SendStatisticInformationToDatabase(Math.Round(s_ExerciseStatisticsController.CharactersPerSecond.Values.Average(), 1));
-
     }
 
     //sets all labels
-    private void _InitializeLabels()
+    private void InitializeLabels()
     {
         double wps = s_ExerciseStatisticsController.CharactersPerSecond.Values.Average();
         wps = Math.Round(wps, 1);
@@ -35,17 +35,17 @@ public partial class ResultsExercise : UserControl
 
 
         //sets the labels
-        Score.Content = "Score: " + s_ExerciseStatisticsController._InitializeScore();
+        Score.Content = "Score: " + s_ExerciseStatisticsController.InitializeScore();
         Totaltime.Content = "Totale tijd: " + s_ExerciseStatisticsController.CurrentTime.ToString("mm:ss");
         MistakeCount.Content = "Aantal fouten: " + s_ExerciseStatisticsController.NumberOfMistakes;
         WPS.Content = "Gemiddelde tekens per seconde: " + wps;
         CorrectCount.Content = "Aantal goed: " + s_ExerciseStatisticsController.NumberCorrect;
         CorrectPercentage.Content = $"Percentage goed: {correctPercentage}%";
-        _InitializeFeedback(correctPercentage);
+        InitializeFeedback(correctPercentage);
     }
 
     //logic for feedback label
-    private void _InitializeFeedback(double percentage)
+    private void InitializeFeedback(double percentage)
     {
         if (percentage >= 80)
         {

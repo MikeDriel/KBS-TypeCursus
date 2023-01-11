@@ -6,12 +6,12 @@ namespace Controller;
 
 public class TeacherController
 {
-    private int _classId;
-    public List<string[]> ClassStudents;
-    public List<int> ClassStudentsDeleted;
-    public List<string[]> ClassStudentsNewlyAdded;
-    public Database Database;
-    public EventHandler<TeacherEventArgs> TeacherEvent;
+    public int ClassId { get; set; }
+    public List<string[]> ClassStudents { get; set; }
+    public List<int> ClassStudentsDeleted { get; set; }
+    public List<string[]> ClassStudentsNewlyAdded { get; set; }
+    public Database Database { get; set; }
+    public EventHandler<TeacherEventArgs> TeacherEvent { get; set; }
 
     public TeacherController()
     {
@@ -78,14 +78,11 @@ public class TeacherController
         List<int> listclasses = Database.GetClasses(user_id);
         if (!Database.CheckIfClassExists(user_id, className))
         {
-            int classId = Database.AddNewClass(user_id, className);
-            AddStudentsToDatabase(classId);
+            ClassId = Database.AddNewClass(user_id, className);
+            AddStudentsToDatabase(ClassId);
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /// <summary>
@@ -106,7 +103,6 @@ public class TeacherController
             MakePdfWithAddedStudentPasswords(studentsInformation, Database.GetClassName(classId), classId);
             return true;
         }
-
         return false;
     }
 
@@ -118,6 +114,12 @@ public class TeacherController
         }
     }
 
+    /// <summary>
+    /// Method that makes a pdf with all the information from the newly added students
+    /// </summary>
+    /// <param name="dictionary"></param>
+    /// <param name="classname"></param>
+    /// <param name="classId"></param>
     public void MakePdfWithAddedStudentPasswords(Dictionary<int, string> dictionary, string classname, int classId)
     {
         Random random = new Random(DateTime.Now.Millisecond);
@@ -131,7 +133,7 @@ public class TeacherController
         string filename = $"{classname}_{classId}_{dictionary.First().Key.ToString()}.pdf";
         foreach (var KeyValue in dictionary)
         {
-            string UserName = Database.getPupilUserName(KeyValue.Key);
+            string? UserName = Database.GetPupilUserName(KeyValue.Key);
             string[] studentNameArray = Database.GetStudentName(KeyValue.Key);
             string naam = studentNameArray[0] + " " + studentNameArray[1];
             string Password = KeyValue.Value;
@@ -166,7 +168,8 @@ public class TeacherController
 
     }
 
-    string GetDownloadFolderPath()
+
+    public string GetDownloadFolderPath()
     {
         return Registry
             .GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
@@ -176,14 +179,14 @@ public class TeacherController
 }
 public class TeacherEventArgs : EventArgs
 {
-    public bool InformationIsCorrect { get; set; }
-    public bool NewStudentsAdded { get; set; }
-    public int ClassId { get; set; }
+	public bool InformationIsCorrect { get; set; }
+	public bool NewStudentsAdded { get; set; }
+	public int ClassId { get; set; }
 
-    public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
-    {
-        InformationIsCorrect = informationIsCorrect;
-        ClassId = classId;
-        NewStudentsAdded = newStudentsAdded;
-    }
+	public TeacherEventArgs(bool informationIsCorrect, int classId, bool newStudentsAdded)
+	{
+		InformationIsCorrect = informationIsCorrect;
+		ClassId = classId;
+		NewStudentsAdded = newStudentsAdded;
+	}
 }

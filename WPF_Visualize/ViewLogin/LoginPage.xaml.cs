@@ -1,6 +1,7 @@
 ﻿using Controller;
 using System.Windows;
 using System.Windows.Controls;
+using WPF_Visualize.ViewClass;
 using WPF_Visualize.ViewLogic;
 using WPF_Visualize.Views_Navigate;
 namespace WPF_Visualize.ViewLogin;
@@ -16,11 +17,11 @@ public partial class LoginPage : UserControl
     {
         InitializeComponent();
         _loginController = new LoginController(isTeacher);
-        _setText();
+        SetText();
         _loginController.LoginEvent += LoginEvent;
     }
 
-    private void _setText()
+    private void SetText()
     {
         if (_loginController.IsTeacher)
         {
@@ -36,21 +37,12 @@ public partial class LoginPage : UserControl
 
     private void OnLogIn(object sender, RoutedEventArgs e)
     {
-        //UserControlController.MainWindowChange(this, new StudentMain());
-        // try
-        // {
         _loginController.CheckLogin(LoginKeyTextBox.Text, PasswordPasswordBox.Password);
-        // }
-        // catch (Exception exception)
-        // {
-        //     Console.WriteLine(exception);
-        //     throw new Exception();
-        // }
     }
 
     private void LoginEvent(object sender, LoginEventArgs e)
     {
-        if (e.IsLoggedin)
+        if (e.IsLoggedIn)
         {
             if (e.IsTeacher)
             {

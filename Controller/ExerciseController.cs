@@ -1,16 +1,30 @@
 using Model;
+
 namespace Controller;
 
 public class ExerciseController
 {
-    private readonly Database Database = new Database();
+    private static readonly Database _database = new Database();
 
-    private readonly Random Random = new Random(); //random number generator
+    private readonly Random _random = new Random(); //random number generator
 
+    /// <summary>
+    /// normally used constructor
+    /// </summary>
+    /// <param name="choice"></param>
+    public ExerciseController(TypeExercise choice) : this(choice,
+        _database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter))
+    {
+    }
 
+    /// <summary>
+    /// overload constructor for the tests to be able to set the level
+    /// </summary>
+    /// <param name="choice"></param>
+    /// <param name="difficulty"></param>
     public ExerciseController(TypeExercise choice, Difficulty difficulty)
     {
-        s_Choice = choice;
+        SChoice = choice;
         CharacterList = new List<char>();
         TypedCharsList = new List<char>();
         CorrectCharsList = new List<char>();
@@ -62,10 +76,12 @@ public class ExerciseController
         switch (choice)
         {
             case TypeExercise.Letter:
-                GenerateLetterData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter), Database.SizeExercise);
+                GenerateLetterData(_database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter),
+                    _database.SizeExercise);
                 break;
             case TypeExercise.Word:
-                GenerateWordData(Database.GetLevel(LoginController.GetUserId(), TypeExercise.Word), Database.SizeExercise);
+                GenerateWordData(_database.GetLevel(LoginController.GetUserId(), TypeExercise.Word),
+                    _database.SizeExercise);
                 break;
             case TypeExercise.Story:
                 GenerateStoryData();
@@ -73,66 +89,77 @@ public class ExerciseController
         }
     }
 
-    public static TypeExercise s_Choice { get; private set; } //user's choice
 
-    public List<char> CharacterList { get; set; } //list which holds all the letters of the alphabet
-    public List<char> CorrectCharsList { get; set; } //list which holds all the letters that the user has typed
+    public static TypeExercise SChoice { get; private set; } //user's choice
+
+    public List<char> CharacterList { get; set; } //list which holds all the letters of the exercise
+
+    public List<char>
+        CorrectCharsList { get; set; } //list which holds all the letters that the user has typed that are correct
+
     public List<char> TypedCharsList { get; set; } //list which holds all the letters that have been typed
 
-    public Dictionary<char, int[]> Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
+    public Dictionary<char, int[]>
+        Coordinates { get; set; } //dictionary which holds all the coordinates of the keyboard positions
 
     public char CurrentChar { get; set; } //the current letter that is being typed
-    public char DequeuedChar { get; set; } //the current letter that is being typed
-    public int Progress { get; set; }
+    public char DequeuedChar { get; set; } //the current letter that is should be typed
+    public int Progress { get; set; } // holds the users progress over the exercise
 
-    // events
-    public event EventHandler<ExerciseEventArgs> ExerciseEvent;
+    // eventHandler for when the user has finished the exercise
+    public event EventHandler<ExerciseEventArgs>? ExerciseEvent;
 
     /// <summary>
-    ///     Generates the alphabet data for the list.
+    ///     Generates the alphabet data for the list based on the needed amount of characters and difficulty.
     /// </summary>
     public void GenerateLetterData(Difficulty difficulty, int amountOfChars)
     {
         List<char> letters = new List<char>();
 
-        foreach (KeyValuePair<char, int> charWithPoints in Database.AlphabetWithPoints)
+        foreach (KeyValuePair<char, int> charWithPoints in _database.AlphabetWithPoints)
         {
             if (charWithPoints.Value <= (int)difficulty)
             {
                 letters.Add(charWithPoints.Key);
             }
         }
+
         for (int i = 0; i < amountOfChars; i++)
         {
-            CharacterList.Add(letters[Random.Next(0, letters.Count)]);
+            CharacterList.Add(letters[_random.Next(0, letters.Count)]);
         }
     }
 
+    /// <summary>
+    ///     Generates the word data for the list based on the needed amount of words and difficulty.
+    /// </summary>
     public void GenerateWordData(Difficulty difficulty, int amount)
     {
-        //get the words from the database and choose how many you want
-        CharacterList = Database.GetWord(difficulty, amount);
+        CharacterList = _database.GetWord(difficulty, amount);
     }
 
-    public void GenerateStoryData()
+    /// <summary>
+    ///     Generates the story data for the list.
+    /// </summary>
+    private void GenerateStoryData()
     {
-        string StoryString = Database.GetStory();
-        foreach (char character in StoryString)
+        string storyString = _database.GetStory();
+        foreach (char character in storyString)
         {
             CharacterList.Add(character);
         }
     }
-
 
     /// <summary>
     ///     Logic to check if letter is correct or incorrect.
     /// </summary>
     public void CheckIfLetterIsCorrect()
     {
-        //checks if list isnt empty
+        //checks if list isn't empty
         if (CharacterList.Count >= 1)
         {
-            if (s_Choice == TypeExercise.Story)
+            // because the story and other exercises work differently this step is needed in different places for the story exercise and the other one
+            if (SChoice == TypeExercise.Story)
             {
                 Progress++;
                 DequeuedChar = CharacterList[0];
@@ -141,11 +168,12 @@ public class ExerciseController
                 TypedCharsList.Add(CurrentChar);
             }
 
-
             //checks if the last keypress is equal to the first letter in the queue
-            if (DequeuedChar == CurrentChar && s_Choice == TypeExercise.Story || s_Choice != TypeExercise.Story && CharacterList[0] == CurrentChar)
+            if (DequeuedChar == CurrentChar && SChoice == TypeExercise.Story ||
+                SChoice != TypeExercise.Story && CharacterList[0] == CurrentChar)
             {
-                if (s_Choice != TypeExercise.Story)
+                // almost the same step as before but changed to fit the word and letter exercises
+                if (SChoice != TypeExercise.Story)
                 {
                     Progress++;
                     //if it is, remove the letter from the List
@@ -154,6 +182,7 @@ public class ExerciseController
                     CharacterList.RemoveAt(0);
                 }
 
+                // invoke the event to change the screen based on the stage of the exercise and if the answer was correct
                 if (CharacterList.Count == 0)
                 {
                     ExerciseEvent?.Invoke(this, new ExerciseEventArgs(true, true));
@@ -170,6 +199,9 @@ public class ExerciseController
         }
     }
 
+    /// <summary>
+    /// method for when the backspace is pressed to revert the changes that have happened to the exercise
+    /// </summary>
     public void OnBack()
     {
         if (TypedCharsList.Count > 0)
@@ -191,8 +223,8 @@ public class ExerciseController
 /// </summary>
 public class ExerciseEventArgs : EventArgs
 {
-    public bool IsCorrect;
-    public bool IsFinished;
+    public bool IsCorrect { get; set; }
+    public bool IsFinished { get; set; }
 
     public ExerciseEventArgs(bool isCorrect,
         bool isFinished)
