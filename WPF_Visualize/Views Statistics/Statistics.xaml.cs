@@ -88,7 +88,7 @@ public partial class Statistics : UserControl
 
     /// <summary>
     ///     Checks if the current user is a teacher,
-    ///     if that's it'll go back to the class statistics window.
+    ///     if that's the case it'll go back to the class statistics window.
     ///     Otherwise it'll go back to the main menu for the pupil.
     /// </summary>
     /// <param name="sender"></param>

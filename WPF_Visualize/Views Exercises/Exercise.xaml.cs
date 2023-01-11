@@ -20,11 +20,9 @@ public partial class Exercise : UserControl
 {
     private ExerciseController _controller;
 
-    private readonly Rectangle _rectangleLetterToType = new Rectangle
-        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterToType = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
-    private readonly Rectangle _rectangleLetterTyped = new Rectangle
-        { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
+    private readonly Rectangle _rectangleLetterTyped = new() { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
 
     public ExerciseStatisticsController? StatisticsController { get; set; }
 
@@ -89,7 +87,7 @@ public partial class Exercise : UserControl
         // check if button presssed was backspace and act accordingly
         if (e.Text == "\b")
         {
-            if (ExerciseController.S_Choice == TypeExercise.Story)
+            if (ExerciseController.SChoice == TypeExercise.Story)
             {
                 _controller.OnBack();
                 ProgressBar.Value = _controller.Progress;
@@ -113,7 +111,7 @@ public partial class Exercise : UserControl
     //updates values on view
     private void ChangeTextOnScreen()
     {
-        if (ExerciseController.S_Choice == TypeExercise.Story)
+        if (ExerciseController.SChoice == TypeExercise.Story)
         {
             SetRichBox();
         }
@@ -272,7 +270,7 @@ public partial class Exercise : UserControl
     private void MistakeMade()
     {
         //if the letter is wrong, add a mistake and update the screen
-        if (ExerciseController.S_Choice == TypeExercise.Story)
+        if (ExerciseController.SChoice == TypeExercise.Story)
         {
             StatisticsController?.WrongAnswer();
         }

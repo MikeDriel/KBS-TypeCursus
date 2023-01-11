@@ -200,7 +200,7 @@ public class ExerciseStatisticsController
         if (LoginController.s_UserId != null)
         {
             int UserId = (int)LoginController.s_UserId;
-            _database.UpdatePupilStatistics(UserId, ExerciseController.S_Choice, NumberCorrect, NumberOfMistakes,
+            _database.UpdatePupilStatistics(UserId, ExerciseController.SChoice, NumberCorrect, NumberOfMistakes,
                 keyPerSec, InitializeScore());
         }
     }

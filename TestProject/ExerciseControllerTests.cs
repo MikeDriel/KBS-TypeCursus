@@ -74,7 +74,7 @@ public class ExerciseControllerTests
     [Test]
     public void OnBackTest()
     {
-        controller = new ExerciseController(TypeExercise.Story, Difficulty.Level1);
+        controller = new ExerciseController(TypeExercise.Story);
         controller.CharacterList = new List<char>();
         controller.DequeuedChar = 'a';
         string charlist = "Hij zat op de b";
