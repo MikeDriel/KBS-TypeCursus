@@ -78,7 +78,6 @@ public partial class Exercise : UserControl
 
     private void TextInputPress(object sender, TextCompositionEventArgs e)
     {
-        Debug.WriteLine(e.Text);
         // check if button pressed was enter esc or ctrl
         if (e.Text == "\r" || e.Text == "" || e.Text == ((char)27).ToString())
         {
@@ -87,6 +86,7 @@ public partial class Exercise : UserControl
         // check if button presssed was backspace and act accordingly
         if (e.Text == "\b")
         {
+            Debug.WriteLine(_controller.CorrectCharsList);
             if (ExerciseController.SChoice == TypeExercise.Story)
             {
                 _controller.OnBack();
@@ -286,8 +286,8 @@ public partial class Exercise : UserControl
     private void ExerciseFinished()
     {
         //adds a empty space if the list is empty
+        Cleanup();
         LetterToTypeLabel.Content = "";
-        _controller = null;
         UserControlController.MainWindowChange(this, new ResultsExercise(StatisticsController));
     }
 
