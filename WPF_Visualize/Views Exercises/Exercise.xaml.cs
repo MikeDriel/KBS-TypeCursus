@@ -18,7 +18,7 @@ namespace WPF_Visualize.Views_Exercises;
 /// </summary>
 public partial class Exercise : UserControl
 {
-    private readonly ExerciseController _controller;
+    private ExerciseController _controller;
 
     private readonly Rectangle _rectangleLetterToType = new Rectangle
         { Width = 33, Height = 33, Fill = Brushes.Gray, Opacity = 0.75 }; //Makes rectangle
@@ -35,7 +35,7 @@ public partial class Exercise : UserControl
     public Exercise(TypeExercise choice)
     {
         InitializeComponent();
-        _controller = new ExerciseController(choice, Difficulty.Level1);
+        _controller = new ExerciseController(choice);
         int maxTime;
         if (choice == TypeExercise.Story)
         {
@@ -289,7 +289,7 @@ public partial class Exercise : UserControl
     {
         //adds a empty space if the list is empty
         LetterToTypeLabel.Content = "";
-
+        _controller = null;
         UserControlController.MainWindowChange(this, new ResultsExercise(StatisticsController));
     }
 

@@ -3,10 +3,16 @@ namespace Controller;
 
 public class ExerciseController
 {
-    private readonly Database Database = new Database();
+    private static readonly Database Database = new Database();
 
     private readonly Random Random = new Random(); //random number generator
 
+
+    public ExerciseController(TypeExercise choice) : this(choice,
+        Database.GetLevel(LoginController.GetUserId(), TypeExercise.Letter))
+    {
+        
+    }
 
     public ExerciseController(TypeExercise choice, Difficulty difficulty)
     {
@@ -72,6 +78,8 @@ public class ExerciseController
                 break;
         }
     }
+    
+    
 
     public static TypeExercise S_Choice { get; private set; } //user's choice
 

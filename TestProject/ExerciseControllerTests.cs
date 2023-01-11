@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Controller;
 using Model;
 namespace TestProject;
@@ -20,7 +21,7 @@ public class ExerciseControllerTests
             LoginController.s_UserId = 1;
             Database database = new Database();
             controller = new ExerciseController(TypeExercise.Letter, level);
-            controller.GenerateLetterData(Difficulty.Level1, count);
+            controller.GenerateLetterData(level, count);
             foreach (char letter in controller.CharacterList)
             {
                 if (!(database.AlphabetWithPoints[letter] <= (int)level))
@@ -44,7 +45,7 @@ public class ExerciseControllerTests
             LoginController.s_UserId = 1;
             Database database = new Database();
             controller = new ExerciseController(TypeExercise.Word, level);
-            controller.GenerateLetterData(Difficulty.Level1, count);
+            controller.GenerateWordData(level, count);
             List<string> words = new List<string>();
             string wordToAdd = "";
             // get all the words from the characterlist
